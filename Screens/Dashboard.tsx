@@ -1,21 +1,21 @@
-import React, { FC } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+// import React, { FC } from 'react';
+// import { View, Text, StyleSheet } from 'react-native';
 
-const App : FC = () => {
-    return (
-        <View style={styles.container}>
-            <Text>Hello From Dashboard</Text>
-        </View>
-    )
-}
+// const App : FC = () => {
+//     return (
+//         <View style={styles.container}>
+//             <Text>Hello From Dashboard</Text>
+//         </View>
+//     )
+// }
 
-export default App;
+// export default App;
 
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
-    }
-})
+// const styles = StyleSheet.create({
+//     container: {
+//         flex: 1,
+//         justifyContent: 'center',
+//         alignItems: 'center'
+//     }
+// })
