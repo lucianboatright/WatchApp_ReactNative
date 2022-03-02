@@ -1,13 +1,38 @@
 import React, { FC, useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Alert } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Input, Button } from '../Components/Inputs';
+import firebase from "firebase/compat/app"
+import "firebase/compat/auth"
+import "firebase/compat/firestore"
 
 const App : FC = (props) => {
 
     const [name, setName] = useState<string | null>(null)
     const [email, setEmail] = useState<string | null>(null)
     const [passowrd, setPassword] = useState<string | null>(null)
+    const [confirm, setConfirm] = useState<string | null>(null)
+    const [error, setError] = useState<string | null>(null)
+
+
+    const signup = async () => {
+        if (passowrd !== confirm) setError('Please make sure your passwords match')
+        if (error !== '') setError('')
+
+        if(name && email && passowrd && confirm){
+            try{
+                const user = await firebase.auth().createUserWithEmailAndPassword(email, passowrd)
+                if(user) {
+                    Alert.alert(JSON.stringify(user));
+                }
+            } catch (error) {
+                console.log(error)
+            }
+            // firebase.auth().createUserWithEmailAndPassword()
+        } else {
+            Alert.alert('Error', 'Missing Fields')
+        }
+    }
     
     return (
         <View style={styles.container}>
@@ -15,7 +40,8 @@ const App : FC = (props) => {
             <Input placeholder='Name' onChangeText={(text) => setName(text)} />
             <Input placeholder='Email' onChangeText={(text) => setEmail(text)} />
             <Input placeholder='Password' secureTextEntry onChangeText={(text) => setPassword(text)} />
-            <Button title='SignUp' onPress={() => alert('Pressed')} />
+            <Input placeholder='Confirm' secureTextEntry onChangeText={(text) => setConfirm(text)} />
+            <Button title='SignUp' onPress={signup} />
             <View style={styles.loginText}>
                 <Text style={styles.loginLabel}>Already Have an Account?</Text>
                 <TouchableOpacity style={styles.loginButton} onPress={() => props.navigation.navigate('Login')}>
@@ -47,8 +73,8 @@ const styles = StyleSheet.create({
         color: 'white',
         padding: 5,
         borderRadius: 5,
-        justifyContent: 'center', 
-        alignItems: 'center' 
+        textAlign: 'center',
+        textAlignVertical: 'center',
 
     }
 })
