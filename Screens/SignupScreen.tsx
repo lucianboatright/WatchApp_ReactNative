@@ -1,8 +1,9 @@
 import React, { FC, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { Input } from '../Inputs';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { Input, Button } from '../Components/Inputs';
 
-const App : FC = () => {
+const App : FC = (props) => {
 
     const [name, setName] = useState<string | null>(null)
     const [email, setEmail] = useState<string | null>(null)
@@ -14,6 +15,13 @@ const App : FC = () => {
             <Input placeholder='Name' onChangeText={(text) => setName(text)} />
             <Input placeholder='Email' onChangeText={(text) => setEmail(text)} />
             <Input placeholder='Password' secureTextEntry onChangeText={(text) => setPassword(text)} />
+            <Button title='SignUp' onPress={() => alert('Pressed')} />
+            <View style={styles.loginText}>
+                <Text style={styles.loginLabel}>Already Have an Account?</Text>
+                <TouchableOpacity style={styles.loginButton} onPress={() => props.navigation.navigate('Login')}>
+                    <Text>Login Here</Text>
+                </TouchableOpacity>
+            </View>
         </View>
     )
 }
@@ -26,5 +34,21 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center'
+    },
+    loginText: {
+        flexDirection: 'row',
+        marginVertical: 20
+    },
+    loginLabel: {
+        marginHorizontal: 5
+    },
+    loginButton: {
+        backgroundColor: '#44D0DF',
+        color: 'white',
+        padding: 5,
+        borderRadius: 5,
+        justifyContent: 'center', 
+        alignItems: 'center' 
+
     }
 })
