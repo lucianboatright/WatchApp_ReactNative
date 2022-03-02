@@ -24,8 +24,9 @@ const styles = StyleSheet.create ({
     container: {
         width: width / 1.1,
         alignSelf: 'center',
-        backgroundColor: 'red',
-        borderRadius: 5
+        backgroundColor: '#e3e3e3',
+        borderRadius: 5,
+        marginVertical: 10
 
     },
     input: {
