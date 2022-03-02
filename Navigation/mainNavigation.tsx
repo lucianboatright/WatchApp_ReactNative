@@ -11,7 +11,7 @@ const MainNav : FC = () => {
     const [user, setUser] = useState<any>(null)
 
     const bootstrap = () => {
-        firbase.auth().onAuthStateChange((_user: any) => {
+        firebase.auth().onAuthStateChanged((_user: any) => {
             if(_user){
                 setUser(_user)
             }
@@ -29,4 +29,4 @@ const MainNav : FC = () => {
     )
 }
 
-export default MainNav
+export default MainNav;

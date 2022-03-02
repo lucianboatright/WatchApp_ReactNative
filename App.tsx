@@ -1,5 +1,5 @@
 import React from 'react'
-import { auth } from './config/firebase';
+// import { auth } from './config/firebase';
 import './config/config'
 import { StyleSheet, Text, View, Image, Dimensions, SafeAreaView } from 'react-native';
 import MainNav from './Navigation/mainNavigation';
