@@ -10,22 +10,22 @@ const App : FC = (props) => {
 
     const [name, setName] = useState<string | null>(null)
     const [email, setEmail] = useState<string | null>(null)
-    const [passowrd, setPassword] = useState<string | null>(null)
+    const [password, setPassword] = useState<string | null>(null)
     const [confirm, setConfirm] = useState<string | null>(null)
     const [error, setError] = useState<string | null>(null)
 
 
     const signup = async () => {
-        if (passowrd !== confirm) {
+        if (password !== confirm) {
             Alert.alert('Please make sure your passwords match')
         } else {
             if (error !== '') setError('')
 
-            if(name !== null && email !== null && passowrd !== null && confirm !== null){
+            if(name !== null && email !== null && password !== null && confirm !== null){
                 try{
-                    const user = await firebase.auth().createUserWithEmailAndPassword(email, passowrd)
+                    const {user} = await firebase.auth().createUserWithEmailAndPassword(email, password)
                     if(user) {
-                        Alert.alert(JSON.stringify(user));
+                        await firebase.firestore().collection('users').doc(user.uid).set({name, email, password})
                     }
                 } catch (error) {
                     // Alert.alert(JSON.stringify(error))
@@ -53,7 +53,7 @@ const App : FC = (props) => {
     return (
         <View style={styles.container}>
             <Text>Hello From SIGNUP</Text>
-            <Input placeholder='Name' onChangeText={(text) => setName(text)} />
+            <Input placeholder=" Enter Your First Name" onChangeText={(text) => setName(text)} />
             <Input placeholder='Email' onChangeText={(text) => setEmail(text)} />
             <Input placeholder='Password' secureTextEntry onChangeText={(text) => setPassword(text)} />
             <Input placeholder='Confirm' secureTextEntry onChangeText={(text) => setConfirm(text)} />
