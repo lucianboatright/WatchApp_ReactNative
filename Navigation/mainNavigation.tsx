@@ -1,5 +1,5 @@
 import React, { FC, useState, useEffect } from "react";
-import { NavigationContainer, useFocusEffect } from "@react-navigation/native";
+import { NavigationContainer } from "@react-navigation/native";
 import firebase from "firebase/compat/app"
 import "firebase/compat/auth"
 import "firebase/compat/firestore"
@@ -11,7 +11,7 @@ const MainNav : FC = () => {
     const [user, setUser] = useState<any>(null)
 
     const bootstrap = () => {
-        firbase.auth().onAuthStateChange((_user: any) => {
+        firebase.auth().onAuthStateChanged((_user: any) => {
             if(_user){
                 setUser(_user)
             }
