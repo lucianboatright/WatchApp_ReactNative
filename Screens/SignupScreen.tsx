@@ -16,21 +16,37 @@ const App : FC = (props) => {
 
 
     const signup = async () => {
-        if (passowrd !== confirm) setError('Please make sure your passwords match')
-        if (error !== '') setError('')
-
-        if(name && email && passowrd && confirm){
-            try{
-                const user = await firebase.auth().createUserWithEmailAndPassword(email, passowrd)
-                if(user) {
-                    Alert.alert(JSON.stringify(user));
-                }
-            } catch (error) {
-                console.log(error)
-            }
-            // firebase.auth().createUserWithEmailAndPassword()
+        if (passowrd !== confirm) {
+            Alert.alert('Please make sure your passwords match')
         } else {
-            Alert.alert('Error', 'Missing Fields')
+            if (error !== '') setError('')
+
+            if(name !== null && email !== null && passowrd !== null && confirm !== null){
+                try{
+                    const user = await firebase.auth().createUserWithEmailAndPassword(email, passowrd)
+                    if(user) {
+                        Alert.alert(JSON.stringify(user));
+                    }
+                } catch (error) {
+                    // Alert.alert(JSON.stringify(error))
+
+                if (error.code.includes('auth/weak-password'))
+                {
+                    Alert.alert('Please enter a stronger password');
+                }
+                else if (error.code.includes('auth/email-already-in-use'))
+                {
+                    Alert.alert('Email alreay in use');
+                }
+                else
+                {
+                    Alert.alert('Somthing is Worng with the details, Please Re-Enter')
+                }
+                }
+                // firebase.auth().createUserWithEmailAndPassword()
+            } else {
+                Alert.alert('Error', 'Missing Fields')
+            }
         }
     }
     
