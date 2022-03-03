@@ -30,8 +30,7 @@ const App : FC = (props) => {
                 } catch (error) {
                     // Alert.alert(JSON.stringify(error))
 
-                if (error.code.includes('auth/weak-password'))
-                {
+                if (error.code.includes('auth/weak-password')) {
                     Alert.alert('Please enter a stronger password');
                 }
                 else if (error.code.includes('auth/email-already-in-use'))
