@@ -11,6 +11,8 @@ const App : FC = (props) => {
 
     const [post, setPost] = useState<string | null>(null)
     const [userDetails, setUserDetails] = useState<any>(null)
+    // const [isUserAdmin, setIsAdmin] = useState<boolean>(false)
+    // console.log(isUserAdmin)
 
     const signOutUser = async () => {
         // const auth = getAuth()
@@ -26,18 +28,13 @@ const App : FC = (props) => {
         const uid = firebase.auth().currentUser.uid;
         const user = await firebase.firestore().collection('users').doc(uid).get();
         setUserDetails({id: user.id, ...user.data()})
-        console.log(user.id)
-        console.log(userDetails.isAdmin)
-        console.log(userDetails.name)
-        console.log(userDetails.email)
+        // console.log(user.id)
+        // console.log(userDetails.isAdmin)
+        // setIsAdmin(userDetails.isAdmin)
+        // console.log(userDetails.name)
+        // console.log(userDetails.email)
         // setUserEmail
     }
-    // console.log(userDetails)
-
-    useEffect(() => {
-        getUserPosts()
-    }, [])
-
     
 
     const submitPost = async () => {
@@ -59,12 +56,19 @@ const App : FC = (props) => {
         setPost(null)
     }
 
+    useEffect(() => {
+        getUserPosts()
+    }, [])
+
+    // console.log('IS ADMINi', isUserAdmin)
+
+
     return (
         <View style={styles.container}>
             <Text>Hello From HOME</Text>
             <Text>User Details:</Text>
-            <Text>Name: {userDetails.name}</Text>
-            <Text>Email: {userDetails.email}</Text>
+            {/* <Text>Name: {userDetails.name}</Text>
+            <Text>Email: {userDetails.email}</Text> */}
             {/* <Text>Details: {user.data}</Text> */}
             {/* <Text>Details: {email}</Text>
             <Text>Details: {id}</Text> */}
