@@ -12,12 +12,23 @@ const App : FC = (props) => {
     const [password, setPassword] = useState<string | null>(null)
 
     const login = async () => {
-        if(email && password){
-            const {user} = await firebase.auth().signInWithEmailAndPassword(email, password)
-        } else {
+        if(email === null || password === null ){
+
             Alert.alert('Missing Fields')
+        } else {
+            try {
+                const {user} = await firebase.auth().signInWithEmailAndPassword(email, password)
+
+            } catch (error) {
+                if (error.code.includes('auth/user-not-found')) {
+                    Alert.alert('User does not exist')
+                    }
+                }
+                
+            }
         }
-    }
+
+
     return (
         <View style={styles.container}>
             <Text>Hello From LOGIN</Text>

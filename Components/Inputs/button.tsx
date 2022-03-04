@@ -23,7 +23,10 @@ export default App;
 const styles = StyleSheet.create ({
     container: {
         backgroundColor: "#44D0DF",
-        width: 100,
+        minWidth: 100,
+        marginLeft: 10,
+        marginRight: 10,
+        // width: 100,
         alignItems: 'center',
         justifyContent: 'center',
         padding: 10,
