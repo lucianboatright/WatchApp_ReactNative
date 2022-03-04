@@ -6,6 +6,11 @@ import "firebase/compat/firestore"
 import AppStack from "./AppStack";
 import AuthStack from "./AuthStack";
 
+// import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Dashboard, Home } from "../ScreensOptions";
+
+const Tab = createBottomTabNavigator();
 
 const MainNav : FC = () => {
     const [user, setUser] = useState<any>(null)
@@ -24,7 +29,14 @@ const MainNav : FC = () => {
 
     return (
         <NavigationContainer>
-            {user !== null ? <AppStack /> : <AuthStack />}
+            {user !== null ? 
+                <AppStack /> 
+            :             
+                <Tab.Navigator>
+                    <Tab.Screen name="Home" component={Home} />
+                    <Tab.Screen name="Settings" component={Dashboard} />
+                </Tab.Navigator>
+            }
         </NavigationContainer>
     )
 }

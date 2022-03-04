@@ -14,8 +14,6 @@ const App : FC = (props) => {
     const [post, setPost] = useState<string | null>(null)
     const [approvedPost, setApprovedPost] = useState<any>(null) 
     const [userDetails, setUserDetails] = useState<any>(null)
-    // const [isUserAdmin, setIsAdmin] = useState<boolean>(false)
-    // console.log(isUserAdmin)
 
     const signOutUser = async () => {
         // const auth = getAuth()
@@ -31,12 +29,6 @@ const App : FC = (props) => {
         const uid = firebase.auth().currentUser.uid;
         const user = await firebase.firestore().collection('users').doc(uid).get();
         setUserDetails({id: user.id, ...user.data()})
-        // console.log(user.id)
-        // console.log(userDetails.isAdmin)
-        // setIsAdmin(userDetails.isAdmin)
-        // console.log(userDetails.name)
-        // console.log(userDetails.email)
-        // setUserEmail
     }
 
     const getApprovedPosts = async () => {
@@ -81,15 +73,11 @@ const App : FC = (props) => {
                 <Text>User Details:</Text>
                 <Button title="SignOut" onPress={signOutUser} />
             </View>
-            {/* <Text>Name: {userDetails.name}</Text>
-            <Text>Email: {userDetails.email}</Text> */}
-            {/* <Text>Details: {user.data}</Text> */}
-            {/* <Text>Details: {email}</Text>
-            <Text>Details: {id}</Text> */}
+
             <View style={styles.approvedPosts}>
                 <FlatList
                     data={approvedPost}
-                    renderItem={({item}) => <Rendering post={item.data().post} userDetails={userDetails.name} timeStamp={item.data().timeStamp} approved={item.data().approved} onApprove={() => onApproval(item.data().id)} onReject={() => onRegect(item.data().id)} />} 
+                    renderItem={({item}) => <Rendering post={item.data().post}  timeStamp={item.data().timeStamp} approved={item.data().approved} onApprove={() => onApproval(item.data().id)} onReject={() => onRegect(item.data().id)} />} 
                 />
             </View>
             <View style={styles.addPost}>

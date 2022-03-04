@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
-import { Home, AuthDashboard } from '../Screens';
+import { Home, AuthDashboard } from '../ScreensOptions';
 
 
 const { Navigator, Screen } = createStackNavigator();
