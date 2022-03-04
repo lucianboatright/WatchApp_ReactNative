@@ -5,11 +5,14 @@ import firebase  from "firebase/compat/app";
 import { getAuth, signOut } from 'firebase/auth'
 import "firebase/compat/auth"
 import "firebase/compat/firestore"
+import { FlatList } from 'react-native-gesture-handler';
+import { Rendering } from '../Components/Rendering';
 
 
 const App : FC = (props) => {
 
     const [post, setPost] = useState<string | null>(null)
+    const [approvedPost, setApprovedPost] = useState<any>(null) 
     const [userDetails, setUserDetails] = useState<any>(null)
     // const [isUserAdmin, setIsAdmin] = useState<boolean>(false)
     // console.log(isUserAdmin)
@@ -24,7 +27,7 @@ const App : FC = (props) => {
         });
     }
 
-    const getUserPosts = async () => {
+    const getUserDetails = async () => {
         const uid = firebase.auth().currentUser.uid;
         const user = await firebase.firestore().collection('users').doc(uid).get();
         setUserDetails({id: user.id, ...user.data()})
@@ -34,6 +37,13 @@ const App : FC = (props) => {
         // console.log(userDetails.name)
         // console.log(userDetails.email)
         // setUserEmail
+    }
+
+    const getApprovedPosts = async () => {
+        firebase.firestore().collection('posts').where('approved', '==', true).onSnapshot(querySnapShot => {
+            const documents = querySnapShot.docs;
+            setApprovedPost(documents)
+        })
     }
     
 
@@ -57,7 +67,8 @@ const App : FC = (props) => {
     }
 
     useEffect(() => {
-        getUserPosts()
+        getUserDetails()
+        getApprovedPosts()
     }, [])
 
     // console.log('IS ADMINi', isUserAdmin)
@@ -65,24 +76,33 @@ const App : FC = (props) => {
 
     return (
         <View style={styles.container}>
-            <Text>Hello From HOME</Text>
-            <Text>User Details:</Text>
+            <View style={styles.header}>
+                <Text>Hello From HOME</Text>
+                <Text>User Details:</Text>
+                <Button title="SignOut" onPress={signOutUser} />
+            </View>
             {/* <Text>Name: {userDetails.name}</Text>
             <Text>Email: {userDetails.email}</Text> */}
             {/* <Text>Details: {user.data}</Text> */}
             {/* <Text>Details: {email}</Text>
             <Text>Details: {id}</Text> */}
-            <Button title="SignOut" onPress={signOutUser} />
-            <View>
-                <Input placeholder='Add Post' onChangeText={(text) => setPost(text)} />
-                <Button title='Post' onPress={submitPost} />
+            <View style={styles.approvedPosts}>
+                <FlatList
+                    data={approvedPost}
+                    renderItem={({item}) => <Rendering post={item.data().post} userDetails={userDetails.name} timeStamp={item.data().timeStamp} approved={item.data().approved} onApprove={() => onApproval(item.data().id)} onReject={() => onRegect(item.data().id)} />} 
+                />
             </View>
-            {userDetails ? userDetails.isAdmin ? (
+            <View style={styles.addPost}>
                 <View>
-                    <Button title="AuthDashboard" onPress={() => props.navigation.navigate('AuthDashboard')} />
-                    <Text>Admin</Text>
+                    <Input placeholder='Add Post' onChangeText={(text) => setPost(text)} />
+                    <Button title='Post' onPress={submitPost} />
                 </View>
-            ) : null : null}
+                {userDetails ? userDetails.isAdmin ? (
+                    <View>
+                        <Button title="AuthDashboard" onPress={() => props.navigation.navigate('AuthDashboard')} />
+                    </View>
+                ) : null : null}
+            </View>
         </View>
     )
 }
@@ -93,7 +113,17 @@ export default App;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        marginTop: 50,
         justifyContent: 'center',
         alignItems: 'center'
+    },
+    header: {
+        flex: 0.5
+    },
+    approvedPosts: {
+        flex: 2
+    },
+    addPost: {
+        flex: 1
     }
 })
