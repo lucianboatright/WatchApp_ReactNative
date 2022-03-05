@@ -11,11 +11,15 @@ const App : FC = (props) => {
 
     const [approvedPost, setApprovedPost] = useState<any>(null) 
     const [userDetails, setUserDetails] = useState<any>(null)
+    const [userName, setUserName] = useState<string>(null)
+
 
     const getUserDetails = async () => {
         const uid = firebase.auth().currentUser.uid;
         const user = await firebase.firestore().collection('users').doc(uid).get();
         setUserDetails({id: user.id, ...user.data()})
+        setUserName(userDetails.name)
+
     }
 
     const getApprovedPosts = async () => {
@@ -30,11 +34,11 @@ const App : FC = (props) => {
         getApprovedPosts()
     }, [])
 
-
     return (
         <View style={styles.container}>
             <View style={styles.header}>
                 <Text>Hello From TimeLine</Text>
+                <Text>{userName}</Text>
                 {/* <Text>User Details:</Text>
                 <Button title="SignOut" onPress={signOutUser} /> */}
             </View>
@@ -42,7 +46,7 @@ const App : FC = (props) => {
             <View style={styles.approvedPosts}>
                 <FlatList
                     data={approvedPost}
-                    renderItem={({item}) => <Rendering post={item.data().post}  timeStamp={item.data().timeStamp} approved={item.data().approved} onApprove={() => onApproval(item.data().id)} onReject={() => onRegect(item.data().id)} />} 
+                    renderItem={({item}) => <Rendering post={item.data().post}  timeStamp={item.data().timeStamp} userName={userName} approved={item.data().approved} onApprove={() => onApproval(item.data().id)} onReject={() => onRegect(item.data().id)} />} 
                 />
             </View>
         </View>

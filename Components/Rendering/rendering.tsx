@@ -6,7 +6,7 @@ const { width, height } = Dimensions.get('screen')
 
 interface Props {
     post: string;
-    userDetails: object;
+    userName: object;
     approved: string;
     timeStamp: number;
     // onApprove: () => void;
@@ -24,16 +24,15 @@ const formatTime = (timeStamp: number) : any => {
 const App : FC <Props> = (props) => {
     return (
         <View style={styles.container}>
-            <Text style={{marginBottom: 10, fontWeight: 'bold'}}>{props.userDetails}</Text>
-            <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                {/* <Text>Test</Text> */}
-                <Text>{props.post}</Text>
-                <Text>{formatTime(props.timeStamp)}</Text>
+            <Text style={{marginBottom: 10, fontWeight: 'bold'}}>{props.userName}</Text>
+            <View style={{flexDirection: 'row'}}>
+                <View style={styles.message}>
+                    <Text>{props.post}</Text>
+                </View>
+                <View style={styles.time}>
+                    <Text>{formatTime(props.timeStamp)}</Text>
+                </View>
             </View>
-            {/* <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
-                <Button title="Approve" onPress={() => props.onApprove} />
-                <Button title="Reject" onPress={() => props.onReject} />
-            </View> */}
         </View>
     )
 }
@@ -56,5 +55,12 @@ const styles = StyleSheet.create({
         shadowColor: '#ccc',
         shadowOpacity: 0.7
         
+    },
+    message: {
+        flex: 3,
+        margin: 10
+    },
+    time: {
+        flex: 1
     }
 })

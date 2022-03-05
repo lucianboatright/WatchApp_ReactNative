@@ -1,15 +1,38 @@
-import React, { FC } from 'react'
+import React, { FC, useState, useEffect } from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Dashboard, Home, AddWatch, TimeLine } from "../ScreensOptions";
+import { UserDetails, Home, AddWatch, TimeLine } from "../ScreensOptions";
 
 const Tab = createBottomTabNavigator();
 
 const { Navigator, Screen } = createStackNavigator();
 
 const AppStack : FC = () => {
+
+    const [userDetails, setUserDetails] = useState<any>(null)
+    const [userName, setUserName] = useState<string>(null)
+
+    // const getUserDetails = async () => {
+    //     const uid = firebase.auth().currentUser.uid;
+    //     const user = await firebase.firestore().collection('users').doc(uid).get();
+    //     setUserDetails({id: user.id, ...user.data()})
+    //     setUserName(userDetails.name)
+    // }
+
+
+    useEffect(() => {
+        const getUserDetails = async () => {
+            const uid = firebase.auth().currentUser.uid;
+            const user = await firebase.firestore().collection('users').doc(uid).get();
+            setUserDetails({id: user.id, ...user.data()})
+            setUserName(userDetails.name)
+        }
+        getUserDetails()
+    }, [])
+
+
     return (
         <Tab.Navigator>
             <Tab.Screen
@@ -44,7 +67,8 @@ const AppStack : FC = () => {
             />
             <Tab.Screen
                 name="Profile"
-                component={Dashboard}
+                component={UserDetails}
+                userName={userName}
                 options={{
                     tabBarLabel: 'Home',
                     tabBarIcon: ({ color, size }) => (
