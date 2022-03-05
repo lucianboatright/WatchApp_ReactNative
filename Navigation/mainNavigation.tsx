@@ -6,7 +6,6 @@ import "firebase/compat/firestore"
 import AppStack from "./AppStack";
 import AuthStack from "./AuthStack";
 
-
 const MainNav : FC = () => {
     const [user, setUser] = useState<any>(null)
 
