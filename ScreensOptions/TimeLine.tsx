@@ -34,7 +34,7 @@ const App : FC = (props) => {
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                <Text>Hello From HOME</Text>
+                <Text>Hello From TimeLine</Text>
                 {/* <Text>User Details:</Text>
                 <Button title="SignOut" onPress={signOutUser} /> */}
             </View>
