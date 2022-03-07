@@ -34,7 +34,8 @@ const App : FC = (props) => {
             <Text>Hello From LOGIN</Text>
             <Input placeholder='Email' onChangeText={(text) => setEmail(text)} />
             <Input placeholder='Password' secureTextEntry onChangeText={(text) => setPassword(text)} />
-            <Button title='Login' onPress={login} />
+            <Button title='Login' onPress={() => login()} />
+            
             <View style={styles.loginText}>
                 <Text style={styles.loginLabel}>Dont Have an Account?</Text>
                 <TouchableOpacity style={styles.loginButton} onPress={() => props.navigation.navigate('Signup')}>

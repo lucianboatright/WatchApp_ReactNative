@@ -35,6 +35,9 @@ const App : FC = () => {
         const user = await firebase.firestore().collection('users').doc(uid).get();
         setUserDetails({id: user.id, ...user.data()})
     }
+    const Console = () => {
+        Alert.alert('TESTINMG')
+    }
 
     useEffect(() => {
         getUserDetails()
@@ -46,7 +49,9 @@ const App : FC = () => {
             <View style={styles.addPost}>
                 <View>
                     <Input placeholder='Add Post' onChangeText={(text) => setPost(text)} />
-                    <Button title='Post' onPress={submitPost} />
+                    <Button title='Post' onPress={() => submitPost()} />
+                    
+                    <Button title='Test' onPress={() => Console()} />
                 </View>
                 {userDetails ? userDetails.isAdmin ? (
                     <View>
