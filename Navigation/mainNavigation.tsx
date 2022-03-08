@@ -9,7 +9,7 @@ import AuthStack from "./AuthStack";
 const MainNav : FC = () => {
     const [user, setUser] = useState<any>(null)
 
-    const bootstrap = () => {
+    const bootstrap = async () => {
         firebase.auth().onAuthStateChanged((_user: any) => {
             if(_user){
                 setUser(_user)

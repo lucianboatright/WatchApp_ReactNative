@@ -27,6 +27,9 @@ const App : FC = (props) => {
                 
             }
         }
+        // const testing = () => {
+        //     Alert.alert('TEESTING BUTTON')
+        // }
 
 
     return (
@@ -35,6 +38,7 @@ const App : FC = (props) => {
             <Input placeholder='Email' onChangeText={(text) => setEmail(text)} />
             <Input placeholder='Password' secureTextEntry onChangeText={(text) => setPassword(text)} />
             <Button title='Login' onPress={login} />
+            {/* <Button title='Login' onPress={testing} /> */}
             <View style={styles.loginText}>
                 <Text style={styles.loginLabel}>Dont Have an Account?</Text>
                 <TouchableOpacity style={styles.loginButton} onPress={() => props.navigation.navigate('Signup')}>

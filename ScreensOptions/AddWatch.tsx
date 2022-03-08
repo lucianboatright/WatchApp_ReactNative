@@ -1,6 +1,8 @@
 import React, { FC, useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Alert } from 'react-native';
 import { Button, Input } from '../Components/Inputs';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+
 import firebase  from "firebase/compat/app";
 import "firebase/compat/auth"
 import "firebase/compat/firestore"
@@ -36,6 +38,12 @@ const App : FC = () => {
         setUserDetails({id: user.id, ...user.data()})
     }
 
+        const testing = () => {
+            Alert.alert('TEESTING BUTTON')
+        }
+
+
+
     useEffect(() => {
         getUserDetails()
     }, [])
@@ -47,6 +55,11 @@ const App : FC = () => {
                 <View>
                     <Input placeholder='Add Post' onChangeText={(text) => setPost(text)} />
                     <Button title='Post' onPress={submitPost} />
+                    {/* <Button title='TESTING' onPress={testing} /> */}
+                    <TouchableOpacity style={styles.loginButton} onPress={console.log('Clicked')}>
+                    <Text>Signup Here</Text>
+                </TouchableOpacity>
+
                 </View>
                 {userDetails ? userDetails.isAdmin ? (
                     <View>
@@ -65,5 +78,14 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center'
+    },
+    loginButton: {
+        backgroundColor: '#44D0DF',
+        color: 'white',
+        padding: 5,
+        borderRadius: 5,
+        textAlign: 'center',
+        textAlignVertical: 'center',
+
     }
 })
