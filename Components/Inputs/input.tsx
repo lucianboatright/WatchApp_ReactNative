@@ -3,7 +3,6 @@ import { Dimensions, TextInput, View, StyleSheet } from "react-native";
 
 const {height, width} = Dimensions.get('screen')
 
-
 interface Props {
     placeholder: string;
     onChangeText: (text: string) => void;
