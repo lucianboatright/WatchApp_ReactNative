@@ -23,6 +23,7 @@ export default Input
 const styles = StyleSheet.create ({
     container: {
         width: width / 1.1,
+        maxWidth: 500,
         alignSelf: 'center',
         backgroundColor: '#e3e3e3',
         borderRadius: 5,

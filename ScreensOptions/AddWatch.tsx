@@ -30,6 +30,7 @@ const App : FC = () => {
             }
         }
         setPost(null)
+        navigation.navigate('Login')
     }
 
     const getUserDetails = async () => {
@@ -56,9 +57,9 @@ const App : FC = () => {
                     <Input placeholder='Add Post' onChangeText={(text) => setPost(text)} />
                     <Button title='Post' onPress={submitPost} />
                     {/* <Button title='TESTING' onPress={testing} /> */}
-                    <TouchableOpacity style={styles.loginButton} onPress={console.log('Clicked')}>
+                    {/* <TouchableOpacity style={styles.loginButton} onPress={console.log('Clicked')}>
                     <Text>Signup Here</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
 
                 </View>
                 {userDetails ? userDetails.isAdmin ? (

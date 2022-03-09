@@ -33,10 +33,10 @@ const AppStack : FC = () => {
                   }}
             />
             <Tab.Screen
-                name="Add"
+                name="Add Watch"
                 component={AddWatch}
                 options={{
-                    tabBarLabel: 'Add',
+                    tabBarLabel: 'Add Watch',
                     tabBarIcon: ({ color, size }) => (
                       <MaterialCommunityIcons name="plus-outline" color={'red'} size={45} />
                     ),
