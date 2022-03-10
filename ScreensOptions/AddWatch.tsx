@@ -43,8 +43,6 @@ const App : FC = () => {
             Alert.alert('TEESTING BUTTON')
         }
 
-
-
     useEffect(() => {
         getUserDetails()
     }, [])
