@@ -9,7 +9,7 @@ import { Rendering } from '../Components/Rendering';
 
 const App : FC = (props) => {
 
-    const [approvedPost, setApprovedPost] = useState<any>(null) 
+    const [approvedPost, setApprovedPosts] = useState<any>(null) 
     const [userDetails, setUserDetails] = useState<any>(null)
 
     const getUserDetails = async () => {
@@ -21,7 +21,7 @@ const App : FC = (props) => {
     const getApprovedPosts = async () => {
         firebase.firestore().collection('posts').where('approved', '==', true).onSnapshot(querySnapShot => {
             const documents = querySnapShot.docs;
-            setApprovedPost(documents)
+            setApprovedPosts(documents)
         })
     }
     
@@ -42,7 +42,7 @@ const App : FC = (props) => {
             <View style={styles.approvedPosts}>
                 <FlatList
                     data={approvedPost}
-                    renderItem={({item}) => <Rendering post={item.data().post}  timeStamp={item.data().timeStamp} approved={item.data().approved} onApprove={() => onApproval(item.data().id)} onReject={() => onRegect(item.data().id)} />} 
+                    renderItem={({item}) => <Rendering post={item.data().post} name={item.data().userName} timeStamp={item.data().timeStamp} approved={item.data().approved} onApprove={() => onApproval(item.data().id)} onReject={() => onRegect(item.data().id)} />} 
                 />
             </View>
         </View>
@@ -50,7 +50,6 @@ const App : FC = (props) => {
 }
 
 export default App;
-
 
 const styles = StyleSheet.create({
     container: {

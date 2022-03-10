@@ -5,6 +5,7 @@ import { Button } from "../Inputs";
 const { width, height } = Dimensions.get('screen')
 
 interface Props {
+    name: string;
     post: string;
     userDetails: object;
     approved: string;
@@ -24,7 +25,7 @@ const formatTime = (timeStamp: number) : any => {
 const App : FC <Props> = (props) => {
     return (
         <View style={styles.container}>
-            <Text style={{marginBottom: 10, fontWeight: 'bold'}}>{props.userDetails}</Text>
+            <Text style={{marginBottom: 10, fontWeight: 'bold'}}>User: {props.name}</Text>
             <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                 {/* <Text>Test</Text> */}
                 <Text>{props.post}</Text>
