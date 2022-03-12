@@ -6,9 +6,10 @@ import * as ImagePicker from 'expo-image-picker';
 // import "firebase/compat/firestore"
 // import { storage } from '../../config/config';
 import { getStorage, ref, uploadBytes } from 'firebase/storage' 
+import uuid from 'react-native-uuid';
 
 export default function ImagePickerExample() {
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState<any>(null);
 
   const [progress, setProgress] = useState(0);
   const [uploading, setUploading] = useState(false);
@@ -52,8 +53,8 @@ export default function ImagePickerExample() {
   //   console.log(image)
   // }
 
-  const getPictureBlob = async (uri) => {
-    console.log('URIIIIII', uri)
+  const getPictureBlob = async (uri: String) =>  {
+    // console.log('URIIIIII', uri)
     return new Promise((resolve, reject) => {
       // console.log('HERE 1')
       const xhr = new XMLHttpRequest();
@@ -66,7 +67,7 @@ export default function ImagePickerExample() {
         console.log(e)
         reject(new TypeError("Network request failed"));
       };
-      xhr.responseType = "text";
+      xhr.responseType = "blob";
       xhr.open("GET", uri, true);
       // console.log('HERE 5')
       xhr.send(null);
@@ -82,12 +83,13 @@ export default function ImagePickerExample() {
 
   const uploadImageToBucket = async () => {
     const storage = getStorage();
-    const storageRef = ref(storage, "imageProfile");
+    const storageRef = ref(storage, String(uuid.v4()));
     let blob: Blob
     // try {
       setUploading(true);
       console.log('HEERE')
       blob = await getPictureBlob(image);
+      console.log("BLLLOOOBB", blob)
       uploadBytes(storageRef, blob).then((snapshot) => {
         console.log('UPLOAD MIGHT BE SUCCSESFULLLLLLLLL')
       }).catch((err) => {
