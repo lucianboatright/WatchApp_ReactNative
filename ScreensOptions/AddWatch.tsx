@@ -5,12 +5,12 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 // import { ImagePicker } from '../Components/imagePicker';
 import { ExpoImagePiker } from '../Components/ExpoImage';
 
-// import firebase  from "firebase/compat/app";
-// import "firebase/compat/auth"
-// import "firebase/compat/firestore"
+import firebase  from "firebase/compat/app";
+import "firebase/compat/auth"
+import "firebase/compat/firestore"
 
 
-const App : FC = () => {
+const App : FC = ({ navigation }) => {
 
     const [post, setPost] = useState<string | null>(null)
     const [userDetails, setUserDetails] = useState<any>(null)
@@ -35,7 +35,7 @@ const App : FC = () => {
             }
         }
         setPost(null)
-        navigation.navigate('Login')
+        navigation.navigate('Home')
     }
 
     const getUserDetails = async () => {
