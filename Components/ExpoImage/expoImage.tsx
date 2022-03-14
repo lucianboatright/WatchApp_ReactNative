@@ -1,7 +1,7 @@
 import React, { useState, useEffect, FC } from 'react';
 import { Image, View, Platform, Text, StyleSheet } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import { Button } from '../Inputs';
+import { Button, ImageButton } from '../Inputs';
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage' 
 import uuid from 'react-native-uuid';
 
@@ -20,12 +20,14 @@ const App : FC <Props> = (props) => {
 
   const [url, setUrl] = useState<any | null>(null)
 
+  const [pickedImagePatch, setPickedImagePath] = useState<any>(null)
+
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
-      aspect: [4, 3],
+      aspect: [10, 16],
       quality: 1,
     });
 
@@ -35,6 +37,27 @@ const App : FC <Props> = (props) => {
       setImage(result.uri);
     }
   };
+
+  const openCamera = async () => {
+    // Ask the user for the permission to access the camera
+    const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
+
+    if (permissionResult.granted === false) {
+      alert("You've refused to allow this appp to access your camera!");
+      return;
+    }
+
+    const result = await ImagePicker.launchCameraAsync();
+
+    // Explore the result
+    console.log(result);
+
+    if (!result.cancelled) {
+      setPickedImagePath(result.uri);
+      console.log(result.uri);
+    }
+  }
+
 
   const getPictureBlob = async (uri: String) =>  {
     return new Promise((resolve, reject) => {
@@ -107,12 +130,13 @@ const App : FC <Props> = (props) => {
   }, []);
 
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Button title="Pick an image from camera roll" onPress={pickImage} />
-      {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
+    <View style={styles.container}>
+      <ImageButton style={styles.imageButton} title="Pick an image" onPress={pickImage} />
+      <ImageButton style={styles.imageButton} title="Use Camera" onPress={openCamera} />
+      {image && <Image style={{margin: 30}} source={{ uri: image }} style={styles.imageContainer} />}
       <View style={{flexDirection: 'row'}}>
         <Button title='Upload Image' onPress={UpdateImage} />
-        {start ?  <View>{uploading ? <Image style={styles.loadingIcon} source={require('../../assets/icons/loading.gif')} /> : <Image style={{width: 50, height: 50}} source={require('../../assets/icons/complete.png')} />}</View> : null}
+        {start ?  <View>{uploading ? <Image style={styles.loadingIcon} source={require('../../assets/icons/loading.gif')} /> : <Image style={styles.loadingIcon} source={require('../../assets/icons/complete.png')} />}</View> : null}
       </View>
       {/* <Button title='RESET' onPress={reset} /> */}
     </View>
@@ -124,6 +148,20 @@ export default App
 const styles = StyleSheet.create({
   loadingIcon: {
     width: 50,
-    height: 50
+    height: 50,
+    marginLeft: 35,
+    marginRight: 5
+  },
+  imageContainer: {
+      width: 200,
+      height: 300
+  },
+  imageButton: {
+    width: 100
+  },
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 })

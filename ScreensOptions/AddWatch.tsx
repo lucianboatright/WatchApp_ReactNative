@@ -2,7 +2,7 @@ import React, { FC, useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Alert, Image, Platform } from 'react-native';
 import { Button, Input } from '../Components/Inputs';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-// import { ImagePicker } from '../Components/imagePicker';
+import { ImagePicker } from '../Components/imagePicker';
 import { Imagepicker } from '../Components/ExpoImage';
 
 import firebase  from "firebase/compat/app";
@@ -54,16 +54,15 @@ const App : FC = ({ navigation }) => {
 
     useEffect(() => {
         getUserDetails()
-        // console.log('BACK IN THE COMPONENT!!!!', url_1)
     }, [])
 
     return (
         <View style={styles.container}>
             <Imagepicker sendUrl={(url_1) => setUrl_1(url_1)} />
             {/* <ImagePicker /> */}
-            <Text>Hello From Add watch</Text>
+            {/* <Text>Hello From Add watch</Text> */}
             {/* <Text>I am: {userDetails.name}</Text> */}
-            <Button title='PrintUrl' onPress={testing} />
+            {/* <Button title='PrintUrl' onPress={testing} /> */}
             <View style={styles.addPost}>
                 <View>
                     <Input placeholder='Add Post' onChangeText={(text) => setPost(text)} />
