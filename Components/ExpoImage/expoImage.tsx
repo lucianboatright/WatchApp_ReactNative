@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Image, View, Platform } from 'react-native';
+import { Image, View, Platform } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+import { Button } from '../Inputs';
 // import firebase from "firebase/compat/app"
 // import "firebase/compat/auth"
 // import "firebase/compat/firestore"
