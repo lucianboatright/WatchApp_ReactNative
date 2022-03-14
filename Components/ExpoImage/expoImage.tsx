@@ -1,40 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import { Image, View, Platform } from 'react-native';
+import { Image, View, Platform, Text, StyleSheet } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { Button } from '../Inputs';
-// import firebase from "firebase/compat/app"
-// import "firebase/compat/auth"
-// import "firebase/compat/firestore"
-// import { storage } from '../../config/config';
-import { getStorage, ref, uploadBytes } from 'firebase/storage' 
+import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage' 
 import uuid from 'react-native-uuid';
 
 export default function ImagePickerExample() {
-  const [image, setImage] = useState<any>(null);
+  const [image, setImage] = useState<any | null>(null);
 
-  const [progress, setProgress] = useState(0);
-  const [uploading, setUploading] = useState(false);
+  const [uploading, setUploading] = useState<boolean>(false)
 
-  const [update, setUpdate] = useState<boolean>(false)
+  const [update, setUpdate] = useState<any>(null)
 
-  // const [blob, setBlob] = useState<any>(null)
+  const [start, setStart] = useState<boolean>(false)
 
-  // const storageForDefaultApp = storage();
+  const [url, setUrl] = useState<any | null>(null)
 
-  // const permissions = async () => {
-  //   if (Platform.OS !== "web") {
-  //     const {
-  //       status,
-  //     } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-  //     if (status !== "granted") {
-  //       alert("Sorry, we need camera roll permissions to make this work!");
-  //     }
-  //   }
-  // }
-  
 
   const pickImage = async () => {
-    // getPermission();
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
@@ -49,18 +32,9 @@ export default function ImagePickerExample() {
     }
   };
 
-  // const upload = async () => {
-  //   console.log('Clicked')
-  //   console.log(image)
-  // }
-
   const getPictureBlob = async (uri: String) =>  {
-    // console.log('URIIIIII', uri)
     return new Promise((resolve, reject) => {
-      // console.log('HERE 1')
       const xhr = new XMLHttpRequest();
-      // console.log('HERE 2')
-      // console.log('XHR', xhr)
       xhr.onload = function () {
         resolve(xhr.response);
       };
@@ -70,16 +44,8 @@ export default function ImagePickerExample() {
       };
       xhr.responseType = "blob";
       xhr.open("GET", uri, true);
-      // console.log('HERE 5')
       xhr.send(null);
     });
-    // const response = await fetch(uri);
-    // const blob_t = await response.blob();
-
-    // var ref = firebase.storage().ref().child("images/");
-    // console.log('REFFF',ref)
-    // setBlob(ref.put(blob_t))
-
   };
 
   const uploadImageToBucket = async () => {
@@ -93,57 +59,31 @@ export default function ImagePickerExample() {
       console.log("BLLLOOOBB", blob)
       uploadBytes(storageRef, blob).then((snapshot) => {
         console.log('UPLOAD MIGHT BE SUCCSESFULLLLLLLLL')
+        getDownloadURL(storageRef)
+        .then((url) => {
+          console.log(url)
+          setUrl(url)
+          setUploading(false);
+        })
+        .catch((error) => {
+          console.log(error)
+        })
       }).catch((err) => {
         console.log(Object.keys(err));
         console.log('ERRORRRRR', err.name)
       })
-      // console.log('BLOBBB', blob)
-      // const ref = await storage.ref.put().child("imageProfile/");
-      // console.log('POST STORAGE TEST')
-      // const snapshot = await ref.put(blob).then((snapshot) => {
-        // console.log('SNAPSHOT', snapshot)
-      // }).catch((err) => {
-        // console.log('ERRROR', err)
-      // });
-      // return await snapshot.ref.getDownloadURL();
-    // } catch (e) {
-    //   console.log(e)
-    //   alert("Please Select a Photo First");
-    //   setUploading(false);
-    //   setUpdate(false);
-    // } finally {
-    //   blob.close();
-    //   setUploading(false);
-    //   setUpdate(false);
-    //   console.log('PREE SAVED SIGNAL')
-    //   alert("saved successfully");
-    // }
-    // console.log(blob)
   };
 
   const UpdateImage = async () => {
-    console.log('Clicked')
+    setStart(true)
     setUpdate(true);
     let imgUrl = await uploadImageToBucket();
-
-    // await firebase
-    //   .firestore()
-    //   .collection("users")
-    //   .doc(firebase.auth().currentUser.uid)
-    //   .update({
-    //     photoURL: imgUrl,
-    //     displayName: FullName,
-    //     Email: Email,
-    //     description: Description,
-    //     age: Age,
-    //   })
-    //   .then(() => navigation.navigate("UserProfileScreen"))
-    //   .catch((err) => {
-    //     alert(err, "Please Select a Photo First");
-    //     setUploading(false);
-    //     setUpdate(false);
-    //   });
+    console.log('SHOWING IMG', imgUrl)
   };
+
+  // const reset = () => {
+  //   setStart(false)
+  // }
 
   useEffect(() => {
     (async () => {
@@ -160,7 +100,18 @@ export default function ImagePickerExample() {
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Button title="Pick an image from camera roll" onPress={pickImage} />
       {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
-      <Button title='Upload Image' onPress={UpdateImage} />
+      <View style={{flexDirection: 'row'}}>
+        <Button title='Upload Image' onPress={UpdateImage} />
+        {start ?  <View>{uploading ? <Image style={styles.loadingIcon} source={require('../../assets/icons/loading.gif')} /> : <Image style={{width: 50, height: 50}} source={require('../../assets/icons/complete.png')} />}</View> : null}
+      </View>
+      {/* <Button title='RESET' onPress={reset} /> */}
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  loadingIcon: {
+    width: 50,
+    height: 50
+  }
+})
