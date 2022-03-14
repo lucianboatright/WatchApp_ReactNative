@@ -12,7 +12,11 @@ interface Props {
 const Input: FC <Props> = (props) => {
     return (
         <View style={styles.container}>
-            <TextInput style={styles.input} placeholder="props.placeholder" secureTextEntry={props.secureTextEntry || false} onChangeText={props.onChangeText}></TextInput>
+            <TextInput
+                style={styles.input}
+                placeholder="props.placeholder"
+                secureTextEntry={props.secureTextEntry || false} onChangeText={props.onChangeText}>
+            </TextInput>
         </View>
     )
 }

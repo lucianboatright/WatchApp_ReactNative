@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Alert, Image, Platform } from 'react-native';
 import { Button, Input } from '../Components/Inputs';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 // import { ImagePicker } from '../Components/imagePicker';
-import { ExpoImagePiker } from '../Components/ExpoImage';
+import { Imagepicker } from '../Components/ExpoImage';
 
 import firebase  from "firebase/compat/app";
 import "firebase/compat/auth"
@@ -15,6 +15,8 @@ const App : FC = ({ navigation }) => {
     const [post, setPost] = useState<string | null>(null)
     const [userDetails, setUserDetails] = useState<any>(null)
     const [userId, setUserId] = useState<string | null>(null)
+
+    const [url_1, setUrl_1] = useState<any | null>(null)
 
     const submitPost = async () => {
         if(post === null) {
@@ -45,20 +47,23 @@ const App : FC = ({ navigation }) => {
         setUserId(user.id)
     }
 
-        const testing = () => {
-            Alert.alert('TEESTING BUTTON')
-        }
+    const testing = () => {
+        // Alert.alert('TEESTING BUTTON')
+        console.log('URL_111', url_1)
+    }
 
     useEffect(() => {
         getUserDetails()
+        // console.log('BACK IN THE COMPONENT!!!!', url_1)
     }, [])
 
     return (
         <View style={styles.container}>
-            <ExpoImagePiker />
+            <Imagepicker sendUrl={(url_1) => setUrl_1(url_1)} />
             {/* <ImagePicker /> */}
             <Text>Hello From Add watch</Text>
             {/* <Text>I am: {userDetails.name}</Text> */}
+            <Button title='PrintUrl' onPress={testing} />
             <View style={styles.addPost}>
                 <View>
                     <Input placeholder='Add Post' onChangeText={(text) => setPost(text)} />

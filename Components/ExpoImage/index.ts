@@ -1,3 +1,3 @@
-import ExpoImagePiker from './expoImage'
+import Imagepicker from './expoImage'
 
-export { ExpoImagePiker }
+export { Imagepicker }

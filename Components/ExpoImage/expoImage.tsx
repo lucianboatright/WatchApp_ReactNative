@@ -1,11 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, FC } from 'react';
 import { Image, View, Platform, Text, StyleSheet } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { Button } from '../Inputs';
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage' 
 import uuid from 'react-native-uuid';
 
-export default function ImagePickerExample() {
+interface Props {
+    sendUrl: (url: any | null) => void;
+}
+
+const App : FC <Props> = (props) => {
   const [image, setImage] = useState<any | null>(null);
 
   const [uploading, setUploading] = useState<boolean>(false)
@@ -64,6 +68,8 @@ export default function ImagePickerExample() {
           console.log(url)
           setUrl(url)
           setUploading(false);
+          setUpdate(true)
+          props.sendUrl(url)
         })
         .catch((error) => {
           console.log(error)
@@ -76,11 +82,15 @@ export default function ImagePickerExample() {
 
   const UpdateImage = async () => {
     setStart(true)
-    setUpdate(true);
     let imgUrl = await uploadImageToBucket();
     console.log('SHOWING IMG', imgUrl)
   };
 
+//   const Passing = async () => {
+//     if (update === true) {
+
+//     }
+//   }
   // const reset = () => {
   //   setStart(false)
   // }
@@ -108,6 +118,8 @@ export default function ImagePickerExample() {
     </View>
   );
 }
+
+export default App
 
 const styles = StyleSheet.create({
   loadingIcon: {
