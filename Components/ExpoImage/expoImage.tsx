@@ -1,5 +1,6 @@
 import React, { useState, useEffect, FC } from 'react';
-import { Image, View, Platform, Text, StyleSheet, Button, Alert, TouchableHighlight } from 'react-native';
+import { Image, View, Platform, Text, StyleSheet, Alert, TouchableHighlight } from 'react-native';
+import { Button } from '../Inputs';
 import * as ImagePicker from 'expo-image-picker';
 import { ImageEditor } from "expo-image-editor";
 import { Camera } from 'expo-camera';
@@ -22,7 +23,7 @@ const App : FC <Props> = (props) => {
 
   const [url, setUrl] = useState<any | null>(null)
 
-  const [pickedImagePath, setPickedImagePath] = useState('');
+//   const [pickedImagePath, setPickedImagePath] = useState('');
 
   const [editorVisible, setEditorVisible] = useState<boolean>(false);
 
@@ -56,7 +57,8 @@ const App : FC <Props> = (props) => {
             });
             // Check they didn't cancel the picking
             if (!pickerResult.cancelled) {
-              launchEditor(pickerResult.uri);
+            //   launchEditor(pickerResult.uri);
+                setImage(pickerResult.uri)
             }
           } else {
             // If not then alert the user they need to enable it
@@ -182,13 +184,13 @@ const App : FC <Props> = (props) => {
   return (
     <View style={styles.container}>
         <View style={styles.buttonContainer}>
-            <TouchableHighlight onPress={() => openCamera} >
+            <TouchableHighlight onPress={() => openCamera()} >
                 <Image source={require('../../assets/icons/CameraIcon.png')} style={styles.loadingIcon} />
             </TouchableHighlight>
-            <TouchableHighlight onPress={() => pickImage} >
+            <TouchableHighlight onPress={() => pickImage()} >
                 <Image source={require('../../assets/icons/imageSelect_2.png')} style={styles.loadingIcon} />
             </TouchableHighlight>
-            <TouchableHighlight onPress={() => UpdateImage} >
+            <TouchableHighlight onPress={() => UpdateImage()} >
                 <Image source={require('../../assets/icons/iamgeUpload_2.png')} style={styles.loadingIcon} />
             </TouchableHighlight>
         </View>
@@ -196,8 +198,8 @@ const App : FC <Props> = (props) => {
       <View style={{flexDirection: 'row'}}>
         {start ?  <View>{uploading ? <Image style={styles.loadingIcon} source={require('../../assets/icons/loading.gif')} /> : <Image style={{width: 50, height: 50}} source={require('../../assets/icons/complete.png')} />}</View> : null}
       </View>
-      <Button title='RESET IMAGE' onPress={reset} />
-      <ImageEditor
+      {/* <Button title='RESET IMAGE' onPress={reset} /> */}
+      {/* <ImageEditor
         visible={editorVisible}
         onCloseEditor={() => setEditorVisible(false)}
         imageUri={image}
@@ -211,7 +213,7 @@ const App : FC <Props> = (props) => {
           setImage(result);
         }}
         mode="full"
-      />
+      /> */}
     </View>
   );
 }
@@ -232,13 +234,14 @@ const styles = StyleSheet.create({
     },
     buttonContainer: {
         flexDirection: 'row',
-        // justifyContent: 'space-between',
+        justifyContent: 'space-between',
+        width: 180
     },
     loadingIcon: {
         width: 40,
         height: 40,
-        marginLeft: 10,
-        marginRight: 10,
+        // marginLeft: 10,
+        // marginRight: 10,
     },
     button: {
         backgroundColor: "#44D0DF",

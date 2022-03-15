@@ -1,7 +1,7 @@
 import React, { FC, useState } from 'react';
-import { View, Text, StyleSheet, Alert, Button } from 'react-native';
+import { View, Text, StyleSheet, Alert } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { Input } from '../Components/Inputs';
+import { Input, Button } from '../Components/Inputs';
 import firebase from "firebase/compat/app"
 import "firebase/compat/auth"
 import "firebase/compat/firestore"
@@ -37,7 +37,7 @@ const App : FC = (props) => {
             <Text>Hello From LOGIN</Text>
             <Input placeholder='Email' onChangeText={(text) => setEmail(text)} />
             <Input placeholder='Password' secureTextEntry onChangeText={(text) => setPassword(text)} />
-            <Button title='Login' onPress={login} />
+            <Button title='Login' onPress={() => login()} />
             {/* <Button title='Login' onPress={testing} /> */}
             <View style={styles.loginText}>
                 <Text style={styles.loginLabel}>Dont Have an Account?</Text>

@@ -11,7 +11,7 @@ interface Props {
 
 const App : FC <Props> = (props) => {
     return (
-        <TouchableOpacity style={styles.container} onPress={props.onPress}>
+        <TouchableOpacity style={styles.container} onPress={() => props.onPress()}>
             <Text style={styles.text}>{props.title}</Text>
         </TouchableOpacity>
     )
@@ -25,7 +25,8 @@ const styles = StyleSheet.create ({
         minWidth: 100,
         marginLeft: 10,
         marginRight: 10,
-        // width: 100,
+        width: (width - 10),
+        
         alignItems: 'center',
         justifyContent: 'center',
         padding: 10,

@@ -6,6 +6,8 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Imagepicker } from '../Components/ExpoImage';
 // import { Camera } from '../Components/ExpoCamera';
 
+import { WatchDropDown, CaseDropDown, MaterialDropDown } from '../Components/DropDowns';
+
 import firebase  from "firebase/compat/app";
 import "firebase/compat/auth"
 import "firebase/compat/firestore"
@@ -18,6 +20,10 @@ const App : FC = ({ navigation }) => {
     const [userId, setUserId] = useState<string | null>(null)
 
     const [url_1, setUrl_1] = useState<any | null>(null)
+    const [selectedWatch, setSelectedWatch] = useState<any>(null)
+    const [selectedCase, setSelectedCase] = useState<any>(null)
+    const [selectedMaterial, setSelectedMaterial] = useState<any>(null)
+
 
     const submitPost = async () => {
         if(post === null) {
@@ -51,6 +57,7 @@ const App : FC = ({ navigation }) => {
     const testing = () => {
         // Alert.alert('TEESTING BUTTON')
         console.log('URL_111', url_1)
+        console.log('Selected Watch', selectedWatch)
     }
 
     useEffect(() => {
@@ -64,9 +71,16 @@ const App : FC = ({ navigation }) => {
                 <Imagepicker sendUrl={(url_1) => setUrl_1(url_1)} />
                 <Imagepicker sendUrl={(url_1) => setUrl_1(url_1)} />
             </View>
+            <View style={styles.ImageSelectors}>
+                <Imagepicker sendUrl={(url_1) => setUrl_1(url_1)} />
+                <Imagepicker sendUrl={(url_1) => setUrl_1(url_1)} />
+            </View>
             <View style={styles.addPost}>
                 <View>
-                    <Input placeholder='Add Post' onChangeText={(text) => setPost(text)} />
+                    <Input placeholder='Extra Info' onChangeText={(text) => setPost(text)} />
+                    <WatchDropDown sendSelectedWatch={(selectedWatch) => setSelectedWatch(selectedWatch)}/>
+                    <CaseDropDown sendSelectedCase={(selectedCase: any) => setSelectedCase(selectedCase)} />
+                    <MaterialDropDown sendSelectedMaterial={(selectedMaterial: any) => setSelectedMaterial(selectedMaterial)} />
                     <Button title='Post' onPress={submitPost} />
                 </View>
                 {userDetails ? userDetails.isAdmin ? (
@@ -75,6 +89,7 @@ const App : FC = ({ navigation }) => {
                     </View>
                 ) : null : null}
             </View>
+            <Button title='TESTING' onPress={testing} />
         </View>
     )
 }
@@ -97,5 +112,17 @@ const styles = StyleSheet.create({
     },
     ImageSelectors: {
         flexDirection: 'row'
+    },
+    uploadButton: {
+        backgroundColor: "#44D0DF",
+        minWidth: 100,
+        marginLeft: 10,
+        marginRight: 10,
+        // width: 100,
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 10,
+        borderRadius:5,
+        marginVertical: 10
     }
 })

@@ -14,7 +14,7 @@ const Input: FC <Props> = (props) => {
         <View style={styles.container}>
             <TextInput
                 style={styles.input}
-                placeholder="props.placeholder"
+                placeholder={props.placeholder}
                 secureTextEntry={props.secureTextEntry || false} onChangeText={props.onChangeText}>
             </TextInput>
         </View>
