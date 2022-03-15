@@ -1,7 +1,7 @@
 import React, { FC, useState } from 'react';
-import { View, Text, StyleSheet, Alert } from 'react-native';
+import { View, Text, StyleSheet, Alert, Button } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { Input, Button } from '../Components/Inputs';
+import { Input } from '../Components/Inputs';
 import firebase from "firebase/compat/app"
 import "firebase/compat/auth"
 import "firebase/compat/firestore"

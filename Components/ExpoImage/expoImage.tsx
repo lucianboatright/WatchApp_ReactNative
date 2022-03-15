@@ -1,7 +1,9 @@
 import React, { useState, useEffect, FC } from 'react';
-import { Image, View, Platform, Text, StyleSheet } from 'react-native';
+import { Image, View, Platform, Text, StyleSheet, Button, Alert, TouchableHighlight } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import { Button } from '../Inputs';
+import { ImageEditor } from "expo-image-editor";
+import { Camera } from 'expo-camera';
+// import { Button } from '../Inputs';
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage' 
 import uuid from 'react-native-uuid';
 
@@ -20,21 +22,82 @@ const App : FC <Props> = (props) => {
 
   const [url, setUrl] = useState<any | null>(null)
 
+  const [pickedImagePath, setPickedImagePath] = useState('');
 
-  const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
+  const [editorVisible, setEditorVisible] = useState<boolean>(false);
 
-    console.log(result);
 
-    if (!result.cancelled) {
-      setImage(result.uri);
+//   const pickImage = async () => {
+//     let result = await ImagePicker.launchImageLibraryAsync({
+//       mediaTypes: ImagePicker.MediaTypeOptions.All,
+//       allowsEditing: true,
+//       aspect: [4, 3],
+//       quality: 1,
+//     });
+
+//     console.log(result);
+
+//     if (!result.cancelled) {
+//       setImage(result.uri);
+//     }
+//   };
+
+    const pickImage = async () => {
+        // Ask the user for the permission to access the media library 
+        const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+        if (permissionResult.granted) {
+            const pickerResult = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.All,
+                allowsEditing: true,
+                aspect: [10, 16],
+                quality: 1,
+
+            });
+            // Check they didn't cancel the picking
+            if (!pickerResult.cancelled) {
+              launchEditor(pickerResult.uri);
+            }
+          } else {
+            // If not then alert the user they need to enable it
+            Alert.alert(
+              "Please enable camera roll permissions for this app in your settings."
+            );
+          }
+        // if (permissionResult.granted === false) {
+        // alert("You've refused to allow this appp to access your photos!");
+        // return;
+        // }
+
+        // const result = await ImagePicker.launchImageLibraryAsync();
+
+        // // Explore the result
+        // console.log(result);
+
+        // if (!result.cancelled) {
+        //     launchEditor(result.uri)
+        // }
     }
-  };
+
+    const openCamera = async () => {
+        // Ask the user for the permission to access the camera
+        const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
+    
+        if (permissionResult.granted === false) {
+          alert("You've refused to allow this appp to access your camera!");
+          return;
+        }
+    
+        const result = await ImagePicker.launchCameraAsync();
+    
+        // Explore the result
+        console.log(result);
+    
+        if (!result.cancelled) {
+          setImage(result.uri);;
+          console.log(result.uri);
+        }
+    }
 
   const getPictureBlob = async (uri: String) =>  {
     return new Promise((resolve, reject) => {
@@ -86,14 +149,23 @@ const App : FC <Props> = (props) => {
     console.log('SHOWING IMG', imgUrl)
   };
 
+  const launchEditor = (uri: string) => {
+    setImage(uri);;
+    console.log(uri);
+  }
+
+
+
 //   const Passing = async () => {
 //     if (update === true) {
 
 //     }
 //   }
-  // const reset = () => {
-  //   setStart(false)
-  // }
+  const reset = () => {
+      setImage(null)
+      setUrl(null)
+        setStart(false)
+  }
 
   useEffect(() => {
     (async () => {
@@ -104,17 +176,42 @@ const App : FC <Props> = (props) => {
         }
       }
     })();
+    
   }, []);
 
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Button title="Pick an image from camera roll" onPress={pickImage} />
-      {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
+    <View style={styles.container}>
+        <View style={styles.buttonContainer}>
+            <TouchableHighlight onPress={() => openCamera} >
+                <Image source={require('../../assets/icons/CameraIcon.png')} style={styles.loadingIcon} />
+            </TouchableHighlight>
+            <TouchableHighlight onPress={() => pickImage} >
+                <Image source={require('../../assets/icons/imageSelect_2.png')} style={styles.loadingIcon} />
+            </TouchableHighlight>
+            <TouchableHighlight onPress={() => UpdateImage} >
+                <Image source={require('../../assets/icons/iamgeUpload_2.png')} style={styles.loadingIcon} />
+            </TouchableHighlight>
+        </View>
+      {image && <Image source={{ uri: image }} style={styles.imageView} />}
       <View style={{flexDirection: 'row'}}>
-        <Button title='Upload Image' onPress={UpdateImage} />
         {start ?  <View>{uploading ? <Image style={styles.loadingIcon} source={require('../../assets/icons/loading.gif')} /> : <Image style={{width: 50, height: 50}} source={require('../../assets/icons/complete.png')} />}</View> : null}
       </View>
-      {/* <Button title='RESET' onPress={reset} /> */}
+      <Button title='RESET IMAGE' onPress={reset} />
+      <ImageEditor
+        visible={editorVisible}
+        onCloseEditor={() => setEditorVisible(false)}
+        imageUri={image}
+        fixedCropAspectRatio={10 / 16}
+        // lockAspectRatio={aspectLock}
+        minimumCropDimensions={{
+          width: 175,
+          height: 275,
+        }}
+        onEditingComplete={(result) => {
+          setImage(result);
+        }}
+        mode="full"
+      />
     </View>
   );
 }
@@ -122,8 +219,43 @@ const App : FC <Props> = (props) => {
 export default App
 
 const styles = StyleSheet.create({
-  loadingIcon: {
-    width: 50,
-    height: 50
-  }
+    container: {
+        // flex: .5,
+        alignItems: 'center',
+        justifyContent: 'flex-start' ,
+        borderWidth: 1,
+        borderColor: "black",
+        borderRadius: 5,
+        // height: 200,
+        // width: 200,
+        margin: 5
+    },
+    buttonContainer: {
+        flexDirection: 'row',
+        // justifyContent: 'space-between',
+    },
+    loadingIcon: {
+        width: 40,
+        height: 40,
+        marginLeft: 10,
+        marginRight: 10,
+    },
+    button: {
+        backgroundColor: "#44D0DF",
+        minWidth: 100,
+        marginLeft: 10,
+        marginRight: 10,
+        width: 100,
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 10,
+        borderRadius:5,
+        marginVertical: 10,
+    },
+    imageView: {
+        height: 275,
+        width: 175,
+        borderWidth: 2,
+        backgroundColor: "#fff" 
+    }
 })

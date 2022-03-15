@@ -4,6 +4,7 @@ import { Button, Input } from '../Components/Inputs';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 // import { ImagePicker } from '../Components/imagePicker';
 import { Imagepicker } from '../Components/ExpoImage';
+// import { Camera } from '../Components/ExpoCamera';
 
 import firebase  from "firebase/compat/app";
 import "firebase/compat/auth"
@@ -59,11 +60,10 @@ const App : FC = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <Imagepicker sendUrl={(url_1) => setUrl_1(url_1)} />
-            {/* <ImagePicker /> */}
-            <Text>Hello From Add watch</Text>
-            {/* <Text>I am: {userDetails.name}</Text> */}
-            <Button title='PrintUrl' onPress={testing} />
+            <View style={styles.ImageSelectors}>
+                <Imagepicker sendUrl={(url_1) => setUrl_1(url_1)} />
+                <Imagepicker sendUrl={(url_1) => setUrl_1(url_1)} />
+            </View>
             <View style={styles.addPost}>
                 <View>
                     <Input placeholder='Add Post' onChangeText={(text) => setPost(text)} />
@@ -94,6 +94,8 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         textAlign: 'center',
         textAlignVertical: 'center',
-
+    },
+    ImageSelectors: {
+        flexDirection: 'row'
     }
 })
