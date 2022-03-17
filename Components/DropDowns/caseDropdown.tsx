@@ -40,6 +40,10 @@ const App : FC <Props> = (props) => {
 //   const [serverData, setServerData] = useState([]);
   const [selectedWatch, setSelectedWatch] = useState<any>(null)
 
+  useEffect(() => {
+    props.sendSelectedCase(selectedWatch)
+  })
+
   return (
     <View style={styles.outerContainer}>
       <View style={styles.container}>

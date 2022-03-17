@@ -27,14 +27,17 @@ interface Props {
 }
 
 const App : FC <Props> = (props) => {
-  // Data Source for the SearchableDropdown
-//   const [serverData, setServerData] = useState([]);
+  //   const [serverData, setServerData] = useState([]);
   const [selectedLug, setSelectedLug] = useState<any>(null)
 
 
   const testing = () => {
     console.log('LUG WIDTH', selectedLug)
   }
+
+  useEffect(() => {
+    props.sendSelectedLug(selectedLug)
+  })
 
   return (
     <View style={styles.outerContainer}>
@@ -77,7 +80,7 @@ const App : FC <Props> = (props) => {
             <Text style={{fontSize: 25}}> : </Text>
             <Text style={{fontSize: 25, paddingTop: 1}}>{selectedLug ? <Text>{selectedLug}</Text> : <Text>Select Lug Width</Text>}</Text>
         </View>
-        <Button title='TESTING' onPress={testing} />
+        {/* <Button title='TESTING' onPress={testing} /> */}
       </View>
     </View>
   );

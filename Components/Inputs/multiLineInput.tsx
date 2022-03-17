@@ -1,7 +1,11 @@
-import React from 'react';
-import { View, TextInput } from 'react-native';
+import React, { FC, ReactNode, SetStateAction, useEffect, useState } from 'react';
+import { View, TextInput, TextInputProps } from 'react-native';
 
-const UselessTextInput = (props) => {
+interface Props {
+    sendMessage: (value: string) => void;
+}
+
+const UselessTextInput = (props: JSX.IntrinsicAttributes & JSX.IntrinsicClassAttributes<TextInput> & Readonly<TextInputProps> & Readonly<{ children?: ReactNode; }>) => {
   return (
     <TextInput
     placeholder='Enter Any Extra Info Here'
@@ -12,8 +16,12 @@ const UselessTextInput = (props) => {
   );
 }
 
-const UselessTextInputMultiline = () => {
-  const [value, onChangeText] = React.useState('');
+const App : FC <Props> = (props) => {
+  const [value, onChangeText] = useState<string>('');
+
+  useEffect(() => {
+      props.sendMessage(value)
+  })
 
   // If you type something in the text box that is a color, the background will change to that
   // color.
@@ -29,7 +37,7 @@ const UselessTextInputMultiline = () => {
       <UselessTextInput
         multiline
         numberOfLines={4}
-        onChangeText={text => onChangeText(text)}
+        onChangeText={(text: SetStateAction<string>) => onChangeText(text)}
         value={value}
         style={{padding: 10, height: 60}}
       />
@@ -37,4 +45,4 @@ const UselessTextInputMultiline = () => {
   );
 }
 
-export default UselessTextInputMultiline;
+export default App;

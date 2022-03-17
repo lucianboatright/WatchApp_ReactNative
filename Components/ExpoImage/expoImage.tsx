@@ -31,9 +31,6 @@ const App : FC <Props> = (props) => {
 
   const [editorVisible, setEditorVisible] = useState<boolean>(false);
 
-  const Watch_1 = props.watchImage
-
-
     const pickImage = async () => {
         const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
@@ -99,9 +96,7 @@ const App : FC <Props> = (props) => {
     let blob: Blob
     // try {
       setUploading(true);
-      console.log('HEERE')
       blob = await getPictureBlob(image);
-      console.log("BLLLOOOBB", blob)
       uploadBytes(storageRef, blob).then((snapshot) => {
         console.log('UPLOAD MIGHT BE SUCCSESFULLLLLLLLL')
         getDownloadURL(storageRef)
@@ -124,7 +119,6 @@ const App : FC <Props> = (props) => {
   const UpdateImage = async () => {
     setStart(true)
     let imgUrl = await uploadImageToBucket();
-    console.log('SHOWING IMG', imgUrl)
   };
 
   const launchEditor = (uri: string) => {
@@ -163,9 +157,6 @@ const App : FC <Props> = (props) => {
                 <TouchableHighlight onPress={() => UpdateImage()} >
                     {start ?  <View>{uploading ? <Image style={styles.loadingIcon} source={require('../../assets/icons/loading.gif')} /> : <Image style={{width: 40, height: 40}} source={require('../../assets/icons/greenTickBox.png')} />}</View> : <Image style={styles.tickBox} source={require('../../assets/icons/tickBox.png')} />}
                 </TouchableHighlight>
-                {/* <TouchableHighlight onPress={() => UpdateImage()} >
-                    <Image source={require('../../assets/icons/iamgeUpload_2.png')} style={styles.loadingIcon} />
-                </TouchableHighlight> */}
             </View>
             <View>
             {image ? <Image source={{ uri: image }} style={styles.imageView} /> : <View style={styles.imageContainer}><Image source={props.watchImage} style={styles.holdingImage} /></View>}

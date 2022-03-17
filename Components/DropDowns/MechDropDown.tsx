@@ -14,13 +14,17 @@ const items = [
 ];
 
 interface Props {
-    sendSelectedMech: (selectedMech: any | null) => void;
+    sendSelectedMech: (selectedMech: string | null) => void;
 }
 
 const App : FC <Props> = (props) => {
   // Data Source for the SearchableDropdown
 //   const [serverData, setServerData] = useState([]);
   const [selectedMech, setSelectedMech] = useState<any>(null)
+
+  useEffect(() => {
+    props.sendSelectedMech(selectedMech)
+  })
 
   return (
     <View style={styles.outerContainer}>

@@ -19,7 +19,9 @@ import Watch_4 from '../assets/icons/watch_4.png'
 
 const {height, width} = Dimensions.get('screen')
 
-const App : FC = (props) => {
+
+
+const App : FC <Props> = (props) => {
 
     const [post, setPost] = useState<string | null>(null)
     const [userDetails, setUserDetails] = useState<any>(null)
@@ -29,11 +31,12 @@ const App : FC = (props) => {
     const [url_2, setUrl_2] = useState<any | null>(null)
     const [url_3, setUrl_3] = useState<any | null>(null)
     const [url_4, setUrl_4] = useState<any | null>(null)
-    const [selectedWatch, setSelectedWatch] = useState<any>(null)
-    const [selectedCase, setSelectedCase] = useState<any>(null)
-    const [selectedMaterial, setSelectedMaterial] = useState<any>(null)
-    const [selectedLug, setSelectedLug] = useState<any>(null)
-    const [selectedMech, setSelectedMech] = useState<any>(null)
+    const [selectedWatch, setSelectedWatch] = useState<string | null>(null)
+    const [selectedCase, setSelectedCase] = useState<string | null>(null)
+    const [selectedMaterial, setSelectedMaterial] = useState<string | null>(null)
+    const [selectedLug, setSelectedLug] = useState<string | null>(null)
+    const [selectedMech, setSelectedMech] = useState<string | null>(null)
+    const [message, setMessage] = useState<string>('')
 
     const submitPost = async () => {
         if(post === null) {
@@ -75,6 +78,7 @@ const App : FC = (props) => {
         console.log('Selected material', selectedMaterial)
         console.log('Selected lugs', selectedLug)
         console.log('Selected Mech', selectedMech)
+        console.log('Selected Message', message)
     }
 
     useEffect(() => {
@@ -94,9 +98,9 @@ const App : FC = (props) => {
                     <Imagepicker watchImage={Watch_4} sendUrl={(url) => setUrl_4(url)} />
                 </View>
             </ScrollView>
-            <View style={styles.addPost}>
+            <View>
                 <View>
-                    <MultiLineInput />
+                    <MultiLineInput sendMessage={(value: string) => setMessage(value)} />
                     <WatchDropDown sendSelectedWatch={(selectedWatch) => setSelectedWatch(selectedWatch)}/>
                     <CaseDropDown sendSelectedCase={(selectedCase: any) => setSelectedCase(selectedCase)} />
                     <MaterialDropDown sendSelectedMaterial={(selectedMaterial: any) => setSelectedMaterial(selectedMaterial)} />

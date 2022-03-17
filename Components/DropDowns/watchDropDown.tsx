@@ -18,12 +18,16 @@ const items = [
 ];
 
 interface Props {
-    sendSelectedWatch: (selectedWatch: any | null) => void;
+    sendSelectedWatch: (selectedWatch: string | null) => void;
 }
 
 const App : FC <Props> = (props) => {
 //   const [serverData, setServerData] = useState([]);
   const [selectedWatch, setSelectedWatch] = useState<any>(null)
+
+  useEffect(() => {
+    props.sendSelectedWatch(selectedWatch)
+  })
 
   return (
     <View style={styles.outerContainer}>

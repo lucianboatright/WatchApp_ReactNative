@@ -18,7 +18,7 @@ const items = [
 ];
 
 interface Props {
-    sendSelectedMaterial: (selectedMaterial: any | null) => void;
+    sendSelectedMaterial: (selectedMaterial: string | null) => void;
 }
 
 const App : FC <Props> = (props) => {
@@ -26,17 +26,9 @@ const App : FC <Props> = (props) => {
 //   const [serverData, setServerData] = useState([]);
   const [selectedMaterial, setSelectedMaterial] = useState<any>(null)
 
-//   useEffect(() => {
-//     fetch('https://aboutreact.herokuapp.com/demosearchables.php')
-//       .then((response) => response.json())
-//       .then((responseJson) => {
-//         //Successful response from the API Call
-//         setServerData(responseJson.results);
-//       })
-//       .catch((error) => {
-//         console.error(error);
-//       });
-//   }, []);
+  useEffect(() => {
+    props.sendSelectedMaterial(selectedMaterial)
+  })
 
   return (
     <View style={styles.containerOuter}>
