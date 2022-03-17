@@ -26,26 +26,28 @@ const App : FC <Props> = (props) => {
   const [selectedWatch, setSelectedWatch] = useState<any>(null)
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.outerContainer}>
       <View style={styles.container}>
         <Text style={styles.titleText}>
-            Select Watch
+            Select Details
         </Text>
         <View style={{flexDirection: 'row'}}>
             <SearchableDropdown
             onTextChange={(text) => console.log(text)}
             onItemSelect={(item) => setSelectedWatch(item.name)}
-            containerStyle={{padding: 5}}
+            containerStyle={{padding: 0}}
             textInputStyle={{
                 // Inserted text style
-                padding: 8,
+                padding: 5,
+                paddingLeft: 10,
                 borderWidth: 1,
                 borderColor: '#ccc',
                 backgroundColor: '#FAF7F6',
-                width: 150
+                width: 150,
+                borderRadius: 20,
             }}
             itemStyle={{
-                padding: 10,
+                padding: 8,
                 marginTop: 2,
                 marginRight: 10,
                 // width: 10,
@@ -65,21 +67,26 @@ const App : FC <Props> = (props) => {
             resPtValue={false}
             underlineColorAndroid="transparent"
             />
-            <Text style={{fontSize: 30}}> : </Text>
-            <Text style={{fontSize: 30, paddingTop: 4}}>{selectedWatch ? <Text>{selectedWatch}</Text> : null}</Text>
+            <Text style={{fontSize: 25}}> : </Text>
+            <Text style={{fontSize: 25, paddingTop: 1}}>{selectedWatch ? <Text>{selectedWatch}</Text> : <Text>Select Watch</Text>}</Text>
         </View>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 
 export default App;
 
 const styles = StyleSheet.create({
+    outerContainer: {
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        width: '95%'
+},
   container: {
     // flex: .3,
     backgroundColor: '#E9EBEE',
-    padding: 3,
+    paddingVertical: 1,
   },
   titleText: {
     padding: 0,

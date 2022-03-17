@@ -81,6 +81,7 @@ const styles = StyleSheet.create({
         marginVertical: 20
     },
     loginLabel: {
+        paddingTop: 5,
         marginHorizontal: 5
     },
     loginButton: {

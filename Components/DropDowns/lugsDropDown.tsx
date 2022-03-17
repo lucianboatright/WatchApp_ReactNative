@@ -1,55 +1,48 @@
 import React, {useState, useEffect, FC} from 'react';
-import {SafeAreaView, StyleSheet, Text, View, Dimensions} from 'react-native';
+import {SafeAreaView, StyleSheet, Text, View, Dimensions, Button} from 'react-native';
 import SearchableDropdown from 'react-native-searchable-dropdown';
 
 const {height, width} = Dimensions.get('screen')
 
 const items = [
-  {id: 1, name: '29 mm'},
-  {id: 2, name: '30 mm'},
-  {id: 3, name: '31 mm'},
-  {id: 4, name: '32 mm'},
-  {id: 5, name: '33 mm'},
-  {id: 6, name: '34 mm'},
-  {id: 7, name: '35 mm'},
-  {id: 8, name: '36 mm'},
-  {id: 9, name: '37 mm'},
-  {id: 10, name: '38 mm'},
-  {id: 11, name: '39 mm'},
-  {id: 12, name: '40 mm'},
-  {id: 13, name: '41 mm'},
-  {id: 14, name: '42 mm'},
-  {id: 15, name: '43 mm'},
-  {id: 16, name: '44 mm'},
-  {id: 17, name: '45 mm'},
-  {id: 18, name: '46 mm'},
-  {id: 19, name: '47 mm'},
-  {id: 20, name: '48 mm'},
-  {id: 21, name: '49 mm'},
-  {id: 22, name: '50 mm'},
-  {id: 23, name: '51 mm'},
-  {id: 24, name: '52 mm'},
+  {id: 1, name: 'Intergrated'},
+  {id: 2, name: '15 mm'},
+  {id: 3, name: '16 mm'},
+  {id: 4, name: '17 mm'},
+  {id: 5, name: '18 mm'},
+  {id: 6, name: '19 mm'},
+  {id: 7, name: '20 mm'},
+  {id: 8, name: '21 mm'},
+  {id: 9, name: '22 mm'},
+  {id: 10, name: '23 mm'},
+  {id: 11, name: '24 mm'},
+  {id: 12, name: '25 mm'},
+  {id: 13, name: '26 mm'},
+  {id: 14, name: '27 mm'},
+  {id: 15, name: '28 mm'},
 ];
 
 interface Props {
-    sendSelectedCase: (selectedCase: any | null) => void;
+    sendSelectedLug: (selectedLug: string | null) => void;
 }
 
 const App : FC <Props> = (props) => {
   // Data Source for the SearchableDropdown
 //   const [serverData, setServerData] = useState([]);
-  const [selectedWatch, setSelectedWatch] = useState<any>(null)
+  const [selectedLug, setSelectedLug] = useState<any>(null)
+
+
+  const testing = () => {
+    console.log('LUG WIDTH', selectedLug)
+  }
 
   return (
     <View style={styles.outerContainer}>
       <View style={styles.container}>
-        {/* <Text style={styles.titleText}>
-            Select Case Size
-        </Text> */}
         <View style={{flexDirection: 'row'}}>
             <SearchableDropdown
                 onTextChange={(text) => console.log(text)}
-                onItemSelect={(item) => setSelectedWatch(item.name)}
+                onItemSelect={(item) => setSelectedLug(item.name)}
                 containerStyle={{padding: 0}}
                 textInputStyle={{
                     padding: 5,
@@ -82,8 +75,9 @@ const App : FC <Props> = (props) => {
                 underlineColorAndroid="transparent"
             />
             <Text style={{fontSize: 25}}> : </Text>
-            <Text style={{fontSize: 25, paddingTop: 1}}>{selectedWatch ? <Text>{selectedWatch}</Text> : <Text>Select Case Size</Text>}</Text>
+            <Text style={{fontSize: 25, paddingTop: 1}}>{selectedLug ? <Text>{selectedLug}</Text> : <Text>Select Lug Width</Text>}</Text>
         </View>
+        <Button title='TESTING' onPress={testing} />
       </View>
     </View>
   );

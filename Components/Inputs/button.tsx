@@ -25,7 +25,7 @@ const styles = StyleSheet.create ({
         minWidth: 100,
         marginLeft: 10,
         marginRight: 10,
-        width: (width - 10),
+        width: '95%',
         
         alignItems: 'center',
         justifyContent: 'center',

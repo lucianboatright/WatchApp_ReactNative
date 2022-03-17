@@ -39,22 +39,24 @@ const App : FC <Props> = (props) => {
 //   }, []);
 
   return (
-    <SafeAreaView style={styles.containerOuter}>
+    <View style={styles.containerOuter}>
       <View style={styles.container}>
-        <Text style={styles.titleText}>
+        {/* <Text style={styles.titleText}>
             Case Material
-        </Text>
+        </Text> */}
         <View style={{flexDirection: 'row'}}>
             <SearchableDropdown
             onTextChange={(text) => console.log(text)}
             onItemSelect={(item) => setSelectedMaterial(item.name)}
-            containerStyle={{padding: 5}}
+            containerStyle={{padding: 0}}
             textInputStyle={{
-                padding: 8,
+                padding: 5,
+                paddingLeft: 10,
                 borderWidth: 1,
                 borderColor: '#ccc',
                 backgroundColor: '#FAF7F6',
-                width: 150
+                width: 150,
+                borderRadius: 20,
             }}
             itemStyle={{
                 padding: 10,
@@ -78,11 +80,11 @@ const App : FC <Props> = (props) => {
             resPtValue={false}
             underlineColorAndroid="transparent"
             />
-            <Text style={{fontSize: 30}}> : </Text>
-            <Text style={{fontSize: 30, paddingTop: 4}}>{selectedMaterial ? <Text>{selectedMaterial}</Text> : null}</Text>
+            <Text style={{fontSize: 25}}> : </Text>
+            <Text style={{fontSize: 25, paddingTop: 1}}>{selectedMaterial ? <Text>{selectedMaterial}</Text> : <Text>Case Material</Text>}</Text>
         </View>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -92,11 +94,14 @@ const styles = StyleSheet.create({
   container: {
     // flex: .3,
     backgroundColor: '#E9EBEE',
-    padding: 3,
+    // backgroundColor: 'red',
+    paddingVertical: 1,
   },
-//   containerOuter: {
-//     width: (width - 10)
-//   },
+  containerOuter: {
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        width: '95%'
+  },
   titleText: {
     padding: 0,
     fontSize: 16,

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, FC } from 'react';
-import { Image, View, Platform, Text, StyleSheet, Alert, TouchableHighlight } from 'react-native';
-import { Button } from '../Inputs';
+import { Image, View, Platform, Text, StyleSheet, Alert, TouchableHighlight, Dimensions, Button } from 'react-native';
+// import { Button } from '../Inputs';
 import * as ImagePicker from 'expo-image-picker';
 import { ImageEditor } from "expo-image-editor";
 import { Camera } from 'expo-camera';
@@ -8,8 +8,12 @@ import { Camera } from 'expo-camera';
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage' 
 import uuid from 'react-native-uuid';
 
+
+const {height, width} = Dimensions.get('screen')
+
 interface Props {
     sendUrl: (url: any | null) => void;
+    watchImage: any;
 }
 
 const App : FC <Props> = (props) => {
@@ -27,24 +31,10 @@ const App : FC <Props> = (props) => {
 
   const [editorVisible, setEditorVisible] = useState<boolean>(false);
 
+  const Watch_1 = props.watchImage
 
-//   const pickImage = async () => {
-//     let result = await ImagePicker.launchImageLibraryAsync({
-//       mediaTypes: ImagePicker.MediaTypeOptions.All,
-//       allowsEditing: true,
-//       aspect: [4, 3],
-//       quality: 1,
-//     });
-
-//     console.log(result);
-
-//     if (!result.cancelled) {
-//       setImage(result.uri);
-//     }
-//   };
 
     const pickImage = async () => {
-        // Ask the user for the permission to access the media library 
         const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
         if (permissionResult.granted) {
@@ -55,50 +45,36 @@ const App : FC <Props> = (props) => {
                 quality: 1,
 
             });
-            // Check they didn't cancel the picking
             if (!pickerResult.cancelled) {
-            //   launchEditor(pickerResult.uri);
                 setImage(pickerResult.uri)
+                // UpdateImage()
             }
           } else {
-            // If not then alert the user they need to enable it
             Alert.alert(
               "Please enable camera roll permissions for this app in your settings."
             );
           }
-        // if (permissionResult.granted === false) {
-        // alert("You've refused to allow this appp to access your photos!");
-        // return;
-        // }
-
-        // const result = await ImagePicker.launchImageLibraryAsync();
-
-        // // Explore the result
-        // console.log(result);
-
-        // if (!result.cancelled) {
-        //     launchEditor(result.uri)
-        // }
     }
 
     const openCamera = async () => {
-        // Ask the user for the permission to access the camera
         const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
-    
-        if (permissionResult.granted === false) {
-          alert("You've refused to allow this appp to access your camera!");
-          return;
-        }
-    
-        const result = await ImagePicker.launchCameraAsync();
-    
-        // Explore the result
-        console.log(result);
-    
-        if (!result.cancelled) {
-          setImage(result.uri);;
-          console.log(result.uri);
-        }
+
+        if (permissionResult.granted) {
+            const pickerResult = await ImagePicker.launchCameraAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.All,
+                allowsEditing: true,
+                aspect: [10, 16],
+                quality: 1,
+
+            });
+            if (!pickerResult.cancelled) {
+                setImage(pickerResult.uri)
+            }
+          } else {
+            Alert.alert(
+              "Please enable camera roll permissions for this app in your settings."
+            );
+          }
     }
 
   const getPictureBlob = async (uri: String) =>  {
@@ -156,13 +132,6 @@ const App : FC <Props> = (props) => {
     console.log(uri);
   }
 
-
-
-//   const Passing = async () => {
-//     if (update === true) {
-
-//     }
-//   }
   const reset = () => {
       setImage(null)
       setUrl(null)
@@ -182,66 +151,77 @@ const App : FC <Props> = (props) => {
   }, []);
 
   return (
-    <View style={styles.container}>
-        <View style={styles.buttonContainer}>
-            <TouchableHighlight onPress={() => openCamera()} >
-                <Image source={require('../../assets/icons/CameraIcon.png')} style={styles.loadingIcon} />
-            </TouchableHighlight>
-            <TouchableHighlight onPress={() => pickImage()} >
-                <Image source={require('../../assets/icons/imageSelect_2.png')} style={styles.loadingIcon} />
-            </TouchableHighlight>
-            <TouchableHighlight onPress={() => UpdateImage()} >
-                <Image source={require('../../assets/icons/iamgeUpload_2.png')} style={styles.loadingIcon} />
-            </TouchableHighlight>
+      <View style={styles.outerContainer}>
+        <View style={styles.container}>
+            <View style={styles.buttonContainer}>
+                <TouchableHighlight onPress={() => openCamera()} >
+                    <Image source={require('../../assets/icons/CameraIcon.png')} style={styles.loadingIcon} />
+                </TouchableHighlight>
+                <TouchableHighlight onPress={() => pickImage()} >
+                    <Image source={require('../../assets/icons/imageSelect_2.png')} style={styles.loadingIcon} />
+                </TouchableHighlight>
+                <TouchableHighlight onPress={() => UpdateImage()} >
+                    {start ?  <View>{uploading ? <Image style={styles.loadingIcon} source={require('../../assets/icons/loading.gif')} /> : <Image style={{width: 40, height: 40}} source={require('../../assets/icons/greenTickBox.png')} />}</View> : <Image style={styles.tickBox} source={require('../../assets/icons/tickBox.png')} />}
+                </TouchableHighlight>
+                {/* <TouchableHighlight onPress={() => UpdateImage()} >
+                    <Image source={require('../../assets/icons/iamgeUpload_2.png')} style={styles.loadingIcon} />
+                </TouchableHighlight> */}
+            </View>
+            <View>
+            {image ? <Image source={{ uri: image }} style={styles.imageView} /> : <View style={styles.imageContainer}><Image source={props.watchImage} style={styles.holdingImage} /></View>}
+            </View>
         </View>
-      {image && <Image source={{ uri: image }} style={styles.imageView} />}
-      <View style={{flexDirection: 'row'}}>
-        {start ?  <View>{uploading ? <Image style={styles.loadingIcon} source={require('../../assets/icons/loading.gif')} /> : <Image style={{width: 50, height: 50}} source={require('../../assets/icons/complete.png')} />}</View> : null}
       </View>
-      {/* <Button title='RESET IMAGE' onPress={reset} /> */}
-      {/* <ImageEditor
-        visible={editorVisible}
-        onCloseEditor={() => setEditorVisible(false)}
-        imageUri={image}
-        fixedCropAspectRatio={10 / 16}
-        // lockAspectRatio={aspectLock}
-        minimumCropDimensions={{
-          width: 175,
-          height: 275,
-        }}
-        onEditingComplete={(result) => {
-          setImage(result);
-        }}
-        mode="full"
-      /> */}
-    </View>
   );
 }
 
 export default App
 
 const styles = StyleSheet.create({
+    outerContainer: {
+        // backgroundColor: 'red',
+        width: '50%'
+    },
     container: {
         // flex: .5,
         alignItems: 'center',
-        justifyContent: 'flex-start' ,
+        // justifyContent: 'space-between',
+        // justifyContent: 'flex-start' ,
         borderWidth: 1,
         borderColor: "black",
         borderRadius: 5,
+        // width: '50%',
         // height: 200,
         // width: 200,
         margin: 5
     },
     buttonContainer: {
+        // backgroundColor: 'red',
+        borderWidth: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
-        width: 180
+        width: '100%'
+    },
+    imageContainer: {
+        height: 150
+    },
+    holdingImage: {
+        height: 100,
+        width: 100,
+        marginTop: 25,
+        // borderWidth: 2,
+        // borderRadius: 10,
+        margin: 5
     },
     loadingIcon: {
         width: 40,
         height: 40,
         // marginLeft: 10,
         // marginRight: 10,
+    },
+    tickBox: {
+        width: 39,
+        height: 39,
     },
     button: {
         backgroundColor: "#44D0DF",
