@@ -1,6 +1,6 @@
 import React, { FC, useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Alert, Image, Platform, Dimensions, ScrollView } from 'react-native';
-import { Button, Input, MultiLineInput } from '../Components/Inputs';
+import { Button, Input, MultiLineInput, ForSale } from '../Components/Inputs';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 // import { ImagePicker } from '../Components/imagePicker';
 import { Imagepicker } from '../Components/ExpoImage';
@@ -37,6 +37,7 @@ const App : FC <Props> = (props) => {
     const [selectedLug, setSelectedLug] = useState<string | null>(null)
     const [selectedMech, setSelectedMech] = useState<string | null>(null)
     const [message, setMessage] = useState<string>('')
+    const [cost, setCost] = useState<string>('')
 
     const submitPost = async () => {
         if(post === null) {
@@ -79,6 +80,7 @@ const App : FC <Props> = (props) => {
         console.log('Selected lugs', selectedLug)
         console.log('Selected Mech', selectedMech)
         console.log('Selected Message', message)
+        console.log('Selected cost', cost)
     }
 
     useEffect(() => {
@@ -106,6 +108,7 @@ const App : FC <Props> = (props) => {
                     <MaterialDropDown sendSelectedMaterial={(selectedMaterial: any) => setSelectedMaterial(selectedMaterial)} />
                     <LugDropDown sendSelectedLug={(selectedLug) => setSelectedLug(selectedLug)}/>
                     <MechDropDown sendSelectedMech={(selectedMech: any) => setSelectedMech(selectedMech)} />
+                    <ForSale sendCost={(cost) => setCost(cost)} />
                     <Button title='Post' onPress={submitPost} />
                 </View>
                 {userDetails ? userDetails.isAdmin ? (

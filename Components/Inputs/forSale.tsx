@@ -1,39 +1,65 @@
-import React, { FC } from "react";
-import { Dimensions, TextInput, View, StyleSheet } from "react-native";
-
-const {height, width} = Dimensions.get('screen')
+import React, { FC, useEffect, useState } from "react";
+import { View, Switch, StyleSheet, Text, TextInput } from "react-native";
 
 interface Props {
-    placeholder: string;
-    // onChangeText: (text: string) => void;
+    sendCost: (cost: string | null) => void
 }
 
-const Input: FC <Props> = (props) => {
-    return (
-        <View style={styles.container}>
-            <Text>For Sale???</Text>
-            {/* <TextInput
-                style={styles.input}
-                placeholder={props.placeholder}
-                secureTextEntry={props.secureTextEntry || false} onChangeText={props.onChangeText}>
-            </TextInput> */}
+const App : FC <Props> = (props) => {
+  const [isEnabled, setIsEnabled] = useState(false);
+  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+
+  const [cost, setCost] = useState<string>('')
+
+  useEffect(() => {
+      props.sendCost(cost)
+  })
+
+  return (
+    <View style={styles.container}>
+        <View>
+            <Text style={{fontSize: 25}}>For Sale?</Text>
         </View>
-    )
+        <View>
+            <Switch
+                trackColor={{ false: "#767577", true: "#90EE90" }}
+                thumbColor={isEnabled ? "green" : "#f4f3f4"}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={toggleSwitch}
+                value={isEnabled}
+                style={{marginHorizontal: 10}}
+            />
+        </View>
+        {/* <View>
+            <Text style={{fontSize: 25}}> : </Text>
+        </View> */}
+        <View>
+            {isEnabled ? 
+                <View style={{flexDirection: 'row'}}><Text style={{fontSize: 25}}> :  </Text><TextInput style={styles.forSale} placeholder=" Insert Value in £"  onChangeText={setCost}/></View> 
+                : 
+                <View style={{flexDirection: 'row'}}><Text style={{fontSize: 25}}> : </Text><Text style={{fontSize: 25, paddingTop: 2}}> Not For sale</Text></View>
+            }
+        </View>
+    </View>
+  );
 }
 
-export default Input
-
-const styles = StyleSheet.create ({
+const styles = StyleSheet.create({
     container: {
-        width: '95%',
-        // maxWidth: 500,
-        alignSelf: 'center',
-        backgroundColor: '#e3e3e3',
-        borderRadius: 5,
-        marginVertical: 10
-
+        // flex: 1,
+        flexDirection: 'row',
+        alignItems: "center",
+        // justifyContent: 'space-between',
+        marginHorizontal: 20,
+        width: '95%'
     },
-    input: {
-        padding: 15
+    forSale: {
+        borderWidth: 1,
+        padding: 5,
+        borderRadius: 10,
+        width: '60%',
+        marginTop: 3,
+        alignSelf: 'flex-start'
     }
-})
+});
+export default App;
