@@ -9,7 +9,7 @@ const App : FC <Props> = (props) => {
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
-  const [cost, setCost] = useState<string>('')
+  const [cost, setCost] = useState<string>('Not for sale')
 
   useEffect(() => {
       props.sendCost(cost)

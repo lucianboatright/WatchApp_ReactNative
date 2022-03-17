@@ -117,7 +117,7 @@ const App : FC <Props> = (props) => {
                     </View>
                 ) : null : null}
             </View>
-            <Button title='TESTING' onPress={testing} />
+            {/* <Button title='TESTING' onPress={testing} /> */}
         </View>
     )
 }
