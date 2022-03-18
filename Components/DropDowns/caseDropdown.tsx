@@ -65,7 +65,9 @@ const App : FC <Props> = (props) => {
                     borderRadius: 20,
                 }}
                 itemStyle={{
-                    padding: 10,
+                  padding: 2,
+                  paddingLeft: 10,
+                  borderRadius: 20,
                     marginTop: 2,
                     marginRight: 10,
                     // width: 10,
@@ -85,8 +87,8 @@ const App : FC <Props> = (props) => {
                 resPtValue={false}
                 underlineColorAndroid="transparent"
             />
-            <Text style={{fontSize: 25}}> : </Text>
-            <Text style={{fontSize: 25, paddingTop: 1}}>{selectedWatch ? <Text>{selectedWatch}</Text> : <Text>Select Case Size</Text>}</Text>
+            <Text style={{fontSize: 20}}> : </Text>
+            <Text style={{fontSize: 20, paddingTop: 1}}>{selectedWatch ? <Text>{selectedWatch}</Text> : <Text>Select Case Size</Text>}</Text>
         </View>
       </View>
     </View>

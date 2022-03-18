@@ -18,15 +18,18 @@ const items = [
 ];
 
 interface Props {
-    sendSelectedWatch: (selectedWatch: string | null) => void;
+    sendSelectedWatch: (selected: string | null) => void;
+    title: string;
+    placeHolder: string;
+
 }
 
 const App : FC <Props> = (props) => {
 //   const [serverData, setServerData] = useState([]);
-  const [selectedWatch, setSelectedWatch] = useState<any>(null)
+  const [selected, setSelected] = useState<any>(null)
 
   useEffect(() => {
-    props.sendSelectedWatch(selectedWatch)
+    props.sendSelectedWatch(selected)
   })
 
   return (
@@ -38,11 +41,11 @@ const App : FC <Props> = (props) => {
         <View style={{flexDirection: 'row'}}>
             <SearchableDropdown
             onTextChange={(text) => console.log(text)}
-            onItemSelect={(item) => setSelectedWatch(item.name)}
+            onItemSelect={(item) => setSelected(item.name)}
             containerStyle={{padding: 0}}
             textInputStyle={{
                 // Inserted text style
-                padding: 5,
+                padding: 2,
                 paddingLeft: 10,
                 borderWidth: 1,
                 borderColor: '#ccc',
@@ -51,7 +54,9 @@ const App : FC <Props> = (props) => {
                 borderRadius: 20,
             }}
             itemStyle={{
-                padding: 8,
+                padding: 2,
+                paddingLeft: 10,
+                borderRadius: 20,
                 marginTop: 2,
                 marginRight: 10,
                 // width: 10,
@@ -67,12 +72,12 @@ const App : FC <Props> = (props) => {
             }}
             items={items}
             defaultIndex={2}
-            placeholder="Select Watch"
+            placeholder={props.placeHolder}
             resPtValue={false}
             underlineColorAndroid="transparent"
             />
-            <Text style={{fontSize: 25}}> : </Text>
-            <Text style={{fontSize: 25, paddingTop: 1}}>{selectedWatch ? <Text>{selectedWatch}</Text> : <Text>Select Watch</Text>}</Text>
+            <Text style={{fontSize: 20}}> : </Text>
+            <Text style={{fontSize: 20, paddingTop: 1}}>{selected ? <Text>{selected}</Text> : <Text>{props.title}</Text>}</Text>
         </View>
       </View>
     </View>

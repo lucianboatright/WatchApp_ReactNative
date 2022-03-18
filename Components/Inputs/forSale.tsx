@@ -18,7 +18,7 @@ const App : FC <Props> = (props) => {
   return (
     <View style={styles.container}>
         <View>
-            <Text style={{fontSize: 25}}>For Sale?</Text>
+            <Text style={{fontSize: 20}}>For Sale?</Text>
         </View>
         <View>
             <Switch
@@ -27,7 +27,7 @@ const App : FC <Props> = (props) => {
                 ios_backgroundColor="#3e3e3e"
                 onValueChange={toggleSwitch}
                 value={isEnabled}
-                style={{marginHorizontal: 10}}
+                style={{marginHorizontal: 4}}
             />
         </View>
         {/* <View>
@@ -35,9 +35,9 @@ const App : FC <Props> = (props) => {
         </View> */}
         <View>
             {isEnabled ? 
-                <View style={{flexDirection: 'row'}}><Text style={{fontSize: 25}}> :  </Text><TextInput style={styles.forSale} placeholder=" Insert Value in £"  onChangeText={setCost}/></View> 
+                <View style={{flexDirection: 'row'}}><Text style={{fontSize: 20}}> :  </Text><TextInput style={styles.forSale} placeholder=" Insert Value in £"  onChangeText={setCost}/></View> 
                 : 
-                <View style={{flexDirection: 'row'}}><Text style={{fontSize: 25}}> : </Text><Text style={{fontSize: 25, paddingTop: 2}}> Not For sale</Text></View>
+                <View style={{flexDirection: 'row'}}><Text style={{fontSize: 20}}> : </Text><Text style={{fontSize: 20, paddingTop: 2}}> Not For sale</Text></View>
             }
         </View>
     </View>

@@ -33,16 +33,31 @@ const App : FC = (props) => {
 
     return (
         <View style={styles.container}>
-            <View style={styles.header}>
+            {/* <View style={styles.header}>
                 <Text>Hello From HOME</Text>
-                {/* <Text>User Details:</Text>
-                <Button title="SignOut" onPress={signOutUser} /> */}
-            </View>
+            </View> */}
 
             <View style={styles.approvedPosts}>
                 <FlatList
                     data={approvedPost}
-                    renderItem={({item}) => <Rendering post={item.data().post} name={item.data().userName} timeStamp={item.data().timeStamp} approved={item.data().approved} onApprove={() => onApproval(item.data().id)} onReject={() => onRegect(item.data().id)} />} 
+                    renderItem={
+                            ({item}) => <Rendering
+                                message={item.data().message}
+                                name={item.data().userName}
+                                iamge_1={item.data().iamge_1}
+                                iamge_2={item.data().iamge_2}
+                                iamge_3={item.data().iamge_3}
+                                iamge_4={item.data().iamge_4}
+                                brand={item.data().brand}
+                                caseSize={item.data().caseSize}
+                                caseMaterial={item.data().caseMaterial}
+                                lugsWidth={item.data().lugsWidth}
+                                mechanism={item.data().mechanism}
+                                cost={item.data().cost}
+                                timeStamp={item.data().timeStamp}
+                                approved={item.data().approved} onApprove={() => onApproval(item.data().id)}
+                                onReject={() => onRegect(item.data().id)} />
+                            } 
                 />
             </View>
         </View>
@@ -54,12 +69,12 @@ export default App;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: 50,
-        justifyContent: 'center',
-        alignItems: 'center'
+        marginTop: 10,
+        // justifyContent: 'center',
+        // alignItems: 'center'
     },
     header: {
-        flex: 0.5
+        flex: 0.1
     },
     approvedPosts: {
         flex: 2

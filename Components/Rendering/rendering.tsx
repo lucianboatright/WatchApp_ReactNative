@@ -1,12 +1,22 @@
-import React, { FC } from "react";
-import { View, Text, StyleSheet, Dimensions } from "react-native";
+import React, { FC, useEffect } from "react";
+import { View, Text, StyleSheet, Dimensions, Image } from "react-native";
 import { Button } from "../Inputs";
 
 const { width, height } = Dimensions.get('screen')
 
 interface Props {
     name: string;
-    post: string;
+    message: string;
+    iamge_1: string;
+    iamge_2: string;
+    iamge_3: string;
+    iamge_4: string;
+    brand: string;
+    caseSize: string;
+    caseMaterial: string;
+    lugsWidth: string;
+    mechanism: string;
+    cost: string;
     userDetails: object;
     approved: string;
     timeStamp: number;
@@ -23,13 +33,51 @@ const formatTime = (timeStamp: number) : any => {
 }
 
 const App : FC <Props> = (props) => {
+
+    // useEffect(() => {
+    //     Image.getSize('uri', (width, height) => {
+    //         console.log({ width, height });
+    //       });
+    
+    // })
+
+    const Image_1 = props.iamge_1
     return (
         <View style={styles.container}>
-            <Text style={{marginBottom: 10, fontWeight: 'bold'}}>User: {props.name}</Text>
-            <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                {/* <Text>Test</Text> */}
-                <Text>{props.post}</Text>
-                <Text>{formatTime(props.timeStamp)}</Text>
+            <Text style={styles.userHeader}>User: {props.name}</Text>
+            <View style={{flexDirection: 'row'}}>
+                <View style={styles.infoBoxContainer} >
+                    {/* <Text>Test</Text> */}
+                    <View style={styles.message}>
+                        <Text style={styles.infoHeader}>Massage: </Text>
+                        <Text>{props.message}</Text>
+                    </View>
+                    <View style={styles.infoBox}>
+                        <View style={styles.infoLine}>
+                            <Text style={styles.infoHeader}>Brand: </Text><Text>{props.brand}</Text>
+                        </View>
+                        <View style={styles.infoLine}>
+                        <Text style={styles.infoHeader}>Case Size: </Text><Text>{props.caseSize}</Text>
+                        </View>
+                        <View style={styles.infoLine}>
+                            <Text style={styles.infoHeader}>Material: </Text><Text>{props.caseMaterial}</Text>
+                        </View>
+                        <View style={styles.infoLine}>
+                            <Text style={styles.infoHeader}>Lug Width:</Text><Text>{props.lugsWidth}</Text>
+                        </View>
+                        <View style={styles.infoLine}>
+                            <Text style={styles.infoHeader}>Mechanism: </Text><Text>{props.mechanism}</Text>
+                        </View>
+                        <View style={styles.infoLine}>
+                            <Text style={styles.infoHeader}>Cost: </Text><Text>{props.cost}</Text>
+                        </View>
+                    </View>
+     
+                    {/* <Text>{formatTime(props.timeStamp)}</Text> */}
+                </View>
+                <View style={styles.imageContainer}>
+                    <Image style={styles.imageBox} source={{uri: props.iamge_1}} />
+                </View>
             </View>
             {/* <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
                 <Button title="Approve" onPress={() => props.onApprove} />
@@ -43,11 +91,11 @@ export default App
 
 const styles = StyleSheet.create({
     container: {
-        width: width / 1.1,
+        width: '95%',
         alignSelf: 'center',
         marginVertical: 10,
-        paddingVertical: 20,
-        paddingHorizontal: 10,
+        paddingBottom: 0,
+        // paddingHorizontal: 10,
         borderRadius: 10,
         backgroundColor: '#fff',
         shadowOffset: {
@@ -57,5 +105,66 @@ const styles = StyleSheet.create({
         shadowColor: '#ccc',
         shadowOpacity: 0.7
         
-    }
+    },
+    infoHeader: {
+        fontWeight: 'bold'
+    },
+    infoLine: {
+        flexDirection: 'row',
+        // width: 10
+    },
+    infoBoxContainer: {
+        // width: '48%',
+        paddingLeft: 0,
+        flex: .5,
+        height: 'auto',
+    },
+    infoBox: {
+        borderWidth: 1,
+        borderBottomLeftRadius: 10,
+        // borderBottomRightRadius: 10,
+        // width: '95%',
+        paddingLeft: 5,
+    },
+    userHeader: {
+        fontSize: 20,
+        // marginBottom: 5,
+        paddingLeft: 5,
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
+        fontWeight: 'bold',
+        borderWidth: 1,
+        borderColor: 'black',
+    },
+    message: {
+        borderWidth: 1,
+        padding: 4,
+        paddingLeft: 5,
+        // borderTopLeftRadius: 10,
+        // borderTopRightRadius: 10,
+        marginBottom: 0,
+        // width: '95%',
+        borderColor: 'grey'
+    },
+    imageContainer: {
+        flex: .5,
+    },
+    imageBox: {
+        flex: 1,
+        marginTop: 'auto',
+        marginBottom: 'auto',
+        // marginLeft: 2,
+        // marginTop: 5,
+        height: 280,
+        width: 185,
+        // borderRadius: 10,
+        borderBottomRightRadius: 10,
+        backgroundColor: '#fff',
+        shadowOffset: {
+            width: 3,
+            height: 3
+        },
+        shadowColor: '#ccc',
+        shadowOpacity: 0.7
+    },
 })

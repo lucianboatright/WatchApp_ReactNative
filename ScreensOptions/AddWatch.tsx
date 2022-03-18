@@ -1,6 +1,6 @@
 import React, { FC, useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Alert, Image, Platform, Dimensions, ScrollView } from 'react-native';
-import { Button, Input, MultiLineInput, ForSale } from '../Components/Inputs';
+import { View, Text, StyleSheet, Alert, Image, Platform, Dimensions, ScrollView, Button } from 'react-native';
+import { Input, MultiLineInput, ForSale } from '../Components/Inputs';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 // import { ImagePicker } from '../Components/imagePicker';
 import { Imagepicker } from '../Components/ExpoImage';
@@ -19,8 +19,6 @@ import Watch_4 from '../assets/icons/watch_4.png'
 
 const {height, width} = Dimensions.get('screen')
 
-
-
 const App : FC <Props> = (props) => {
 
     const [post, setPost] = useState<string | null>(null)
@@ -37,15 +35,25 @@ const App : FC <Props> = (props) => {
     const [selectedLug, setSelectedLug] = useState<string | null>(null)
     const [selectedMech, setSelectedMech] = useState<string | null>(null)
     const [message, setMessage] = useState<string>('')
-    const [cost, setCost] = useState<string>('')
+    const [cost, setCost] = useState<string>('Not For Sale')
 
     const submitPost = async () => {
-        if(post === null) {
+        if(message === null) {
             Alert.alert('Please enter somthing before submitting')
         } else {
             alert('Post Button')
             const data = {
-                post,
+                message,
+                iamge_1: url_1,
+                iamge_2: url_2,
+                iamge_3: url_3,
+                iamge_4: url_4,
+                brand: selectedWatch,
+                caseSize: selectedCase,
+                caseMaterial: selectedMaterial,
+                lugsWidth: selectedLug,
+                mechanism: selectedMech,
+                cost: cost,
                 userName: userDetails.name,
                 userIdNumber: userId,
                 timeStamp: Date.now(),
@@ -103,7 +111,7 @@ const App : FC <Props> = (props) => {
             <View>
                 <View>
                     <MultiLineInput sendMessage={(value: string) => setMessage(value)} />
-                    <WatchDropDown sendSelectedWatch={(selectedWatch) => setSelectedWatch(selectedWatch)}/>
+                    <WatchDropDown placeHolder='Select Watch' title='Select Watch' sendSelectedWatch={(selected) => setSelectedWatch(selected)}/>
                     <CaseDropDown sendSelectedCase={(selectedCase: any) => setSelectedCase(selectedCase)} />
                     <MaterialDropDown sendSelectedMaterial={(selectedMaterial: any) => setSelectedMaterial(selectedMaterial)} />
                     <LugDropDown sendSelectedLug={(selectedLug) => setSelectedLug(selectedLug)}/>
