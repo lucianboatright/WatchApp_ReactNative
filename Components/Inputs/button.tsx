@@ -3,8 +3,7 @@ import { Dimensions, TextInput, View, StyleSheet, Text } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 const {height, width} = Dimensions.get('screen')
-
-
+ 
 interface Props {
     title: string;
     onPress: () => void;
@@ -12,7 +11,7 @@ interface Props {
 
 const App : FC <Props> = (props) => {
     return (
-        <TouchableOpacity style={styles.container} onPress={props.onPress}>
+        <TouchableOpacity style={styles.container} onPress={() => props.onPress()}>
             <Text style={styles.text}>{props.title}</Text>
         </TouchableOpacity>
     )
@@ -26,7 +25,8 @@ const styles = StyleSheet.create ({
         minWidth: 100,
         marginLeft: 10,
         marginRight: 10,
-        // width: 100,
+        width: '95%',
+        
         alignItems: 'center',
         justifyContent: 'center',
         padding: 10,

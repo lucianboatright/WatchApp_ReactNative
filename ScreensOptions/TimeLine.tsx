@@ -42,7 +42,14 @@ const App : FC = (props) => {
             <View style={styles.approvedPosts}>
                 <FlatList
                     data={approvedPost}
-                    renderItem={({item}) => <Rendering post={item.data().post}  timeStamp={item.data().timeStamp} approved={item.data().approved} onApprove={() => onApproval(item.data().id)} onReject={() => onRegect(item.data().id)} />} 
+                    renderItem={
+                        ({item}) => <Rendering
+                            post={item.data().post}
+                            timeStamp={item.data().timeStamp}
+                            approved={item.data().approved}
+                            onApprove={() => onApproval(item.data().id)}
+                            onReject={() => onRegect(item.data().id)} />
+                    } 
                 />
             </View>
         </View>

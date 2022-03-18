@@ -3,7 +3,6 @@ import { Dimensions, TextInput, View, StyleSheet } from "react-native";
 
 const {height, width} = Dimensions.get('screen')
 
-
 interface Props {
     placeholder: string;
     onChangeText: (text: string) => void;
@@ -13,7 +12,11 @@ interface Props {
 const Input: FC <Props> = (props) => {
     return (
         <View style={styles.container}>
-            <TextInput style={styles.input} placeholder="props.placeholder" secureTextEntry={props.secureTextEntry || false} onChangeText={props.onChangeText}></TextInput>
+            <TextInput
+                style={styles.input}
+                placeholder={props.placeholder}
+                secureTextEntry={props.secureTextEntry || false} onChangeText={props.onChangeText}>
+            </TextInput>
         </View>
     )
 }
@@ -22,8 +25,8 @@ export default Input
 
 const styles = StyleSheet.create ({
     container: {
-        width: width / 1.1,
-        maxWidth: 500,
+        width: '95%',
+        // maxWidth: 500,
         alignSelf: 'center',
         backgroundColor: '#e3e3e3',
         borderRadius: 5,

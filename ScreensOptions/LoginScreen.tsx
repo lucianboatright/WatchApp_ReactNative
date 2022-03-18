@@ -27,9 +27,9 @@ const App : FC = (props) => {
                 
             }
         }
-        // const testing = () => {
-        //     Alert.alert('TEESTING BUTTON')
-        // }
+        const testing = () => {
+            console.log('EMAIL AND PWORD', email, password)
+        }
 
 
     return (
@@ -37,8 +37,8 @@ const App : FC = (props) => {
             <Text>Hello From LOGIN</Text>
             <Input placeholder='Email' onChangeText={(text) => setEmail(text)} />
             <Input placeholder='Password' secureTextEntry onChangeText={(text) => setPassword(text)} />
-            <Button title='Login' onPress={login} />
-            {/* <Button title='Login' onPress={testing} /> */}
+            <Button title='Login' onPress={() => login()} />
+            {/* <Button title='TESTONMG' onPress={testing} /> */}
             <View style={styles.loginText}>
                 <Text style={styles.loginLabel}>Dont Have an Account?</Text>
                 <TouchableOpacity style={styles.loginButton} onPress={() => props.navigation.navigate('Signup')}>
@@ -63,6 +63,7 @@ const styles = StyleSheet.create({
         marginVertical: 20
     },
     loginLabel: {
+        paddingTop: 5,
         marginHorizontal: 5
     },
     loginButton: {

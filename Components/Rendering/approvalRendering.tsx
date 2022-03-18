@@ -5,6 +5,7 @@ import { Button } from "../Inputs";
 const { width, height } = Dimensions.get('screen')
 
 interface Props {
+    name: string;
     post: string;
     approved: string;
     timeStamp: number;
