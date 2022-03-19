@@ -23,10 +23,10 @@ const AppStack : FC = () => {
                   }}
             />
             <Tab.Screen
-                name="Network"
+                name="View All"
                 component={TimeLine}
                 options={{
-                    tabBarLabel: 'Timeline',
+                    tabBarLabel: 'View All',
                     tabBarIcon: ({ color, size }) => (
                       <MaterialCommunityIcons name="table-network" color={'green'} size={size} />
                     ),

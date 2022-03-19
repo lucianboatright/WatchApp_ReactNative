@@ -15,6 +15,9 @@ const items = [
   {id: 8, name: 'Enicar'},
   {id: 9, name: 'Smiths'},
   {id: 10, name: 'J W Benson'},
+  {id: 11, name: 'Raketa'},
+  {id: 12, name: 'Swatch'},
+  {id: 13, name: 'Braun'},
 ];
 
 interface Props {

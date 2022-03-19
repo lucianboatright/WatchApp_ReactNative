@@ -5,6 +5,7 @@ import "firebase/compat/auth"
 import "firebase/compat/firestore"
 import { FlatList } from 'react-native-gesture-handler';
 import { Rendering } from '../Components/Rendering';
+import { Button } from '../Components/Inputs';
 
 
 const App : FC = (props) => {
@@ -19,10 +20,14 @@ const App : FC = (props) => {
     }
 
     const getApprovedPosts = async () => {
-        firebase.firestore().collection('posts').where('approved', '==', true).onSnapshot(querySnapShot => {
+        firebase.firestore().collection('posts').onSnapshot(querySnapShot => {
             const documents = querySnapShot.docs;
             setApprovedPosts(documents)
         })
+    }
+
+    const testing = () => {
+        console.log('OOOOOOOOOOOOOOOOOOOO')
     }
     
     useEffect(() => {
@@ -36,6 +41,7 @@ const App : FC = (props) => {
             {/* <View style={styles.header}>
                 <Text>Hello From HOME</Text>
             </View> */}
+            <Button title="TESTING" onPress={testing} />
 
             <View style={styles.approvedPosts}>
                 <FlatList
@@ -55,8 +61,8 @@ const App : FC = (props) => {
                                 mechanism={item.data().mechanism}
                                 cost={item.data().cost}
                                 timeStamp={item.data().timeStamp}
-                                approved={item.data().approved} onApprove={() => onApproval(item.data().id)}
-                                onReject={() => onRegect(item.data().id)} />
+                                postId={item.id}
+                           />
                             } 
                 />
             </View>

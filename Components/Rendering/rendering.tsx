@@ -1,6 +1,6 @@
 import React, { FC, useEffect } from "react";
-import { View, Text, StyleSheet, Dimensions, Image } from "react-native";
-import { Button } from "../Inputs";
+import { View, Text, StyleSheet, Dimensions, Image, TouchableHighlight } from "react-native";
+import { LikesButton } from "../Inputs";
 
 const { width, height } = Dimensions.get('screen')
 
@@ -20,6 +20,7 @@ interface Props {
     userDetails: object;
     approved: string;
     timeStamp: number;
+    postId: any;
     // onApprove: () => void;
     // onReject: () => void;
 }
@@ -40,11 +41,18 @@ const App : FC <Props> = (props) => {
     //       });
     
     // })
+    const sendLikes = () => {
+        console.log('clicked')
+
+    }
 
     const Image_1 = props.iamge_1
     return (
         <View style={styles.container}>
-            <Text style={styles.userHeader}>User: {props.name}</Text>
+            <View style={styles.userHeader}>
+                <Text style={styles.headerTitle}>User: {props.name}</Text>
+                <LikesButton postId={props.postId} />
+            </View>
             <View style={{flexDirection: 'row'}}>
                 <View style={styles.infoBoxContainer} >
                     {/* <Text>Test</Text> */}
@@ -127,14 +135,21 @@ const styles = StyleSheet.create({
         paddingLeft: 5,
     },
     userHeader: {
-        fontSize: 20,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        // borderTopLeftRadius: 10,
+        // borderTopRightRadius: 10,
         // marginBottom: 5,
-        paddingLeft: 5,
+
+    },
+    headerTitle: {
         borderTopLeftRadius: 10,
         borderTopRightRadius: 10,
+        paddingLeft: 5,
         fontWeight: 'bold',
         borderWidth: 1,
         borderColor: 'black',
+        fontSize: 20,
     },
     message: {
         borderWidth: 1,
@@ -167,4 +182,8 @@ const styles = StyleSheet.create({
         shadowColor: '#ccc',
         shadowOpacity: 0.7
     },
+    likeIcon: {
+        height: 30,
+        width: 30,
+    }
 })
