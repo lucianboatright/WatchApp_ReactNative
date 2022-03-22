@@ -56,7 +56,7 @@ const App : FC = (props) => {
     const testing = () => {
         // console.log('USER ID',userId)
         console.log('WATCH FILTER', watchFilter)
-        console.log('WatchDOcs', filteredPost)
+        console.log('WatchDOcs', approvedPost[0].data().comments)
     }
 
     const clearWatchFilter = () => {
@@ -69,20 +69,48 @@ const App : FC = (props) => {
         getUserDetails()
         getApprovedPosts()
         getFilteredPosts()
-    }, [])
+    }, [watchFilter])
     return (
         <View style={styles.container}>
             <WatchScrollList sendWatchFilter={(name: string) => changeFilter(name)} />
             <TouchableOpacity style={styles.button} title='Clear Selected' onPress={clearWatchFilter}>
                 <Text style={styles.text}>Clear Filter</Text>
             </TouchableOpacity>
-            {/* <Button style={styles.button} title='Clear Selected' onPress={clearWatchFilter} /> */}
+            {/* <Button style={styles.button} title='Clear Selected' onPress={testing} /> */}
             <View style={styles.approvedPosts}>
                 {watchFilter ?
                 <View>
-                        <Text>{watchFilter}</Text>
+                    {filteredPost.length === 0 ?
+                    <View>
+                        <Text style={styles.NoWatches}>Currently No watches by {watchFilter}</Text>
                         <FlatList
-        
+                        data={approvedPost}
+                        renderItem={
+                                ({item}) => <Rendering
+                                    message={item.data().message}
+                                    name={item.data().userName}
+                                    iamge_1={item.data().iamge_1}
+                                    iamge_2={item.data().iamge_2}
+                                    iamge_3={item.data().iamge_3}
+                                    iamge_4={item.data().iamge_4}
+                                    brand={item.data().brand}
+                                    caseSize={item.data().caseSize}
+                                    caseMaterial={item.data().caseMaterial}
+                                    lugsWidth={item.data().lugsWidth}
+                                    mechanism={item.data().mechanism}
+                                    cost={item.data().cost}
+                                    timeStamp={item.data().timeStamp}
+                                    postId={item.id}
+                                    likes={item.data().likes}
+                                    comments={item.data().comments}
+                                    approved={item.data().approved} onApprove={() => onApproval(item.data().id)}
+                                    onReject={() => onRegect(item.data().id)}
+                                />
+                            } 
+                        />
+                        </View>
+                    :
+                        <FlatList
                         data={filteredPost}
                         renderItem={
                                 ({item}) => <Rendering
@@ -100,6 +128,7 @@ const App : FC = (props) => {
                                 cost={item.data().cost}
                                 timeStamp={item.data().timeStamp}
                                 postId={item.id}
+                                comments={item.data().comments}
                                 likes={item.data().likes}
                                 // userDetails={undefined}
                                 approved={''}
@@ -111,6 +140,7 @@ const App : FC = (props) => {
                                 />
                                 } 
                             />
+                        }
                     </View>
                 :
                     <FlatList
@@ -132,6 +162,7 @@ const App : FC = (props) => {
                                     cost={item.data().cost}
                                     timeStamp={item.data().timeStamp}
                                     postId={item.id}
+                                    comments={item.data().comments}
                                     likes={item.data().likes}
                                     approved={item.data().approved} onApprove={() => onApproval(item.data().id)}
                                     onReject={() => onRegect(item.data().id)}
@@ -179,5 +210,14 @@ const styles = StyleSheet.create({
     text: {
         color: 'white',
         fontWeight: 'bold',
+    },
+    NoWatches: {
+        fontSize: 25,
+        fontWeight: 'bold',
+        alignContent: 'center',
+        justifyContent: 'center',
+        marginLeft: 'auto',
+        marginRight: 'auto'
+
     }
 })

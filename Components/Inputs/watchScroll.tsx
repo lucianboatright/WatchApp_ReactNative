@@ -18,18 +18,6 @@ interface Props {
 
 const { width } = Dimensions.get('window');
 
-const layoutAnimConfig = {
-  duration: 300,
-  update: {
-    type: LayoutAnimation.Types.easeInEaseOut, 
-  },
-  delete: {
-    duration: 100,
-    type: LayoutAnimation.Types.easeInEaseOut,
-    property: LayoutAnimation.Properties.opacity,
-  },
-};
-
 if (
   Platform.OS === "android" &&
   UIManager.setLayoutAnimationEnabledExperimental

@@ -1,6 +1,7 @@
 import React, { FC, useEffect } from "react";
-import { View, Text, StyleSheet, Dimensions, Image, TouchableHighlight } from "react-native";
+import { View, Text, StyleSheet, Dimensions, Image, TouchableHighlight, FlatList } from "react-native";
 import { LikesButton } from "../Inputs";
+import { CommentsBar } from ".";
 
 const { width, height } = Dimensions.get('screen')
 
@@ -22,6 +23,7 @@ interface Props {
     timeStamp: number;
     postId: any;
     likes: any;
+    comments: any;
     onApprove: () => void;
     onReject: () => void;
 }
@@ -54,7 +56,7 @@ const App : FC <Props> = (props) => {
                 <Text style={styles.headerTitle}>User: {props.name}</Text>
                 <LikesButton postId={props.postId} likes={props.likes} />
             </View>
-            <View style={{flexDirection: 'row'}}>
+            <View style={styles.postContainer}>
                 <View style={styles.infoBoxContainer} >
                     {/* <Text>Test</Text> */}
                     <View style={styles.message}>
@@ -88,10 +90,9 @@ const App : FC <Props> = (props) => {
                     <Image style={styles.imageBox} source={{uri: props.iamge_1}} />
                 </View>
             </View>
-            {/* <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
-                <Button title="Approve" onPress={() => props.onApprove} />
-                <Button title="Reject" onPress={() => props.onReject} />
-            </View> */}
+            <View style={styles.commentsBox}>
+                <CommentsBar postId={props.postId} comments={props.comments}/>
+            </View>
         </View>
     )
 }
@@ -126,6 +127,7 @@ const styles = StyleSheet.create({
         paddingLeft: 0,
         flex: .5,
         height: 'auto',
+        
     },
     infoBox: {
         borderWidth: 1,
@@ -152,6 +154,7 @@ const styles = StyleSheet.create({
         // borderTopLeftRadius: 10,
         // borderTopRightRadius: 10,
         paddingLeft: 5,
+        paddingTop: 5,
         fontWeight: 'bold',
         // borderWidth: 1,
         borderColor: 'black',
@@ -167,6 +170,7 @@ const styles = StyleSheet.create({
         marginBottom: 0,
         // width: '95%',
         borderColor: 'grey'
+        
     },
     imageContainer: {
         flex: .5,
@@ -192,5 +196,16 @@ const styles = StyleSheet.create({
     likeIcon: {
         height: 30,
         width: 30,
-    }
+    },
+    commentsBox: {
+        margin: 5,
+    },
+    postContainer: {
+        flexDirection: 'row',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.4,
+        shadowRadius: 5,  
+        elevation: 5,
+    },
 })

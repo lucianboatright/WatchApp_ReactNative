@@ -28,7 +28,7 @@ const App : FC = (props) => {
 
     const testing = () => {
         console.log(approvedPost[0].data().likes)
-        console.log(approvedPost[0].id)
+        console.log(approvedPost[0])
     }
     
     useEffect(() => {
@@ -42,7 +42,7 @@ const App : FC = (props) => {
             {/* <View style={styles.header}>
                 <Text>Hello From HOME</Text>
             </View> */}
-            <Button title="TESTING" onPress={testing} />
+            {/* <Button title="TESTING" onPress={testing} /> */}
 
             <View style={styles.approvedPosts}>
                 <FlatList
@@ -65,6 +65,7 @@ const App : FC = (props) => {
                                 postId={item.id}
                                 likes={item.data().likes}
                                 // userDetails={undefined}
+                                comments={item.data().comments}
                                 approved={''}
                                 onApprove={function (): void {
                                     throw new Error('Function not implemented.');

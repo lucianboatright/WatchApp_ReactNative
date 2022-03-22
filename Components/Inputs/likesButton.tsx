@@ -30,7 +30,7 @@ const App : FC <Props> = (props) => {
         // console.log('likes checked start', info, userLiked)
 
         const likedInfo = await firebase.firestore().collection('posts').doc(props.postId).get()
-            console.log('ONFOOOOOOOOO',likedInfo.data().likes);
+            // console.log('ONFOOOOOOOOO',likedInfo.data().likes);
             setInfo(likedInfo)
             // console.log('likes checked END', info, userLiked)
     }
@@ -53,7 +53,7 @@ const App : FC <Props> = (props) => {
 
 
     useEffect(() => {
-        console.log(props.likes)
+        // console.log(props.likes)
         if ((props.likes).includes(user)) {
             // console.log('True', props.postId);
             setUserLiked(true)

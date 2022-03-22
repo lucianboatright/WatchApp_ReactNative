@@ -17,6 +17,7 @@ const App : FC = (props) => {
     const [userName, setUserName] = useState<any>(null)
     const [approvedPost, setApprovedPosts] = useState<any>(null) 
     const [userId, setUserId] = useState<any>(null)
+    const [watchNumber, setWatchNumber] = useState<any>(null)
 
     const signOutUser = async () => {
         const auth = getAuth()
@@ -38,6 +39,8 @@ const App : FC = (props) => {
         firebase.firestore().collection('posts').where('userIdNumber', '==', userId).onSnapshot(querySnapShot => {
             const documents = querySnapShot.docs;
             setApprovedPosts(documents)
+            setWatchNumber(documents.length)
+            // console.log('DOCS LENGTH',documents.)
         })
     }
 
@@ -54,6 +57,11 @@ const App : FC = (props) => {
         console.log('USER NAME',userName)
     }
 
+    const testing = () => {
+        console.log('DOCS LENGTH',approvedPost.length)
+
+    }
+
     useEffect(() => {
         getUserDetails()
         getApprovedPosts()
@@ -62,13 +70,15 @@ const App : FC = (props) => {
     return (
         <View style={styles.container}>
             <Button title="SignOut" onPress={signOutUser} />
+            <Button title="TESTING" onPress={testing} />
             <Text>Hello From Dashboard</Text>
             <View style={styles.header}>
                 {/* <Text>User Details: {JSON.stringify(userDetails)}</Text> */}
                 <Text>UserName : {userName}</Text>
                 <Text>User Email : {userEmail}</Text>
+                <Text>You have {watchNumber} in you collection</Text>
             </View>
-            <View>
+            <View style={styles.approvedPosts}>
                 <FlatList
                     data={approvedPost}
                     renderItem={
@@ -86,10 +96,19 @@ const App : FC = (props) => {
                                 mechanism={item.data().mechanism}
                                 cost={item.data().cost}
                                 timeStamp={item.data().timeStamp}
+                                postId={item.id}
+                                likes={item.data().likes}
                                 userDetails={undefined}
-                                approved={''}                                />
-                        } 
-                    />
+                                comments={item.data().comments}
+                                approved={''}
+                                onApprove={function (): void {
+                                    throw new Error('Function not implemented.');
+                                } } onReject={function (): void {
+                                    throw new Error('Function not implemented.');
+                                } }
+                            />
+                            } 
+                />
             </View>
         </View>
     )
@@ -106,5 +125,8 @@ const styles = StyleSheet.create({
     },
     header: {
         flex: 0.5
-    }
+    },
+    approvedPosts: {
+        flex: 2
+    },
 })

@@ -57,6 +57,8 @@ const App : FC <Props> = (props) => {
                 userName: userDetails.name,
                 userIdNumber: userId,
                 timeStamp: Date.now(),
+                likes: [],
+                comments: [],
                 // approved: true
             }
             console.log('POST', data)
@@ -122,7 +124,7 @@ const App : FC <Props> = (props) => {
             </ScrollView>
             <View>
                 <View>
-                    <MultiLineInput sendMessage={(value: string) => setMessage(value)} />
+                    <MultiLineInput sendMessage={(value: string) => setMessage(value)} setHeight={{padding: 10, height: 60}} />
                     <WatchDropDown placeHolder='Select Watch' title='Select Watch' sendSelectedWatch={(selected) => setSelectedWatch(selected)}/>
                     <CaseDropDown sendSelectedCase={(selectedCase: any) => setSelectedCase(selectedCase)} />
                     <MaterialDropDown sendSelectedMaterial={(selectedMaterial: any) => setSelectedMaterial(selectedMaterial)} />
