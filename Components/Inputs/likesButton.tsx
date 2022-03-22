@@ -63,7 +63,11 @@ const App : FC <Props> = (props) => {
 
     return (
         <TouchableHighlight onPress={userLikedPost}>
-            <Image style={userLiked? styles.likeIconTrue : styles.likeIconFalse} source={require('../../assets/icons/likes.png')} />
+            {userLiked? 
+                <Image style={styles.likeIconFalse} source={require('../../assets/icons/likedWatchPink.png')} />
+            : 
+                <Image style={styles.likeIconFalse} source={require('../../assets/icons/LikedWatch.png')} />
+            }
         </TouchableHighlight>
     )
 }
@@ -72,13 +76,13 @@ export default App;
 
 const styles = StyleSheet.create ({
     likeIconFalse: {
-        backgroundColor: "red",
-        height: 30,
-        width: 30,
+        // backgroundColor: "red",
+        height: 35,
+        width: 35,
     },
     likeIconTrue: {
-        backgroundColor: "green",
-        height: 30,
-        width: 30,
+        // backgroundColor: "green",
+        height: 35,
+        width: 35,
     },
 })
