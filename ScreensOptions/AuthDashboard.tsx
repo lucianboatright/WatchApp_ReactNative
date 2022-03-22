@@ -19,12 +19,12 @@ const App : FC = () => {
     }
 
     const onApproval = (id: string) => {
-        console.log(id);
+        // console.log(id);
         alert(`item of ${id} is being Approved`)
     }
 
     const onRegect = (id: string) => {
-        console.log(id);
+        // console.log(id);
         alert(`item of ${id} is being Regected`)
     }
 

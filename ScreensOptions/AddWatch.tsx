@@ -41,7 +41,7 @@ const App : FC <Props> = (props) => {
         if(message === null) {
             Alert.alert('Please enter somthing before submitting')
         } else {
-            alert('Post Button')
+            // alert('Post Button')
             const data = {
                 message,
                 iamge_1: url_1,
@@ -57,8 +57,9 @@ const App : FC <Props> = (props) => {
                 userName: userDetails.name,
                 userIdNumber: userId,
                 timeStamp: Date.now(),
-                approved: true
+                // approved: true
             }
+            console.log('POST', data)
             try{
                 await firebase.firestore().collection('posts').add(data);
             } catch(err){
@@ -66,7 +67,18 @@ const App : FC <Props> = (props) => {
             }
         }
         setPost(null)
-        navigation.navigate('Home')
+        setCost('')
+        setMessage("")
+        setSelectedCase('')
+        setSelectedLug('')
+        setSelectedMech('')
+        setSelectedWatch('')
+        setSelectedMaterial('')
+        setUrl_1(null)
+        setUrl_2(null)
+        setUrl_3(null)
+        setUrl_4(null)
+        props.navigation.navigate('Home')
     }
 
     const getUserDetails = async () => {
@@ -78,17 +90,17 @@ const App : FC <Props> = (props) => {
 
     const testing = () => {
         // Alert.alert('TEESTING BUTTON')
-        console.log('URL_111', url_1)
-        console.log('URL_111', url_2)
-        console.log('URL_111', url_3)
-        console.log('URL_111', url_4)
-        console.log('Selected Watch', selectedWatch)
-        console.log('Selected case', selectedCase)
-        console.log('Selected material', selectedMaterial)
-        console.log('Selected lugs', selectedLug)
-        console.log('Selected Mech', selectedMech)
-        console.log('Selected Message', message)
-        console.log('Selected cost', cost)
+        // console.log('URL_111', url_1)
+        // console.log('URL_111', url_2)
+        // console.log('URL_111', url_3)
+        // console.log('URL_111', url_4)
+        // console.log('Selected Watch', selectedWatch)
+        // console.log('Selected case', selectedCase)
+        // console.log('Selected material', selectedMaterial)
+        // console.log('Selected lugs', selectedLug)
+        // console.log('Selected Mech', selectedMech)
+        // console.log('Selected Message', message)
+        // console.log('Selected cost', cost)
     }
 
     useEffect(() => {
@@ -135,8 +147,6 @@ export default App;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        // justifyContent: 'center',
-        // alignItems: 'center'
     },
     loginButton: {
         backgroundColor: '#44D0DF',

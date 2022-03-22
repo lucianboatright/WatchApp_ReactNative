@@ -24,7 +24,7 @@ interface Props {
 const App : FC <Props> = (props) => {
   // Data Source for the SearchableDropdown
 //   const [serverData, setServerData] = useState([]);
-  const [selectedMaterial, setSelectedMaterial] = useState<any>(null)
+  const [selectedMaterial, setSelectedMaterial] = useState<string>('')
 
   useEffect(() => {
     props.sendSelectedMaterial(selectedMaterial)

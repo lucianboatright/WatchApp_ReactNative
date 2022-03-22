@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Dimensions, TextInput, View, StyleSheet, Text } from "react-native";
+import { Dimensions, TextInput, View, StyleSheet, Text, Button } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 const {height, width} = Dimensions.get('screen')
@@ -11,9 +11,8 @@ interface Props {
 
 const App : FC <Props> = (props) => {
     return (
-        <TouchableOpacity style={styles.container} onPress={() => props.onPress()}>
-            <Text style={styles.text}>{props.title}</Text>
-        </TouchableOpacity>
+        <Button style={styles.container} title={props.title} onPress={() => props.onPress()} />
+
     )
 }
 

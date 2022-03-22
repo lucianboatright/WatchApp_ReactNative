@@ -1,6 +1,6 @@
 import React, { FC, useEffect } from "react";
-import { View, Text, StyleSheet, Dimensions, Image } from "react-native";
-import { Button } from "../Inputs";
+import { View, Text, StyleSheet, Dimensions, Image, TouchableHighlight } from "react-native";
+import { LikesButton } from "../Inputs";
 
 const { width, height } = Dimensions.get('screen')
 
@@ -20,8 +20,10 @@ interface Props {
     userDetails: object;
     approved: string;
     timeStamp: number;
-    // onApprove: () => void;
-    // onReject: () => void;
+    postId: any;
+    likes: any;
+    onApprove: () => void;
+    onReject: () => void;
 }
 
 const formatTime = (timeStamp: number) : any => {
@@ -40,11 +42,18 @@ const App : FC <Props> = (props) => {
     //       });
     
     // })
+    const sendLikes = () => {
+        // console.log('clicked')
+
+    }
 
     const Image_1 = props.iamge_1
     return (
         <View style={styles.container}>
-            <Text style={styles.userHeader}>User: {props.name}</Text>
+            <View style={styles.userHeader}>
+                <Text style={styles.headerTitle}>User: {props.name}</Text>
+                <LikesButton postId={props.postId} likes={props.likes} />
+            </View>
             <View style={{flexDirection: 'row'}}>
                 <View style={styles.infoBoxContainer} >
                     {/* <Text>Test</Text> */}
@@ -98,12 +107,11 @@ const styles = StyleSheet.create({
         // paddingHorizontal: 10,
         borderRadius: 10,
         backgroundColor: '#fff',
-        shadowOffset: {
-            width: 3,
-            height: 3
-        },
-        shadowColor: '#ccc',
-        shadowOpacity: 0.7
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.8,
+        shadowRadius: 2,  
+        elevation: 5
         
     },
     infoHeader: {
@@ -122,24 +130,38 @@ const styles = StyleSheet.create({
     infoBox: {
         borderWidth: 1,
         borderBottomLeftRadius: 10,
+        borderColor: 'grey',
         // borderBottomRightRadius: 10,
         // width: '95%',
         paddingLeft: 5,
     },
     userHeader: {
-        fontSize: 20,
-        // marginBottom: 5,
-        paddingLeft: 5,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
         borderTopLeftRadius: 10,
         borderTopRightRadius: 10,
+        // marginBottom: 5,
+        backgroundColor: '#fff',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.4,
+        shadowRadius: 5,  
+        elevation: 5
+    },
+    headerTitle: {
+        // borderTopLeftRadius: 10,
+        // borderTopRightRadius: 10,
+        paddingLeft: 5,
         fontWeight: 'bold',
-        borderWidth: 1,
+        // borderWidth: 1,
         borderColor: 'black',
+        fontSize: 20,
     },
     message: {
         borderWidth: 1,
         padding: 4,
         paddingLeft: 5,
+        flex: 1,
         // borderTopLeftRadius: 10,
         // borderTopRightRadius: 10,
         marginBottom: 0,
@@ -167,4 +189,8 @@ const styles = StyleSheet.create({
         shadowColor: '#ccc',
         shadowOpacity: 0.7
     },
+    likeIcon: {
+        height: 30,
+        width: 30,
+    }
 })

@@ -81,7 +81,7 @@ const App : FC <Props> = (props) => {
         resolve(xhr.response);
       };
       xhr.onerror = function (e) {
-        console.log(e)
+        // console.log(e)
         reject(new TypeError("Network request failed"));
       };
       xhr.responseType = "blob";
@@ -98,21 +98,21 @@ const App : FC <Props> = (props) => {
       setUploading(true);
       blob = await getPictureBlob(image);
       uploadBytes(storageRef, blob).then((snapshot) => {
-        console.log('UPLOAD MIGHT BE SUCCSESFULLLLLLLLL')
+        // console.log('UPLOAD MIGHT BE SUCCSESFULLLLLLLLL')
         getDownloadURL(storageRef)
         .then((url) => {
-          console.log(url)
+          // console.log(url)
           setUrl(url)
           setUploading(false);
           setUpdate(true)
           props.sendUrl(url)
         })
         .catch((error) => {
-          console.log(error)
+          // console.log(error)
         })
       }).catch((err) => {
-        console.log(Object.keys(err));
-        console.log('ERRORRRRR', err.name)
+        // console.log(Object.keys(err));
+        // console.log('ERRORRRRR', err.name)
       })
   };
 
@@ -123,7 +123,7 @@ const App : FC <Props> = (props) => {
 
   const launchEditor = (uri: string) => {
     setImage(uri);;
-    console.log(uri);
+    // console.log(uri);
   }
 
   const reset = () => {
