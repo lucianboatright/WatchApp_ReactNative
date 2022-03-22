@@ -35,11 +35,6 @@ const App : FC = (props) => {
     const changeFilter = async (name: string) => {
         console.log('NAME',name)
         setWatchFilter(name);
-    
-        // setTimeout(
-        //     () => { console.log('result',watchFilter) },
-        //     3000
-        //   )
         getFilteredPosts();
 
     }

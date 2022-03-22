@@ -73,7 +73,6 @@ const App : FC = (props) => {
             <Button title="TESTING" onPress={testing} />
             <Text>Hello From Dashboard</Text>
             <View style={styles.header}>
-                {/* <Text>User Details: {JSON.stringify(userDetails)}</Text> */}
                 <Text>UserName : {userName}</Text>
                 <Text>User Email : {userEmail}</Text>
                 <Text>You have {watchNumber} in you collection</Text>

@@ -12,8 +12,6 @@ import {
   Button,
   TouchableHighlight
 } from "react-native";
-import { Card, List } from "react-native-paper";
-
 import firebase  from "firebase/compat/app";
 import { getAuth, signOut } from 'firebase/auth'
 import "firebase/compat/auth"
@@ -71,19 +69,6 @@ const App : FC <Props> = (props) =>  {
         console.log(props.comments)
         // console.log('MEssage',message)
     }
-
-    // const item = ({message, userName}) => (
-    //     <View>
-    //         <Text style={styles.title}>{userName} </Text>
-    //         <Text>{message} </Text>
-    //   </View>
-    // )
-
-    // const renderItem = ({ item }) => (
-    //     <Card style={[styles.card, {backgroundColor: "red"}]}>
-    //         <Text style={styles.text}>{item.message}</Text>
-    //     </Card>
-    // );
 
     useEffect(() => {
         console.log('comments', comments)
