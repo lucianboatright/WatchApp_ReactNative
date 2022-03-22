@@ -5,7 +5,7 @@ import "firebase/compat/auth"
 import "firebase/compat/firestore"
 import { FlatList } from 'react-native-gesture-handler';
 import { Rendering } from '../Components/Rendering';
-import { Button } from '../Components/Inputs';
+import { Button, LikesButton } from '../Components/Inputs';
 
 
 const App : FC = (props) => {
@@ -27,7 +27,8 @@ const App : FC = (props) => {
     }
 
     const testing = () => {
-        console.log('OOOOOOOOOOOOOOOOOOOO')
+        console.log(approvedPost[0].data().likes)
+        console.log(approvedPost[0].id)
     }
     
     useEffect(() => {
@@ -62,7 +63,15 @@ const App : FC = (props) => {
                                 cost={item.data().cost}
                                 timeStamp={item.data().timeStamp}
                                 postId={item.id}
-                           />
+                                likes={item.data().likes}
+                                // userDetails={undefined}
+                                approved={''}
+                                onApprove={function (): void {
+                                    throw new Error('Function not implemented.');
+                                } } onReject={function (): void {
+                                    throw new Error('Function not implemented.');
+                                } }
+                            />
                             } 
                 />
             </View>

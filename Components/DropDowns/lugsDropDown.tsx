@@ -32,7 +32,7 @@ const App : FC <Props> = (props) => {
 
 
   const testing = () => {
-    console.log('LUG WIDTH', selectedLug)
+    // console.log('LUG WIDTH', selectedLug)
   }
 
   useEffect(() => {

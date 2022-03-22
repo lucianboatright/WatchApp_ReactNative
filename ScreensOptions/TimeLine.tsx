@@ -43,7 +43,6 @@ const App : FC = (props) => {
         getFilteredPosts();
 
     }
-    console.log('I have bbeen added', watchFilter);
     
     const getFilteredPosts = async () => {
         console.log('I am being clicked')
@@ -73,10 +72,6 @@ const App : FC = (props) => {
     }, [])
     return (
         <View style={styles.container}>
-            {/* <View style={styles.header}>
-                <Text>Hello From HOME</Text>
-            </View> */}
-            {/* <Button title='Testing' onPress={testing} /> */}
             <WatchScrollList sendWatchFilter={(name: string) => changeFilter(name)} />
             <TouchableOpacity style={styles.button} title='Clear Selected' onPress={clearWatchFilter}>
                 <Text style={styles.text}>Clear Filter</Text>
@@ -91,22 +86,28 @@ const App : FC = (props) => {
                         data={filteredPost}
                         renderItem={
                                 ({item}) => <Rendering
-                                    message={item.data().message}
-                                    name={item.data().userName}
-                                    iamge_1={item.data().iamge_1}
-                                    iamge_2={item.data().iamge_2}
-                                    iamge_3={item.data().iamge_3}
-                                    iamge_4={item.data().iamge_4}
-                                    brand={item.data().brand}
-                                    caseSize={item.data().caseSize}
-                                    caseMaterial={item.data().caseMaterial}
-                                    lugsWidth={item.data().lugsWidth}
-                                    mechanism={item.data().mechanism}
-                                    cost={item.data().cost}
-                                    timeStamp={item.data().timeStamp}
-                                    approved={item.data().approved}
-                                    onApprove={() => console.log(item.data().id)}
-                                    onReject={() => console.log(item.data().id)}
+                                message={item.data().message}
+                                name={item.data().userName}
+                                iamge_1={item.data().iamge_1}
+                                iamge_2={item.data().iamge_2}
+                                iamge_3={item.data().iamge_3}
+                                iamge_4={item.data().iamge_4}
+                                brand={item.data().brand}
+                                caseSize={item.data().caseSize}
+                                caseMaterial={item.data().caseMaterial}
+                                lugsWidth={item.data().lugsWidth}
+                                mechanism={item.data().mechanism}
+                                cost={item.data().cost}
+                                timeStamp={item.data().timeStamp}
+                                postId={item.id}
+                                likes={item.data().likes}
+                                // userDetails={undefined}
+                                approved={''}
+                                onApprove={function (): void {
+                                    throw new Error('Function not implemented.');
+                                } } onReject={function (): void {
+                                    throw new Error('Function not implemented.');
+                                } }
                                 />
                                 } 
                             />
@@ -130,6 +131,8 @@ const App : FC = (props) => {
                                     mechanism={item.data().mechanism}
                                     cost={item.data().cost}
                                     timeStamp={item.data().timeStamp}
+                                    postId={item.id}
+                                    likes={item.data().likes}
                                     approved={item.data().approved} onApprove={() => onApproval(item.data().id)}
                                     onReject={() => onRegect(item.data().id)}
                                 />

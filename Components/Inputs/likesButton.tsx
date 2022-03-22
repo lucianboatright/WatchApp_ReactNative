@@ -2,41 +2,67 @@ import React, { FC, useEffect, useState } from "react";
 import { Dimensions, TextInput, View, StyleSheet, Image } from "react-native";
 import { TouchableHighlight } from "react-native-gesture-handler";
 
-import { getAuth, signOut } from 'firebase/auth';
+import firebase  from "firebase/compat/app";
+import { getAuth, signOut } from 'firebase/auth'
+import "firebase/compat/auth"
+import "firebase/compat/firestore"
 
 
 const {height, width} = Dimensions.get('screen')
  
 interface Props {
     postId: any;
-    // onPress: () => void;
+    likes: any;
+
 }
 
 const App : FC <Props> = (props) => {
 
     const [userLiked, setUserLiked] = useState<boolean>(false)
+    const [info, setInfo] = useState<any>(null)
 
     const auth = getAuth()
+    const user = auth.currentUser?.uid
+    
+    // const likes = props.likes
 
-    // const userLikedPost = async () => {
+    const likesChecked = async () => {
+        // console.log('likes checked start', info, userLiked)
 
-    // }
-
-    const testing = () => {
-        // console.log('MESGAE 11111111',auth)
-        // console.log('MESGAUSER idE',auth.currentUser?.uid)
-        // console.log('CARD ID', props.postId )
-        console.log('CLICKED', userLiked)
-        setUserLiked(!userLiked)
+        const likedInfo = await firebase.firestore().collection('posts').doc(props.postId).get()
+            console.log('ONFOOOOOOOOO',likedInfo.data().likes);
+            setInfo(likedInfo)
+            // console.log('likes checked END', info, userLiked)
     }
 
+    const userLikedPost = async () => {
+        // if (userLiked === false) {
+            // await firebase.firestore().collection('posts').update
+        // }
+        setUserLiked((userLiked) => !userLiked)
+        await firebase.firestore().collection('posts').doc(props.postId).update({likes: userLiked ? firebase.firestore.FieldValue.arrayRemove(auth.currentUser?.uid) : firebase.firestore.FieldValue.arrayUnion(auth.currentUser?.uid)})
+    }
+
+    const testing = () => {
+        console.log('CLICKED')
+
+        // console.log(props.postId)
+        console.log(userLiked)
+
+    }
+
+
     useEffect(() => {
-        console.log('Being called')
-    })
+        console.log(props.likes)
+        if ((props.likes).includes(user)) {
+            // console.log('True', props.postId);
+            setUserLiked(true)
+        } 
+    }, [props.likes])
 
 
     return (
-        <TouchableHighlight onPress={testing}>
+        <TouchableHighlight onPress={userLikedPost}>
             <Image style={userLiked? styles.likeIconTrue : styles.likeIconFalse} source={require('../../assets/icons/likes.png')} />
         </TouchableHighlight>
     )

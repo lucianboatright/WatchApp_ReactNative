@@ -21,8 +21,9 @@ interface Props {
     approved: string;
     timeStamp: number;
     postId: any;
-    // onApprove: () => void;
-    // onReject: () => void;
+    likes: any;
+    onApprove: () => void;
+    onReject: () => void;
 }
 
 const formatTime = (timeStamp: number) : any => {
@@ -42,7 +43,7 @@ const App : FC <Props> = (props) => {
     
     // })
     const sendLikes = () => {
-        console.log('clicked')
+        // console.log('clicked')
 
     }
 
@@ -51,7 +52,7 @@ const App : FC <Props> = (props) => {
         <View style={styles.container}>
             <View style={styles.userHeader}>
                 <Text style={styles.headerTitle}>User: {props.name}</Text>
-                <LikesButton postId={props.postId} />
+                <LikesButton postId={props.postId} likes={props.likes} />
             </View>
             <View style={{flexDirection: 'row'}}>
                 <View style={styles.infoBoxContainer} >
@@ -106,12 +107,11 @@ const styles = StyleSheet.create({
         // paddingHorizontal: 10,
         borderRadius: 10,
         backgroundColor: '#fff',
-        shadowOffset: {
-            width: 3,
-            height: 3
-        },
-        shadowColor: '#ccc',
-        shadowOpacity: 0.7
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.8,
+        shadowRadius: 2,  
+        elevation: 5
         
     },
     infoHeader: {
@@ -130,6 +130,7 @@ const styles = StyleSheet.create({
     infoBox: {
         borderWidth: 1,
         borderBottomLeftRadius: 10,
+        borderColor: 'grey',
         // borderBottomRightRadius: 10,
         // width: '95%',
         paddingLeft: 5,
@@ -137,17 +138,22 @@ const styles = StyleSheet.create({
     userHeader: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        // borderTopLeftRadius: 10,
-        // borderTopRightRadius: 10,
-        // marginBottom: 5,
-
-    },
-    headerTitle: {
         borderTopLeftRadius: 10,
         borderTopRightRadius: 10,
+        // marginBottom: 5,
+        backgroundColor: '#fff',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.4,
+        shadowRadius: 5,  
+        elevation: 5
+    },
+    headerTitle: {
+        // borderTopLeftRadius: 10,
+        // borderTopRightRadius: 10,
         paddingLeft: 5,
         fontWeight: 'bold',
-        borderWidth: 1,
+        // borderWidth: 1,
         borderColor: 'black',
         fontSize: 20,
     },
@@ -155,6 +161,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         padding: 4,
         paddingLeft: 5,
+        flex: 1,
         // borderTopLeftRadius: 10,
         // borderTopRightRadius: 10,
         marginBottom: 0,
