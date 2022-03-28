@@ -7,6 +7,8 @@ import { NestedScreen } from "../../ScreensOptions";
 
 import { useNavigation } from '@react-navigation/native';
 
+import { StackNavigationProp } from '@react-navigation/stack';
+
 const { width, height } = Dimensions.get('screen')
 
 interface Props {
@@ -40,18 +42,28 @@ const formatTime = (timeStamp: number) : any => {
     else `${(((calculatedTime / 1000) / 60) / 60) / 24} d`
 }
 
-interface Props {
-    navigation: any
-  }
+// interface Props {
+//     navigation: any
+//   }
 
-const App : FC <Props> = (props) => {
+type RootStackParamsList = {
+    Home: any;
+    Timeline: any;
+    Add: any;
+    Profile: any;
+    NestedScreen: {id: string};
+}
+
+
+const App : React.FC <Props> = (props) => {
 
     const sendLikes = () => {
         // console.log('clicked')
 
     }
+    const message = props.userDetails
 
-    const navigation = useNavigation();
+    const navigation = useNavigation<StackNavigationProp<RootStackParamsList>>();
 
     const Image_1 = props.iamge_1
     return (
@@ -59,11 +71,21 @@ const App : FC <Props> = (props) => {
             <View style={styles.userHeader}>
                 <Text style={styles.headerTitle}>User: {props.name}</Text>
                 <LikesButton postId={props.postId} likes={props.likes} />
-                <TouchableOpacity 
-                    onPress={()=> navigation.navigate(NestedScreen)} 
+                <TouchableOpacity onPress={() => navigation.navigate('NestedScreen', {id: 'something please'})}>
+                    <Text>Login Here</Text>
+                </TouchableOpacity>
+                {/* <UserProfile
+                    title="Try this one"
+                    onPress={function (): void {
+                        throw new Error("Function not implemented.");
+                    } }
+                    // message={'Hello In Message'}
+                /> */}
+                {/* <TouchableOpacity 
+                    onPress={()=> props.navigation.navigate(NestedScreen)} 
                 >
                     <Text>See Users</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
             </View>
             <View style={styles.postContainer}>
                 <View style={styles.infoBoxContainer} >

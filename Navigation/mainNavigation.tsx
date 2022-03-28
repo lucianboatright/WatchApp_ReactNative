@@ -11,7 +11,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const Stack = createNativeStackNavigator();
 
-const MainNav : FC = () => {
+const MainNav :  React.FC = () => {
     const [user, setUser] = useState<any>(null)
 
     const bootstrap = async () => {

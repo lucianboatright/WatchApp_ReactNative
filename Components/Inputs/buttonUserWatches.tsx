@@ -3,22 +3,29 @@ import { Dimensions, TextInput, View, StyleSheet, Text, Button } from "react-nat
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NestedScreen } from "../../ScreensOptions";
+import { useNavigation } from '@react-navigation/native';
+
 
 const {height, width} = Dimensions.get('screen')
  
 interface Props {
     title: string;
     onPress: () => void;
-    otherUserId: any;
+    // otherUserId: any;
+    // message: string;
 }
 
-const App : FC <Props> = ({ navigation }) => {
+const App :  React.FC <Props> = ({ navigation: { navigate } }) => {
+    // const navigate = useNavigation();
     return (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Text>Home Screen</Text>
+            {/* <Text>Home Screen</Text> */}
             <Button
-            title="Go to Details"
-            onPress={() => navigation.navigate('NestedScreen')}
+                title={props.title}
+                // onPress={() => props.navigation.navigate('NestedScreen')}
+                onPress={() => props.navigation.navigate('NestedScreen')}
+                // message={props.message}
+            // otherUserId={props.otherUserId}
             />
         </View>
         // <View>

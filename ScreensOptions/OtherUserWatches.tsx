@@ -10,7 +10,7 @@ import { getAuth, signOut } from 'firebase/auth';
 import { Rendering } from '../Components/Rendering';
 
 
-const App : FC = (props) => {
+const App :  React.FC = (props) => {
 
     const [userDetails, setUserDetails] = useState<any>(null)
     const [userEmail, setUserEmail] = useState<any>(null)

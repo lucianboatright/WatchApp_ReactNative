@@ -1,14 +1,31 @@
-import React from 'react'
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+import React, { FC, useEffect } from 'react'
+import { StyleSheet, Text, View, TouchableOpacity, Button } from 'react-native'
+
+import { useNavigation } from '@react-navigation/native';
+
+import { StackNavigationProp } from '@react-navigation/stack';
 
 interface Props {
-    // message: string;
+    id: any;
 }
 
-const NestedScreen: FC <Props> = (props) => {
+const NestedScreen:  React.FC<Props> = (props) => {
+
+    const navigation = useNavigation<StackNavigationProp<RootStackParamsList>>();
+    // useEffect(() => {
+    //     console.log('Im in the nested page', props.message)
+    // })
+
     return (
         <View style={styles.screen}>
-            <Text style={styles.text}>hjklgjkh</Text>
+            <Text style={styles.text}>fdsafds</Text>
+            <Text style={styles.text}>message please{props.id}</Text>
+            {/* <Text style={styles.text}>{props.message}fdsafds</Text>
+            <Text style={{fontSize: 30}}>Messager:{props.message}</Text> */}
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+                <Text>Go Back</Text>
+            </TouchableOpacity>
+            {/* <Button title="GOBACK" onPress={navigation.goBack()} /> */}
         </View>
     )
 }
