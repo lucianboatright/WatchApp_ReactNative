@@ -1,7 +1,11 @@
 import React, { FC, useEffect } from "react";
-import { View, Text, StyleSheet, Dimensions, Image, TouchableHighlight, FlatList } from "react-native";
-import { LikesButton } from "../Inputs";
+import { View, Text, StyleSheet, Dimensions, Image, TouchableHighlight, FlatList, TouchableOpacity } from "react-native";
+import { LikesButton, UserProfile } from "../Inputs";
 import { CommentsBar } from ".";
+
+import { NestedScreen } from "../../ScreensOptions";
+
+import { useNavigation } from '@react-navigation/native';
 
 const { width, height } = Dimensions.get('screen')
 
@@ -36,18 +40,18 @@ const formatTime = (timeStamp: number) : any => {
     else `${(((calculatedTime / 1000) / 60) / 60) / 24} d`
 }
 
+interface Props {
+    navigation: any
+  }
+
 const App : FC <Props> = (props) => {
 
-    // useEffect(() => {
-    //     Image.getSize('uri', (width, height) => {
-    //         console.log({ width, height });
-    //       });
-    
-    // })
     const sendLikes = () => {
         // console.log('clicked')
 
     }
+
+    const navigation = useNavigation();
 
     const Image_1 = props.iamge_1
     return (
@@ -55,6 +59,11 @@ const App : FC <Props> = (props) => {
             <View style={styles.userHeader}>
                 <Text style={styles.headerTitle}>User: {props.name}</Text>
                 <LikesButton postId={props.postId} likes={props.likes} />
+                <TouchableOpacity 
+                    onPress={()=> navigation.navigate(NestedScreen)} 
+                >
+                    <Text>See Users</Text>
+                </TouchableOpacity>
             </View>
             <View style={styles.postContainer}>
                 <View style={styles.infoBoxContainer} >

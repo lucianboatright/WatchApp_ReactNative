@@ -1,6 +1,8 @@
 import React, { FC } from "react";
 import { Dimensions, TextInput, View, StyleSheet, Text, Button } from "react-native";
 import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { NestedScreen } from "../../ScreensOptions";
 
 const {height, width} = Dimensions.get('screen')
  
@@ -10,15 +12,24 @@ interface Props {
     otherUserId: any;
 }
 
-const App : FC <Props> = (props) => {
+const App : FC <Props> = ({ navigation }) => {
     return (
-        <Button
-            style={styles.container}
-            title={props.title}
-            onPress={() => 
-                navigator('OtherUserWatches', props.otherUserId)
-            }
-        />
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+            <Text>Home Screen</Text>
+            <Button
+            title="Go to Details"
+            onPress={() => navigation.navigate('NestedScreen')}
+            />
+        </View>
+        // <View>
+        //     <Button
+        //         style={styles.container}
+        //         title={props.title}
+        //         onPress={() => 
+        //             props.navigation.navigate('OtherUserWatches', props.otherUserId)
+        //         }
+        //     />
+        // </View>
 
     )
 }

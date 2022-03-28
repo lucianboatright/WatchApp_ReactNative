@@ -5,6 +5,11 @@ import "firebase/compat/auth"
 import "firebase/compat/firestore"
 import AppStack from "./AppStack";
 import AuthStack from "./AuthStack";
+// import { OtherUserWatches } from "../ScreensOptions";
+
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+const Stack = createNativeStackNavigator();
 
 const MainNav : FC = () => {
     const [user, setUser] = useState<any>(null)
@@ -27,5 +32,4 @@ const MainNav : FC = () => {
         </NavigationContainer>
     )
 }
-
 export default MainNav;

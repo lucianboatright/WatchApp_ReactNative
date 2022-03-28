@@ -5,6 +5,8 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Dashboard, Home, AddWatch, TimeLine } from "../ScreensOptions";
 
+import { HomeStackNavigator, TimeLineStackNavigator } from './UserProfileNav';
+
 const Tab = createBottomTabNavigator();
 
 const { Navigator, Screen } = createStackNavigator();
@@ -14,7 +16,7 @@ const AppStack : FC = () => {
         <Tab.Navigator>
             <Tab.Screen
                 name="Home"
-                component={Home}
+                component={HomeStackNavigator}
                 options={{
                     tabBarLabel: 'Home',
                     tabBarIcon: ({ color, size }) => (
@@ -24,7 +26,7 @@ const AppStack : FC = () => {
             />
             <Tab.Screen
                 name="View All"
-                component={TimeLine}
+                component={TimeLineStackNavigator}
                 options={{
                     tabBarLabel: 'View All',
                     tabBarIcon: ({ color, size }) => (

@@ -65,7 +65,7 @@ const App : FC = (props) => {
     useEffect(() => {
         getUserDetails()
         getApprovedPosts()
-    }, [])
+    }, [userId])
 
     return (
         <View style={styles.container}>
