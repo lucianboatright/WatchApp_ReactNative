@@ -1,5 +1,5 @@
 import React, { FC, useEffect } from "react";
-import { View, Text, StyleSheet, Dimensions, Image, TouchableHighlight, FlatList, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, Dimensions, Image, TouchableHighlight, FlatList, TouchableOpacity, Button } from "react-native";
 import { LikesButton, UserProfile } from "../Inputs";
 import { CommentsBar } from ".";
 
@@ -63,7 +63,7 @@ const App : React.FC <Props> = (props) => {
     }
     const message = props.userDetails
 
-    const navigation = useNavigation<StackNavigationProp<RootStackParamsList>>();
+    // const navigation = useNavigation<StackNavigationProp<RootStackParamsList>>();
 
     const Image_1 = props.iamge_1
     return (
@@ -71,15 +71,23 @@ const App : React.FC <Props> = (props) => {
             <View style={styles.userHeader}>
                 <Text style={styles.headerTitle}>User: {props.name}</Text>
                 <LikesButton postId={props.postId} likes={props.likes} />
-                <TouchableOpacity onPress={() => navigation.navigate('NestedScreen', {id: 'something please'})}>
+                <Button
+                    title="Onwards"
+                    onPress={() => 
+                        props.navigation.navigate('NestedScreen', {
+                            message: "Please show here"
+                        })
+                    }
+                />
+                {/* <TouchableOpacity onPress={() => navigation.navigate('NestedScreen', {id: 'something please'})}>
                     <Text>Login Here</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
                 {/* <UserProfile
-                    title="Try this one"
+                    title="Onwards"
                     onPress={function (): void {
                         throw new Error("Function not implemented.");
                     } }
-                    // message={'Hello In Message'}
+                    message="somthing"
                 /> */}
                 {/* <TouchableOpacity 
                     onPress={()=> props.navigation.navigate(NestedScreen)} 

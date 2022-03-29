@@ -16,6 +16,7 @@ type RootStackParamsList = {
   Profile: undefined;
 }
 
+
 const Tab = createBottomTabNavigator();
 
 const { Navigator, Screen } = createStackNavigator();

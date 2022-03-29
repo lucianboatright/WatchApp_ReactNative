@@ -6,7 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 
 interface Props {
-    id: any;
+    message: any;
 }
 
 const NestedScreen:  React.FC<Props> = (props) => {
@@ -19,9 +19,9 @@ const NestedScreen:  React.FC<Props> = (props) => {
     return (
         <View style={styles.screen}>
             <Text style={styles.text}>fdsafds</Text>
-            <Text style={styles.text}>message please{props.id}</Text>
-            {/* <Text style={styles.text}>{props.message}fdsafds</Text>
-            <Text style={{fontSize: 30}}>Messager:{props.message}</Text> */}
+            {/* <Text style={styles.text}>message please{props.id}</Text> */}
+            {/* <Text style={styles.text}>{props.message}fdsafds</Text> */}
+            <Text style={{fontSize: 30}}>Messager:{props.message}</Text>
             <TouchableOpacity onPress={() => navigation.goBack()}>
                 <Text>Go Back</Text>
             </TouchableOpacity>

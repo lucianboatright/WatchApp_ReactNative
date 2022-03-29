@@ -6,6 +6,7 @@ import { TimeLine, Home, NestedScreen } from "../ScreensOptions";
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/core';
 
+import {NavigationContainer} from '@react-navigation/native';
 
 type RootStackParamsList = {
     Home: any;
@@ -16,24 +17,24 @@ type RootStackParamsList = {
 }
 
 
-const Stack = createStackNavigator<RootStackParamsList>()
+const Stack = createStackNavigator<RootStackParamList>()
 
 
-const HomeStackNavigator:  React.FC = (props) => {
+const HomeStackNavigator:  React.FC<RootStackParamList> = () => {
 
     const msg = 'hello this is a message'
     return (
-        <Stack.Navigator>
+        <Stack.Navigator initialRouteName='Home'>
             <Stack.Screen
                 name="Home"
                 component={Home}
-                initialParams={{id: msg}}
+                // options={({ route }) => ({}))}
             />
 
             <Stack.Screen
                 name="NestedScreen"
                 component={NestedScreen}
-                initialParams={{id: msg}}
+                // initialParams={{id: msg}}
             />
         </Stack.Navigator>
     )

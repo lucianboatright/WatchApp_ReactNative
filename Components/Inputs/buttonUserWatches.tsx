@@ -11,19 +11,22 @@ const {height, width} = Dimensions.get('screen')
 interface Props {
     title: string;
     onPress: () => void;
+    message: string;
     // otherUserId: any;
     // message: string;
 }
 
-const App :  React.FC <Props> = ({ navigation: { navigate } }) => {
-    // const navigate = useNavigation();
+const App :  React.FC <Props> = ( props ) => {
+    const navigate = useNavigation();
+
+    const msg = 'somthing please'
     return (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
             {/* <Text>Home Screen</Text> */}
             <Button
                 title={props.title}
                 // onPress={() => props.navigation.navigate('NestedScreen')}
-                onPress={() => props.navigation.navigate('NestedScreen')}
+                onPress={() => navigate.navigate('NestedScreen', {message: msg})}
                 // message={props.message}
             // otherUserId={props.otherUserId}
             />
