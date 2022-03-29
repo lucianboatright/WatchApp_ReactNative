@@ -95,6 +95,7 @@ const App : FC = (props) => {
                                     mechanism={item.data().mechanism}
                                     cost={item.data().cost}
                                     timeStamp={item.data().timeStamp}
+                                    userIdNumber={item.data().userIdNumber}
                                     postId={item.id}
                                     likes={item.data().likes}
                                     comments={item.data().comments}
@@ -125,6 +126,7 @@ const App : FC = (props) => {
                                 postId={item.id}
                                 comments={item.data().comments}
                                 likes={item.data().likes}
+                                userIdNumber={item.data().userIdNumber}
                                 // userDetails={undefined}
                                 approved={''}
                                 onApprove={function (): void {

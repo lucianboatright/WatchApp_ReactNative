@@ -23,7 +23,11 @@ const HomeStackNavigator:  React.FC = (props) => {
 
     const msg = 'hello this is a message'
     return (
-        <Stack.Navigator>
+        <Stack.Navigator
+            screenOptions={{
+                headerShown: false
+            }}
+        >
             <Stack.Screen
                 name="Home"
                 component={Home}
@@ -42,7 +46,11 @@ const HomeStackNavigator:  React.FC = (props) => {
 
 const TimeLineStackNavigator: FC = () => {
     return (
-        <Stack.Navigator>
+        <Stack.Navigator
+            screenOptions={{
+                headerShown: false
+            }}
+        >
             <Stack.Screen
                 name="TimeLine"
                 component={TimeLine}

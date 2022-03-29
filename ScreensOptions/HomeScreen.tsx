@@ -27,13 +27,14 @@ const App : FC = (props) => {
     }
 
     const testing = () => {
-        console.log(approvedPost[0].data().likes)
-        console.log(approvedPost[0])
+        console.log(approvedPost[0].data().userIdNumber)
+        // console.log(approvedPost[0])
     }
     
     useEffect(() => {
         getUserDetails()
         getApprovedPosts()
+        // console.log('HERE ID', approvedPost[0].data())
     }, [])
 
 
@@ -43,7 +44,6 @@ const App : FC = (props) => {
                 <Text>Hello From HOME</Text>
             </View> */}
             {/* <Button title="TESTING" onPress={testing} /> */}
-
             <View style={styles.approvedPosts}>
                 <FlatList
                     data={approvedPost}
@@ -64,7 +64,8 @@ const App : FC = (props) => {
                                 timeStamp={item.data().timeStamp}
                                 postId={item.id}
                                 likes={item.data().likes}
-                                // userDetails={undefined}
+                                userIdNumber={item.data().userIdNumber}
+                                // userDetails={item.data().uid}
                                 comments={item.data().comments}
                                 approved={''}
                                 onApprove={function (): void {

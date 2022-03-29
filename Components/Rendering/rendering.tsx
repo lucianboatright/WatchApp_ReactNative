@@ -30,6 +30,7 @@ interface Props {
     postId: any;
     likes: any;
     comments: any;
+    userIdNumber: any;
     onApprove: () => void;
     onReject: () => void;
 }
@@ -51,7 +52,7 @@ type RootStackParamsList = {
     Timeline: any;
     Add: any;
     Profile: any;
-    NestedScreen: {id: string};
+    NestedScreen: {message: string};
 }
 
 
@@ -65,15 +66,19 @@ const App : React.FC <Props> = (props) => {
 
     const navigation = useNavigation<StackNavigationProp<RootStackParamsList>>();
 
+    useEffect(() => {
+        console.log('USER DETAILS',props.userDetails)
+    })
+
     const Image_1 = props.iamge_1
     return (
         <View style={styles.container}>
             <View style={styles.userHeader}>
                 <Text style={styles.headerTitle}>User: {props.name}</Text>
-                <LikesButton postId={props.postId} likes={props.likes} />
-                <TouchableOpacity onPress={() => navigation.navigate('NestedScreen', {id: 'something please'})}>
-                    <Text>Login Here</Text>
+                <TouchableOpacity onPress={() => navigation.navigate('NestedScreen', {message: props.userIdNumber})} >
+                    <Text>Watch Case</Text>
                 </TouchableOpacity>
+                <LikesButton postId={props.postId} likes={props.likes} />
                 {/* <UserProfile
                     title="Try this one"
                     onPress={function (): void {
