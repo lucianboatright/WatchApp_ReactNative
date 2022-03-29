@@ -25,7 +25,8 @@ const HomeStackNavigator:  React.FC = (props) => {
     return (
         <Stack.Navigator
             screenOptions={{
-                headerShown: false
+                headerShown: false,
+                headerBackTitleVisible: true
             }}
         >
             <Stack.Screen
@@ -48,7 +49,8 @@ const TimeLineStackNavigator: FC = () => {
     return (
         <Stack.Navigator
             screenOptions={{
-                headerShown: false
+                headerShown: false,
+                headerBackTitleVisible: false
             }}
         >
             <Stack.Screen

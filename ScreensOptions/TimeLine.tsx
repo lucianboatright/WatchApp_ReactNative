@@ -33,7 +33,6 @@ const App : FC = (props) => {
     }
 
     const changeFilter = async (name: string) => {
-        console.log('NAME',name)
         setWatchFilter(name);
         getFilteredPosts();
 
@@ -44,12 +43,10 @@ const App : FC = (props) => {
         firebase.firestore().collection('posts').where('brand', '==', watchFilter ).onSnapshot(querySnapShot => {
             const documents = querySnapShot.docs;
             setFilteredPosts(documents)
-            console.log('WATCH FILTER WE HOPE',watchFilter)
         })
     }
 
     const testing = () => {
-        // console.log('USER ID',userId)
         console.log('WATCH FILTER', watchFilter)
         console.log('WatchDOcs', approvedPost[0].data().comments)
     }
@@ -60,7 +57,6 @@ const App : FC = (props) => {
     }
     
     useEffect(() => {
-        console.log('INSIUDE USE EFFECT')
         getUserDetails()
         getApprovedPosts()
         getFilteredPosts()

@@ -1,7 +1,7 @@
 import React, { FC, useEffect } from "react";
 import { View, Text, StyleSheet, Dimensions, Image, TouchableHighlight, FlatList, TouchableOpacity } from "react-native";
 import { LikesButton, UserProfile } from "../Inputs";
-import { CommentsBar } from ".";
+import { CommentsBar, WatchInfoLines } from ".";
 
 import { NestedScreen } from "../../ScreensOptions";
 
@@ -52,7 +52,10 @@ type RootStackParamsList = {
     Timeline: any;
     Add: any;
     Profile: any;
-    NestedScreen: {message: string};
+    NestedScreen: {
+        id: string,
+        name: string,
+    };
 }
 
 
@@ -67,7 +70,7 @@ const App : React.FC <Props> = (props) => {
     const navigation = useNavigation<StackNavigationProp<RootStackParamsList>>();
 
     useEffect(() => {
-        console.log('USER DETAILS',props.userDetails)
+        // console.log('USER DETAILS',props.name)
     })
 
     const Image_1 = props.iamge_1
@@ -75,22 +78,10 @@ const App : React.FC <Props> = (props) => {
         <View style={styles.container}>
             <View style={styles.userHeader}>
                 <Text style={styles.headerTitle}>User: {props.name}</Text>
-                <TouchableOpacity onPress={() => navigation.navigate('NestedScreen', {message: props.userIdNumber})} >
-                    <Text>Watch Case</Text>
+                <TouchableOpacity style={styles.viewBoxButton} onPress={() => navigation.navigate('NestedScreen', {id: props.userIdNumber, name: props.name})} >
+                    <Text style={styles.viewBoxButtonText}>View {props.name} Watch Box</Text>
                 </TouchableOpacity>
                 <LikesButton postId={props.postId} likes={props.likes} />
-                {/* <UserProfile
-                    title="Try this one"
-                    onPress={function (): void {
-                        throw new Error("Function not implemented.");
-                    } }
-                    // message={'Hello In Message'}
-                /> */}
-                {/* <TouchableOpacity 
-                    onPress={()=> props.navigation.navigate(NestedScreen)} 
-                >
-                    <Text>See Users</Text>
-                </TouchableOpacity> */}
             </View>
             <View style={styles.postContainer}>
                 <View style={styles.infoBoxContainer} >
@@ -100,27 +91,13 @@ const App : React.FC <Props> = (props) => {
                         <Text>{props.message}</Text>
                     </View>
                     <View style={styles.infoBox}>
-                        <View style={styles.infoLine}>
-                            <Text style={styles.infoHeader}>Brand: </Text><Text>{props.brand}</Text>
-                        </View>
-                        <View style={styles.infoLine}>
-                        <Text style={styles.infoHeader}>Case Size: </Text><Text>{props.caseSize}</Text>
-                        </View>
-                        <View style={styles.infoLine}>
-                            <Text style={styles.infoHeader}>Material: </Text><Text>{props.caseMaterial}</Text>
-                        </View>
-                        <View style={styles.infoLine}>
-                            <Text style={styles.infoHeader}>Lug Width:</Text><Text>{props.lugsWidth}</Text>
-                        </View>
-                        <View style={styles.infoLine}>
-                            <Text style={styles.infoHeader}>Mechanism: </Text><Text>{props.mechanism}</Text>
-                        </View>
-                        <View style={styles.infoLine}>
-                            <Text style={styles.infoHeader}>Cost: </Text><Text>{props.cost}</Text>
-                        </View>
+                        <WatchInfoLines title="Brand" info={props.brand} />
+                        <WatchInfoLines title="Case Size" info={props.caseSize} />
+                        <WatchInfoLines title="Material" info={props.caseMaterial} />
+                        <WatchInfoLines title="lug Width" info={props.lugsWidth} />
+                        <WatchInfoLines title="Mechanism" info={props.mechanism} />
+                        <WatchInfoLines title="Cost" info={props.cost} />
                     </View>
-     
-                    {/* <Text>{formatTime(props.timeStamp)}</Text> */}
                 </View>
                 <View style={styles.imageContainer}>
                     <Image style={styles.imageBox} source={{uri: props.iamge_1}} />
@@ -149,21 +126,11 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.8,
         shadowRadius: 2,  
         elevation: 5
-        
-    },
-    infoHeader: {
-        fontWeight: 'bold'
-    },
-    infoLine: {
-        flexDirection: 'row',
-        // width: 10
     },
     infoBoxContainer: {
-        // width: '48%',
         paddingLeft: 0,
         flex: .5,
         height: 'auto',
-        
     },
     infoBox: {
         borderWidth: 1,
@@ -187,12 +154,9 @@ const styles = StyleSheet.create({
         elevation: 5
     },
     headerTitle: {
-        // borderTopLeftRadius: 10,
-        // borderTopRightRadius: 10,
         paddingLeft: 5,
         paddingTop: 5,
         fontWeight: 'bold',
-        // borderWidth: 1,
         borderColor: 'black',
         fontSize: 20,
     },
@@ -201,12 +165,8 @@ const styles = StyleSheet.create({
         padding: 4,
         paddingLeft: 5,
         flex: 1,
-        // borderTopLeftRadius: 10,
-        // borderTopRightRadius: 10,
         marginBottom: 0,
-        // width: '95%',
-        borderColor: 'grey'
-        
+        borderColor: 'grey' 
     },
     imageContainer: {
         flex: .5,
@@ -243,5 +203,16 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.4,
         shadowRadius: 5,  
         elevation: 5,
+    },
+    viewBoxButton: {
+        backgroundColor: '#44D0DF',
+        borderRadius: 10
+    },
+    viewBoxButtonText: {
+        paddingTop: 7,
+        paddingLeft: 10,
+        paddingRight: 10,
+        color: 'white',
+        fontWeight: 'bold'
     },
 })
