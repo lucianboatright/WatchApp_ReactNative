@@ -16,9 +16,7 @@ const App : FC = (props) => {
     const [filteredPost, setFilteredPosts] = useState<any>(null) 
     const [userDetails, setUserDetails] = useState<any>(null)
     const [userId, setUserId] = useState<any>(null)
-    const [watchFilter, setWatchFilter] = useState<boolean>(false)
-    const [watchFilterSale, setWatchFilterSale] = useState<boolean>(false)
-    const [watchFilterName, setWatchFilterName] = useState<any>(null)
+    const [watchFilter, setWatchFilter] = useState<any>(null)
     const [keyFilter, setKeyfilter] = useState<any>(null)
     const [condition, setCondition] = useState<any>(null)
 
@@ -37,42 +35,43 @@ const App : FC = (props) => {
     }
 
     const changeFilter = async (name: string) => {
-        setWatchFilterName(name);
+        setWatchFilter(name);
         setKeyfilter('brand')
         getFilteredPosts();
-        setWatchFilter(true)
 
+    }
+
+    const changeFilterForSale = async () => {
+        console.log('clicked')
+        setKeyfilter('cost')
+    }
+    
+    const changeFilterNotForSale = async () => {
+        console.log('clicked')
     }
     
     const getFilteredPosts = async () => {
-        const filtered = approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; }; }) => item.data().brand == watchFilterName)
+        // console.log('I am being clicked')
+        const filtered = approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; }; }) => item.data().brand == watchFilter)
         setFilteredPosts(filtered)
+        // firebase.firestore().collection('posts').where(`${keyFilter}`, '==', watchFilter ).onSnapshot(querySnapShot => {
+        //     const documents = querySnapShot.docs;
+        //     setFilteredPosts(documents)
+        // })
     }
 
     const getFilterForSale = async () => {
-        setWatchFilterSale(true)
-        if (watchFilter == true) {
-            const filtered = filteredPost.filter((item: { data: () => { (): any; new(): any; cost: string; }; }) => item.data().cost != 'Not for sale')
-            setFilteredPosts(filtered)
-            // setWatchFilterSale(true)
-        } else {
-            const filtered = approvedPost.filter((item: { data: () => { (): any; new(): any; cost: string; }; }) => item.data().cost != 'Not for sale')
-            setFilteredPosts(filtered)
-            // setWatchFilterSale(true)
-        }
+        console.log('I am being clicked')
+        // setWatchFilter('name');
+        const filtered = approvedPost.filter((item: { data: () => { (): any; new(): any; cost: string; }; }) => item.data().cost != 'Not for sale')
+        setFilteredPosts(filtered)
     }
 
     const getFilterNotForSale = async () => {
-        setWatchFilterSale(true)
-        if (watchFilter == true) {
-            const filtered = filteredPost.filter((item: { data: () => { (): any; new(): any; cost: string; }; }) => item.data().cost == 'Not for sale')
-            setFilteredPosts(filtered)
-            // setWatchFilterSale(true)
-        } else {
-            const filtered = approvedPost.filter((item: { data: () => { (): any; new(): any; cost: string; }; }) => item.data().cost == 'Not for sale')
-            setFilteredPosts(filtered)
-            // setWatchFilterSale(true)
-        }
+        console.log('I am being clicked')
+        // setWatchFilter('name');
+        const filtered = approvedPost.filter((item: { data: () => { (): any; new(): any; cost: string; }; }) => item.data().cost == 'Not for sale')
+        setFilteredPosts(filtered)
     }
 
     const testing = () => {
@@ -89,7 +88,7 @@ const App : FC = (props) => {
         getUserDetails()
         getApprovedPosts()
         getFilteredPosts()
-    }, [filteredPost])
+    }, [watchFilter])
     return (
         <View style={styles.container}>
             <WatchScrollList sendWatchFilter={(name: string) => changeFilter(name)} />
@@ -106,11 +105,11 @@ const App : FC = (props) => {
             </View>
             {/* <Button style={styles.button} title='Clear Selected' onPress={testing} /> */}
             <View style={styles.approvedPosts}>
-                {watchFilter || watchFilterSale ?
+                {watchFilter ?
                 <View>
                     {filteredPost.length === 0 ?
                     <View>
-                        <Text style={styles.NoWatches}>Currently No watches by {watchFilterName}</Text>
+                        <Text style={styles.NoWatches}>Currently No watches by {watchFilter}</Text>
                         <FlatList
                         data={approvedPost}
                         renderItem={
