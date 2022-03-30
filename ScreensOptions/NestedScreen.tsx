@@ -30,6 +30,8 @@ const NestedScreen:  React.FC<Props> = ({ route, navigation }) => {
     const [filter, setFilter] = useState<any>(null)
     const [filteredPost, setFilteredPosts] = useState<any>(null)
     const [filterSwitch, setFilterSwitch] = useState<boolean>(false)
+    const [forSale, setForSale] = useState<any[]>([])
+    const [notForSale, setNotForSale] = useState<any[]>([])
 
     const [watchesForSale, setWatchesForSale] = useState<number>(0)
     const [watchesNotForSale, setWatchesNotForSale] = useState<number>(0)
@@ -39,8 +41,8 @@ const NestedScreen:  React.FC<Props> = ({ route, navigation }) => {
     // const notForSale: any | never[] = []
     // const user = message
 
-    const saleItems: React.SetStateAction<number> | { data: () => { (): any; new(): any; cost: string; }; }[] = []
-    const notSaleItem: React.SetStateAction<number> | { data: () => { (): any; new(): any; cost: string; }; }[] = []
+    let saleItems = 0
+    let notSaleItem = 0
 
     const getApprovedPosts = async () => {
         firebase.firestore().collection('posts').where('userIdNumber', '==', id).onSnapshot(querySnapShot => {
@@ -54,13 +56,18 @@ const NestedScreen:  React.FC<Props> = ({ route, navigation }) => {
     const getWatchSale = async () => {
         approvedPost.forEach((item: { data: () => { (): any; new(): any; cost: string; }; }) => {
             if (item.data().cost === 'Not for sale') {
-                notSaleItem.push(item)
+                notSaleItem += 1
+                // notForSale.push(item)
+                setNotForSale([...notForSale, item])
             } else if (item.data().cost !== 'Not for sale') {
-                saleItems.push(item)
+                saleItems += 1
+                // forSale.push(item)
+                setForSale([...forSale, item])
+
             }
         })
-        // setWatchesForSale(saleItems)
-        // setWatchesNotForSale(notSaleItem)
+        setWatchesForSale(saleItems)
+        setWatchesNotForSale(notSaleItem)
 
     }
 
@@ -72,10 +79,13 @@ const NestedScreen:  React.FC<Props> = ({ route, navigation }) => {
     }
 
     const getFilteredWatchesForSale = () => {
-        approvedPost.forEach((item: { data: () => { (): any; new(): any; cost: string; }; }) => {
-            if (item.data().cost)
-        setFilteredPosts('')
-    })
+        console.log('I am being clicked')
+        firebase.firestore().collection('posts').where('cost', '!=', filter ).onSnapshot(querySnapShot => {
+            const documents = querySnapShot.docs;
+            setFilteredPosts(documents)
+        })
+        
+    }
 
     const getFilteredWatchesNotForSale = () => {
         console.log('I am being clicked')
@@ -85,23 +95,37 @@ const NestedScreen:  React.FC<Props> = ({ route, navigation }) => {
         })
     }
 
+    // const filterByCost = (approvedPost: any[]) => {
+    //     const filteredList = approvedPost.filter(
+    //         (watch: { data: () => { (): any; new(): any; cost: string; }; }) => watch.data().cost === 'Not for sale'
+    //     )
+    //     return filteredList
+    // }
+
     const setForSaleFilter = () => {
-        setFilter('Not for sale')
+        const filtered = approvedPost.filter((item: { data: () => { (): any; new(): any; cost: string; }; }) => item.data().cost != 'Not for sale')
+
+        setFilteredPosts(filtered)
+        // setFilter('Not for sale')
         setFilterSwitch(true)
-        getFilteredWatchesForSale()
+        // getFilteredWatchesForSale()
+        // console.log('FOR SALE', filtered)
     }
 
     const setNotForSaleFilter = () => {
-        setFilter('Not for sale')
+        // setFilter('Not for sale')
+        const filtered = approvedPost.filter((item: { data: () => { (): any; new(): any; cost: string; }; }) => item.data().cost == 'Not for sale')
+        setFilteredPosts(filtered)
         setFilterSwitch(true)
-        getFilteredWatchesNotForSale()
+        // getFilteredWatchesNotForSale()
+        // console.log('NOT FOR SALE', filtered)
     }
 
 
     useEffect(() => {
         getApprovedPosts()
         // getWatchSale()
-    }, [userId, watchNumber])
+    }, [userId, watchNumber, filteredPost])
 
     return (
         <View style={styles.screen}>

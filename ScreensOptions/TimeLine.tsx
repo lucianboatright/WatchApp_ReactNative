@@ -17,6 +17,7 @@ const App : FC = (props) => {
     const [userDetails, setUserDetails] = useState<any>(null)
     const [userId, setUserId] = useState<any>(null)
     const [watchFilter, setWatchFilter] = useState<any>(null)
+    const [keyFilter, setKeyfilter] = useState<any>(null)
 
     const getUserDetails = async () => {
         const uid = firebase.auth().currentUser.uid;
@@ -34,13 +35,22 @@ const App : FC = (props) => {
 
     const changeFilter = async (name: string) => {
         setWatchFilter(name);
+        setKeyfilter('brand')
         getFilteredPosts();
 
+    }
+
+    const changeFilterForSale = async () => {
+        console.log('clicked')
+    }
+    
+    const changeFilterNotForSale = async () => {
+        console.log('clicked')
     }
     
     const getFilteredPosts = async () => {
         console.log('I am being clicked')
-        firebase.firestore().collection('posts').where('brand', '==', watchFilter ).onSnapshot(querySnapShot => {
+        firebase.firestore().collection('posts').where(`${keyFilter}`, '==', watchFilter ).onSnapshot(querySnapShot => {
             const documents = querySnapShot.docs;
             setFilteredPosts(documents)
         })
@@ -67,6 +77,14 @@ const App : FC = (props) => {
             <TouchableOpacity style={styles.button} title='Clear Selected' onPress={clearWatchFilter}>
                 <Text style={styles.text}>Clear Filter</Text>
             </TouchableOpacity>
+            <View style={{flexDirection: 'row'}}>
+                <TouchableOpacity style={styles.buttonSmall} title='Clear Selected' onPress={changeFilterForSale}>
+                    <Text style={styles.text}>For Sale </Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.buttonSmall} title='Clear Selected' onPress={changeFilterNotForSale}>
+                    <Text style={styles.text}>Not for Sale</Text>
+                </TouchableOpacity>
+            </View>
             {/* <Button style={styles.button} title='Clear Selected' onPress={testing} /> */}
             <View style={styles.approvedPosts}>
                 {watchFilter ?
@@ -212,5 +230,18 @@ const styles = StyleSheet.create({
         marginLeft: 'auto',
         marginRight: 'auto'
 
-    }
+    },
+    buttonSmall: {
+        backgroundColor: "#44D0DF",
+        // minWidth: 100,
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        width: '48%',
+        
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 5,
+        borderRadius:5,
+        marginVertical: 2,
+    },
 })

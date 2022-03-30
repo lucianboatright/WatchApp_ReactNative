@@ -206,7 +206,7 @@ const styles = StyleSheet.create({
     },
     viewBoxButton: {
         backgroundColor: '#44D0DF',
-        borderRadius: 10
+        borderRadius: 5
     },
     viewBoxButtonText: {
         paddingTop: 7,
