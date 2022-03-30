@@ -24,7 +24,7 @@ const AppStack :  React.FC = () => {
     return (
         <Tab.Navigator>
             <Tab.Screen
-                name="Home"
+                name="HomeMain"
                 component={HomeStackNavigator}
                 options={{
                     tabBarLabel: 'Home',

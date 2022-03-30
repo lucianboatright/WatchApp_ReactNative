@@ -20,6 +20,9 @@ const App : FC = (props) => {
     const [keyFilter, setKeyfilter] = useState<any>(null)
     const [condition, setCondition] = useState<any>(null)
 
+    const [forSaleFilter, setForSaleFilter] = useState<boolean>(false)
+    const [notForSaleFilter, setNotForSaleFilter] = useState<boolean>(false)
+
     const getUserDetails = async () => {
         const uid = firebase.auth().currentUser.uid;
         const user = await firebase.firestore().collection('users').doc(uid).get();
@@ -61,17 +64,29 @@ const App : FC = (props) => {
     }
 
     const getFilterForSale = async () => {
-        console.log('I am being clicked')
+        // console.log('I am being clicked')
         // setWatchFilter('name');
-        const filtered = approvedPost.filter((item: { data: () => { (): any; new(): any; cost: string; }; }) => item.data().cost != 'Not for sale')
-        setFilteredPosts(filtered)
+        if (notForSaleFilter) {
+            setNotForSaleFilter(!notForSaleFilter)
+            setForSaleFilter(!forSaleFilter)
+        }
+        setForSaleFilter(!forSaleFilter)
+        console.log(forSaleFilter)
+        // const filtered = approvedPost.filter((item: { data: () => { (): any; new(): any; cost: string; }; }) => item.data().cost != 'Not for sale')
+        // setFilteredPosts(filtered)
     }
 
     const getFilterNotForSale = async () => {
-        console.log('I am being clicked')
+        // console.log('I am being clicked')
         // setWatchFilter('name');
-        const filtered = approvedPost.filter((item: { data: () => { (): any; new(): any; cost: string; }; }) => item.data().cost == 'Not for sale')
-        setFilteredPosts(filtered)
+        if (forSaleFilter) {
+            setNotForSaleFilter(!notForSaleFilter)
+            setForSaleFilter(!forSaleFilter)
+        }
+        setNotForSaleFilter(!notForSaleFilter)
+        console.log(notForSaleFilter)
+        // const filtered = approvedPost.filter((item: { data: () => { (): any; new(): any; cost: string; }; }) => item.data().cost == 'Not for sale')
+        // setFilteredPosts(filtered)
     }
 
     const testing = () => {
@@ -96,10 +111,10 @@ const App : FC = (props) => {
                 <Text style={styles.text}>Clear Filter</Text>
             </TouchableOpacity>
             <View style={{flexDirection: 'row'}}>
-                <TouchableOpacity style={styles.buttonSmall} onPress={getFilterForSale}>
+                <TouchableOpacity style={forSaleFilter === true ? styles.buttonSmallHilight : styles.buttonSmall} onPress={getFilterForSale}>
                     <Text style={styles.text}>For Sale </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.buttonSmall} onPress={getFilterNotForSale}>
+                <TouchableOpacity style={notForSaleFilter === true ? styles.buttonSmallHilight : styles.buttonSmall} onPress={getFilterNotForSale}>
                     <Text style={styles.text}>Not for Sale</Text>
                 </TouchableOpacity>
             </View>
@@ -251,6 +266,19 @@ const styles = StyleSheet.create({
     },
     buttonSmall: {
         backgroundColor: "#44D0DF",
+        // minWidth: 100,
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        width: '48%',
+        
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 5,
+        borderRadius:5,
+        marginVertical: 2,
+    },
+    buttonSmallHilight: {
+        backgroundColor: "orange",
         // minWidth: 100,
         marginLeft: 'auto',
         marginRight: 'auto',
