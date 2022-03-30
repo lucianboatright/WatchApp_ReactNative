@@ -51,7 +51,7 @@ const App : FC <Props> = (props) =>  {
         setUserId(uid)
         const user = await firebase.firestore().collection('users').doc(uid).get();
         setUserName(user.data().name)
-        console.log('USER NAME',userName)
+        // console.log('USER NAME',userName)
     }
 
 
@@ -66,12 +66,12 @@ const App : FC <Props> = (props) =>  {
         // console.log(message)
         // console.log(userId)
         // console.log(userName)
-        console.log(props.comments)
+        // console.log(props.comments)
         // console.log('MEssage',message)
     }
 
     useEffect(() => {
-        console.log('comments', comments)
+        // console.log('comments', comments)
         getUserDetails()
 
     },[userName])

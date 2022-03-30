@@ -36,11 +36,6 @@ const NestedScreen:  React.FC<Props> = ({ route, navigation }) => {
     const [watchesForSale, setWatchesForSale] = useState<number>(0)
     const [watchesNotForSale, setWatchesNotForSale] = useState<number>(0)
 
-
-    // const forSale: any | never[] = []
-    // const notForSale: any | never[] = []
-    // const user = message
-
     let saleItems = 0
     let notSaleItem = 0
 
@@ -57,11 +52,9 @@ const NestedScreen:  React.FC<Props> = ({ route, navigation }) => {
         approvedPost.forEach((item: { data: () => { (): any; new(): any; cost: string; }; }) => {
             if (item.data().cost === 'Not for sale') {
                 notSaleItem += 1
-                // notForSale.push(item)
                 setNotForSale([...notForSale, item])
             } else if (item.data().cost !== 'Not for sale') {
                 saleItems += 1
-                // forSale.push(item)
                 setForSale([...forSale, item])
 
             }
@@ -72,53 +65,21 @@ const NestedScreen:  React.FC<Props> = ({ route, navigation }) => {
     }
 
     const testing = () => {
-        // console.log('COST SEAERCH',approvedPost[0].data().cost)
         console.log('FOORR SSAALLEE', watchesForSale)
         console.log('NNOOTT FOORR SSAALLEE', watchesNotForSale)
     
     }
 
-    const getFilteredWatchesForSale = () => {
-        console.log('I am being clicked')
-        firebase.firestore().collection('posts').where('cost', '!=', filter ).onSnapshot(querySnapShot => {
-            const documents = querySnapShot.docs;
-            setFilteredPosts(documents)
-        })
-        
-    }
-
-    const getFilteredWatchesNotForSale = () => {
-        console.log('I am being clicked')
-        firebase.firestore().collection('posts').where('cost', '==', filter ).onSnapshot(querySnapShot => {
-            const documents = querySnapShot.docs;
-            setFilteredPosts(documents)
-        })
-    }
-
-    // const filterByCost = (approvedPost: any[]) => {
-    //     const filteredList = approvedPost.filter(
-    //         (watch: { data: () => { (): any; new(): any; cost: string; }; }) => watch.data().cost === 'Not for sale'
-    //     )
-    //     return filteredList
-    // }
-
     const setForSaleFilter = () => {
         const filtered = approvedPost.filter((item: { data: () => { (): any; new(): any; cost: string; }; }) => item.data().cost != 'Not for sale')
-
         setFilteredPosts(filtered)
-        // setFilter('Not for sale')
         setFilterSwitch(true)
-        // getFilteredWatchesForSale()
-        // console.log('FOR SALE', filtered)
     }
 
     const setNotForSaleFilter = () => {
-        // setFilter('Not for sale')
         const filtered = approvedPost.filter((item: { data: () => { (): any; new(): any; cost: string; }; }) => item.data().cost == 'Not for sale')
         setFilteredPosts(filtered)
         setFilterSwitch(true)
-        // getFilteredWatchesNotForSale()
-        // console.log('NOT FOR SALE', filtered)
     }
 
 
@@ -136,8 +97,6 @@ const NestedScreen:  React.FC<Props> = ({ route, navigation }) => {
                 </TouchableOpacity>
             </View>
             <Text style={styles.text}>{name} currently has {watchNumber >= 2 ? `${watchNumber} watches` : `${watchNumber} watch`}</Text>
-            {/* <FilterLines filterNumber={watchesForSale} text={'currently for sale'} title="Filter for Sale" onPress={() => setViewFilter()} />
-            <FilterLines filterNumber={watchesNotForSale} text={'currently for Not sale'} title="Filter not for Sale" onPress={testing} /> */}
             <View style={styles.saleFilter}>
                 <Text style={styles.filterText}>{watchesForSale} are for sale </Text>
                 <Button title='View For Sale' onPress={setForSaleFilter} />
@@ -221,8 +180,6 @@ const styles = StyleSheet.create({
     screen:{
         flex:1,
         display:'flex',
-        // justifyContent:'center',
-        // alignItems:'center',
         backgroundColor:'#00000025',
     },
     text:{
@@ -233,8 +190,6 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        // justifyContent: 'center',
-        // alignItems: 'center'
     },
     header: {
         flex: 0.5
@@ -265,19 +220,10 @@ const styles = StyleSheet.create({
         marginTop: 9,
         fontSize: 15,
     },
-    // buttonText: {
-    //     // alignItems: 'center',
-    //     // justifyContent: 'center',
-    //     padding: 3,
-    //     color: 'white',
-    //     paddingLeft: 5,
-    //     paddingRight: 5,
-    // },
     filterButton: {
         marginLeft: 5,
         backgroundColor: '#44D0DF',
         borderRadius: 10
-        // marginBottom: 10
     },
 
 })

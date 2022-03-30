@@ -16,8 +16,11 @@ const App : FC = (props) => {
     const [filteredPost, setFilteredPosts] = useState<any>(null) 
     const [userDetails, setUserDetails] = useState<any>(null)
     const [userId, setUserId] = useState<any>(null)
-    const [watchFilter, setWatchFilter] = useState<any>(null)
+    const [watchFilter, setWatchFilter] = useState<boolean>(false)
+    const [watchFilterSale, setWatchFilterSale] = useState<boolean>(false)
+    const [watchFilterName, setWatchFilterName] = useState<any>(null)
     const [keyFilter, setKeyfilter] = useState<any>(null)
+    const [condition, setCondition] = useState<any>(null)
 
     const getUserDetails = async () => {
         const uid = firebase.auth().currentUser.uid;
@@ -34,26 +37,42 @@ const App : FC = (props) => {
     }
 
     const changeFilter = async (name: string) => {
-        setWatchFilter(name);
+        setWatchFilterName(name);
         setKeyfilter('brand')
         getFilteredPosts();
+        setWatchFilter(true)
 
-    }
-
-    const changeFilterForSale = async () => {
-        console.log('clicked')
-    }
-    
-    const changeFilterNotForSale = async () => {
-        console.log('clicked')
     }
     
     const getFilteredPosts = async () => {
-        console.log('I am being clicked')
-        firebase.firestore().collection('posts').where(`${keyFilter}`, '==', watchFilter ).onSnapshot(querySnapShot => {
-            const documents = querySnapShot.docs;
-            setFilteredPosts(documents)
-        })
+        const filtered = approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; }; }) => item.data().brand == watchFilterName)
+        setFilteredPosts(filtered)
+    }
+
+    const getFilterForSale = async () => {
+        setWatchFilterSale(true)
+        if (watchFilter == true) {
+            const filtered = filteredPost.filter((item: { data: () => { (): any; new(): any; cost: string; }; }) => item.data().cost != 'Not for sale')
+            setFilteredPosts(filtered)
+            // setWatchFilterSale(true)
+        } else {
+            const filtered = approvedPost.filter((item: { data: () => { (): any; new(): any; cost: string; }; }) => item.data().cost != 'Not for sale')
+            setFilteredPosts(filtered)
+            // setWatchFilterSale(true)
+        }
+    }
+
+    const getFilterNotForSale = async () => {
+        setWatchFilterSale(true)
+        if (watchFilter == true) {
+            const filtered = filteredPost.filter((item: { data: () => { (): any; new(): any; cost: string; }; }) => item.data().cost == 'Not for sale')
+            setFilteredPosts(filtered)
+            // setWatchFilterSale(true)
+        } else {
+            const filtered = approvedPost.filter((item: { data: () => { (): any; new(): any; cost: string; }; }) => item.data().cost == 'Not for sale')
+            setFilteredPosts(filtered)
+            // setWatchFilterSale(true)
+        }
     }
 
     const testing = () => {
@@ -70,28 +89,28 @@ const App : FC = (props) => {
         getUserDetails()
         getApprovedPosts()
         getFilteredPosts()
-    }, [watchFilter])
+    }, [filteredPost])
     return (
         <View style={styles.container}>
             <WatchScrollList sendWatchFilter={(name: string) => changeFilter(name)} />
-            <TouchableOpacity style={styles.button} title='Clear Selected' onPress={clearWatchFilter}>
+            <TouchableOpacity style={styles.button} onPress={clearWatchFilter}>
                 <Text style={styles.text}>Clear Filter</Text>
             </TouchableOpacity>
             <View style={{flexDirection: 'row'}}>
-                <TouchableOpacity style={styles.buttonSmall} title='Clear Selected' onPress={changeFilterForSale}>
+                <TouchableOpacity style={styles.buttonSmall} onPress={getFilterForSale}>
                     <Text style={styles.text}>For Sale </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.buttonSmall} title='Clear Selected' onPress={changeFilterNotForSale}>
+                <TouchableOpacity style={styles.buttonSmall} onPress={getFilterNotForSale}>
                     <Text style={styles.text}>Not for Sale</Text>
                 </TouchableOpacity>
             </View>
             {/* <Button style={styles.button} title='Clear Selected' onPress={testing} /> */}
             <View style={styles.approvedPosts}>
-                {watchFilter ?
+                {watchFilter || watchFilterSale ?
                 <View>
                     {filteredPost.length === 0 ?
                     <View>
-                        <Text style={styles.NoWatches}>Currently No watches by {watchFilter}</Text>
+                        <Text style={styles.NoWatches}>Currently No watches by {watchFilterName}</Text>
                         <FlatList
                         data={approvedPost}
                         renderItem={

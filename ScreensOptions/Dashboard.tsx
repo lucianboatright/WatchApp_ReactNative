@@ -53,8 +53,8 @@ const App : FC = (props) => {
         // console.log('DATA', user.data())
         setUserEmail(user.data().email)
         setUserName(user.data().name)
-        console.log('USER email',userEmail)
-        console.log('USER NAME',userName)
+        // console.log('USER email',userEmail)
+        // console.log('USER NAME',userName)
     }
 
     const testing = () => {
