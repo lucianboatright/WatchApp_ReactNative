@@ -23,7 +23,7 @@ const { Navigator, Screen } = createStackNavigator();
 const AppStack :  React.FC = () => {
     return (
         <Tab.Navigator>
-            <Tab.Screen
+            {/* <Tab.Screen
                 name="HomeMain"
                 component={HomeStackNavigator}
                 options={{
@@ -32,7 +32,7 @@ const AppStack :  React.FC = () => {
                       <MaterialCommunityIcons name="home" color={color} size={size} />
                     ),
                   }}
-            />
+            /> */}
             <Tab.Screen
                 name="Timneline"
                 component={TimeLineStackNavigator}

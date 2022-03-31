@@ -90,24 +90,8 @@ const App : FC <Props> = (props) => {
         setUserId(user.id)
     }
 
-    const testing = () => {
-        // Alert.alert('TEESTING BUTTON')
-        // console.log('URL_111', url_1)
-        // console.log('URL_111', url_2)
-        // console.log('URL_111', url_3)
-        // console.log('URL_111', url_4)
-        // console.log('Selected Watch', selectedWatch)
-        // console.log('Selected case', selectedCase)
-        // console.log('Selected material', selectedMaterial)
-        // console.log('Selected lugs', selectedLug)
-        // console.log('Selected Mech', selectedMech)
-        // console.log('Selected Message', message)
-        // console.log('Selected cost', cost)
-    }
-
     useEffect(() => {
         getUserDetails()
-        // console.log('BACK IN THE COMPONENT!!!!', url_1)
     }, [])
 
     return (
@@ -124,7 +108,7 @@ const App : FC <Props> = (props) => {
             </ScrollView>
             <View>
                 <View>
-                    <MultiLineInput sendMessage={(value: string) => setMessage(value)} setHeight={{padding: 10, height: 60}} />
+                    <MultiLineInput sendMessage={(value: string) => setMessage(value)} setBorder={{borderBottomWidth: 1}} setHeight={{padding: 10, height: 60}} />
                     <WatchDropDown placeHolder='Select Watch' title='Select Watch' sendSelectedWatch={(selected) => setSelectedWatch(selected)}/>
                     <CaseDropDown sendSelectedCase={(selectedCase: any) => setSelectedCase(selectedCase)} />
                     <MaterialDropDown sendSelectedMaterial={(selectedMaterial: any) => setSelectedMaterial(selectedMaterial)} />

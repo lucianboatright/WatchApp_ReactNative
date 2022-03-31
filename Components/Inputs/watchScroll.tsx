@@ -74,10 +74,11 @@ export default App;
 
 const styles = StyleSheet.create({
   container: {
+    marginLeft: 5,
     // flex: 1,
     justifyContent: "center",
     // paddingTop: 2,
-    backgroundColor: "#ecf0f1",
+    // backgroundColor: "white",
     // padding: 1,
     // margin: 2,
   },
@@ -86,17 +87,17 @@ const styles = StyleSheet.create({
     // paddingVertical: 16,
   },
   cardContainer: {
-    height: 30,
+    // height: 28,
     width: 'auto',
     marginRight: 8,
   },
   card: {
-    height: 30,
+    height: 25,
     width: 'auto',
     paddingLeft: 10,
     paddingRight: 10,
-    borderRadius: 12,
-    padding: 5,
+    borderRadius: 5,
+    padding: 3,
   },
   text: { color: "white", fontWeight: 'bold' }
 });

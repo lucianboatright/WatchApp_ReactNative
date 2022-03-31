@@ -35,7 +35,6 @@ if (
 
 
 const App : FC <Props> = (props) =>  {
-//   const [data, setData] = React.useState(dummyData); 
     const [comments, setComments] = useState<any>(null)
     const [message, setMessage] = useState<any>(null)
 
@@ -51,7 +50,6 @@ const App : FC <Props> = (props) =>  {
         setUserId(uid)
         const user = await firebase.firestore().collection('users').doc(uid).get();
         setUserName(user.data().name)
-        // console.log('USER NAME',userName)
     }
 
 
@@ -60,18 +58,7 @@ const App : FC <Props> = (props) =>  {
         firebase.firestore().collection('posts').doc(props.postId).update({comments: firebase.firestore.FieldValue.arrayUnion({ userId, userName, message} )} )
     }
 
-    const testing = async () => {
-        // console.log(comments)
-        // console.log(auth.currentUser?.uid)
-        // console.log(message)
-        // console.log(userId)
-        // console.log(userName)
-        // console.log(props.comments)
-        // console.log('MEssage',message)
-    }
-
     useEffect(() => {
-        // console.log('comments', comments)
         getUserDetails()
 
     },[userName])
@@ -80,10 +67,10 @@ const App : FC <Props> = (props) =>  {
     <View style={styles.container}>
         {/* <Button title="testing" onPress={testing}/> */}
         <View style={styles.addComment}>
-            <TouchableOpacity onPress={uploadComment}>
+            <TouchableOpacity style={styles.submitButtonContainer} onPress={uploadComment}>
                 <Text style={styles.submitButton}>Submit Comment</Text>
             </TouchableOpacity>
-            <MultiLineInput sendMessage={(text) => setMessage(text)} setHeight={{padding: 10, height: 50}} />
+            <MultiLineInput sendMessage={(text) => setMessage(text)} setBorder={{borderBottomWidth: 0.5, borderColor: 'grey'}} setHeight={{padding: 10, height: 50}} />
         </View>
         <View>
         <View>
@@ -95,8 +82,9 @@ const App : FC <Props> = (props) =>  {
                 return (
                     <View style={styles.listItem}>
                     <Text style={styles.commentTitle}>User: {comment.item.userName}</Text>
-                    <Text style={styles.commentBody}>{comment.item.message}</Text>
-                    {/* <Text>{comment.item.userId}</Text> */}
+                    <View>
+                      <Text>Comment:</Text><Text style={styles.commentBody}>{comment.item.message}</Text>
+                    </View>
                     </View>
                 );
                 }}
@@ -112,22 +100,22 @@ export default App;
 const styles = StyleSheet.create({
   container: {
     // justifyContent: "center",
-    backgroundColor: "#ecf0f1",
+    // backgroundColor: "#ecf0f1",
     height: 'auto',
   },
   listItem: {
     backgroundColor: "white",
     // borderWidth: 1,
-    borderLeftWidth: 1,
-    borderRightWidth: 1,
-    borderColor: "#333",
+    // borderLeftWidth: 0.5,
+    borderRightWidth: 0.5,
+    // borderColor: "#333",
     padding: 5,
     width: 200,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.4,
-    shadowRadius: 5,  
-    elevation: 5
+    // shadowColor: '#000',
+    // shadowOffset: { width: 0, height: 1 },
+    // shadowOpacity: 0.4,
+    // shadowRadius: 5,  
+    // elevation: 5
   },
   flatList: {
     // paddingHorizontal: 16,
@@ -141,12 +129,19 @@ const styles = StyleSheet.create({
   commentBody: {
 
   },
+  submitButtonContainer: {
+      backgroundColor: "#44D0DF",
+    // borderRadius: 5,
+    borderTopLeftRadius: 5,
+    borderTopRightRadius: 5,
+    width: '40%'
+  },
   submitButton: {
     color: 'white',
-    backgroundColor: "#44D0DF",
-    borderRadius: 20,
     padding: 2,
-    width: '50%'
+    paddingLeft: 13,
+    fontWeight: 'bold',
+  
   },
   text: { color: "white", fontWeight: 'bold' }
 });

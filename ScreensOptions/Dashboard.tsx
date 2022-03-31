@@ -18,6 +18,9 @@ const App : FC = (props) => {
     const [approvedPost, setApprovedPosts] = useState<any>(null) 
     const [userId, setUserId] = useState<any>(null)
     const [watchNumber, setWatchNumber] = useState<any>(null)
+    const [forSaleCount, setForSaleCount] = useState<number>(0)
+    const [notForSaleCount, setNotForSaleCount] = useState<number>(0)
+
 
     const signOutUser = async () => {
         const auth = getAuth()
@@ -26,22 +29,22 @@ const App : FC = (props) => {
             navigation.navigate('Login')
 
         })
-        // firebase.auth().signOut().then(() => {
-        //     alert('Clicked signout')
-        //     navigation.navigate('Login')
-        // });
     }
-
-    // const { }
-
 
     const getApprovedPosts = async () => {
         firebase.firestore().collection('posts').where('userIdNumber', '==', userId).onSnapshot(querySnapShot => {
             const documents = querySnapShot.docs;
             setApprovedPosts(documents)
             setWatchNumber(documents.length)
-            // console.log('DOCS LENGTH',documents.)
         })
+        runSaleCounter()
+    }
+
+    const runSaleCounter = () => {
+        const forSale = approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost != 'Not for sale')
+        const notForSale = approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost == 'Not for sale')
+        setForSaleCount(forSale.length)
+        setNotForSaleCount(notForSale.length)
     }
 
     const getUserDetails = async () => {
@@ -49,12 +52,8 @@ const App : FC = (props) => {
         setUserId(uid)
         const user = await firebase.firestore().collection('users').doc(uid).get();
         setUserDetails({id: user.id,  ...user.data()})
-        // console.log(user)
-        // console.log('DATA', user.data())
         setUserEmail(user.data().email)
         setUserName(user.data().name)
-        // console.log('USER email',userEmail)
-        // console.log('USER NAME',userName)
     }
 
     const testing = () => {
@@ -65,7 +64,7 @@ const App : FC = (props) => {
     useEffect(() => {
         getUserDetails()
         getApprovedPosts()
-    }, [userId])
+    }, [userName])
 
     return (
         <View style={styles.container}>
@@ -76,6 +75,8 @@ const App : FC = (props) => {
                 <Text>UserName : {userName}</Text>
                 <Text>User Email : {userEmail}</Text>
                 <Text>You have {watchNumber} in you collection</Text>
+                <Text>For Sale: {forSaleCount} Not for Sale: {notForSaleCount}</Text>
+
             </View>
             <View style={styles.approvedPosts}>
                 <FlatList

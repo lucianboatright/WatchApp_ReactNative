@@ -77,9 +77,10 @@ const App : React.FC <Props> = (props) => {
     return (
         <View style={styles.container}>
             <View style={styles.userHeader}>
-                <Text style={styles.headerTitle}>User: {props.name}</Text>
+                {/* <Text style={styles.headerTitle}>User: {props.name}</Text> */}
                 <TouchableOpacity style={styles.viewBoxButton} onPress={() => navigation.navigate('NestedScreen', {id: props.userIdNumber, name: props.name})} >
-                    <Text style={styles.viewBoxButtonText}>View {props.name} Watch Box</Text>
+                    {/* <Text style={styles.viewBoxButtonText}>View {props.name} Watch Box</Text> */}
+                    <Text style={styles.headerTitle}>User: {props.name}</Text>
                 </TouchableOpacity>
                 <LikesButton postId={props.postId} likes={props.likes} />
             </View>
@@ -154,8 +155,8 @@ const styles = StyleSheet.create({
         elevation: 5
     },
     headerTitle: {
-        paddingLeft: 5,
-        paddingTop: 5,
+        // paddingLeft: 5,
+        // paddingTop: 5,
         fontWeight: 'bold',
         borderColor: 'black',
         fontSize: 20,
@@ -206,13 +207,27 @@ const styles = StyleSheet.create({
     },
     viewBoxButton: {
         backgroundColor: '#44D0DF',
-        borderRadius: 5
+        borderTopLeftRadius: 5,
+        borderTopRightRadius: 5,
+        // borderRadius: 5,
+        // height: 20,
+        // alignItems: 'flex-end',
+        // alignContent: 'flex-end'
+        // justifyContent: 'center',
+        // margin: 5,
+        marginLeft: 5,
+        marginTop: 5,
+        paddingLeft: 5,
+        paddingRight: 5,
+        width: '49%',
     },
     viewBoxButtonText: {
-        paddingTop: 7,
-        paddingLeft: 10,
-        paddingRight: 10,
-        color: 'white',
-        fontWeight: 'bold'
+        // alignItems: 'center',
+        // paddingTop: 7,
+        // padding: 2,
+        // paddingLeft: 10,
+        // paddingRight: 10,
+        // color: 'white',
+        // fontWeight: 'bold'
     },
 })

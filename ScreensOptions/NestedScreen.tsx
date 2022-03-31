@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, Button } from 'react-native'
-import { FilterLines } from '../Components/Inputs';
+import { FilterLines, WatchScrollList } from '../Components/Inputs';
 
 import firebase  from "firebase/compat/app";
 import "firebase/compat/auth"
@@ -22,16 +22,15 @@ const NestedScreen:  React.FC<Props> = ({ route, navigation }) => {
 
 
     const [approvedPost, setApprovedPosts] = useState<any>(null)
-    const [userEmail, setUserEmail] = useState<any>(null)
-    const [userName, setUserName] = useState<any>(null)
-    const [userDetails, setUserDetails] = useState<any>(null)
     const [userId, setUserId] = useState<any>(null)
     const [watchNumber, setWatchNumber] = useState<any>(null)
-    const [filter, setFilter] = useState<any>(null)
     const [filteredPost, setFilteredPosts] = useState<any>(null)
-    const [filterSwitch, setFilterSwitch] = useState<boolean>(false)
-    const [forSale, setForSale] = useState<any[]>([])
-    const [notForSale, setNotForSale] = useState<any[]>([])
+    const [watchFilter, setWatchFilter] = useState<any>(null)
+
+
+    const [startFilter, setStartFilter] = useState<boolean>(false)
+    const [forSaleFilter, setForSaleFilter] = useState<boolean>(false)
+    const [notForSaleFilter, setNotForSaleFilter] = useState<boolean>(false)
 
     const [watchesForSale, setWatchesForSale] = useState<number>(0)
     const [watchesNotForSale, setWatchesNotForSale] = useState<number>(0)
@@ -52,10 +51,8 @@ const NestedScreen:  React.FC<Props> = ({ route, navigation }) => {
         approvedPost.forEach((item: { data: () => { (): any; new(): any; cost: string; }; }) => {
             if (item.data().cost === 'Not for sale') {
                 notSaleItem += 1
-                setNotForSale([...notForSale, item])
             } else if (item.data().cost !== 'Not for sale') {
                 saleItems += 1
-                setForSale([...forSale, item])
 
             }
         })
@@ -64,84 +61,161 @@ const NestedScreen:  React.FC<Props> = ({ route, navigation }) => {
 
     }
 
+
     const testing = () => {
         console.log('FOORR SSAALLEE', watchesForSale)
         console.log('NNOOTT FOORR SSAALLEE', watchesNotForSale)
     
     }
 
-    const setForSaleFilter = () => {
-        const filtered = approvedPost.filter((item: { data: () => { (): any; new(): any; cost: string; }; }) => item.data().cost != 'Not for sale')
-        setFilteredPosts(filtered)
-        setFilterSwitch(true)
+    const changeFilter = (name: string) => {
+        console.log(name)
+        setStartFilter(true)
+        setWatchFilter(name);
+        // setKeyfilter('brand')
+        getFilteredPosts();
     }
 
-    const setNotForSaleFilter = () => {
-        const filtered = approvedPost.filter((item: { data: () => { (): any; new(): any; cost: string; }; }) => item.data().cost == 'Not for sale')
-        setFilteredPosts(filtered)
-        setFilterSwitch(true)
+    const getFilteredPosts = async () => {
+        // console.log('I am being clicked')
+        if (forSaleFilter && watchFilter) {
+            const filtered = approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().brand == watchFilter && item.data().cost != 'Not for sale')
+            setFilteredPosts(filtered)
+        } else if (forSaleFilter && !watchFilter) {
+            const filtered = approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost != 'Not for sale')
+            setFilteredPosts(filtered)
+        } else if (notForSaleFilter && watchFilter) {
+            const filtered = approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().brand == watchFilter && item.data().cost == 'Not for sale')
+            setFilteredPosts(filtered)
+        } else if ( notForSaleFilter && !watchFilter) {
+            const filtered = approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost == 'Not for sale')
+            setFilteredPosts(filtered)
+        } else {
+            const filtered = approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().brand == watchFilter )
+            setFilteredPosts(filtered)
+        }
     }
 
+    // const setForSaleFilter = () => {
+    //     const filtered = approvedPost.filter((item: { data: () => { (): any; new(): any; cost: string; }; }) => item.data().cost != 'Not for sale')
+    //     setFilteredPosts(filtered)
+    //     setFilterSwitch(true)
+    // }
+
+    // const setNotForSaleFilter = () => {
+    //     const filtered = approvedPost.filter((item: { data: () => { (): any; new(): any; cost: string; }; }) => item.data().cost == 'Not for sale')
+    //     setFilteredPosts(filtered)
+    //     setFilterSwitch(true)
+    // }
+
+    const getFilterForSale = async () => {
+        setStartFilter(true)
+        if (notForSaleFilter) {
+            setNotForSaleFilter(!notForSaleFilter)
+            setForSaleFilter(!forSaleFilter)
+            
+        }
+        setForSaleFilter(!forSaleFilter)
+    }
+
+    const getFilterNotForSale = async () => {
+        setStartFilter(true)
+        if (forSaleFilter) {
+            setNotForSaleFilter(!notForSaleFilter)
+            setForSaleFilter(!forSaleFilter)
+        }
+        setNotForSaleFilter(!notForSaleFilter)
+    }
+
+    const clearWatchFilter = () => {
+        setWatchFilter(null)
+        setFilteredPosts(null)
+        setForSaleFilter(false)
+        setNotForSaleFilter(false)
+        setStartFilter(false)
+    }
 
     useEffect(() => {
         getApprovedPosts()
+        getFilteredPosts()
         // getWatchSale()
-    }, [userId, watchNumber, filteredPost])
+    }, [userId, startFilter, notForSaleFilter, forSaleFilter])
 
     return (
         <View style={styles.screen}>
-            <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                <Text style={styles.text}>{name}'s Watch Box</Text>
-                <TouchableOpacity style={styles.goBackButton} onPress={() => navigation.goBack()}>
-                    <Text style={styles.goBackText}>{"<-"} Back</Text>
+            <View style={styles.headerContainter}>
+                <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                    <Text style={styles.text}>{name}'s Watch Box</Text>
+                    <TouchableOpacity style={styles.goBackButton} onPress={() => navigation.goBack()}>
+                        <Text style={styles.goBackText}>{"<-"} Back</Text>
+                    </TouchableOpacity>
+                </View>
+                <Text style={styles.text}>They currently have {watchNumber >= 2 ? `${watchNumber} watches` : `${watchNumber} watch`}</Text>
+                <TouchableOpacity style={styles.button} onPress={clearWatchFilter}>
+                    <Text style={styles.filterButtonText}>Clear Filter</Text>
                 </TouchableOpacity>
-            </View>
-            <Text style={styles.text}>{name} currently has {watchNumber >= 2 ? `${watchNumber} watches` : `${watchNumber} watch`}</Text>
-            <View style={styles.saleFilter}>
-                <Text style={styles.filterText}>{watchesForSale} are for sale </Text>
-                <Button title='View For Sale' onPress={setForSaleFilter} />
-            </View>
-            <View style={styles.saleFilter}>
-                <Text style={styles.filterText}>{watchesNotForSale} are for not sale </Text>
-                <Button style={styles.filterButton} title='View Not For Sale' onPress={setNotForSaleFilter} />
+                <View style={styles.showInfo}>
+                    <View style={styles.saleFilter}>
+                        <Text style={styles.filterText}>{watchesForSale}  : </Text>
+                        <TouchableOpacity style={forSaleFilter === true ? styles.buttonSmallHilight : styles.buttonSmall}onPress={getFilterForSale}>
+                            <Text style={styles.filterButtonText}>View For Sale</Text>
+                        </TouchableOpacity>
+                        {/* <Button title='View For Sale' onPress={setForSaleFilter} /> */}
+                    </View>
+                    <View style={styles.saleFilter}>
+                        <Text style={styles.filterText}>{watchesNotForSale}  : </Text>
+                        <TouchableOpacity style={notForSaleFilter === true ? styles.buttonSmallHilight : styles.buttonSmall} onPress={getFilterNotForSale}>
+                            <Text style={styles.filterButtonText}>View Not For Sale</Text>
+                        </TouchableOpacity>
+                        {/* <Button style={styles.filterButton} title='View Not For Sale' onPress={setNotForSaleFilter} /> */}
+                    </View>
+                </View>
+                <WatchScrollList sendWatchFilter={(name: string) => changeFilter(name)}/>
             </View>
             <View style={styles.approvedPosts}>
-                {filterSwitch ? 
-                    <FlatList
-                        data={filteredPost}
-                        renderItem={
-                                ({item}) => <Rendering
-                                    message={item.data().message}
-                                    name={item.data().userName}
-                                    iamge_1={item.data().iamge_1}
-                                    iamge_2={item.data().iamge_2}
-                                    iamge_3={item.data().iamge_3}
-                                    iamge_4={item.data().iamge_4}
-                                    brand={item.data().brand}
-                                    caseSize={item.data().caseSize}
-                                    caseMaterial={item.data().caseMaterial}
-                                    lugsWidth={item.data().lugsWidth}
-                                    mechanism={item.data().mechanism}
-                                    cost={item.data().cost}
-                                    timeStamp={item.data().timeStamp}
-                                    postId={item.id}
-                                    likes={item.data().likes}
-                                    userDetails={undefined}
-                                    comments={item.data().comments}
-                                    approved={''}
-                                    onApprove={function (): void {
-                                        throw new Error('Function not implemented.');
-                                    } } onReject={function (): void {
-                                        throw new Error('Function not implemented.');
-                                    } }
-                                />
-                                } 
-                    />
-                :
-                    <FlatList
+                {startFilter ?
+                <View>
+                    {filteredPost.length === 0 ?
+                    <View>
+                        <Text style={styles.NoWatches}>Be the first to add a {watchFilter}</Text>
+                        <FlatList
                         data={approvedPost}
                         renderItem={
                                 ({item}) => <Rendering
+                                message={item.data().message}
+                                name={item.data().userName}
+                                iamge_1={item.data().iamge_1}
+                                iamge_2={item.data().iamge_2}
+                                iamge_3={item.data().iamge_3}
+                                iamge_4={item.data().iamge_4}
+                                brand={item.data().brand}
+                                caseSize={item.data().caseSize}
+                                caseMaterial={item.data().caseMaterial}
+                                lugsWidth={item.data().lugsWidth}
+                                mechanism={item.data().mechanism}
+                                cost={item.data().cost}
+                                timeStamp={item.data().timeStamp}
+                                postId={item.id}
+                                likes={item.data().likes}
+                                userIdNumber={item.data().userIdNumber}
+                                // userDetails={item.data().uid}
+                                comments={item.data().comments}
+                                approved={''}
+                                onApprove={function (): void {
+                                    throw new Error('Function not implemented.');
+                                } } onReject={function (): void {
+                                    throw new Error('Function not implemented.');
+                                } }
+                                />
+                            } 
+                        />
+                        </View>
+                    :
+                        <View>
+                            <FlatList
+                            data={filteredPost}
+                            renderItem={
+                                    ({item}) => <Rendering
                                     message={item.data().message}
                                     name={item.data().userName}
                                     iamge_1={item.data().iamge_1}
@@ -157,7 +231,8 @@ const NestedScreen:  React.FC<Props> = ({ route, navigation }) => {
                                     timeStamp={item.data().timeStamp}
                                     postId={item.id}
                                     likes={item.data().likes}
-                                    userDetails={undefined}
+                                    userIdNumber={item.data().userIdNumber}
+                                    // userDetails={item.data().uid}
                                     comments={item.data().comments}
                                     approved={''}
                                     onApprove={function (): void {
@@ -165,9 +240,47 @@ const NestedScreen:  React.FC<Props> = ({ route, navigation }) => {
                                     } } onReject={function (): void {
                                         throw new Error('Function not implemented.');
                                     } }
+                                    />
+                                    } 
                                 />
-                                } 
-                    />
+                            </View>
+                        }
+                    </View>
+                :
+                    <View>
+                            <FlatList
+                            data={approvedPost}
+                            renderItem={
+                                    ({item}) => <Rendering
+                                    message={item.data().message}
+                                    name={item.data().userName}
+                                    iamge_1={item.data().iamge_1}
+                                    iamge_2={item.data().iamge_2}
+                                    iamge_3={item.data().iamge_3}
+                                    iamge_4={item.data().iamge_4}
+                                    brand={item.data().brand}
+                                    caseSize={item.data().caseSize}
+                                    caseMaterial={item.data().caseMaterial}
+                                    lugsWidth={item.data().lugsWidth}
+                                    mechanism={item.data().mechanism}
+                                    cost={item.data().cost}
+                                    timeStamp={item.data().timeStamp}
+                                    postId={item.id}
+                                    likes={item.data().likes}
+                                    userIdNumber={item.data().userIdNumber}
+                                    // userDetails={item.data().uid}
+                                    comments={item.data().comments}
+                                    approved={''}
+                                    onApprove={function (): void {
+                                        throw new Error('Function not implemented.');
+                                    } } onReject={function (): void {
+                                        throw new Error('Function not implemented.');
+                                    } }
+                                    />
+                                    } 
+                                />
+                            </View>
+            
                 }
             </View>
         </View>
@@ -180,7 +293,12 @@ const styles = StyleSheet.create({
     screen:{
         flex:1,
         display:'flex',
-        backgroundColor:'#00000025',
+        backgroundColor:'white',
+    },
+    headerContainter: {
+        paddingBottom: 10,
+        borderBottomWidth: 1,
+        borderBottomColor: 'grey'
     },
     text:{
         marginLeft: 5,
@@ -199,7 +317,10 @@ const styles = StyleSheet.create({
     },
     goBackButton: {
         backgroundColor: 'red',
-        borderRadius: 10,
+        // borderRadius: 10,
+        marginRight: 5,
+        borderBottomLeftRadius: 5,
+        borderBottomRightRadius: 5,
         paddingLeft: 5,
         paddingRight: 5,
     },
@@ -217,13 +338,63 @@ const styles = StyleSheet.create({
     filterText: {
         fontWeight: 'bold',
         marginLeft: 10,
-        marginTop: 9,
+        marginTop: 4,
         fontSize: 15,
     },
     filterButton: {
         marginLeft: 5,
         backgroundColor: '#44D0DF',
-        borderRadius: 10
+        borderRadius: 5,
+        margin: 5,
+    },
+    filterButtonText: {
+        paddingLeft: 5,
+        paddingRight: 5,
+        fontWeight: 'bold',
+        color: 'white'
+    },
+    showInfo: {
+        marginBottom: 10,
+    },
+    buttonSmall: {
+        backgroundColor: "#44D0DF",
+        // minWidth: 100,
+        // marginLeft: 'auto',
+        // marginRight: 'auto',
+        width: '40%',
+        
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 2.5,
+        borderRadius:5,
+        marginVertical: 2,
+    },
+    buttonSmallHilight: {
+        backgroundColor: "orange",
+        // minWidth: 100,
+        // marginLeft: 'auto',
+        // marginRight: 'auto',
+        width: '40%',
+        
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 2.5,
+        borderRadius:5,
+        marginVertical: 2,
+    },
+    button: {
+        // backgroundColor: 'red',
+        backgroundColor: "#44D0DF",
+        // minWidth: 100,
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        width: '98%',
+        
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 2.5,
+        borderRadius:5,
+        marginVertical: 2,
     },
 
 })
