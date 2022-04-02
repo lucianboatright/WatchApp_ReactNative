@@ -15,9 +15,13 @@ I also used X-code to runt eh IOS simulation compiled by Expo.
 Building this project was fairly tough as it took a littel time to figure out which packages work with the tech stach. Typescript seems to be a fairly finiky to set up with React native as there are a few non compatibale parts like buttons being passing in as a component. 
 
 
-### Images 
-![wireframe](./assets/pictures/readme_1.png), [wireframe](./assets/pictures/readme_2.png), [wireframe](./assets/pictures/readme_3.png)
+### Images
+<img width="150" src="./assets/pictures/readme_1.png" /><img width="150" src="./assets/pictures/readme_2.png" />
+<img width="150" src="./assets/pictures/readme_3.png" /><img width="150" src="./assets/pictures/readme_4.png" />
+<img width="150" src="./assets/pictures/readme_5.png" /><img width="150" src="./assets/pictures/readme_6.png" />
+<img width="150" src="./assets/pictures/readme_7.png" /> 
+<!-- ![wireframe](./assets/pictures/readme_1.png), [wireframe](./assets/pictures/readme_2.png), [wireframe](./assets/pictures/readme_3.png)
 ![wireframe](./assets/pictures/readme_4.png), [wireframe](./assets/pictures/readme_5.png), [wireframe](./assets/pictures/readme_6.png)
-![wireframe](./assets/pictures/readme_7.png)
+![wireframe](./assets/pictures/readme_7.png) -->
 
 
