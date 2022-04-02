@@ -340,6 +340,7 @@ const styles = StyleSheet.create({
         marginLeft: 10,
         marginTop: 4,
         fontSize: 15,
+        width: 30,
     },
     filterButton: {
         marginLeft: 5,
@@ -396,5 +397,6 @@ const styles = StyleSheet.create({
         borderRadius:5,
         marginVertical: 2,
     },
+    
 
 })
