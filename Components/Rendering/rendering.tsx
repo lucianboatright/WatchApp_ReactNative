@@ -1,6 +1,13 @@
 import React, { FC, useEffect } from "react";
-import { View, Text, StyleSheet, Dimensions, Image, TouchableHighlight } from "react-native";
-import { LikesButton } from "../Inputs";
+import { View, Text, StyleSheet, Dimensions, Image, TouchableHighlight, FlatList, TouchableOpacity } from "react-native";
+import { LikesButton, UserProfile } from "../Inputs";
+import { CommentsBar, WatchInfoLines } from ".";
+
+import { NestedScreen } from "../../ScreensOptions";
+
+import { useNavigation } from '@react-navigation/native';
+
+import { StackNavigationProp } from '@react-navigation/stack';
 
 const { width, height } = Dimensions.get('screen')
 
@@ -22,6 +29,8 @@ interface Props {
     timeStamp: number;
     postId: any;
     likes: any;
+    comments: any;
+    userIdNumber: any;
     onApprove: () => void;
     onReject: () => void;
 }
@@ -34,27 +43,48 @@ const formatTime = (timeStamp: number) : any => {
     else `${(((calculatedTime / 1000) / 60) / 60) / 24} d`
 }
 
-const App : FC <Props> = (props) => {
+// interface Props {
+//     navigation: any
+//   }
 
-    // useEffect(() => {
-    //     Image.getSize('uri', (width, height) => {
-    //         console.log({ width, height });
-    //       });
-    
-    // })
+type RootStackParamsList = {
+    Home: any;
+    Timeline: any;
+    Add: any;
+    Profile: any;
+    NestedScreen: {
+        id: string,
+        name: string,
+    };
+}
+
+
+const App : React.FC <Props> = (props) => {
+
     const sendLikes = () => {
         // console.log('clicked')
 
     }
+    const message = props.userDetails
+
+    const navigation = useNavigation<StackNavigationProp<RootStackParamsList>>();
+
+    useEffect(() => {
+        // console.log('USER DETAILS',props.name)
+    })
 
     const Image_1 = props.iamge_1
     return (
         <View style={styles.container}>
             <View style={styles.userHeader}>
-                <Text style={styles.headerTitle}>User: {props.name}</Text>
+                {/* <Text style={styles.headerTitle}>User: {props.name}</Text> */}
+                <TouchableOpacity style={styles.viewBoxButton} onPress={() => navigation.navigate('NestedScreen', {id: props.userIdNumber, name: props.name})} >
+                    {/* <Text style={styles.viewBoxButtonText}>View {props.name} Watch Box</Text> */}
+                    <Text style={styles.headerTitle}>User: {props.name}</Text>
+                </TouchableOpacity>
                 <LikesButton postId={props.postId} likes={props.likes} />
             </View>
-            <View style={{flexDirection: 'row'}}>
+            <View style={styles.postContainer}>
                 <View style={styles.infoBoxContainer} >
                     {/* <Text>Test</Text> */}
                     <View style={styles.message}>
@@ -62,36 +92,21 @@ const App : FC <Props> = (props) => {
                         <Text>{props.message}</Text>
                     </View>
                     <View style={styles.infoBox}>
-                        <View style={styles.infoLine}>
-                            <Text style={styles.infoHeader}>Brand: </Text><Text>{props.brand}</Text>
-                        </View>
-                        <View style={styles.infoLine}>
-                        <Text style={styles.infoHeader}>Case Size: </Text><Text>{props.caseSize}</Text>
-                        </View>
-                        <View style={styles.infoLine}>
-                            <Text style={styles.infoHeader}>Material: </Text><Text>{props.caseMaterial}</Text>
-                        </View>
-                        <View style={styles.infoLine}>
-                            <Text style={styles.infoHeader}>Lug Width:</Text><Text>{props.lugsWidth}</Text>
-                        </View>
-                        <View style={styles.infoLine}>
-                            <Text style={styles.infoHeader}>Mechanism: </Text><Text>{props.mechanism}</Text>
-                        </View>
-                        <View style={styles.infoLine}>
-                            <Text style={styles.infoHeader}>Cost: </Text><Text>{props.cost}</Text>
-                        </View>
+                        <WatchInfoLines title="Brand" info={props.brand} />
+                        <WatchInfoLines title="Case Size" info={props.caseSize} />
+                        <WatchInfoLines title="Material" info={props.caseMaterial} />
+                        <WatchInfoLines title="lug Width" info={props.lugsWidth} />
+                        <WatchInfoLines title="Mechanism" info={props.mechanism} />
+                        <WatchInfoLines title="Cost" info={props.cost} />
                     </View>
-     
-                    {/* <Text>{formatTime(props.timeStamp)}</Text> */}
                 </View>
                 <View style={styles.imageContainer}>
                     <Image style={styles.imageBox} source={{uri: props.iamge_1}} />
                 </View>
             </View>
-            {/* <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
-                <Button title="Approve" onPress={() => props.onApprove} />
-                <Button title="Reject" onPress={() => props.onReject} />
-            </View> */}
+            <View style={styles.commentsBox}>
+                <CommentsBar postId={props.postId} comments={props.comments}/>
+            </View>
         </View>
     )
 }
@@ -112,17 +127,8 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.8,
         shadowRadius: 2,  
         elevation: 5
-        
-    },
-    infoHeader: {
-        fontWeight: 'bold'
-    },
-    infoLine: {
-        flexDirection: 'row',
-        // width: 10
     },
     infoBoxContainer: {
-        // width: '48%',
         paddingLeft: 0,
         flex: .5,
         height: 'auto',
@@ -149,11 +155,9 @@ const styles = StyleSheet.create({
         elevation: 5
     },
     headerTitle: {
-        // borderTopLeftRadius: 10,
-        // borderTopRightRadius: 10,
-        paddingLeft: 5,
+        // paddingLeft: 5,
+        // paddingTop: 5,
         fontWeight: 'bold',
-        // borderWidth: 1,
         borderColor: 'black',
         fontSize: 20,
     },
@@ -162,11 +166,8 @@ const styles = StyleSheet.create({
         padding: 4,
         paddingLeft: 5,
         flex: 1,
-        // borderTopLeftRadius: 10,
-        // borderTopRightRadius: 10,
         marginBottom: 0,
-        // width: '95%',
-        borderColor: 'grey'
+        borderColor: 'grey' 
     },
     imageContainer: {
         flex: .5,
@@ -192,5 +193,41 @@ const styles = StyleSheet.create({
     likeIcon: {
         height: 30,
         width: 30,
-    }
+    },
+    commentsBox: {
+        margin: 5,
+    },
+    postContainer: {
+        flexDirection: 'row',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.4,
+        shadowRadius: 5,  
+        elevation: 5,
+    },
+    viewBoxButton: {
+        backgroundColor: '#44D0DF',
+        borderTopLeftRadius: 5,
+        borderTopRightRadius: 5,
+        // borderRadius: 5,
+        // height: 20,
+        // alignItems: 'flex-end',
+        // alignContent: 'flex-end'
+        // justifyContent: 'center',
+        // margin: 5,
+        marginLeft: 5,
+        marginTop: 5,
+        paddingLeft: 5,
+        paddingRight: 5,
+        width: '49%',
+    },
+    viewBoxButtonText: {
+        // alignItems: 'center',
+        // paddingTop: 7,
+        // padding: 2,
+        // paddingLeft: 10,
+        // paddingRight: 10,
+        // color: 'white',
+        // fontWeight: 'bold'
+    },
 })

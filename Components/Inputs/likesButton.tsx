@@ -23,39 +23,14 @@ const App : FC <Props> = (props) => {
 
     const auth = getAuth()
     const user = auth.currentUser?.uid
-    
-    // const likes = props.likes
-
-    const likesChecked = async () => {
-        // console.log('likes checked start', info, userLiked)
-
-        const likedInfo = await firebase.firestore().collection('posts').doc(props.postId).get()
-            console.log('ONFOOOOOOOOO',likedInfo.data().likes);
-            setInfo(likedInfo)
-            // console.log('likes checked END', info, userLiked)
-    }
 
     const userLikedPost = async () => {
-        // if (userLiked === false) {
-            // await firebase.firestore().collection('posts').update
-        // }
         setUserLiked((userLiked) => !userLiked)
         await firebase.firestore().collection('posts').doc(props.postId).update({likes: userLiked ? firebase.firestore.FieldValue.arrayRemove(auth.currentUser?.uid) : firebase.firestore.FieldValue.arrayUnion(auth.currentUser?.uid)})
     }
 
-    const testing = () => {
-        console.log('CLICKED')
-
-        // console.log(props.postId)
-        console.log(userLiked)
-
-    }
-
-
     useEffect(() => {
-        console.log(props.likes)
         if ((props.likes).includes(user)) {
-            // console.log('True', props.postId);
             setUserLiked(true)
         } 
     }, [props.likes])
@@ -76,12 +51,10 @@ export default App;
 
 const styles = StyleSheet.create ({
     likeIconFalse: {
-        // backgroundColor: "red",
         height: 35,
         width: 35,
     },
     likeIconTrue: {
-        // backgroundColor: "green",
         height: 35,
         width: 35,
     },

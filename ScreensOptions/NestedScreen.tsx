@@ -1,62 +1,81 @@
-import React, { FC, useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Button, TouchableOpacity } from 'react-native';
-// import { Button } from '../Components/Inputs';
+import React, { FC, useEffect, useState } from 'react'
+import { StyleSheet, Text, View, TouchableOpacity, Button } from 'react-native'
+import { FilterLines, WatchScrollList } from '../Components/Inputs';
+
 import firebase  from "firebase/compat/app";
 import "firebase/compat/auth"
 import "firebase/compat/firestore"
+
 import { FlatList } from 'react-native-gesture-handler';
+import { getAuth, signOut } from 'firebase/auth';
 import { Rendering } from '../Components/Rendering';
 
-import { WatchScrollList } from '../Components/Inputs';
+interface Props {
+    id: any;
+    name: any;
+}
+
+const NestedScreen:  React.FC<Props> = ({ route, navigation }) => {
+
+    const { id } = route.params
+    const { name } = route.params
 
 
-const App : FC = (props) => {
-
-    const [approvedPost, setApprovedPosts] = useState<any>(null) 
-    const [filteredPost, setFilteredPosts] = useState<any>(null) 
-    const [userDetails, setUserDetails] = useState<any>(null)
+    const [approvedPost, setApprovedPosts] = useState<any>(null)
     const [userId, setUserId] = useState<any>(null)
+    const [watchNumber, setWatchNumber] = useState<any>(null)
+    const [filteredPost, setFilteredPosts] = useState<any>(null)
     const [watchFilter, setWatchFilter] = useState<any>(null)
-    const [keyFilter, setKeyfilter] = useState<any>(null)
-    const [condition, setCondition] = useState<any>(null)
+
 
     const [startFilter, setStartFilter] = useState<boolean>(false)
-
     const [forSaleFilter, setForSaleFilter] = useState<boolean>(false)
     const [notForSaleFilter, setNotForSaleFilter] = useState<boolean>(false)
-    
 
-    const getUserDetails = async () => {
-        const uid = firebase.auth().currentUser.uid;
-        const user = await firebase.firestore().collection('users').doc(uid).get();
-        setUserDetails({id: user.id, ...user.data()})
-        setUserId(user.id)
-    }
+    const [watchesForSale, setWatchesForSale] = useState<number>(0)
+    const [watchesNotForSale, setWatchesNotForSale] = useState<number>(0)
+
+    let saleItems = 0
+    let notSaleItem = 0
 
     const getApprovedPosts = async () => {
-        firebase.firestore().collection('posts').onSnapshot(querySnapShot => {
+        firebase.firestore().collection('posts').where('userIdNumber', '==', id).onSnapshot(querySnapShot => {
             const documents = querySnapShot.docs;
             setApprovedPosts(documents)
+            setWatchNumber(documents.length)
         })
+        getWatchSale()
     }
 
-    const changeFilter = async (name: string) => {
+    const getWatchSale = async () => {
+        approvedPost.forEach((item: { data: () => { (): any; new(): any; cost: string; }; }) => {
+            if (item.data().cost === 'Not for sale') {
+                notSaleItem += 1
+            } else if (item.data().cost !== 'Not for sale') {
+                saleItems += 1
+
+            }
+        })
+        setWatchesForSale(saleItems)
+        setWatchesNotForSale(notSaleItem)
+
+    }
+
+
+    const testing = () => {
+        console.log('FOORR SSAALLEE', watchesForSale)
+        console.log('NNOOTT FOORR SSAALLEE', watchesNotForSale)
+    
+    }
+
+    const changeFilter = (name: string) => {
+        console.log(name)
         setStartFilter(true)
         setWatchFilter(name);
-        setKeyfilter('brand')
+        // setKeyfilter('brand')
         getFilteredPosts();
-
     }
 
-    const changeFilterForSale = async () => {
-        console.log('clicked')
-        setKeyfilter('cost')
-    }
-    
-    const changeFilterNotForSale = async () => {
-        console.log('clicked')
-    }
-    
     const getFilteredPosts = async () => {
         // console.log('I am being clicked')
         if (forSaleFilter && watchFilter) {
@@ -77,6 +96,18 @@ const App : FC = (props) => {
         }
     }
 
+    // const setForSaleFilter = () => {
+    //     const filtered = approvedPost.filter((item: { data: () => { (): any; new(): any; cost: string; }; }) => item.data().cost != 'Not for sale')
+    //     setFilteredPosts(filtered)
+    //     setFilterSwitch(true)
+    // }
+
+    // const setNotForSaleFilter = () => {
+    //     const filtered = approvedPost.filter((item: { data: () => { (): any; new(): any; cost: string; }; }) => item.data().cost == 'Not for sale')
+    //     setFilteredPosts(filtered)
+    //     setFilterSwitch(true)
+    // }
+
     const getFilterForSale = async () => {
         setStartFilter(true)
         if (notForSaleFilter) {
@@ -96,11 +127,6 @@ const App : FC = (props) => {
         setNotForSaleFilter(!notForSaleFilter)
     }
 
-    const testing = () => {
-        console.log('WATCH FILTER', watchFilter)
-        console.log('WatchDOcs', approvedPost[0].data().comments)
-    }
-
     const clearWatchFilter = () => {
         setWatchFilter(null)
         setFilteredPosts(null)
@@ -108,27 +134,44 @@ const App : FC = (props) => {
         setNotForSaleFilter(false)
         setStartFilter(false)
     }
-    
+
     useEffect(() => {
-        getUserDetails()
         getApprovedPosts()
         getFilteredPosts()
-    }, [watchFilter, startFilter, notForSaleFilter, forSaleFilter])
+        // getWatchSale()
+    }, [userId, startFilter, notForSaleFilter, forSaleFilter])
+
     return (
-        <View style={styles.container}>
-            <WatchScrollList sendWatchFilter={(name: string) => changeFilter(name)} />
-            <TouchableOpacity style={styles.button} onPress={clearWatchFilter}>
-                <Text style={styles.text}>Clear Filter</Text>
-            </TouchableOpacity>
-            <View style={{flexDirection: 'row'}}>
-                <TouchableOpacity style={forSaleFilter === true ? styles.buttonSmallHilight : styles.buttonSmall} onPress={getFilterForSale}>
-                    <Text style={styles.text}>For Sale </Text>
+        <View style={styles.screen}>
+            <View style={styles.headerContainter}>
+                <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                    <Text style={styles.text}>{name}'s Watch Box</Text>
+                    <TouchableOpacity style={styles.goBackButton} onPress={() => navigation.goBack()}>
+                        <Text style={styles.goBackText}>{"<-"} Back</Text>
+                    </TouchableOpacity>
+                </View>
+                <Text style={styles.text}>They currently have {watchNumber >= 2 ? `${watchNumber} watches` : `${watchNumber} watch`}</Text>
+                <TouchableOpacity style={styles.button} onPress={clearWatchFilter}>
+                    <Text style={styles.filterButtonText}>Clear Filter</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={notForSaleFilter === true ? styles.buttonSmallHilight : styles.buttonSmall} onPress={getFilterNotForSale}>
-                    <Text style={styles.text}>Not for Sale</Text>
-                </TouchableOpacity>
+                <View style={styles.showInfo}>
+                    <View style={styles.saleFilter}>
+                        <Text style={styles.filterText}>{watchesForSale}  : </Text>
+                        <TouchableOpacity style={forSaleFilter === true ? styles.buttonSmallHilight : styles.buttonSmall}onPress={getFilterForSale}>
+                            <Text style={styles.filterButtonText}>View For Sale</Text>
+                        </TouchableOpacity>
+                        {/* <Button title='View For Sale' onPress={setForSaleFilter} /> */}
+                    </View>
+                    <View style={styles.saleFilter}>
+                        <Text style={styles.filterText}>{watchesNotForSale}  : </Text>
+                        <TouchableOpacity style={notForSaleFilter === true ? styles.buttonSmallHilight : styles.buttonSmall} onPress={getFilterNotForSale}>
+                            <Text style={styles.filterButtonText}>View Not For Sale</Text>
+                        </TouchableOpacity>
+                        {/* <Button style={styles.filterButton} title='View Not For Sale' onPress={setNotForSaleFilter} /> */}
+                    </View>
+                </View>
+                <WatchScrollList sendWatchFilter={(name: string) => changeFilter(name)}/>
             </View>
-            {/* <Button style={styles.button} title='Clear Selected' onPress={testing} /> */}
             <View style={styles.approvedPosts}>
                 {startFilter ?
                 <View>
@@ -244,23 +287,100 @@ const App : FC = (props) => {
     )
 }
 
-export default App;
+export default NestedScreen
 
 const styles = StyleSheet.create({
+    screen:{
+        flex:1,
+        display:'flex',
+        backgroundColor:'white',
+    },
+    headerContainter: {
+        paddingBottom: 10,
+        borderBottomWidth: 1,
+        borderBottomColor: 'grey'
+    },
+    text:{
+        marginLeft: 5,
+        color:'#000',
+        fontWeight:'700',
+        fontSize:20,
+    },
     container: {
         flex: 1,
-        marginTop: 10,
-        // justifyContent: 'center',
-        // alignItems: 'center'
     },
     header: {
-        flex: 0.1
+        flex: 0.5
     },
     approvedPosts: {
         flex: 2
     },
-    addPost: {
-        flex: 1
+    goBackButton: {
+        backgroundColor: 'red',
+        // borderRadius: 10,
+        marginRight: 5,
+        borderBottomLeftRadius: 5,
+        borderBottomRightRadius: 5,
+        paddingLeft: 5,
+        paddingRight: 5,
+    },
+    goBackText: {
+        color: 'white',
+        fontWeight: 'bold',
+        paddingTop: 3,
+    },
+    saleFilter: {
+        paddingLeft: 10,
+        margin: -10,
+        flexDirection: 'row',
+        marginTop: 2
+    },
+    filterText: {
+        fontWeight: 'bold',
+        marginLeft: 10,
+        marginTop: 4,
+        fontSize: 15,
+    },
+    filterButton: {
+        marginLeft: 5,
+        backgroundColor: '#44D0DF',
+        borderRadius: 5,
+        margin: 5,
+    },
+    filterButtonText: {
+        paddingLeft: 5,
+        paddingRight: 5,
+        fontWeight: 'bold',
+        color: 'white'
+    },
+    showInfo: {
+        marginBottom: 10,
+    },
+    buttonSmall: {
+        backgroundColor: "#44D0DF",
+        // minWidth: 100,
+        // marginLeft: 'auto',
+        // marginRight: 'auto',
+        width: '40%',
+        
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 2.5,
+        borderRadius:5,
+        marginVertical: 2,
+    },
+    buttonSmallHilight: {
+        backgroundColor: "orange",
+        // minWidth: 100,
+        // marginLeft: 'auto',
+        // marginRight: 'auto',
+        width: '40%',
+        
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 2.5,
+        borderRadius:5,
+        marginVertical: 2,
     },
     button: {
         // backgroundColor: 'red',
@@ -276,43 +396,5 @@ const styles = StyleSheet.create({
         borderRadius:5,
         marginVertical: 2,
     },
-    text: {
-        color: 'white',
-        fontWeight: 'bold',
-    },
-    NoWatches: {
-        fontSize: 25,
-        fontWeight: 'bold',
-        alignContent: 'center',
-        justifyContent: 'center',
-        marginLeft: 'auto',
-        marginRight: 'auto'
 
-    },
-    buttonSmall: {
-        backgroundColor: "#44D0DF",
-        // minWidth: 100,
-        marginLeft: 'auto',
-        marginRight: 'auto',
-        width: '48%',
-        
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: 2.5,
-        borderRadius:5,
-        marginVertical: 2,
-    },
-    buttonSmallHilight: {
-        backgroundColor: "orange",
-        // minWidth: 100,
-        marginLeft: 'auto',
-        marginRight: 'auto',
-        width: '48%',
-        
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: 2.5,
-        borderRadius:5,
-        marginVertical: 2,
-    },
 })

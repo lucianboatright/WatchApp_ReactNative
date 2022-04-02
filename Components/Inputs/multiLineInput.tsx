@@ -3,6 +3,8 @@ import { View, TextInput, TextInputProps } from 'react-native';
 
 interface Props {
     sendMessage: (value: string) => void;
+    setHeight: any;
+    setBorder: any;
 }
 
 const UselessTextInput = (props: JSX.IntrinsicAttributes & JSX.IntrinsicClassAttributes<TextInput> & Readonly<TextInputProps> & Readonly<{ children?: ReactNode; }>) => {
@@ -19,8 +21,13 @@ const UselessTextInput = (props: JSX.IntrinsicAttributes & JSX.IntrinsicClassAtt
 const App : FC <Props> = (props) => {
   const [value, onChangeText] = useState<string>('');
 
+  const [styleing, setStyling] = useState<any>(null)
+  const [borders, setBorders] = useState<any>(null)
+
   useEffect(() => {
       props.sendMessage(value)
+      setStyling(props.setHeight)
+      setBorders(props.setBorder)
   })
 
   // If you type something in the text box that is a color, the background will change to that
@@ -29,17 +36,19 @@ const App : FC <Props> = (props) => {
     <View
       style={{
         backgroundColor: value,
-        borderBottomColor: '#000000',
-        borderBottomWidth: 1,
+        borderBottomColor: 'grey',
+        // borderBottomWidth: 1,
+        // style={border}
         borderTopColor: '#000000',
         borderTopWidth: 1,
+
       }}>
       <UselessTextInput
         multiline
         numberOfLines={4}
         onChangeText={(text: SetStateAction<string>) => onChangeText(text)}
         value={value}
-        style={{padding: 10, height: 60}}
+        style={[styleing, borders]}
       />
     </View>
   );
