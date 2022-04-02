@@ -16,7 +16,7 @@ Building this project was fairly tough as it took a littel time to figure out wh
 
 
 ### Images 
-<img src="./assets/pictures/readme_1.png" />
+<img width="100" src="./assets/pictures/readme_1.png" />
 <!-- ![wireframe](./assets/pictures/readme_1.png)
 ![wireframe](./assets/pictures/readme_2.png)
 ![wireframe](./assets/pictures/readme_3.png)
