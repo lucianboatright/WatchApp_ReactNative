@@ -16,12 +16,13 @@ Building this project was fairly tough as it took a littel time to figure out wh
 
 
 ### Images 
-![wireframe](./assets/pictures/readme_1.png)
+<img src="./assets/pictures/readme_1.png" />
+<!-- ![wireframe](./assets/pictures/readme_1.png)
 ![wireframe](./assets/pictures/readme_2.png)
 ![wireframe](./assets/pictures/readme_3.png)
 ![wireframe](./assets/pictures/readme_4.png)
 ![wireframe](./assets/pictures/readme_5.png)
 ![wireframe](./assets/pictures/readme_6.png)
-![wireframe](./assets/pictures/readme_7.png)
+![wireframe](./assets/pictures/readme_7.png) -->
 
 
