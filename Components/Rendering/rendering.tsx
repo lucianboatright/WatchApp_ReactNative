@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { View, Text, StyleSheet, Dimensions, Image, TouchableHighlight, FlatList, TouchableOpacity } from "react-native";
 import { LikesButton, UserProfile } from "../Inputs";
 import { CommentsBar, WatchInfoLines } from ".";
@@ -61,6 +61,8 @@ type RootStackParamsList = {
 
 const App : React.FC <Props> = (props) => {
 
+    const [openBox, setOpenBox] = useState<boolean>(false)
+
     const sendLikes = () => {
         // console.log('clicked')
 
@@ -75,38 +77,57 @@ const App : React.FC <Props> = (props) => {
 
     const Image_1 = props.iamge_1
     return (
-        <View style={styles.container}>
-            <View style={styles.userHeader}>
-                {/* <Text style={styles.headerTitle}>User: {props.name}</Text> */}
-                <TouchableOpacity style={styles.viewBoxButton} onPress={() => navigation.navigate('NestedScreen', {id: props.userIdNumber, name: props.name})} >
-                    {/* <Text style={styles.viewBoxButtonText}>View {props.name} Watch Box</Text> */}
-                    <Text style={styles.headerTitle}>User: {props.name}</Text>
-                </TouchableOpacity>
-                <LikesButton postId={props.postId} likes={props.likes} />
-            </View>
-            <View style={styles.postContainer}>
-                <View style={styles.infoBoxContainer} >
-                    {/* <Text>Test</Text> */}
-                    <View style={styles.message}>
-                        <Text style={styles.infoHeader}>Massage: </Text>
-                        <Text>{props.message}</Text>
+        <View>
+            {openBox ?  
+                  
+            //     <View style={styles.imageContainer}>
+            //         <Image style={styles.imageBox} source={{uri: props.iamge_1}} />
+            //     </View>
+            // :
+            // navigation.navigate('NestedScreen', {id: props.userIdNumber, name: props.name})
+                <View style={styles.container}>
+                    <View style={styles.userHeader}>
+                        {/* <Text style={styles.headerTitle}>User: {props.name}</Text> */}
+                        <TouchableOpacity style={styles.viewBoxButton} onPress={() => setOpenBox(!openBox)} >
+                            {/* <Text style={styles.viewBoxButtonText}>View {props.name} Watch Box</Text> */}
+                            <Text style={styles.headerTitle}>User: {props.name}</Text>
+                        </TouchableOpacity>
+                        <LikesButton postId={props.postId} likes={props.likes} />
                     </View>
-                    <View style={styles.infoBox}>
-                        <WatchInfoLines title="Brand" info={props.brand} />
-                        <WatchInfoLines title="Case Size" info={props.caseSize} />
-                        <WatchInfoLines title="Material" info={props.caseMaterial} />
-                        <WatchInfoLines title="lug Width" info={props.lugsWidth} />
-                        <WatchInfoLines title="Mechanism" info={props.mechanism} />
-                        <WatchInfoLines title="Cost" info={props.cost} />
+                    <View style={styles.postContainer}>
+                        <View style={styles.infoBoxContainer} >
+                            {/* <Text>Test</Text> */}
+                            <View style={styles.message}>
+                                <Text style={styles.infoHeader}>Massage: </Text>
+                                <Text>{props.message}</Text>
+                            </View>
+                            <View style={styles.infoBox}>
+                                <WatchInfoLines title="Brand" info={props.brand} />
+                                <WatchInfoLines title="Case Size" info={props.caseSize} />
+                                <WatchInfoLines title="Material" info={props.caseMaterial} />
+                                <WatchInfoLines title="lug Width" info={props.lugsWidth} />
+                                <WatchInfoLines title="Mechanism" info={props.mechanism} />
+                                <WatchInfoLines title="Cost" info={props.cost} />
+                            </View>
+                        </View>
+                        <View style={styles.imageContainer}>
+                            <Image style={styles.imageBox} source={{uri: props.iamge_1}} />
+                        </View>
+                    </View>
+                    <View style={styles.commentsBox}>
+                        <CommentsBar postId={props.postId} comments={props.comments}/>
                     </View>
                 </View>
-                <View style={styles.imageContainer}>
-                    <Image style={styles.imageBox} source={{uri: props.iamge_1}} />
+            :   
+                
+                <View style={styles.imageBoxContainer}>
+                    <TouchableOpacity onPress={() => setOpenBox(!openBox)}>
+                        <View style={styles.imageContainerBox}>
+                            <Image style={styles.imageBox} source={{uri: props.iamge_1}} />
+                        </View>
+                    </TouchableOpacity>
                 </View>
-            </View>
-            <View style={styles.commentsBox}>
-                <CommentsBar postId={props.postId} comments={props.comments}/>
-            </View>
+            }
         </View>
     )
 }
@@ -127,6 +148,10 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.8,
         shadowRadius: 2,  
         elevation: 5
+    },
+    imageBoxContainer: {
+        flexDirection: "row",
+        flexWrap: "wrap",
     },
     infoBoxContainer: {
         paddingLeft: 0,
@@ -171,6 +196,9 @@ const styles = StyleSheet.create({
     },
     imageContainer: {
         flex: .5,
+    },
+    imageContainerBox: {
+        
     },
     imageBox: {
         flex: 1,
