@@ -33,12 +33,16 @@ const items = [
 
 interface Props {
     sendSelectedCase: (selectedCase: any | null) => void;
+    placeHolder: string;
+
 }
 
 const App : FC <Props> = (props) => {
   // Data Source for the SearchableDropdown
 //   const [serverData, setServerData] = useState([]);
   const [selectedWatch, setSelectedWatch] = useState<any>(null)
+  const [placeholder, setPlaceHolder] = useState<string>(props.placeHolder)
+
 
   useEffect(() => {
     props.sendSelectedCase(selectedWatch)
@@ -53,7 +57,7 @@ const App : FC <Props> = (props) => {
         <View style={{flexDirection: 'row'}}>
             <SearchableDropdown
                 onTextChange={(text) => console.log(text)}
-                onItemSelect={(item) => setSelectedWatch(item.name)}
+                onItemSelect={(item) => (setSelectedWatch(item.name), setPlaceHolder(item.name))}
                 containerStyle={{padding: 0}}
                 textInputStyle={{
                     padding: 5,
@@ -62,12 +66,12 @@ const App : FC <Props> = (props) => {
                     borderColor: '#ccc',
                     backgroundColor: '#FAF7F6',
                     width: 150,
-                    borderRadius: 20,
+                    borderRadius: 5,
                 }}
                 itemStyle={{
                   padding: 2,
                   paddingLeft: 10,
-                  borderRadius: 20,
+                  borderRadius: 5,
                     marginTop: 2,
                     marginRight: 10,
                     // width: 10,
@@ -82,8 +86,8 @@ const App : FC <Props> = (props) => {
                     maxHeight: '60%',
                 }}
                 items={items}
-                defaultIndex={2}
-                placeholder="Select Case Size"
+                // defaultIndex={2}
+                placeholder={placeholder}
                 resPtValue={false}
                 underlineColorAndroid="transparent"
             />

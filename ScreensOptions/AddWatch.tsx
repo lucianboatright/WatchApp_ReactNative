@@ -35,7 +35,7 @@ const App : FC <Props> = (props) => {
     const [selectedLug, setSelectedLug] = useState<string | null>(null)
     const [selectedMech, setSelectedMech] = useState<string | null>(null)
     const [message, setMessage] = useState<string>('')
-    const [cost, setCost] = useState<string>('Not For Sale')
+    const [cost, setCost] = useState<string | null>('Not For Sale')
 
     const submitPost = async () => {
         if(message === null) {
@@ -110,10 +110,10 @@ const App : FC <Props> = (props) => {
                 <View>
                     <MultiLineInput sendMessage={(value: string) => setMessage(value)} setBorder={{borderBottomWidth: 1}} setHeight={{padding: 10, height: 60}} />
                     <WatchDropDown placeHolder='Select Watch' title='Select Watch' sendSelectedWatch={(selected) => setSelectedWatch(selected)}/>
-                    <CaseDropDown sendSelectedCase={(selectedCase: any) => setSelectedCase(selectedCase)} />
-                    <MaterialDropDown sendSelectedMaterial={(selectedMaterial: any) => setSelectedMaterial(selectedMaterial)} />
-                    <LugDropDown sendSelectedLug={(selectedLug) => setSelectedLug(selectedLug)}/>
-                    <MechDropDown sendSelectedMech={(selectedMech: any) => setSelectedMech(selectedMech)} />
+                    <CaseDropDown placeHolder="Select Case Size" sendSelectedCase={(selectedCase: any) => setSelectedCase(selectedCase)} />
+                    <MaterialDropDown placeHolder='Select Material' sendSelectedMaterial={(selectedMaterial: any) => setSelectedMaterial(selectedMaterial)} />
+                    <LugDropDown placeHolder='Select Lug Size' sendSelectedLug={(selectedLug) => setSelectedLug(selectedLug)}/>
+                    <MechDropDown placeHolder='Select Mechanism' sendSelectedMech={(selectedMech: any) => setSelectedMech(selectedMech)} />
                     <ForSale sendCost={(cost) => setCost(cost)} />
                     <Button title='Post' onPress={submitPost} />
                 </View>

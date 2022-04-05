@@ -5,6 +5,7 @@ import { Input, Button } from '../Components/Inputs';
 import firebase from "firebase/compat/app"
 import "firebase/compat/auth"
 import "firebase/compat/firestore"
+import { white } from 'react-native-paper/lib/typescript/styles/colors';
 
 const App : FC = (props) => {
 
@@ -56,7 +57,10 @@ const App : FC = (props) => {
             <Input placeholder='Email' onChangeText={(text) => setEmail(text)} />
             <Input placeholder='Password' secureTextEntry onChangeText={(text) => setPassword(text)} />
             <Input placeholder='Confirm' secureTextEntry onChangeText={(text) => setConfirm(text)} />
-            <Button title='SignUp' onPress={signup} />
+            {/* <Button title='SignUp' onPress={signup} /> */}
+            <TouchableOpacity style={styles.loginButton} onPress={() => signup}>
+                <Text style={styles.Large}>Sign Up</Text>
+            </TouchableOpacity>
             <View style={styles.loginText}>
                 <Text style={styles.loginLabel}>Already Have an Account?</Text>
                 <TouchableOpacity style={styles.loginButton} onPress={() => props.navigation.navigate('Login')}>
@@ -91,6 +95,13 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         textAlign: 'center',
         textAlignVertical: 'center',
-
+        paddingRight: 10,
+        paddingLeft: 10,
+    },
+    Large: {
+        fontWeight: 'bold',
+        fontSize: 25,
+        color: 'white',
+        // height: 5,
     }
 })

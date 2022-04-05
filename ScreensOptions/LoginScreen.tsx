@@ -37,7 +37,10 @@ const App : FC = (props) => {
             <Text>Hello From LOGIN</Text>
             <Input placeholder='Email' onChangeText={(text) => setEmail(text)} />
             <Input placeholder='Password' secureTextEntry onChangeText={(text) => setPassword(text)} />
-            <Button title='Login' onPress={() => login()} />
+            {/* <Button title='Login' onPress={() => login()} /> */}
+            <TouchableOpacity style={styles.loginButton} onPress={() => login()}>
+                    <Text style={styles.Large}>Login</Text>
+            </TouchableOpacity>
             {/* <Button title='TESTONMG' onPress={testing} /> */}
             <View style={styles.loginText}>
                 <Text style={styles.loginLabel}>Dont Have an Account?</Text>
@@ -70,9 +73,17 @@ const styles = StyleSheet.create({
         backgroundColor: '#44D0DF',
         color: 'white',
         padding: 5,
+        paddingRight: 10,
+        paddingLeft: 10,
         borderRadius: 5,
         textAlign: 'center',
         textAlignVertical: 'center',
 
+    },
+    Large: {
+        fontWeight: 'bold',
+        fontSize: 25,
+        color: 'white',
+        // height: 5,
     }
 })

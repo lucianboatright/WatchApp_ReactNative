@@ -30,6 +30,8 @@ interface Props {
 const App : FC <Props> = (props) => {
 //   const [serverData, setServerData] = useState([]);
   const [selected, setSelected] = useState<any>(null)
+  const [placeholder, setPlaceHolder] = useState<string>(props.placeHolder)
+
 
   useEffect(() => {
     props.sendSelectedWatch(selected)
@@ -54,12 +56,12 @@ const App : FC <Props> = (props) => {
                 borderColor: '#ccc',
                 backgroundColor: '#FAF7F6',
                 width: 150,
-                borderRadius: 20,
+                borderRadius: 5,
             }}
             itemStyle={{
                 padding: 2,
                 paddingLeft: 10,
-                borderRadius: 20,
+                borderRadius: 5,
                 marginTop: 2,
                 marginRight: 10,
                 // width: 10,
@@ -74,8 +76,8 @@ const App : FC <Props> = (props) => {
                 maxHeight: '60%',
             }}
             items={items}
-            defaultIndex={2}
-            placeholder={props.placeHolder}
+            // defaultIndex={2}
+            placeholder={placeholder}
             resPtValue={false}
             underlineColorAndroid="transparent"
             />
