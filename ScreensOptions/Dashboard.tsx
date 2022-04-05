@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
+import { View, Text, StyleSheet, Button, TouchableOpacity } from 'react-native';
 // import { Button } from '../Components/Inputs'; 
 import firebase  from "firebase/compat/app";
 import "firebase/compat/auth"
@@ -87,28 +87,70 @@ const App : FC = (props) => {
 
     }
 
+    const getFilterForSale = async () => {
+        setStartFilter(true)
+        if (notForSaleFilter) {
+            setNotForSaleFilter(!notForSaleFilter)
+            setForSaleFilter(!forSaleFilter)
+            
+        }
+        setForSaleFilter(!forSaleFilter)
+    }
+
+    const getFilterNotForSale = async () => {
+        setStartFilter(true)
+        if (forSaleFilter) {
+            setNotForSaleFilter(!notForSaleFilter)
+            setForSaleFilter(!forSaleFilter)
+        }
+        setNotForSaleFilter(!notForSaleFilter)
+    }
+
+    const clearWatchFilter = () => {
+        setWatchFilter(null)
+        setFilteredPosts(null)
+        setForSaleFilter(false)
+        setNotForSaleFilter(false)
+        setStartFilter(false)
+    }
+
     useEffect(() => {
         getUserDetails()
         getApprovedPosts()
-    }, [userName])
+        getFilteredPosts()
+    }, [watchFilter, startFilter, notForSaleFilter, forSaleFilter])
 
     return (
         <View style={styles.container}>
             <Button title="SignOut" onPress={signOutUser} />
-            <Button title="TESTING" onPress={testing} />
-            <Text>Hello From Dashboard</Text>
+            {/* <Button title="TESTING" onPress={testing} /> */}
             <View style={styles.header}>
                 <Text>UserName : {userName}</Text>
                 <Text>User Email : {userEmail}</Text>
                 <Text>You have {watchNumber} in you collection</Text>
                 <Text>For Sale: {forSaleCount} Not for Sale: {notForSaleCount}</Text>
-
+                
+            </View>
+            <TouchableOpacity style={styles.button} onPress={clearWatchFilter}>
+                <Text style={styles.text}>Clear Filter</Text>
+            </TouchableOpacity>
+            <View style={{flexDirection: 'row'}}>
+            <TouchableOpacity style={forSaleFilter === true ? styles.buttonSmallHilight : styles.buttonSmall} onPress={getFilterForSale}>
+                    <Text style={styles.text}>For Sale </Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={notForSaleFilter === true ? styles.buttonSmallHilight : styles.buttonSmall} onPress={getFilterNotForSale}>
+                    <Text style={styles.text}>Not for Sale</Text>
+                </TouchableOpacity>
             </View>
             <View style={styles.approvedPosts}>
-                <FlatList
-                    data={approvedPost}
-                    renderItem={
-                            ({item}) => <Rendering
+            {startFilter ?
+                <View>
+                    {filteredPost.length === 0 ?
+                    <View>
+                        <FlatList
+                        data={approvedPost}
+                        renderItem={
+                                ({item}) => <Rendering
                                 message={item.data().message}
                                 name={item.data().userName}
                                 iamge_1={item.data().iamge_1}
@@ -124,7 +166,8 @@ const App : FC = (props) => {
                                 timeStamp={item.data().timeStamp}
                                 postId={item.id}
                                 likes={item.data().likes}
-                                userDetails={undefined}
+                                userIdNumber={item.data().userIdNumber}
+                                // userDetails={item.data().uid}
                                 comments={item.data().comments}
                                 approved={''}
                                 onApprove={function (): void {
@@ -132,9 +175,81 @@ const App : FC = (props) => {
                                 } } onReject={function (): void {
                                     throw new Error('Function not implemented.');
                                 } }
-                            />
+                                />
                             } 
-                />
+                        />
+                        </View>
+                    :
+                        <View>
+                            <FlatList
+                            data={filteredPost}
+                            renderItem={
+                                    ({item}) => <Rendering
+                                        message={item.data().message}
+                                        name={item.data().userName}
+                                        iamge_1={item.data().iamge_1}
+                                        iamge_2={item.data().iamge_2}
+                                        iamge_3={item.data().iamge_3}
+                                        iamge_4={item.data().iamge_4}
+                                        brand={item.data().brand}
+                                        caseSize={item.data().caseSize}
+                                        caseMaterial={item.data().caseMaterial}
+                                        lugsWidth={item.data().lugsWidth}
+                                        mechanism={item.data().mechanism}
+                                        cost={item.data().cost}
+                                        timeStamp={item.data().timeStamp}
+                                        postId={item.id}
+                                        likes={item.data().likes}
+                                        userIdNumber={item.data().userIdNumber}
+                                        // userDetails={item.data().uid}
+                                        comments={item.data().comments}
+                                        approved={''}
+                                        onApprove={function (): void {
+                                            throw new Error('Function not implemented.');
+                                        } } onReject={function (): void {
+                                            throw new Error('Function not implemented.');
+                                        } } userDetails={undefined}                                    />
+                                    } 
+                                />
+                            </View>
+                        }
+                    </View>
+                :
+                    <View>
+                            <FlatList
+                            data={approvedPost}
+                            renderItem={
+                                    ({item}) => <Rendering
+                                    message={item.data().message}
+                                    name={item.data().userName}
+                                    iamge_1={item.data().iamge_1}
+                                    iamge_2={item.data().iamge_2}
+                                    iamge_3={item.data().iamge_3}
+                                    iamge_4={item.data().iamge_4}
+                                    brand={item.data().brand}
+                                    caseSize={item.data().caseSize}
+                                    caseMaterial={item.data().caseMaterial}
+                                    lugsWidth={item.data().lugsWidth}
+                                    mechanism={item.data().mechanism}
+                                    cost={item.data().cost}
+                                    timeStamp={item.data().timeStamp}
+                                    postId={item.id}
+                                    likes={item.data().likes}
+                                    userIdNumber={item.data().userIdNumber}
+                                    // userDetails={item.data().uid}
+                                    comments={item.data().comments}
+                                    approved={''}
+                                    onApprove={function (): void {
+                                        throw new Error('Function not implemented.');
+                                    } } onReject={function (): void {
+                                        throw new Error('Function not implemented.');
+                                    } }
+                                    />
+                                    } 
+                                />
+                            </View>
+            
+                }
             </View>
         </View>
     )
@@ -150,9 +265,59 @@ const styles = StyleSheet.create({
         // alignItems: 'center'
     },
     header: {
-        flex: 0.5
+        flex: 0.3,
+        paddingLeft: 5,
+        backgroundColor: "orange",
+        margin: 5,
+        borderRadius: 5,
+        padding: 5,
+
     },
     approvedPosts: {
         flex: 2
+    },
+    button: {
+        // backgroundColor: 'red',
+        backgroundColor: "#44D0DF",
+        // minWidth: 100,
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        width: '98%',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 2.5,
+        borderRadius:5,
+        marginVertical: 2,
+    },
+    buttonSmall: {
+        backgroundColor: "#44D0DF",
+        // minWidth: 100,
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        width: '48%',
+        color: 'white',
+        fontWeight: 'bold',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 2.5,
+        borderRadius:5,
+        marginVertical: 2,
+    },
+    buttonSmallHilight: {
+        backgroundColor: "orange",
+        // minWidth: 100,
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        width: '48%',
+        
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 2.5,
+        borderRadius:5,
+        marginVertical: 2,
+    },
+    text: {
+        color: 'white',
+        fontWeight: 'bold',
     },
 })
