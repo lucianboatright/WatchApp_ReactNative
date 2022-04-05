@@ -21,7 +21,6 @@ const App : FC = (props) => {
     const [condition, setCondition] = useState<any>(null)
 
     const [startFilter, setStartFilter] = useState<boolean>(false)
-
     const [forSaleFilter, setForSaleFilter] = useState<boolean>(false)
     const [notForSaleFilter, setNotForSaleFilter] = useState<boolean>(false)
     

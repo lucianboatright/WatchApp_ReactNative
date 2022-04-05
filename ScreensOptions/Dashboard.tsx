@@ -15,11 +15,17 @@ const App : FC = (props) => {
     const [userDetails, setUserDetails] = useState<any>(null)
     const [userEmail, setUserEmail] = useState<any>(null)
     const [userName, setUserName] = useState<any>(null)
-    const [approvedPost, setApprovedPosts] = useState<any>(null) 
+    const [approvedPost, setApprovedPosts] = useState<any>(null)
+    const [filteredPost, setFilteredPosts] = useState<any>(null) 
     const [userId, setUserId] = useState<any>(null)
     const [watchNumber, setWatchNumber] = useState<any>(null)
     const [forSaleCount, setForSaleCount] = useState<number>(0)
     const [notForSaleCount, setNotForSaleCount] = useState<number>(0)
+
+    const [watchFilter, setWatchFilter] = useState<any>(null)
+    const [startFilter, setStartFilter] = useState<boolean>(false)
+    const [forSaleFilter, setForSaleFilter] = useState<boolean>(false)
+    const [notForSaleFilter, setNotForSaleFilter] = useState<boolean>(false)
 
 
     const signOutUser = async () => {
@@ -38,6 +44,26 @@ const App : FC = (props) => {
             setWatchNumber(documents.length)
         })
         runSaleCounter()
+    }
+
+    const getFilteredPosts = async () => {
+        // console.log('I am being clicked')
+        if (forSaleFilter && watchFilter) {
+            const filtered = approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().brand == watchFilter && item.data().cost != 'Not for sale')
+            setFilteredPosts(filtered)
+        } else if (forSaleFilter && !watchFilter) {
+            const filtered = approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost != 'Not for sale')
+            setFilteredPosts(filtered)
+        } else if (notForSaleFilter && watchFilter) {
+            const filtered = approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().brand == watchFilter && item.data().cost == 'Not for sale')
+            setFilteredPosts(filtered)
+        } else if ( notForSaleFilter && !watchFilter) {
+            const filtered = approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost == 'Not for sale')
+            setFilteredPosts(filtered)
+        } else {
+            const filtered = approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().brand == watchFilter )
+            setFilteredPosts(filtered)
+        }
     }
 
     const runSaleCounter = () => {
