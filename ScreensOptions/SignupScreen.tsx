@@ -52,7 +52,12 @@ const App : FC = (props) => {
     
     return (
         <View style={styles.container}>
-            <Text>Hello From SIGNUP</Text>
+            <View style={styles.introTitleContainer}>
+                <Text style={styles.introText}>Welcome to Show Box</Text>
+            </View>
+            <View style={styles.introTextContainer}>
+                <Text style={styles.introText}>Sign up and start your watch collection now! Allowing you to display all your watches in a virtual box.</Text>
+            </View>
             <Input placeholder=" Enter Your First Name" onChangeText={(text) => setName(text)} />
             <Input placeholder='Email' onChangeText={(text) => setEmail(text)} />
             <Input placeholder='Password' secureTextEntry onChangeText={(text) => setPassword(text)} />
@@ -83,6 +88,21 @@ const styles = StyleSheet.create({
     loginText: {
         flexDirection: 'row',
         marginVertical: 20
+    },
+    introText: {
+        padding: 5,
+        fontSize: 20,
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
+    introTextContainer: {
+        backgroundColor: 'orange',
+        borderRadius: 5,
+    },
+    introTitleContainer: {
+        backgroundColor: '#44D0DF',
+        borderRadius: 5,
+        marginBottom: 10,
     },
     loginLabel: {
         paddingTop: 5,

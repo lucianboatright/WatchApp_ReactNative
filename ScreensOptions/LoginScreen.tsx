@@ -34,7 +34,9 @@ const App : FC = (props) => {
 
     return (
         <View style={styles.container}>
-            <Text>Hello From LOGIN</Text>
+            <View style={styles.introTextContainer}>
+                <Text style={styles.introText}>Login with your details below or signup</Text>
+            </View>
             <Input placeholder='Email' onChangeText={(text) => setEmail(text)} />
             <Input placeholder='Password' secureTextEntry onChangeText={(text) => setPassword(text)} />
             {/* <Button title='Login' onPress={() => login()} /> */}
@@ -64,6 +66,16 @@ const styles = StyleSheet.create({
     loginText: {
         flexDirection: 'row',
         marginVertical: 20
+    },
+    introText: {
+        padding: 5,
+        fontSize: 20,
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
+    introTextContainer: {
+        backgroundColor: 'orange',
+        borderRadius: 5,
     },
     loginLabel: {
         paddingTop: 5,

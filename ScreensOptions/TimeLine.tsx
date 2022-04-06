@@ -23,6 +23,7 @@ const App : FC = (props) => {
     const [startFilter, setStartFilter] = useState<boolean>(false)
     const [forSaleFilter, setForSaleFilter] = useState<boolean>(false)
     const [notForSaleFilter, setNotForSaleFilter] = useState<boolean>(false)
+    const [openBoxContainer, setOpenBoxContainer] = useState<boolean>(false)
     
 
     const getUserDetails = async () => {
@@ -96,8 +97,9 @@ const App : FC = (props) => {
     }
 
     const testing = () => {
-        console.log('WATCH FILTER', watchFilter)
-        console.log('WatchDOcs', approvedPost[0].data().comments)
+        // console.log('WATCH FILTER', watchFilter)
+        // console.log('WatchDOcs', approvedPost[0].data().comments)
+        console.log('opening', openBoxContainer)
     }
 
     const clearWatchFilter = () => {
@@ -112,7 +114,7 @@ const App : FC = (props) => {
         getUserDetails()
         getApprovedPosts()
         getFilteredPosts()
-    }, [watchFilter, startFilter, notForSaleFilter, forSaleFilter])
+    }, [watchFilter, startFilter, notForSaleFilter, forSaleFilter, openBoxContainer])
     return (
         <View style={styles.container}>
             <WatchScrollList sendWatchFilter={(name: string) => changeFilter(name)} />
@@ -127,7 +129,7 @@ const App : FC = (props) => {
                     <Text style={styles.text}>Not for Sale</Text>
                 </TouchableOpacity>
             </View>
-            {/* <Button style={styles.button} title='Clear Selected' onPress={testing} /> */}
+            <Button style={styles.button} title='TESTING' onPress={testing} />
             <View style={styles.approvedPosts}>
                 {startFilter ?
                 <View>
@@ -136,8 +138,11 @@ const App : FC = (props) => {
                         <Text style={styles.NoWatches}>Be the first to add a {watchFilter}</Text>
                         <FlatList
                         data={approvedPost}
+                        numColumns={openBoxContainer ? 1 : 2}
+                        key={openBoxContainer ? 1 : 2}
                         renderItem={
                                 ({item}) => <Rendering
+                                sendBoxOpening={(openBox: boolean) => setOpenBoxContainer(!openBox)}
                                 message={item.data().message}
                                 name={item.data().userName}
                                 iamge_1={item.data().iamge_1}
@@ -170,8 +175,12 @@ const App : FC = (props) => {
                         <View>
                             <FlatList
                             data={filteredPost}
+                            // numColumns={openBoxContainer ? 1 : 2}
+                            // key={openBoxContainer ? 1 : 2}
+                            // style={{ width: "100%" }}
                             renderItem={
                                     ({item}) => <Rendering
+                                    sendBoxOpening={(openBox: boolean) => setOpenBoxContainer(!openBox)}
                                     message={item.data().message}
                                     name={item.data().userName}
                                     iamge_1={item.data().iamge_1}
@@ -204,10 +213,15 @@ const App : FC = (props) => {
                     </View>
                 :
                     <View>
+                        {/* <Text>somthing</Text> */}
                             <FlatList
                             data={approvedPost}
+                            numColumns={openBoxContainer ? 1 : 2}
+                            key={openBoxContainer ? 1 : 2}
+                            style={styles.grid}
                             renderItem={
                                     ({item}) => <Rendering
+                                    sendBoxOpening={(openBox: boolean) => setOpenBoxContainer(openBox)}
                                     message={item.data().message}
                                     name={item.data().userName}
                                     iamge_1={item.data().iamge_1}
@@ -256,7 +270,14 @@ const styles = StyleSheet.create({
         flex: 0.1
     },
     approvedPosts: {
-        flex: 2
+        // flexDirection: 'row',
+        // flex: 2
+    },
+    grid: {
+        // flexDirection: 'row',
+        // flexWrap: "wrap",
+        
+
     },
     addPost: {
         flex: 1

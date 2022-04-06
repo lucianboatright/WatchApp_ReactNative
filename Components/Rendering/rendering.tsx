@@ -33,6 +33,7 @@ interface Props {
     userIdNumber: any;
     onApprove: () => void;
     onReject: () => void;
+    sendBoxOpening: (openBox: boolean) => void;
 }
 
 const formatTime = (timeStamp: number) : any => {
@@ -71,8 +72,18 @@ const App : React.FC <Props> = (props) => {
 
     const navigation = useNavigation<StackNavigationProp<RootStackParamsList>>();
 
+    const openClicked = () => {
+        console.log('pre',openBox)
+        console.log('CLICKED')
+        setOpenBox(!openBox)
+        props.sendBoxOpening(openBox)
+        console.log('post',openBox)
+    }
+
     useEffect(() => {
         // console.log('USER DETAILS',props.name)
+        // props.sendBoxOpening(openBox)
+        
     })
 
     const Image_1 = props.iamge_1
@@ -121,9 +132,9 @@ const App : React.FC <Props> = (props) => {
             :   
                 
                 <View style={styles.imageBoxContainer}>
-                    <TouchableOpacity onPress={() => setOpenBox(!openBox)}>
+                    <TouchableOpacity onPress={() => openClicked()}>
                         <View style={styles.imageContainerBox}>
-                            <Image style={styles.imageBox} source={{uri: props.iamge_1}} />
+                            <Image style={styles.imageBox} source={require('../../assets/pictures/watch_roll_blue.png')} />
                         </View>
                     </TouchableOpacity>
                 </View>
@@ -137,6 +148,7 @@ export default App
 const styles = StyleSheet.create({
     container: {
         width: '95%',
+        // paddingLeft: 5,
         alignSelf: 'center',
         marginVertical: 10,
         paddingBottom: 0,
@@ -150,8 +162,8 @@ const styles = StyleSheet.create({
         elevation: 5
     },
     imageBoxContainer: {
-        flexDirection: "row",
-        flexWrap: "wrap",
+        // flexDirection: "row",
+        // flexWrap: "wrap",
     },
     infoBoxContainer: {
         paddingLeft: 0,
