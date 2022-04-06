@@ -76,7 +76,7 @@ const App : React.FC <Props> = (props) => {
         console.log('pre',openBox)
         console.log('CLICKED')
         setOpenBox(!openBox)
-        props.sendBoxOpening(openBox)
+        // props.sendBoxOpening(openBox)
         console.log('post',openBox)
     }
 
@@ -84,7 +84,7 @@ const App : React.FC <Props> = (props) => {
         // console.log('USER DETAILS',props.name)
         // props.sendBoxOpening(openBox)
         
-    })
+    }, [openBox])
 
     const Image_1 = props.iamge_1
     return (
@@ -99,7 +99,7 @@ const App : React.FC <Props> = (props) => {
                 <View style={styles.container}>
                     <View style={styles.userHeader}>
                         {/* <Text style={styles.headerTitle}>User: {props.name}</Text> */}
-                        <TouchableOpacity style={styles.viewBoxButton} onPress={() => setOpenBox(!openBox)} >
+                        <TouchableOpacity style={styles.viewBoxButton} onPress={() => openClicked()} >
                             {/* <Text style={styles.viewBoxButtonText}>View {props.name} Watch Box</Text> */}
                             <Text style={styles.headerTitle}>User: {props.name}</Text>
                         </TouchableOpacity>
@@ -162,8 +162,7 @@ const styles = StyleSheet.create({
         elevation: 5
     },
     imageBoxContainer: {
-        // flexDirection: "row",
-        // flexWrap: "wrap",
+        paddingLeft: 5,
     },
     infoBoxContainer: {
         paddingLeft: 0,
@@ -210,7 +209,9 @@ const styles = StyleSheet.create({
         flex: .5,
     },
     imageContainerBox: {
-        
+        flexDirection: "row",
+        flexWrap: "wrap",
+        width: 180,
     },
     imageBox: {
         flex: 1,

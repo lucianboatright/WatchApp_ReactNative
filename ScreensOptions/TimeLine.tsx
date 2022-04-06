@@ -138,8 +138,8 @@ const App : FC = (props) => {
                         <Text style={styles.NoWatches}>Be the first to add a {watchFilter}</Text>
                         <FlatList
                         data={approvedPost}
-                        numColumns={openBoxContainer ? 1 : 2}
-                        key={openBoxContainer ? 1 : 2}
+                        // numColumns={openBoxContainer ? 1 : 2}
+                        // key={openBoxContainer ? 1 : 2}
                         renderItem={
                                 ({item}) => <Rendering
                                 sendBoxOpening={(openBox: boolean) => setOpenBoxContainer(!openBox)}
@@ -217,7 +217,7 @@ const App : FC = (props) => {
                             <FlatList
                             data={approvedPost}
                             numColumns={openBoxContainer ? 1 : 2}
-                            key={openBoxContainer ? 1 : 2}
+                            key={openBoxContainer ? "one" : "two"}
                             style={styles.grid}
                             renderItem={
                                     ({item}) => <Rendering
@@ -271,10 +271,12 @@ const styles = StyleSheet.create({
     },
     approvedPosts: {
         // flexDirection: 'row',
+        // flexWrap: 'wrap'
         // flex: 2
     },
     grid: {
         // flexDirection: 'row',
+        width: '100%'
         // flexWrap: "wrap",
         
 
