@@ -6,5 +6,7 @@ import WatchScrollList from './watchScroll'
 import LikesButton from './likesButton'
 import UserProfile from './buttonUserWatches'
 import FilterLines from './filterLines'
+import DeleteIcon from './deleteButton'
+import CloseWindow from './closeWindow'
 
-export { Button, Input, MultiLineInput, ForSale, WatchScrollList, LikesButton, UserProfile, FilterLines }
+export { Button, Input, MultiLineInput, ForSale, WatchScrollList, LikesButton, UserProfile, FilterLines, DeleteIcon, CloseWindow }

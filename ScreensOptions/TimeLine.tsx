@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Button, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Button, TouchableOpacity, ScrollView } from 'react-native';
 // import { Button } from '../Components/Inputs';
 import firebase  from "firebase/compat/app";
 import "firebase/compat/auth"
@@ -96,6 +96,10 @@ const App : FC = (props) => {
         setNotForSaleFilter(!notForSaleFilter)
     }
 
+    const changeBoxView = async (openBox: boolean) => {
+        setOpenBoxContainer(!openBox)
+    }
+
     const testing = () => {
         // console.log('WATCH FILTER', watchFilter)
         // console.log('WatchDOcs', approvedPost[0].data().comments)
@@ -108,6 +112,7 @@ const App : FC = (props) => {
         setForSaleFilter(false)
         setNotForSaleFilter(false)
         setStartFilter(false)
+        setOpenBoxContainer(false)
     }
     
     useEffect(() => {
@@ -129,7 +134,7 @@ const App : FC = (props) => {
                     <Text style={styles.text}>Not for Sale</Text>
                 </TouchableOpacity>
             </View>
-            <Button style={styles.button} title='TESTING' onPress={testing} />
+            {/* <Button style={styles.button} title='TESTING' onPress={testing} /> */}
             <View style={styles.approvedPosts}>
                 {startFilter ?
                 <View>
@@ -138,8 +143,8 @@ const App : FC = (props) => {
                         <Text style={styles.NoWatches}>Be the first to add a {watchFilter}</Text>
                         <FlatList
                         data={approvedPost}
-                        // numColumns={openBoxContainer ? 1 : 2}
-                        // key={openBoxContainer ? 1 : 2}
+                        numColumns={openBoxContainer ? 1 : 2}
+                        key={openBoxContainer ? 1 : 2}
                         renderItem={
                                 ({item}) => <Rendering
                                 sendBoxOpening={(openBox: boolean) => setOpenBoxContainer(!openBox)}
@@ -175,9 +180,8 @@ const App : FC = (props) => {
                         <View>
                             <FlatList
                             data={filteredPost}
-                            // numColumns={openBoxContainer ? 1 : 2}
-                            // key={openBoxContainer ? 1 : 2}
-                            // style={{ width: "100%" }}
+                            numColumns={openBoxContainer ? 1 : 2}
+                            key={openBoxContainer ? 1 : 2}
                             renderItem={
                                     ({item}) => <Rendering
                                     sendBoxOpening={(openBox: boolean) => setOpenBoxContainer(!openBox)}
@@ -212,16 +216,26 @@ const App : FC = (props) => {
                         }
                     </View>
                 :
-                    <View>
+                    <View style={styles.test}>
                         {/* <Text>somthing</Text> */}
+                        {/* <ScrollView
+                                alwaysBounceVertical
+                                showsVerticalScrollIndicator={false}
+                                showsHorizontalScrollIndicator={false}
+                                contentContainerStyle={{ width: '100%' }}
+                        > */}
                             <FlatList
                             data={approvedPost}
+                            // contentContainerStyle={{alignSelf: 'flex-start'}}
+                            // numColumns={Math.ceil(2)}
+                            // showsVerticalScrollIndicator={false}
+                            // showsHorizontalScrollIndicator={false}
                             numColumns={openBoxContainer ? 1 : 2}
-                            key={openBoxContainer ? "one" : "two"}
+                            key={openBoxContainer ? 1 : 2}
                             style={styles.grid}
                             renderItem={
                                     ({item}) => <Rendering
-                                    sendBoxOpening={(openBox: boolean) => setOpenBoxContainer(openBox)}
+                                    sendBoxOpening={(openBox: boolean) => changeBoxView(openBox)}
                                     message={item.data().message}
                                     name={item.data().userName}
                                     iamge_1={item.data().iamge_1}
@@ -249,6 +263,7 @@ const App : FC = (props) => {
                                     />
                                     } 
                                 />
+                                {/* </ScrollView> */}
                             </View>
             
                 }
@@ -260,6 +275,16 @@ const App : FC = (props) => {
 export default App;
 
 const styles = StyleSheet.create({
+    test: {
+        // flex: 1,
+        // justifyContent: 'space-evenly',
+        // flexDirection: "row",
+        // flexWrap: "wrap",
+        // alignItems: "flex-start",
+        // justifyContent: "flex-start",
+        // justifyContent: 'center',
+        // flexDirection: 'row',
+    },
     container: {
         flex: 1,
         marginTop: 10,
@@ -274,9 +299,13 @@ const styles = StyleSheet.create({
         // flexWrap: 'wrap'
         // flex: 2
     },
+    
     grid: {
+        // flex: 1,
+        // justifyContent: 'center',
+        // justifyContent: 'center',
         // flexDirection: 'row',
-        width: '100%'
+        // width: 300,
         // flexWrap: "wrap",
         
 

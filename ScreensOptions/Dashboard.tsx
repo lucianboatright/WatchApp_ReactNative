@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Button, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Button, TouchableOpacity, Image } from 'react-native';
 // import { Button } from '../Components/Inputs'; 
 import firebase  from "firebase/compat/app";
 import "firebase/compat/auth"
@@ -118,19 +118,27 @@ const App : FC = (props) => {
         getUserDetails()
         getApprovedPosts()
         getFilteredPosts()
-    }, [watchFilter, startFilter, notForSaleFilter, forSaleFilter])
+    }, [userEmail, watchFilter, startFilter, notForSaleFilter, forSaleFilter])
 
     return (
         <View style={styles.container}>
-            <Button title="SignOut" onPress={signOutUser} />
+
             {/* <Button title="TESTING" onPress={testing} /> */}
-            <View style={styles.header}>
-                <Text>UserName : {userName}</Text>
-                <Text>User Email : {userEmail}</Text>
-                <Text>You have {watchNumber} in you collection</Text>
-                <Text>For Sale: {forSaleCount} Not for Sale: {notForSaleCount}</Text>
-                
-            </View>
+            {/* <View> */}
+                <View style={styles.header}>
+                    <View>
+                        <Text style={styles.infoText}>UserName : {userName}</Text>
+                        <Text style={styles.infoText}>User Email : {userEmail}</Text>
+                        <Text style={styles.infoText}>You have {watchNumber} in you collection</Text>
+                        <Text style={styles.infoText}>For Sale: {forSaleCount} Not for Sale: {notForSaleCount}</Text>
+                        <Button title="SignOut" onPress={signOutUser} />
+                    </View>
+                    <View>
+                        <Image style={styles.profileImage} source={require('../assets/icons/profileIcon.png')} />
+                    </View>
+                </View>
+
+            {/* </View> */}
             <TouchableOpacity style={styles.button} onPress={clearWatchFilter}>
                 <Text style={styles.text}>Clear Filter</Text>
             </TouchableOpacity>
@@ -271,6 +279,9 @@ const styles = StyleSheet.create({
         margin: 5,
         borderRadius: 5,
         padding: 5,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingBottom: 30,
 
     },
     approvedPosts: {
@@ -316,8 +327,15 @@ const styles = StyleSheet.create({
         borderRadius:5,
         marginVertical: 2,
     },
+    // profileImage: {
+    //     paddingBottom: 10,
+    // },
     text: {
         color: 'white',
         fontWeight: 'bold',
+    },
+    infoText: {
+        fontWeight: 'bold',
+        fontSize: 15,
     },
 })

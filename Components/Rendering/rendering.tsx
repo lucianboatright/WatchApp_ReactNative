@@ -1,7 +1,9 @@
 import React, { FC, useEffect, useState } from "react";
-import { View, Text, StyleSheet, Dimensions, Image, TouchableHighlight, FlatList, TouchableOpacity } from "react-native";
-import { LikesButton, UserProfile } from "../Inputs";
+import { View, Text, StyleSheet, Dimensions, Image, TouchableHighlight, FlatList, TouchableOpacity, ImageBackground } from "react-native";
+import { LikesButton, UserProfile, DeleteIcon, CloseWindow } from "../Inputs";
 import { CommentsBar, WatchInfoLines } from ".";
+
+// import Image1 = '../../assets/pictures/woodenBox_5.jpg'
 
 import { NestedScreen } from "../../ScreensOptions";
 
@@ -44,10 +46,6 @@ const formatTime = (timeStamp: number) : any => {
     else `${(((calculatedTime / 1000) / 60) / 60) / 24} d`
 }
 
-// interface Props {
-//     navigation: any
-//   }
-
 type RootStackParamsList = {
     Home: any;
     Timeline: any;
@@ -63,6 +61,7 @@ type RootStackParamsList = {
 const App : React.FC <Props> = (props) => {
 
     const [openBox, setOpenBox] = useState<boolean>(false)
+    const [openBoxSend, setOpenBoxSend] = useState<boolean>(false)
 
     const sendLikes = () => {
         // console.log('clicked')
@@ -73,18 +72,21 @@ const App : React.FC <Props> = (props) => {
     const navigation = useNavigation<StackNavigationProp<RootStackParamsList>>();
 
     const openClicked = () => {
-        console.log('pre',openBox)
+        // console.log('pre',openBox)
         console.log('CLICKED')
         setOpenBox(!openBox)
+        props.sendBoxOpening(openBox)
+
         // props.sendBoxOpening(openBox)
-        console.log('post',openBox)
+        // console.log('post',openBox)
     }
 
     useEffect(() => {
         // console.log('USER DETAILS',props.name)
         // props.sendBoxOpening(openBox)
+        // console.log('profile', props.P)
         
-    }, [openBox])
+    }, [])
 
     const Image_1 = props.iamge_1
     return (
@@ -99,10 +101,14 @@ const App : React.FC <Props> = (props) => {
                 <View style={styles.container}>
                     <View style={styles.userHeader}>
                         {/* <Text style={styles.headerTitle}>User: {props.name}</Text> */}
-                        <TouchableOpacity style={styles.viewBoxButton} onPress={() => openClicked()} >
+                        <TouchableOpacity style={styles.viewBoxButton} onPress={() => navigation.navigate('NestedScreen', {id: props.userIdNumber, name: props.name})} >
                             {/* <Text style={styles.viewBoxButtonText}>View {props.name} Watch Box</Text> */}
                             <Text style={styles.headerTitle}>User: {props.name}</Text>
                         </TouchableOpacity>
+                        <DeleteIcon postId={props.postId} postUser={props.userIdNumber} likes={props.likes} />
+                        <TouchableHighlight onPress={() => openClicked()}>
+                            <Image style={styles.icon} source={require('../../assets/icons/closeWindowIcon.png')} />
+                        </TouchableHighlight>                        
                         <LikesButton postId={props.postId} likes={props.likes} />
                     </View>
                     <View style={styles.postContainer}>
@@ -133,9 +139,9 @@ const App : React.FC <Props> = (props) => {
                 
                 <View style={styles.imageBoxContainer}>
                     <TouchableOpacity onPress={() => openClicked()}>
-                        <View style={styles.imageContainerBox}>
-                            <Image style={styles.imageBox} source={require('../../assets/pictures/watch_roll_blue.png')} />
-                        </View>
+                        <ImageBackground source={require('../../assets/pictures/woodenBox_5.jpg')} style={styles.imageContainerBorder}>
+                            <Image style={styles.imageBoxLarge} source={require('../../assets/pictures/watch_roll_blue.png')} />
+                        </ImageBackground>
                     </TouchableOpacity>
                 </View>
             }
@@ -147,7 +153,7 @@ export default App
 
 const styles = StyleSheet.create({
     container: {
-        width: '95%',
+        width: "95%",
         // paddingLeft: 5,
         alignSelf: 'center',
         marginVertical: 10,
@@ -162,7 +168,9 @@ const styles = StyleSheet.create({
         elevation: 5
     },
     imageBoxContainer: {
-        paddingLeft: 5,
+        paddingLeft: 6,
+    //    paddingLeft: 'auto',
+    //    paddingRight: 'auto',
     },
     infoBoxContainer: {
         paddingLeft: 0,
@@ -208,19 +216,55 @@ const styles = StyleSheet.create({
     imageContainer: {
         flex: .5,
     },
-    imageContainerBox: {
-        flexDirection: "row",
-        flexWrap: "wrap",
-        width: 180,
+    imageContainerBorder: {
+        // marginLeft: 5,
+        padding: 9,
+        height: 300,
+        width: 185,
+    },
+    icon: {
+        marginTop: 2,
+        height: 30,
+        width: 30
     },
     imageBox: {
-        flex: 1,
-        marginTop: 'auto',
-        marginBottom: 'auto',
+        // flex: 1,
+        // marginTop: 'auto',
+        // marginBottom: 'auto',
+        // marginLeft:'auto',
+        // marginRight:'auto',
+        // display: 'flex',
+        // justifyContent: 'center',
         // marginLeft: 2,
         // marginTop: 5,
+        height: 285,
+        width: 180,
+        // borderRadius: 10,
+        borderBottomRightRadius: 10,
+        backgroundColor: '#fff',
+        shadowOffset: {
+            width: 3,
+            height: 3
+        },
+        shadowColor: '#ccc',
+        shadowOpacity: 0.7
+    },
+    imageBoxLarge: {
+        // flex: 1,
+        // marginTop: 'auto',
+        // marginBottom: 'auto',
+        // marginLeft:'auto',
+        // marginRight:'auto',
+        // display: 'flex',
+        // justifyContent: 'center',
+        // paddingLeft: 10,
+        flexDirection: "row",
+        flexWrap: "wrap",
+        alignItems: "flex-start",
+        justifyContent: "flex-start",
+    //    margin: 3, 
         height: 280,
-        width: 185,
+        width: 168,
         // borderRadius: 10,
         borderBottomRightRadius: 10,
         backgroundColor: '#fff',
