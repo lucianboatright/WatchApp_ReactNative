@@ -276,39 +276,20 @@ export default App;
 
 const styles = StyleSheet.create({
     test: {
-        // flex: 1,
-        // justifyContent: 'space-evenly',
-        // flexDirection: "row",
-        // flexWrap: "wrap",
-        // alignItems: "flex-start",
-        // justifyContent: "flex-start",
-        // justifyContent: 'center',
-        // flexDirection: 'row',
     },
     container: {
         flex: 1,
         marginTop: 10,
-        // justifyContent: 'center',
-        // alignItems: 'center'
     },
     header: {
         flex: 0.1
     },
     approvedPosts: {
-        // flexDirection: 'row',
-        // flexWrap: 'wrap'
-        // flex: 2
     },
     
     grid: {
-        // flex: 1,
-        // justifyContent: 'center',
-        // justifyContent: 'center',
-        // flexDirection: 'row',
-        // width: 300,
-        // flexWrap: "wrap",
-        
-
+        // marginLeft: 'auto',
+        // marginRight: 'auto',
     },
     addPost: {
         flex: 1

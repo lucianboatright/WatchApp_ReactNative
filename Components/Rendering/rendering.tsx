@@ -2,6 +2,7 @@ import React, { FC, useEffect, useState } from "react";
 import { View, Text, StyleSheet, Dimensions, Image, TouchableHighlight, FlatList, TouchableOpacity, ImageBackground } from "react-native";
 import { LikesButton, UserProfile, DeleteIcon, CloseWindow } from "../Inputs";
 import { CommentsBar, WatchInfoLines } from ".";
+import InsetShadow from 'react-native-inset-shadow'
 
 // import Image1 = '../../assets/pictures/woodenBox_5.jpg'
 
@@ -128,7 +129,10 @@ const App : React.FC <Props> = (props) => {
                             </View>
                         </View>
                         <View style={styles.imageContainer}>
-                            <Image style={styles.imageBox} source={{uri: props.iamge_1}} />
+                            <ImageBackground source={require('../../assets/pictures/woodenBox_5.jpg')} style={styles.imageContainerBorder}>
+                                {/* <Image style={styles.imageBoxLarge} source={require('../../assets/pictures/watch_roll_blue.png')} /> */}
+                                <Image style={styles.imageBox} source={{uri: props.iamge_1}} />
+                            </ImageBackground>
                         </View>
                     </View>
                     <View style={styles.commentsBox}>
@@ -139,9 +143,15 @@ const App : React.FC <Props> = (props) => {
                 
                 <View style={styles.imageBoxContainer}>
                     <TouchableOpacity onPress={() => openClicked()}>
-                        <ImageBackground source={require('../../assets/pictures/woodenBox_5.jpg')} style={styles.imageContainerBorder}>
-                            <Image style={styles.imageBoxLarge} source={require('../../assets/pictures/watch_roll_blue.png')} />
+                        
+                        <ImageBackground source={require('../../assets/pictures/woodenBox_5.jpg')} style={styles.imageContainerBorderBox}>
+                            <InsetShadow shadowOpacity={0.9} shadowOffset={0.5} >
+                                {/* <View> */}
+                                    <Image style={styles.imageBoxLarge} source={require('../../assets/pictures/watch_roll_blue.png')} />
+                                {/* </View> */}
+                            </InsetShadow>
                         </ImageBackground>
+                        
                     </TouchableOpacity>
                 </View>
             }
@@ -167,15 +177,14 @@ const styles = StyleSheet.create({
         shadowRadius: 2,  
         elevation: 5
     },
-    imageBoxContainer: {
-        paddingLeft: 6,
-    //    paddingLeft: 'auto',
-    //    paddingRight: 'auto',
+    postContainer: {
+        flexDirection: 'row',
+        justifyContent:'space-between',
     },
     infoBoxContainer: {
         paddingLeft: 0,
-        flex: .5,
-        height: 'auto',
+        // flex: 1,
+        // height: 'auto',
     },
     infoBox: {
         borderWidth: 1,
@@ -205,6 +214,11 @@ const styles = StyleSheet.create({
         borderColor: 'black',
         fontSize: 20,
     },
+    icon: {
+        marginTop: 2,
+        height: 30,
+        width: 30
+    },
     message: {
         borderWidth: 1,
         padding: 4,
@@ -214,67 +228,67 @@ const styles = StyleSheet.create({
         borderColor: 'grey' 
     },
     imageContainer: {
-        flex: .5,
+        // flex: 1,
+        // margin: 5,
+
     },
+
     imageContainerBorder: {
         // marginLeft: 5,
-        padding: 9,
-        height: 300,
-        width: 185,
-    },
-    icon: {
-        marginTop: 2,
-        height: 30,
-        width: 30
+        // padding: 6,
+        flex: 1,
+        // margin: 5,
+        // height: "70%",
+        // width: "100%",
+        height: "100%",
+        width: "99.5%",
     },
     imageBox: {
-        // flex: 1,
-        // marginTop: 'auto',
-        // marginBottom: 'auto',
-        // marginLeft:'auto',
-        // marginRight:'auto',
-        // display: 'flex',
-        // justifyContent: 'center',
-        // marginLeft: 2,
-        // marginTop: 5,
-        height: 285,
+        borderRadius: 5,
+        height: 300,
         width: 180,
+        margin: 10
+        // flex: 1,
         // borderRadius: 10,
-        borderBottomRightRadius: 10,
-        backgroundColor: '#fff',
-        shadowOffset: {
-            width: 3,
-            height: 3
-        },
-        shadowColor: '#ccc',
-        shadowOpacity: 0.7
+        // borderBottomRightRadius: 10,
+        // marginTop: 9,
+        // marginBottom: 9,
+        // marginLeft: 9,
+        // marginRight: 9,
+    },
+
+    imageBoxContainer: {
+        // paddingLeft: 6,
+    //    paddingLeft: 'auto',
+    //    paddingRight: 'auto',
+    // padding: 7,
+    },
+    imageContainerBorderBox: {
+        // marginLeft: 5,
+        flex: 1,
+        // margin: 2,
+        // padding: 6,
+        height: "100%",
+        width: "100%",
     },
     imageBoxLarge: {
-        // flex: 1,
-        // marginTop: 'auto',
-        // marginBottom: 'auto',
-        // marginLeft:'auto',
-        // marginRight:'auto',
-        // display: 'flex',
-        // justifyContent: 'center',
-        // paddingLeft: 10,
-        flexDirection: "row",
-        flexWrap: "wrap",
-        alignItems: "flex-start",
-        justifyContent: "flex-start",
-    //    margin: 3, 
-        height: 280,
-        width: 168,
+        // justifyContent: 'center', 
+        // alignSelf: 'center',
+        margin: 13,
+        height: 250,
+        width: 165,
         // borderRadius: 10,
-        borderBottomRightRadius: 10,
-        backgroundColor: '#fff',
-        shadowOffset: {
-            width: 3,
-            height: 3
-        },
-        shadowColor: '#ccc',
-        shadowOpacity: 0.7
+        // borderRadius: 0,
+        // backgroundColor: '#fff',
+        
+        // shadowOffset: {
+        //     width: 3,
+        //     height: 3
+        // },
+        // shadowColor: '#ccc',
+        // shadowOpacity: 0.7
     },
+
     likeIcon: {
         height: 30,
         width: 30,
@@ -282,37 +296,17 @@ const styles = StyleSheet.create({
     commentsBox: {
         margin: 5,
     },
-    postContainer: {
-        flexDirection: 'row',
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 0.4,
-        shadowRadius: 5,  
-        elevation: 5,
-    },
     viewBoxButton: {
         backgroundColor: '#44D0DF',
-        borderTopLeftRadius: 5,
+        borderTopLeftRadius: 10,
         borderTopRightRadius: 5,
-        // borderRadius: 5,
-        // height: 20,
-        // alignItems: 'flex-end',
-        // alignContent: 'flex-end'
-        // justifyContent: 'center',
-        // margin: 5,
-        marginLeft: 5,
-        marginTop: 5,
+        // marginLeft: 5,
+        paddingTop: 5,
         paddingLeft: 5,
         paddingRight: 5,
-        width: '49%',
+        width: 'auto',
+        minWidth: '45%'
     },
     viewBoxButtonText: {
-        // alignItems: 'center',
-        // paddingTop: 7,
-        // padding: 2,
-        // paddingLeft: 10,
-        // paddingRight: 10,
-        // color: 'white',
-        // fontWeight: 'bold'
     },
 })
