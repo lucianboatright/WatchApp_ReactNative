@@ -98,12 +98,12 @@ const App : FC <Props> = (props) => {
         <View style={styles.container}>
             <ScrollView>
                 <View style={styles.ImageSelectors}>
-                    <Imagepicker watchImage={Watch_1} sendUrl={(url) => setUrl_1(url)} />
-                    <Imagepicker watchImage={Watch_2} sendUrl={(url) => setUrl_2(url)} />
+                    <Imagepicker watchImage={Watch_1} sendUrl={(url) => setUrl_1(url) } margintop={25} />
+                    <Imagepicker watchImage={Watch_2} sendUrl={(url) => setUrl_2(url)} margintop={25} />
                 </View>
                 <View style={styles.ImageSelectors}>
-                    <Imagepicker watchImage={Watch_3} sendUrl={(url) => setUrl_3(url)} />
-                    <Imagepicker watchImage={Watch_4} sendUrl={(url) => setUrl_4(url)} />
+                    <Imagepicker watchImage={Watch_3} sendUrl={(url) => setUrl_3(url)} margintop={25} />
+                    <Imagepicker watchImage={Watch_4} sendUrl={(url) => setUrl_4(url)} margintop={25} />
                 </View>
             </ScrollView>
             <View>

@@ -116,10 +116,11 @@ const App : FC = (props) => {
     }
     
     useEffect(() => {
+        console.log('REFRESHED')
         getUserDetails()
         getApprovedPosts()
         getFilteredPosts()
-    }, [watchFilter, startFilter, notForSaleFilter, forSaleFilter, openBoxContainer])
+    }, [watchFilter, startFilter, notForSaleFilter, forSaleFilter])
     return (
         <View style={styles.container}>
             <WatchScrollList sendWatchFilter={(name: string) => changeFilter(name)} />
@@ -147,7 +148,7 @@ const App : FC = (props) => {
                         key={openBoxContainer ? 1 : 2}
                         renderItem={
                                 ({item}) => <Rendering
-                                sendBoxOpening={(openBox: boolean) => setOpenBoxContainer(!openBox)}
+                                onPress={() => setOpenBoxContainer(!openBoxContainer)}
                                 message={item.data().message}
                                 name={item.data().userName}
                                 iamge_1={item.data().iamge_1}
@@ -184,7 +185,7 @@ const App : FC = (props) => {
                             key={openBoxContainer ? 1 : 2}
                             renderItem={
                                     ({item}) => <Rendering
-                                    sendBoxOpening={(openBox: boolean) => setOpenBoxContainer(!openBox)}
+                                    onPress={() => setOpenBoxContainer(!openBoxContainer)}
                                     message={item.data().message}
                                     name={item.data().userName}
                                     iamge_1={item.data().iamge_1}
@@ -217,25 +218,21 @@ const App : FC = (props) => {
                     </View>
                 :
                     <View style={styles.test}>
-                        {/* <Text>somthing</Text> */}
-                        {/* <ScrollView
-                                alwaysBounceVertical
-                                showsVerticalScrollIndicator={false}
-                                showsHorizontalScrollIndicator={false}
-                                contentContainerStyle={{ width: '100%' }}
-                        > */}
                             <FlatList
                             data={approvedPost}
                             // contentContainerStyle={{alignSelf: 'flex-start'}}
                             // numColumns={Math.ceil(2)}
                             // showsVerticalScrollIndicator={false}
                             // showsHorizontalScrollIndicator={false}
+                            // numColumns={1}
+                            // key={1}
                             numColumns={openBoxContainer ? 1 : 2}
-                            key={openBoxContainer ? 1 : 2}
+                            key={openBoxContainer ? 'one' : 'two'}
                             style={styles.grid}
                             renderItem={
                                     ({item}) => <Rendering
-                                    sendBoxOpening={(openBox: boolean) => changeBoxView(openBox)}
+                                    // sendBoxOpening={(openBox: boolean) => setOpenBoxContainer(openBox)}
+                                    onPress={() => setOpenBoxContainer(!openBoxContainer)}
                                     message={item.data().message}
                                     name={item.data().userName}
                                     iamge_1={item.data().iamge_1}
@@ -263,7 +260,6 @@ const App : FC = (props) => {
                                     />
                                     } 
                                 />
-                                {/* </ScrollView> */}
                             </View>
             
                 }
@@ -288,7 +284,9 @@ const styles = StyleSheet.create({
     },
     
     grid: {
+        paddingLeft: 4,
         // marginLeft: 'auto',
+        // justifyContent: 'center',
         // marginRight: 'auto',
     },
     addPost: {

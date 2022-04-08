@@ -7,6 +7,7 @@ import { Camera } from 'expo-camera';
 // import { Button } from '../Inputs';
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage' 
 import uuid from 'react-native-uuid';
+import { useLinkProps } from '@react-navigation/native';
 
 
 const {height, width} = Dimensions.get('screen')
@@ -14,6 +15,7 @@ const {height, width} = Dimensions.get('screen')
 interface Props {
     sendUrl: (url: any | null) => void;
     watchImage: any;
+    margintop: any;
 }
 
 const App : FC <Props> = (props) => {
@@ -27,11 +29,15 @@ const App : FC <Props> = (props) => {
 
   const [url, setUrl] = useState<any | null>(null)
 
+  const [marginHeight, setMarginHeight] = useState<any | null>(null)
+
 //   const [pickedImagePath, setPickedImagePath] = useState('');
 
   const [editorVisible, setEditorVisible] = useState<boolean>(false);
 
-    const pickImage = async () => {
+  // const setMargin = props.margintop
+
+  const pickImage = async () => {
         const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
         if (permissionResult.granted) {
@@ -133,6 +139,8 @@ const App : FC <Props> = (props) => {
   }
 
   useEffect(() => {
+    // setMarginHeight(props.margintop);
+    console.log(props.margintop);
     (async () => {
       if (Platform.OS !== 'web') {
         const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -159,7 +167,7 @@ const App : FC <Props> = (props) => {
                 </TouchableHighlight>
             </View>
             <View>
-            {image ? <Image source={{ uri: image }} style={styles.imageView} /> : <View style={styles.imageContainer}><Image source={props.watchImage} style={styles.holdingImage} /></View>}
+            {image ? <Image source={{ uri: image }} style={styles.imageView} /> : <View style={styles.imageContainer}><Image source={props.watchImage} style={{...styles.holdingImage, marginTop: props.margintop}} /></View>}
             </View>
         </View>
       </View>
@@ -172,6 +180,7 @@ const styles = StyleSheet.create({
     outerContainer: {
         // backgroundColor: 'red',
         width: '50%'
+        
     },
     container: {
         // flex: .5,
@@ -197,9 +206,13 @@ const styles = StyleSheet.create({
         height: 150
     },
     holdingImage: {
-        height: 100,
-        width: 100,
-        marginTop: 25,
+      // alignContent: 'center',
+      // justifyContent: 'center',
+      marginTop: 'auto',
+      marginBottom: 'auto',
+        // height: 100,
+        // width: 100,
+        // marginTop: 0,
         // borderWidth: 2,
         // borderRadius: 10,
         margin: 5

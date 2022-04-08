@@ -1,6 +1,7 @@
 import React, { FC, useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Button, TouchableOpacity, Image } from 'react-native';
-// import { Button } from '../Components/Inputs'; 
+import { Imagepicker } from '../Components/ExpoImage';
+
 import firebase  from "firebase/compat/app";
 import "firebase/compat/auth"
 import "firebase/compat/firestore"
@@ -8,6 +9,8 @@ import "firebase/compat/firestore"
 import { FlatList } from 'react-native-gesture-handler';
 import { getAuth, signOut } from 'firebase/auth';
 import { Rendering } from '../Components/Rendering';
+
+import ProfileImage from '../assets/icons/profileIcon.png'
 
 
 const App : FC = (props) => {
@@ -106,6 +109,10 @@ const App : FC = (props) => {
         setNotForSaleFilter(!notForSaleFilter)
     }
 
+    const profileUpload = async () => {
+        console.log('testing§')
+    }
+
     const clearWatchFilter = () => {
         setWatchFilter(null)
         setFilteredPosts(null)
@@ -118,7 +125,7 @@ const App : FC = (props) => {
         getUserDetails()
         getApprovedPosts()
         getFilteredPosts()
-    }, [userEmail, watchFilter, startFilter, notForSaleFilter, forSaleFilter])
+    }, [userId, userEmail, watchFilter, startFilter, notForSaleFilter, forSaleFilter])
 
     return (
         <View style={styles.container}>
@@ -133,8 +140,11 @@ const App : FC = (props) => {
                         <Text style={styles.infoText}>For Sale: {forSaleCount} Not for Sale: {notForSaleCount}</Text>
                         <Button title="SignOut" onPress={signOutUser} />
                     </View>
-                    <View>
-                        <Image style={styles.profileImage} source={require('../assets/icons/profileIcon.png')} />
+                    <View style={styles.profileImageBox}>
+                        {/* <TouchableOpacity onPress={profileUpload}>
+                            <Image style={styles.profileImage} source={require('../assets/icons/profileIcon.png')} />
+                        </TouchableOpacity> */}
+                        <Imagepicker watchImage={ProfileImage} sendUrl={() => { } } margintop={10} />
                     </View>
                 </View>
 
@@ -273,7 +283,7 @@ const styles = StyleSheet.create({
         // alignItems: 'center'
     },
     header: {
-        flex: 0.3,
+        flex: 0.8,
         paddingLeft: 5,
         backgroundColor: "orange",
         margin: 5,
@@ -281,7 +291,7 @@ const styles = StyleSheet.create({
         padding: 5,
         flexDirection: 'row',
         justifyContent: 'space-between',
-        paddingBottom: 30,
+        // paddingBottom: 30,
 
     },
     approvedPosts: {
@@ -328,8 +338,17 @@ const styles = StyleSheet.create({
         marginVertical: 2,
     },
     // profileImage: {
-    //     paddingBottom: 10,
+    //     height: '10',
+    //     // opacity: 0.5,
+    //     // borderWidth: 1,
+    //     // borderRadius: 5,
+    //     // borderColor: "grey",
+    //     // paddingBottom: 10,
     // },
+    profileImageBox: {
+        height: "6%",
+        width: 270,
+    },
     text: {
         color: 'white',
         fontWeight: 'bold',

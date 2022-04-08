@@ -36,7 +36,8 @@ interface Props {
     userIdNumber: any;
     onApprove: () => void;
     onReject: () => void;
-    sendBoxOpening: (openBox: boolean) => void;
+    // sendBoxOpening: (openBox: boolean) => void;
+    onPress: () => void;
 }
 
 const formatTime = (timeStamp: number) : any => {
@@ -73,48 +74,38 @@ const App : React.FC <Props> = (props) => {
     const navigation = useNavigation<StackNavigationProp<RootStackParamsList>>();
 
     const openClicked = () => {
-        // console.log('pre',openBox)
+        console.log('pre',openBox)
+        console.log('pre',openBoxSend)
         console.log('CLICKED')
-        setOpenBox(!openBox)
-        props.sendBoxOpening(openBox)
-
+        // setOpenBox(!openBox)
+        // setOpenBoxSend(!openBoxSend)
         // props.sendBoxOpening(openBox)
-        // console.log('post',openBox)
+        setOpenBox(!openBox)
+        // props.sendBoxOpening(openBox)
+        console.log('post',openBox)
+        console.log('post',openBoxSend)
+        // props.onPress
     }
 
     useEffect(() => {
-        // console.log('USER DETAILS',props.name)
-        // props.sendBoxOpening(openBox)
-        // console.log('profile', props.P)
-        
     }, [])
 
-    const Image_1 = props.iamge_1
     return (
         <View>
             {openBox ?  
-                  
-            //     <View style={styles.imageContainer}>
-            //         <Image style={styles.imageBox} source={{uri: props.iamge_1}} />
-            //     </View>
-            // :
-            // navigation.navigate('NestedScreen', {id: props.userIdNumber, name: props.name})
                 <View style={styles.container}>
                     <View style={styles.userHeader}>
-                        {/* <Text style={styles.headerTitle}>User: {props.name}</Text> */}
                         <TouchableOpacity style={styles.viewBoxButton} onPress={() => navigation.navigate('NestedScreen', {id: props.userIdNumber, name: props.name})} >
-                            {/* <Text style={styles.viewBoxButtonText}>View {props.name} Watch Box</Text> */}
                             <Text style={styles.headerTitle}>User: {props.name}</Text>
                         </TouchableOpacity>
                         <DeleteIcon postId={props.postId} postUser={props.userIdNumber} likes={props.likes} />
-                        <TouchableHighlight onPress={() => openClicked()}>
+                        <TouchableHighlight onPress={() => (openClicked(), props.onPress)}>
                             <Image style={styles.icon} source={require('../../assets/icons/closeWindowIcon.png')} />
                         </TouchableHighlight>                        
                         <LikesButton postId={props.postId} likes={props.likes} />
                     </View>
                     <View style={styles.postContainer}>
                         <View style={styles.infoBoxContainer} >
-                            {/* <Text>Test</Text> */}
                             <View style={styles.message}>
                                 <Text style={styles.infoHeader}>Massage: </Text>
                                 <Text>{props.message}</Text>
@@ -142,7 +133,7 @@ const App : React.FC <Props> = (props) => {
             :   
                 
                 <View style={styles.imageBoxContainer}>
-                    <TouchableOpacity onPress={() => openClicked()}>
+                    <TouchableOpacity onPress={() => (openClicked(), props.onPress)}>
                         
                         <ImageBackground source={require('../../assets/pictures/woodenBox_5.jpg')} style={styles.imageContainerBorderBox}>
                             <InsetShadow shadowOpacity={0.9} shadowOffset={0.5} >
@@ -262,6 +253,8 @@ const styles = StyleSheet.create({
     //    paddingLeft: 'auto',
     //    paddingRight: 'auto',
     // padding: 7,
+        // flex: 1,
+        width: '100%',
     },
     imageContainerBorderBox: {
         // marginLeft: 5,
