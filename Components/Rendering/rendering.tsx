@@ -131,7 +131,6 @@ const App : React.FC <Props> = (props) => {
                     </View>
                 </View>
             :   
-                
                 <View style={styles.imageBoxContainer}>
                     <TouchableOpacity onPress={() => (openClicked(), props.onPress)}>
                         

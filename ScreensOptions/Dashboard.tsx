@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Button, TouchableOpacity, Image } from 'react-native';
-import { Imagepicker } from '../Components/ExpoImage';
+import { ProfileImagePicker } from '../Components/ExpoImage';
 
 import firebase  from "firebase/compat/app";
 import "firebase/compat/auth"
@@ -9,8 +9,6 @@ import "firebase/compat/firestore"
 import { FlatList } from 'react-native-gesture-handler';
 import { getAuth, signOut } from 'firebase/auth';
 import { Rendering } from '../Components/Rendering';
-
-import ProfileImage from '../assets/icons/profileIcon.png'
 
 
 const App : FC = (props) => {
@@ -24,11 +22,13 @@ const App : FC = (props) => {
     const [watchNumber, setWatchNumber] = useState<any>(null)
     const [forSaleCount, setForSaleCount] = useState<number>(0)
     const [notForSaleCount, setNotForSaleCount] = useState<number>(0)
+    const [userPic, setUserPic] = useState<any | null>(null)
 
     const [watchFilter, setWatchFilter] = useState<any>(null)
     const [startFilter, setStartFilter] = useState<boolean>(false)
     const [forSaleFilter, setForSaleFilter] = useState<boolean>(false)
     const [notForSaleFilter, setNotForSaleFilter] = useState<boolean>(false)
+    const [profilePic, setProfilePic] = useState<any | null>(null)
 
 
     const signOutUser = async () => {
@@ -83,6 +83,7 @@ const App : FC = (props) => {
         setUserDetails({id: user.id,  ...user.data()})
         setUserEmail(user.data().email)
         setUserName(user.data().name)
+        setUserPic(user.data().profilePicture)
     }
 
     const testing = () => {
@@ -125,7 +126,7 @@ const App : FC = (props) => {
         getUserDetails()
         getApprovedPosts()
         getFilteredPosts()
-    }, [userId, userEmail, watchFilter, startFilter, notForSaleFilter, forSaleFilter])
+    }, [userId, userEmail, watchFilter, startFilter, notForSaleFilter, forSaleFilter, userPic])
 
     return (
         <View style={styles.container}>
@@ -133,7 +134,7 @@ const App : FC = (props) => {
             {/* <Button title="TESTING" onPress={testing} /> */}
             {/* <View> */}
                 <View style={styles.header}>
-                    <View>
+                    <View style={styles.headerInfo}>
                         <Text style={styles.infoText}>UserName : {userName}</Text>
                         <Text style={styles.infoText}>User Email : {userEmail}</Text>
                         <Text style={styles.infoText}>You have {watchNumber} in you collection</Text>
@@ -144,7 +145,7 @@ const App : FC = (props) => {
                         {/* <TouchableOpacity onPress={profileUpload}>
                             <Image style={styles.profileImage} source={require('../assets/icons/profileIcon.png')} />
                         </TouchableOpacity> */}
-                        <Imagepicker watchImage={ProfileImage} sendUrl={() => { } } margintop={10} />
+                        <ProfileImagePicker profilePic={userPic} userId={userId} />
                     </View>
                 </View>
 
@@ -283,7 +284,7 @@ const styles = StyleSheet.create({
         // alignItems: 'center'
     },
     header: {
-        flex: 0.8,
+        flex: 0.3,
         paddingLeft: 5,
         backgroundColor: "orange",
         margin: 5,
@@ -292,10 +293,15 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         // paddingBottom: 30,
+        
 
     },
+    headerInfo: {
+        // flex: 0.7
+        width: '55%',
+    },
     approvedPosts: {
-        flex: 2
+        flex: 0.7,
     },
     button: {
         // backgroundColor: 'red',
@@ -346,8 +352,9 @@ const styles = StyleSheet.create({
     //     // paddingBottom: 10,
     // },
     profileImageBox: {
-        height: "6%",
-        width: 270,
+        height: 10,
+        width: '90%',
+        // flex: 0.4,
     },
     text: {
         color: 'white',
