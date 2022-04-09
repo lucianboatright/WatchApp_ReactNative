@@ -124,7 +124,7 @@ const App : FC = (props) => {
     }, [watchFilter, startFilter, notForSaleFilter, forSaleFilter])
     return (
         <View style={styles.container}>
-            <WatchScrollList inportData={WatchList} sendWatchFilter={(name: string) => changeFilter(name)} />
+            <WatchScrollList inportData={WatchList} sendFilter={(name: string) => changeFilter(name)} />
             <TouchableOpacity style={styles.button} onPress={clearWatchFilter}>
                 <Text style={styles.text}>Clear Filter</Text>
             </TouchableOpacity>
@@ -318,7 +318,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         marginLeft: 'auto',
         marginRight: 'auto'
-
     },
     buttonSmall: {
         backgroundColor: "#44D0DF",

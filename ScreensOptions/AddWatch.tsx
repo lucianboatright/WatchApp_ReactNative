@@ -8,7 +8,7 @@ import { Imagepicker } from '../Components/ExpoImage';
 
 import { WatchList, CaseSize, Mechanism, Material, Lugs } from '../Components/DataLists';
 
-import { WatchDropDown, CaseDropDown, MaterialDropDown, LugDropDown, MechDropDown, DropDown } from '../Components/DropDowns';
+import { DropDown } from '../Components/DropDowns';
 
 import firebase  from "firebase/compat/app";
 import "firebase/compat/auth"
@@ -117,7 +117,9 @@ const App : FC <Props> = (props) => {
                     <DropDown title='Lug Size' inputData={Lugs} placeHolder='Select Lug Size' sendSelected={(selected) => setSelectedLug(selected)}/>
                     <DropDown  title='Mechanism' inputData={Mechanism} placeHolder='Select Mechanism' sendSelected={(selected: any) => setSelectedMech(selected)} />
                     <ForSale sendCost={(cost) => setCost(cost)} />
-                    <Button title='Post' onPress={submitPost} />
+                    <TouchableOpacity style={styles.buttonSmall} onPress={submitPost}>
+                        <Text style={styles.text}>Submit</Text>
+                    </TouchableOpacity>
                 </View>
                 {userDetails ? userDetails.isAdmin ? (
                     <View>
@@ -149,7 +151,6 @@ const styles = StyleSheet.create({
         marginLeft: 'auto',
         marginRight: 'auto',
         width: '97%',
-        // backgroundColor: 'red',
         justifyContent: 'space-between'
     },
     uploadButton: {
@@ -157,11 +158,28 @@ const styles = StyleSheet.create({
         minWidth: 100,
         marginLeft: 10,
         marginRight: 10,
-        // width: 100,
         alignItems: 'center',
         justifyContent: 'center',
         padding: 10,
         borderRadius:5,
         marginVertical: 10
-    }
+    },
+    buttonSmall: {
+        backgroundColor: "#44D0DF",
+        // minWidth: 100,
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        width: '48%',
+        
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 2.5,
+        borderRadius:5,
+        marginVertical: 2,
+    },
+    text: {
+        color: 'white',
+        fontWeight: 'bold',
+        fontSize: 18,
+    },
 })

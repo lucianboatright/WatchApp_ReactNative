@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, Button } from 'react-native'
-import { FilterLines, WatchScrollList } from '../Components/Inputs';
+import { FilterLines, FollowButton, WatchScrollList } from '../Components/Inputs';
 
 import firebase  from "firebase/compat/app";
 import "firebase/compat/auth"
@@ -31,20 +31,23 @@ const NestedScreen:  React.FC<Props> = ({ route, navigation }) => {
     const [startFilter, setStartFilter] = useState<boolean>(false)
     const [forSaleFilter, setForSaleFilter] = useState<boolean>(false)
     const [notForSaleFilter, setNotForSaleFilter] = useState<boolean>(false)
-
+    const [userDetials, setUserDetails] = useState<any>(null)
     const [watchesForSale, setWatchesForSale] = useState<number>(0)
     const [watchesNotForSale, setWatchesNotForSale] = useState<number>(0)
 
     let saleItems = 0
     let notSaleItem = 0
 
-    const getApprovedPosts = async () => {
+    const getPostsandUserInfo = async () => {
         firebase.firestore().collection('posts').where('userIdNumber', '==', id).onSnapshot(querySnapShot => {
             const documents = querySnapShot.docs;
             setApprovedPosts(documents)
             setWatchNumber(documents.length)
         })
+        const userDeta = firebase.firestore().collection('users').doc(id).get();
+        setUserDetails(userDeta)
         getWatchSale()
+        getFollowers()
     }
 
     const getWatchSale = async () => {
@@ -61,6 +64,9 @@ const NestedScreen:  React.FC<Props> = ({ route, navigation }) => {
 
     }
 
+    const getFollowers = async () => {
+
+    }
 
     const testing = () => {
         console.log('FOORR SSAALLEE', watchesForSale)
@@ -136,7 +142,7 @@ const NestedScreen:  React.FC<Props> = ({ route, navigation }) => {
     }
 
     useEffect(() => {
-        getApprovedPosts()
+        getPostsandUserInfo()
         getFilteredPosts()
         // getWatchSale()
     }, [userId, startFilter, notForSaleFilter, forSaleFilter])
@@ -146,6 +152,7 @@ const NestedScreen:  React.FC<Props> = ({ route, navigation }) => {
             <View style={styles.headerContainter}>
                 <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                     <Text style={styles.text}>{name}'s Watch Box</Text>
+                    <FollowButton postId={null} likes={null} postUser={null}/>
                     <TouchableOpacity style={styles.goBackButton} onPress={() => navigation.goBack()}>
                         <Text style={styles.goBackText}>{"<-"} Back</Text>
                     </TouchableOpacity>

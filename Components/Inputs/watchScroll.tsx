@@ -13,7 +13,7 @@ import {
 import { Card } from "react-native-paper";
 
 interface Props {
-    sendWatchFilter: (name: string) => void;
+    sendFilter: (name: string) => void;
     inportData: any;
 }
 
@@ -41,7 +41,7 @@ const App : FC <Props> = (props) =>  {
           return (
             <TouchableOpacity
               style={styles.cardContainer}
-              onPress={() => props.sendWatchFilter(item.name)}
+              onPress={() => props.sendFilter(item.name)}
             >
               <Card style={[styles.card, {backgroundColor: item.color}]}>
                 <Text style={styles.text}>{item.name}</Text>
