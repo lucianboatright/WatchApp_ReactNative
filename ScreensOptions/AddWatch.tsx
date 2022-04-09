@@ -6,7 +6,9 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Imagepicker } from '../Components/ExpoImage';
 // import { Camera } from '../Components/ExpoCamera';
 
-import { WatchDropDown, CaseDropDown, MaterialDropDown, LugDropDown, MechDropDown } from '../Components/DropDowns';
+import { WatchList, CaseSize, Mechanism, Material, Lugs } from '../Components/DataLists';
+
+import { WatchDropDown, CaseDropDown, MaterialDropDown, LugDropDown, MechDropDown, DropDown } from '../Components/DropDowns';
 
 import firebase  from "firebase/compat/app";
 import "firebase/compat/auth"
@@ -109,11 +111,11 @@ const App : FC <Props> = (props) => {
             <View>
                 <View>
                     <MultiLineInput sendMessage={(value: string) => setMessage(value)} setBorder={{borderBottomWidth: 1}} setHeight={{padding: 10, height: 60}} />
-                    <WatchDropDown placeHolder='Select Watch' title='Select Watch' sendSelectedWatch={(selected) => setSelectedWatch(selected)}/>
-                    <CaseDropDown placeHolder="Select Case Size" sendSelectedCase={(selectedCase: any) => setSelectedCase(selectedCase)} />
-                    <MaterialDropDown placeHolder='Select Material' sendSelectedMaterial={(selectedMaterial: any) => setSelectedMaterial(selectedMaterial)} />
-                    <LugDropDown placeHolder='Select Lug Size' sendSelectedLug={(selectedLug) => setSelectedLug(selectedLug)}/>
-                    <MechDropDown placeHolder='Select Mechanism' sendSelectedMech={(selectedMech: any) => setSelectedMech(selectedMech)} />
+                    <DropDown title='Select Watch' inputData={WatchList} placeHolder='Select Watch' sendSelected={(selected: any) => setSelectedWatch(selected)}/>
+                    <DropDown title='Case Size' inputData={CaseSize} placeHolder="Select Case Size" sendSelected={(selected: any) => setSelectedCase(selected)} />
+                    <DropDown title='Material' inputData={Material} placeHolder='Select Material' sendSelected={(selected: any) => setSelectedMaterial(selected)} />
+                    <DropDown title='Lug Size' inputData={Lugs} placeHolder='Select Lug Size' sendSelected={(selected) => setSelectedLug(selected)}/>
+                    <DropDown  title='Mechanism' inputData={Mechanism} placeHolder='Select Mechanism' sendSelected={(selected: any) => setSelectedMech(selected)} />
                     <ForSale sendCost={(cost) => setCost(cost)} />
                     <Button title='Post' onPress={submitPost} />
                 </View>

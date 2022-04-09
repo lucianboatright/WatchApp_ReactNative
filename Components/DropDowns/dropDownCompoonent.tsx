@@ -5,9 +5,10 @@ import SearchableDropdown from 'react-native-searchable-dropdown';
 const {height, width} = Dimensions.get('screen')
 
 interface Props {
-    sendSelectedCase: (selectedCase: any | null) => void;
+    sendSelected: (selected: any | null) => void;
     placeHolder: string;
     inputData: any;
+    title: string;
 
 }
 
@@ -16,10 +17,11 @@ const App : FC <Props> = (props) => {
 //   const [serverData, setServerData] = useState([]);
   const [selectedWatch, setSelectedWatch] = useState<any>(null)
   const [placeholder, setPlaceHolder] = useState<string>(props.placeHolder)
+  
 
 
   useEffect(() => {
-    props.sendSelectedCase(selectedWatch)
+    props.sendSelected(selectedWatch)
   })
 
   return (

@@ -139,7 +139,8 @@ const App : FC = (props) => {
                         <Text style={styles.infoText}>User Email : {userEmail}</Text>
                         <Text style={styles.infoText}>You have {watchNumber} in you collection</Text>
                         <Text style={styles.infoText}>For Sale: {forSaleCount} Not for Sale: {notForSaleCount}</Text>
-                        <Button title="SignOut" onPress={signOutUser} />
+                        {/* <Button title="SignOut" onPress={signOutUser} /> */}
+                        <Text style={styles.infoText}>Following:</Text>
                     </View>
                     <View style={styles.profileImageBox}>
                         {/* <TouchableOpacity onPress={profileUpload}>
@@ -163,7 +164,7 @@ const App : FC = (props) => {
             </View>
             <View style={styles.approvedPosts}>
             {startFilter ?
-                <View>
+                <View >
                     {filteredPost.length === 0 ?
                     <View>
                         <FlatList
@@ -202,6 +203,7 @@ const App : FC = (props) => {
                         <View>
                             <FlatList
                             data={filteredPost}
+                            style={{width: '10%'}}
                             renderItem={
                                     ({item}) => <Rendering
                                         message={item.data().message}
@@ -292,16 +294,18 @@ const styles = StyleSheet.create({
         padding: 5,
         flexDirection: 'row',
         justifyContent: 'space-between',
-        // paddingBottom: 30,
-        
-
+    },
+    profileImageBox: {
+        height: 10,
+        width: '90%',
+        flex: 0.6,
     },
     headerInfo: {
         // flex: 0.7
         width: '55%',
     },
     approvedPosts: {
-        flex: 0.7,
+        flex: 1,
     },
     button: {
         // backgroundColor: 'red',
@@ -351,11 +355,6 @@ const styles = StyleSheet.create({
     //     // borderColor: "grey",
     //     // paddingBottom: 10,
     // },
-    profileImageBox: {
-        height: 10,
-        width: '90%',
-        // flex: 0.4,
-    },
     text: {
         color: 'white',
         fontWeight: 'bold',

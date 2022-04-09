@@ -7,8 +7,8 @@ import "firebase/compat/firestore"
 import { FlatList } from 'react-native-gesture-handler';
 import { Rendering } from '../Components/Rendering';
 
+import { WatchList } from '../Components/DataLists';
 import { WatchScrollList } from '../Components/Inputs';
-
 
 const App : FC = (props) => {
 
@@ -98,6 +98,7 @@ const App : FC = (props) => {
 
     const changeBoxView = async (openBox: boolean) => {
         setOpenBoxContainer(!openBox)
+        console.log('hey',openBox)
     }
 
     const testing = () => {
@@ -123,7 +124,7 @@ const App : FC = (props) => {
     }, [watchFilter, startFilter, notForSaleFilter, forSaleFilter])
     return (
         <View style={styles.container}>
-            <WatchScrollList sendWatchFilter={(name: string) => changeFilter(name)} />
+            <WatchScrollList inportData={WatchList} sendWatchFilter={(name: string) => changeFilter(name)} />
             <TouchableOpacity style={styles.button} onPress={clearWatchFilter}>
                 <Text style={styles.text}>Clear Filter</Text>
             </TouchableOpacity>
@@ -135,7 +136,7 @@ const App : FC = (props) => {
                     <Text style={styles.text}>Not for Sale</Text>
                 </TouchableOpacity>
             </View>
-            {/* <Button style={styles.button} title='TESTING' onPress={testing} /> */}
+            <Button style={styles.button} title='TESTING' onPress={testing} />
             <View style={styles.approvedPosts}>
                 {startFilter ?
                 <View>
@@ -231,8 +232,8 @@ const App : FC = (props) => {
                             style={styles.grid}
                             renderItem={
                                     ({item}) => <Rendering
-                                    // sendBoxOpening={(openBox: boolean) => setOpenBoxContainer(openBox)}
-                                    onPress={() => setOpenBoxContainer(!openBoxContainer)}
+                                    sendBoxOpening={(openBox: boolean) => changeBoxView(openBox)}
+                                    // onPress={() => setOpenBoxContainer(!openBoxContainer)}
                                     message={item.data().message}
                                     name={item.data().userName}
                                     iamge_1={item.data().iamge_1}

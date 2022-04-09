@@ -4,7 +4,6 @@ import { LikesButton, UserProfile, DeleteIcon, CloseWindow } from "../Inputs";
 import { CommentsBar, WatchInfoLines } from ".";
 import InsetShadow from 'react-native-inset-shadow'
 
-// import Image1 = '../../assets/pictures/woodenBox_5.jpg'
 
 import { NestedScreen } from "../../ScreensOptions";
 
@@ -36,8 +35,8 @@ interface Props {
     userIdNumber: any;
     onApprove: () => void;
     onReject: () => void;
-    // sendBoxOpening: (openBox: boolean) => void;
-    onPress: () => void;
+    sendBoxOpening: (openBox: boolean) => void;
+    // onPress: () => void;
 }
 
 const formatTime = (timeStamp: number) : any => {
@@ -74,20 +73,22 @@ const App : React.FC <Props> = (props) => {
     const navigation = useNavigation<StackNavigationProp<RootStackParamsList>>();
 
     const openClicked = () => {
-        console.log('pre',openBox)
-        console.log('pre',openBoxSend)
+        // console.log('pre',openBox)
+        // console.log('pre',openBoxSend)
         console.log('CLICKED')
         // setOpenBox(!openBox)
         // setOpenBoxSend(!openBoxSend)
         // props.sendBoxOpening(openBox)
         setOpenBox(!openBox)
         // props.sendBoxOpening(openBox)
-        console.log('post',openBox)
-        console.log('post',openBoxSend)
         // props.onPress
     }
+    console.log('post',openBox)
+
 
     useEffect(() => {
+        // console.log('pre',openBox)
+        // console.log('pre',openBoxSend)
     }, [])
 
     return (
@@ -98,11 +99,13 @@ const App : React.FC <Props> = (props) => {
                         <TouchableOpacity style={styles.viewBoxButton} onPress={() => navigation.navigate('NestedScreen', {id: props.userIdNumber, name: props.name})} >
                             <Text style={styles.headerTitle}>User: {props.name}</Text>
                         </TouchableOpacity>
-                        <DeleteIcon postId={props.postId} postUser={props.userIdNumber} likes={props.likes} />
-                        <TouchableHighlight onPress={() => (openClicked(), props.onPress)}>
-                            <Image style={styles.icon} source={require('../../assets/icons/closeWindowIcon.png')} />
-                        </TouchableHighlight>                        
-                        <LikesButton postId={props.postId} likes={props.likes} />
+                        <View style={{flexDirection: 'row', justifyContent: 'space-between', width: '50%'}}>
+                            <DeleteIcon postId={props.postId} postUser={props.userIdNumber} likes={props.likes} />
+                            <TouchableHighlight onPress={() => (openClicked(), props.onPress)}>
+                                <Image style={styles.icon} source={require('../../assets/icons/closeWindowIcon.png')} />
+                            </TouchableHighlight>                        
+                            <LikesButton postId={props.postId} likes={props.likes} />
+                        </View>
                     </View>
                     <View style={styles.postContainer}>
                         <View style={styles.infoBoxContainer} >
@@ -120,7 +123,7 @@ const App : React.FC <Props> = (props) => {
                             </View>
                         </View>
                         <View style={styles.imageContainer}>
-                            <ImageBackground source={require('../../assets/pictures/woodenBox_5.jpg')} style={styles.imageContainerBorder}>
+                            <ImageBackground source={require('../../assets/pictures/woodenBox_5.png')} style={styles.imageContainerBorder}>
                                 {/* <Image style={styles.imageBoxLarge} source={require('../../assets/pictures/watch_roll_blue.png')} /> */}
                                 <Image style={styles.imageBox} source={{uri: props.iamge_1}} />
                             </ImageBackground>
@@ -134,10 +137,10 @@ const App : React.FC <Props> = (props) => {
                 <View style={styles.imageBoxContainer}>
                     <TouchableOpacity onPress={() => (openClicked(), props.onPress)}>
                         
-                        <ImageBackground source={require('../../assets/pictures/woodenBox_5.jpg')} style={styles.imageContainerBorderBox}>
-                            <InsetShadow shadowOpacity={0.9} shadowOffset={0.5} >
-                                {/* <View> */}
-                                    <Image style={styles.imageBoxLarge} source={require('../../assets/pictures/watch_roll_blue.png')} />
+                        <ImageBackground source={require('../../assets/pictures/woodenBox_5.png')} style={styles.imageContainerBorderBox}>
+                            <InsetShadow left={true} right={true} bottom={true} >
+                                {/* <View style={{}}> */}
+                                    <Image style={styles.imageBoxLarge} source={{uri: props.iamge_1}} />
                                 {/* </View> */}
                             </InsetShadow>
                         </ImageBackground>
@@ -158,7 +161,6 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         marginVertical: 10,
         paddingBottom: 0,
-        // paddingHorizontal: 10,
         borderRadius: 10,
         backgroundColor: '#fff',
         shadowColor: '#000',
@@ -172,16 +174,13 @@ const styles = StyleSheet.create({
         justifyContent:'space-between',
     },
     infoBoxContainer: {
+        width: '48%',
         paddingLeft: 0,
-        // flex: 1,
-        // height: 'auto',
     },
     infoBox: {
         borderWidth: 1,
         borderBottomLeftRadius: 10,
         borderColor: 'grey',
-        // borderBottomRightRadius: 10,
-        // width: '95%',
         paddingLeft: 5,
     },
     userHeader: {
@@ -198,8 +197,6 @@ const styles = StyleSheet.create({
         elevation: 5
     },
     headerTitle: {
-        // paddingLeft: 5,
-        // paddingTop: 5,
         fontWeight: 'bold',
         borderColor: 'black',
         fontSize: 20,
@@ -218,67 +215,45 @@ const styles = StyleSheet.create({
         borderColor: 'grey' 
     },
     imageContainer: {
-        // flex: 1,
-        // margin: 5,
-
+        // width: '50%'
+        flex: 1,
     },
 
     imageContainerBorder: {
-        // marginLeft: 5,
-        // padding: 6,
+        // width: '99.5%',
+        // height: '100%',
         flex: 1,
-        // margin: 5,
-        // height: "70%",
-        // width: "100%",
-        height: "100%",
-        width: "99.5%",
     },
     imageBox: {
         borderRadius: 5,
-        height: 300,
-        width: 180,
-        margin: 10
-        // flex: 1,
-        // borderRadius: 10,
-        // borderBottomRightRadius: 10,
-        // marginTop: 9,
-        // marginBottom: 9,
-        // marginLeft: 9,
-        // marginRight: 9,
+        // height: 264,
+        width: 172,
+        aspectRatio: 10 / 16,
+        marginLeft: 12,
+        marginTop: 11,
+        marginBottom: 11,
+        marginRight: 0,
     },
 
     imageBoxContainer: {
-        // paddingLeft: 6,
-    //    paddingLeft: 'auto',
-    //    paddingRight: 'auto',
-    // padding: 7,
-        // flex: 1,
-        width: '100%',
+        flex: 1,
+        width: (width -10) / 2,
+        // height: 'auto',
+        // marginLeft: 2,        
     },
     imageContainerBorderBox: {
-        // marginLeft: 5,
         flex: 1,
-        // margin: 2,
-        // padding: 6,
-        height: "100%",
-        width: "100%",
+        paddingTop: 8,
     },
     imageBoxLarge: {
-        // justifyContent: 'center', 
-        // alignSelf: 'center',
-        margin: 13,
-        height: 250,
-        width: 165,
-        // borderRadius: 10,
-        // borderRadius: 0,
-        // backgroundColor: '#fff',
+        marginLeft: 10,
+        marginTop: 3,
+        marginBottom: 8,
+        marginRight: 3,
+        flex: 1,
+        aspectRatio: 10 / 16,
+        borderRadius: 10,
         
-        // shadowOffset: {
-        //     width: 3,
-        //     height: 3
-        // },
-        // shadowColor: '#ccc',
-        // shadowOpacity: 0.7
     },
 
     likeIcon: {
@@ -292,12 +267,11 @@ const styles = StyleSheet.create({
         backgroundColor: '#44D0DF',
         borderTopLeftRadius: 10,
         borderTopRightRadius: 5,
-        // marginLeft: 5,
         paddingTop: 5,
         paddingLeft: 5,
         paddingRight: 5,
         width: 'auto',
-        minWidth: '45%'
+        minWidth: '48%'
     },
     viewBoxButtonText: {
     },

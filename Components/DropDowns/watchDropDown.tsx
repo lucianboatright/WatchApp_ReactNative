@@ -4,26 +4,11 @@ import SearchableDropdown from 'react-native-searchable-dropdown';
 
 const {height, width} = Dimensions.get('screen')
 
-const items = [
-  {id: 1, name: 'Rolex'},
-  {id: 2, name: 'Omega'},
-  {id: 3, name: 'Timex'},
-  {id: 4, name: 'Casio'},
-  {id: 5, name: 'Timor'},
-  {id: 6, name: 'Seiko'},
-  {id: 7, name: 'Vostok'},
-  {id: 8, name: 'Enicar'},
-  {id: 9, name: 'Smiths'},
-  {id: 10, name: 'J W Benson'},
-  {id: 11, name: 'Raketa'},
-  {id: 12, name: 'Swatch'},
-  {id: 13, name: 'Braun'},
-];
-
 interface Props {
-    sendSelectedWatch: (selected: string | null) => void;
+    sendSelected: (selected: string | null) => void;
     title: string;
     placeHolder: string;
+    inputData: any;
 
 }
 
@@ -45,8 +30,8 @@ const App : FC <Props> = (props) => {
         </Text>
         <View style={{flexDirection: 'row'}}>
             <SearchableDropdown
-            onTextChange={(text) => console.log(text)}
-            onItemSelect={(item) => setSelected(item.name)}
+            onTextChange={(text: any) => console.log(text)}
+            onItemSelect={(item: { name: any; }) => setSelected(item.name)}
             containerStyle={{padding: 0}}
             textInputStyle={{
                 // Inserted text style
@@ -75,7 +60,7 @@ const App : FC <Props> = (props) => {
             itemsContainerStyle={{
                 maxHeight: '60%',
             }}
-            items={items}
+            items={props.inputData}
             // defaultIndex={2}
             placeholder={placeholder}
             resPtValue={false}

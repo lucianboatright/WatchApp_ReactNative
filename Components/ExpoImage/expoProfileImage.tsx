@@ -151,7 +151,6 @@ const App : FC <Props> = (props) => {
 
   const launchEditor = (uri: string) => {
     setImage(uri);;
-    // console.log(uri);
   }
 
   const changeProfile = async () => {
@@ -167,10 +166,6 @@ const App : FC <Props> = (props) => {
   }
 
   useEffect(() => {
-    // setMarginHeight(props.margintop);
-    // setup()
-    
-    console.log(props.profilePic);
     (async () => {
       if (Platform.OS !== 'web') {
         const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -187,8 +182,11 @@ const App : FC <Props> = (props) => {
             { props.profilePic && !resetPic? 
                 <View style={styles.profileImage}>
                     <Image style={{height: 100, width: 100, borderRadius: 50}} source={{uri: props.profilePic}} />
-                    <TouchableHighlight onPress={changeProfile}>
-                        <Image style={{height: 20, width: 20}} source={require('../../assets/icons/changeIcon.png')} />
+                    <TouchableHighlight onPress={changeProfile} style={styles.refresh}>
+                      <View style={{flexDirection: 'row', width: '100%', justifyContent: 'space-between'}}>
+                      <Image style={{height: 20, width: 20}} source={require('../../assets/icons/changeIcon.png')} />
+                        <Text style={{ color: 'grey', fontWeight: 'bold', paddingTop: 1, paddingRight: 3}}>Change</Text>
+                      </View>
                     </TouchableHighlight>
                 </View>
             :
@@ -218,7 +216,7 @@ export default App
 const styles = StyleSheet.create({
     outerContainer: {
         // backgroundColor: 'red',
-        width: '40%'
+        // width: '40%'
         
     },
     container: {
@@ -287,6 +285,13 @@ const styles = StyleSheet.create({
     profileImage: {
         // justifyContent: 'center',
         // alignContent: 'flex-start',
+        // borderColor: 'grey',
+        // borderWidth: 1,
+        // borderRadius: 10,
+        // width: '100%',
+
+    },
+    refresh: {
         borderColor: 'grey',
         borderWidth: 1,
         borderRadius: 10,
