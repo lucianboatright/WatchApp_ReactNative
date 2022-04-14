@@ -318,6 +318,7 @@ const styles = StyleSheet.create({
         borderBottomColor: 'grey'
     },
     text: {
+        paddingTop: 5,
         marginLeft: 5,
         color: '#000',
         fontWeight: '700',

@@ -21,13 +21,16 @@ const App: FC<Props> = (props) => {
 
     const [userLiked, setUserLiked] = useState<boolean>(false)
     const [info, setInfo] = useState<any>(null)
+    const [isFollowing, setIsFollowing] = useState<boolean>(false)
 
     const auth = getAuth()
     const user = auth.currentUser?.uid
 
     const deletePost = async () => {
+        setIsFollowing(!isFollowing)
         console.log('confirm change')
     }
+    console.log(isFollowing)
 
     // const deletePost = async () => {
     //     Alert.alert("Are your sure?",
@@ -51,16 +54,22 @@ const App: FC<Props> = (props) => {
     // }
 
     useEffect(() => {
-
+        setIsFollowing(props.isFollowing)
     }, [])
 
 
     return (
         <TouchableHighlight onPress={() => deletePost()}>
-            {user === props.postUser ?
-                <Image style={styles.likeIconFalse} source={require('../../assets/icons/notFollowing.png')} />
+            {isFollowing ?
+                <View style={styles.container}>
+                    <Image style={styles.likeIconTrue} source={require('../../assets/icons/followingIcon.png')} />
+                    <Text style={styles.text}>Following</Text>
+                </View>
                 :
-                <Image style={styles.likeIconFalse} source={require('../../assets/icons/following.png')} />
+                <View style={styles.containerNot}>
+                    <Image style={styles.likeIconFalse} source={require('../../assets/icons/nofollowing.png')} />
+                    <Text style={styles.textNot}>Follow?</Text>
+                </View>
             }
         </TouchableHighlight>
     )
@@ -70,11 +79,39 @@ export default App;
 
 const styles = StyleSheet.create({
     likeIconFalse: {
-        height: 35,
-        width: 35,
+        height: 25,
+        width: 25,
     },
     likeIconTrue: {
-        height: 35,
-        width: 35,
+        height: 25,
+        width: 25,
     },
+    container: {
+        marginTop: 5,
+        paddingLeft: 5,
+        paddingRight: 5,
+        borderColor: 'lightgreen',
+        borderWidth: 2,
+        borderRadius: 25,
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    containerNot: {
+        marginTop: 5,
+        paddingLeft: 7,
+        paddingRight: 10,
+        borderColor: 'tomato',
+        borderWidth: 2,
+        borderRadius: 25,
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    text: {
+        paddingLeft: 5,
+        fontWeight: 'bold',
+    },
+    textNot: {
+        paddingLeft: 10,
+        fontWeight: 'bold',
+    }
 })

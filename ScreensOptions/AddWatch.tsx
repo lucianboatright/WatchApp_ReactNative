@@ -10,7 +10,7 @@ import { WatchList, CaseSize, Mechanism, Material, Lugs } from '../Components/Da
 
 import { DropDown } from '../Components/DropDowns';
 
-import firebase  from "firebase/compat/app";
+import firebase from "firebase/compat/app";
 import "firebase/compat/auth"
 import "firebase/compat/firestore"
 
@@ -19,9 +19,9 @@ import Watch_2 from '../assets/icons/watch_2.png'
 import Watch_3 from '../assets/icons/watch_3.png'
 import Watch_4 from '../assets/icons/watch_4.png'
 
-const {height, width} = Dimensions.get('screen')
+const { height, width } = Dimensions.get('screen')
 
-const App : FC <Props> = (props) => {
+const App: FC<Props> = (props) => {
 
     const [post, setPost] = useState<string | null>(null)
     const [userDetails, setUserDetails] = useState<any>(null)
@@ -40,7 +40,7 @@ const App : FC <Props> = (props) => {
     const [cost, setCost] = useState<string | null>('Not For Sale')
 
     const submitPost = async () => {
-        if(message === null) {
+        if (message === null) {
             Alert.alert('Please enter somthing before submitting')
         } else {
             // alert('Post Button')
@@ -64,9 +64,9 @@ const App : FC <Props> = (props) => {
                 // approved: true
             }
             console.log('POST', data)
-            try{
+            try {
                 await firebase.firestore().collection('posts').add(data);
-            } catch(err){
+            } catch (err) {
                 console.log(err)
             }
         }
@@ -88,7 +88,7 @@ const App : FC <Props> = (props) => {
     const getUserDetails = async () => {
         const uid = firebase.auth().currentUser.uid;
         const user = await firebase.firestore().collection('users').doc(uid).get();
-        setUserDetails({id: user.id, ...user.data()})
+        setUserDetails({ id: user.id, ...user.data() })
         setUserId(user.id)
     }
 
@@ -100,7 +100,7 @@ const App : FC <Props> = (props) => {
         <View style={styles.container}>
             <ScrollView>
                 <View style={styles.ImageSelectors}>
-                    <Imagepicker watchImage={Watch_1} sendUrl={(url) => setUrl_1(url) } margintop={25} />
+                    <Imagepicker watchImage={Watch_1} sendUrl={(url) => setUrl_1(url)} margintop={25} />
                     <Imagepicker watchImage={Watch_2} sendUrl={(url) => setUrl_2(url)} margintop={25} />
                 </View>
                 <View style={styles.ImageSelectors}>
@@ -110,12 +110,12 @@ const App : FC <Props> = (props) => {
             </ScrollView>
             <View>
                 <View>
-                    <MultiLineInput sendMessage={(value: string) => setMessage(value)} setBorder={{borderBottomWidth: 1}} setHeight={{padding: 10, height: 60}} />
-                    <DropDown title='Select Watch' inputData={WatchList} placeHolder='Select Watch' sendSelected={(selected: any) => setSelectedWatch(selected)}/>
+                    <MultiLineInput sendMessage={(value: string) => setMessage(value)} setBorder={{ borderBottomWidth: 1 }} setHeight={{ padding: 10, height: 60 }} />
+                    <DropDown title='Select Brand' inputData={WatchList} placeHolder='Select Watch' sendSelected={(selected: any) => setSelectedWatch(selected)} />
                     <DropDown title='Case Size' inputData={CaseSize} placeHolder="Select Case Size" sendSelected={(selected: any) => setSelectedCase(selected)} />
                     <DropDown title='Material' inputData={Material} placeHolder='Select Material' sendSelected={(selected: any) => setSelectedMaterial(selected)} />
-                    <DropDown title='Lug Size' inputData={Lugs} placeHolder='Select Lug Size' sendSelected={(selected) => setSelectedLug(selected)}/>
-                    <DropDown  title='Mechanism' inputData={Mechanism} placeHolder='Select Mechanism' sendSelected={(selected: any) => setSelectedMech(selected)} />
+                    <DropDown title='Lug Size' inputData={Lugs} placeHolder='Select Lug Size' sendSelected={(selected) => setSelectedLug(selected)} />
+                    <DropDown title='Movment' inputData={Mechanism} placeHolder='Select Mechanism' sendSelected={(selected: any) => setSelectedMech(selected)} />
                     <ForSale sendCost={(cost) => setCost(cost)} />
                     <TouchableOpacity style={styles.buttonSmall} onPress={submitPost}>
                         <Text style={styles.text}>Submit</Text>
@@ -161,7 +161,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         padding: 10,
-        borderRadius:5,
+        borderRadius: 5,
         marginVertical: 10
     },
     buttonSmall: {
@@ -170,11 +170,11 @@ const styles = StyleSheet.create({
         marginLeft: 'auto',
         marginRight: 'auto',
         width: '48%',
-        
+
         alignItems: 'center',
         justifyContent: 'center',
         padding: 2.5,
-        borderRadius:5,
+        borderRadius: 5,
         marginVertical: 2,
     },
     text: {
