@@ -39,11 +39,11 @@ interface Props {
     // onPress: () => void;
 }
 
-const formatTime = (timeStamp: number) : any => {
+const formatTime = (timeStamp: number): any => {
     const calculatedTime = Date.now() - timeStamp;
-    if(calculatedTime > 1000) return `${calculatedTime / 1000} s`;
-    if((calculatedTime / 1000) > 60) return `${(calculatedTime / 1000) / 60 } min`;
-    if(((calculatedTime / 1000) / 60) > 60) return `${((calculatedTime / 1000) / 60) / 60} hr`
+    if (calculatedTime > 1000) return `${calculatedTime / 1000} s`;
+    if ((calculatedTime / 1000) > 60) return `${(calculatedTime / 1000) / 60} min`;
+    if (((calculatedTime / 1000) / 60) > 60) return `${((calculatedTime / 1000) / 60) / 60} hr`
     else `${(((calculatedTime / 1000) / 60) / 60) / 24} d`
 }
 
@@ -59,7 +59,7 @@ type RootStackParamsList = {
 }
 
 
-const App : React.FC <Props> = (props) => {
+const App: React.FC<Props> = (props) => {
 
     const [openBox, setOpenBox] = useState<boolean>(false)
     const [openBoxSend, setOpenBoxSend] = useState<boolean>(false)
@@ -83,7 +83,7 @@ const App : React.FC <Props> = (props) => {
         // props.sendBoxOpening(openBox)
         // props.onPress
     }
-    console.log('post',openBox)
+    // console.log('post',openBox)
 
 
     useEffect(() => {
@@ -93,17 +93,17 @@ const App : React.FC <Props> = (props) => {
 
     return (
         <View>
-            {openBox ?  
+            {openBox ?
                 <View style={styles.container}>
                     <View style={styles.userHeader}>
-                        <TouchableOpacity style={styles.viewBoxButton} onPress={() => navigation.navigate('NestedScreen', {id: props.userIdNumber, name: props.name})} >
+                        <TouchableOpacity style={styles.viewBoxButton} onPress={() => navigation.navigate('NestedScreen', { id: props.userIdNumber, name: props.name })} >
                             <Text style={styles.headerTitle}>User: {props.name}</Text>
                         </TouchableOpacity>
-                        <View style={{flexDirection: 'row', justifyContent: 'space-between', width: '50%'}}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '50%' }}>
                             <DeleteIcon postId={props.postId} postUser={props.userIdNumber} likes={props.likes} />
                             <TouchableHighlight onPress={() => (openClicked(), props.onPress)}>
                                 <Image style={styles.icon} source={require('../../assets/icons/closeWindowIcon.png')} />
-                            </TouchableHighlight>                        
+                            </TouchableHighlight>
                             <LikesButton postId={props.postId} likes={props.likes} />
                         </View>
                     </View>
@@ -125,26 +125,26 @@ const App : React.FC <Props> = (props) => {
                         <View style={styles.imageContainer}>
                             <ImageBackground source={require('../../assets/pictures/woodenBox_5.png')} style={styles.imageContainerBorder}>
                                 {/* <Image style={styles.imageBoxLarge} source={require('../../assets/pictures/watch_roll_blue.png')} /> */}
-                                <Image style={styles.imageBox} source={{uri: props.iamge_1}} />
+                                <Image style={styles.imageBox} source={{ uri: props.iamge_1 }} />
                             </ImageBackground>
                         </View>
                     </View>
                     <View style={styles.commentsBox}>
-                        <CommentsBar postId={props.postId} comments={props.comments}/>
+                        <CommentsBar postId={props.postId} comments={props.comments} />
                     </View>
                 </View>
-            :   
+                :
                 <View style={styles.imageBoxContainer}>
                     <TouchableOpacity onPress={() => (openClicked(), props.onPress)}>
-                        
+
                         <ImageBackground source={require('../../assets/pictures/woodenBox_5.png')} style={styles.imageContainerBorderBox}>
                             <InsetShadow left={true} right={true} bottom={true} >
                                 {/* <View style={{}}> */}
-                                    <Image style={styles.imageBoxLarge} source={{uri: props.iamge_1}} />
+                                <Image style={styles.imageBoxLarge} source={{ uri: props.iamge_1 }} />
                                 {/* </View> */}
                             </InsetShadow>
                         </ImageBackground>
-                        
+
                     </TouchableOpacity>
                 </View>
             }
@@ -166,12 +166,12 @@ const styles = StyleSheet.create({
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 1 },
         shadowOpacity: 0.8,
-        shadowRadius: 2,  
+        shadowRadius: 2,
         elevation: 5
     },
     postContainer: {
         flexDirection: 'row',
-        justifyContent:'space-between',
+        justifyContent: 'space-between',
     },
     infoBoxContainer: {
         width: '48%',
@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 1 },
         shadowOpacity: 0.4,
-        shadowRadius: 5,  
+        shadowRadius: 5,
         elevation: 5
     },
     headerTitle: {
@@ -212,7 +212,7 @@ const styles = StyleSheet.create({
         paddingLeft: 5,
         flex: 1,
         marginBottom: 0,
-        borderColor: 'grey' 
+        borderColor: 'grey'
     },
     imageContainer: {
         // width: '50%'
@@ -237,7 +237,7 @@ const styles = StyleSheet.create({
 
     imageBoxContainer: {
         flex: 1,
-        width: (width -10) / 2,
+        width: (width - 10) / 2,
         // height: 'auto',
         // marginLeft: 2,        
     },
@@ -253,7 +253,7 @@ const styles = StyleSheet.create({
         flex: 1,
         aspectRatio: 10 / 16,
         borderRadius: 10,
-        
+
     },
 
     likeIcon: {

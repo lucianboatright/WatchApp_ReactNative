@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, Button } from 'react-native'
 import { FilterLines, FollowButton, WatchScrollList } from '../Components/Inputs';
 
-import firebase  from "firebase/compat/app";
+import firebase from "firebase/compat/app";
 import "firebase/compat/auth"
 import "firebase/compat/firestore"
 
@@ -15,7 +15,7 @@ interface Props {
     name: any;
 }
 
-const NestedScreen:  React.FC<Props> = ({ route, navigation }) => {
+const NestedScreen: React.FC<Props> = ({ route, navigation }) => {
 
     const { id } = route.params
     const { name } = route.params
@@ -34,9 +34,14 @@ const NestedScreen:  React.FC<Props> = ({ route, navigation }) => {
     const [userDetials, setUserDetails] = useState<any>(null)
     const [watchesForSale, setWatchesForSale] = useState<number>(0)
     const [watchesNotForSale, setWatchesNotForSale] = useState<number>(0)
+    const [isFollowing, setIsFollowing] = useState<boolean>(false)
+    const [followerArray, setFollowerArray] = useState<any>(null)
 
     let saleItems = 0
     let notSaleItem = 0
+
+    const auth = getAuth()
+    const user = auth.currentUser?.uid
 
     const getPostsandUserInfo = async () => {
         firebase.firestore().collection('posts').where('userIdNumber', '==', id).onSnapshot(querySnapShot => {
@@ -44,10 +49,12 @@ const NestedScreen:  React.FC<Props> = ({ route, navigation }) => {
             setApprovedPosts(documents)
             setWatchNumber(documents.length)
         })
-        const userDeta = firebase.firestore().collection('users').doc(id).get();
+        const userDeta = await firebase.firestore().collection('users').doc(id).get();
         setUserDetails(userDeta)
         getWatchSale()
         getFollowers()
+        // console.log('user', userDeta.data().followers[0].followerId)
+        setFollowerArray(userDeta.data().followers)
     }
 
     const getWatchSale = async () => {
@@ -63,15 +70,18 @@ const NestedScreen:  React.FC<Props> = ({ route, navigation }) => {
         setWatchesNotForSale(notSaleItem)
 
     }
-
+    // console.log(followerArray)
     const getFollowers = async () => {
-
+        if (followerArray.filter((e: { followerId: string | undefined; }) => e.followerId === user)) {
+            setIsFollowing(true)
+        }
     }
+    console.log(isFollowing)
 
     const testing = () => {
         console.log('FOORR SSAALLEE', watchesForSale)
         console.log('NNOOTT FOORR SSAALLEE', watchesNotForSale)
-    
+
     }
 
     const changeFilter = (name: string) => {
@@ -93,11 +103,11 @@ const NestedScreen:  React.FC<Props> = ({ route, navigation }) => {
         } else if (notForSaleFilter && watchFilter) {
             const filtered = approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().brand == watchFilter && item.data().cost == 'Not for sale')
             setFilteredPosts(filtered)
-        } else if ( notForSaleFilter && !watchFilter) {
+        } else if (notForSaleFilter && !watchFilter) {
             const filtered = approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost == 'Not for sale')
             setFilteredPosts(filtered)
         } else {
-            const filtered = approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().brand == watchFilter )
+            const filtered = approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().brand == watchFilter)
             setFilteredPosts(filtered)
         }
     }
@@ -119,7 +129,7 @@ const NestedScreen:  React.FC<Props> = ({ route, navigation }) => {
         if (notForSaleFilter) {
             setNotForSaleFilter(!notForSaleFilter)
             setForSaleFilter(!forSaleFilter)
-            
+
         }
         setForSaleFilter(!forSaleFilter)
     }
@@ -150,9 +160,9 @@ const NestedScreen:  React.FC<Props> = ({ route, navigation }) => {
     return (
         <View style={styles.screen}>
             <View style={styles.headerContainter}>
-                <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                     <Text style={styles.text}>{name}'s Watch Box</Text>
-                    <FollowButton postId={null} likes={null} postUser={null}/>
+                    <FollowButton authUser={user} isFollowing={isFollowing} postUser={id} />
                     <TouchableOpacity style={styles.goBackButton} onPress={() => navigation.goBack()}>
                         <Text style={styles.goBackText}>{"<-"} Back</Text>
                     </TouchableOpacity>
@@ -164,7 +174,7 @@ const NestedScreen:  React.FC<Props> = ({ route, navigation }) => {
                 <View style={styles.showInfo}>
                     <View style={styles.saleFilter}>
                         <Text style={styles.filterText}>{watchesForSale}  : </Text>
-                        <TouchableOpacity style={forSaleFilter === true ? styles.buttonSmallHilight : styles.buttonSmall}onPress={getFilterForSale}>
+                        <TouchableOpacity style={forSaleFilter === true ? styles.buttonSmallHilight : styles.buttonSmall} onPress={getFilterForSale}>
                             <Text style={styles.filterButtonText}>View For Sale</Text>
                         </TouchableOpacity>
                         {/* <Button title='View For Sale' onPress={setForSaleFilter} /> */}
@@ -177,88 +187,88 @@ const NestedScreen:  React.FC<Props> = ({ route, navigation }) => {
                         {/* <Button style={styles.filterButton} title='View Not For Sale' onPress={setNotForSaleFilter} /> */}
                     </View>
                 </View>
-                <WatchScrollList sendWatchFilter={(name: string) => changeFilter(name)}/>
+                {/* <WatchScrollList sendWatchFilter={(name: string) => changeFilter(name)} /> */}
             </View>
             <View style={styles.approvedPosts}>
                 {startFilter ?
-                <View>
-                    {filteredPost.length === 0 ?
                     <View>
-                        <Text style={styles.NoWatches}>Be the first to add a {watchFilter}</Text>
-                        <FlatList
-                        data={approvedPost}
-                        renderItem={
-                                ({item}) => <Rendering
-                                message={item.data().message}
-                                name={item.data().userName}
-                                iamge_1={item.data().iamge_1}
-                                iamge_2={item.data().iamge_2}
-                                iamge_3={item.data().iamge_3}
-                                iamge_4={item.data().iamge_4}
-                                brand={item.data().brand}
-                                caseSize={item.data().caseSize}
-                                caseMaterial={item.data().caseMaterial}
-                                lugsWidth={item.data().lugsWidth}
-                                mechanism={item.data().mechanism}
-                                cost={item.data().cost}
-                                timeStamp={item.data().timeStamp}
-                                postId={item.id}
-                                likes={item.data().likes}
-                                userIdNumber={item.data().userIdNumber}
-                                // userDetails={item.data().uid}
-                                comments={item.data().comments}
-                                approved={''}
-                                onApprove={function (): void {
-                                    throw new Error('Function not implemented.');
-                                } } onReject={function (): void {
-                                    throw new Error('Function not implemented.');
-                                } }
+                        {filteredPost.length === 0 ?
+                            <View>
+                                <Text style={styles.NoWatches}>Be the first to add a {watchFilter}</Text>
+                                <FlatList
+                                    data={approvedPost}
+                                    renderItem={
+                                        ({ item }) => <Rendering
+                                            message={item.data().message}
+                                            name={item.data().userName}
+                                            iamge_1={item.data().iamge_1}
+                                            iamge_2={item.data().iamge_2}
+                                            iamge_3={item.data().iamge_3}
+                                            iamge_4={item.data().iamge_4}
+                                            brand={item.data().brand}
+                                            caseSize={item.data().caseSize}
+                                            caseMaterial={item.data().caseMaterial}
+                                            lugsWidth={item.data().lugsWidth}
+                                            mechanism={item.data().mechanism}
+                                            cost={item.data().cost}
+                                            timeStamp={item.data().timeStamp}
+                                            postId={item.id}
+                                            likes={item.data().likes}
+                                            userIdNumber={item.data().userIdNumber}
+                                            // userDetails={item.data().uid}
+                                            comments={item.data().comments}
+                                            approved={''}
+                                            onApprove={function (): void {
+                                                throw new Error('Function not implemented.');
+                                            }} onReject={function (): void {
+                                                throw new Error('Function not implemented.');
+                                            }}
+                                        />
+                                    }
                                 />
-                            } 
-                        />
-                        </View>
-                    :
-                        <View>
-                            <FlatList
-                            data={filteredPost}
-                            renderItem={
-                                    ({item}) => <Rendering
-                                    message={item.data().message}
-                                    name={item.data().userName}
-                                    iamge_1={item.data().iamge_1}
-                                    iamge_2={item.data().iamge_2}
-                                    iamge_3={item.data().iamge_3}
-                                    iamge_4={item.data().iamge_4}
-                                    brand={item.data().brand}
-                                    caseSize={item.data().caseSize}
-                                    caseMaterial={item.data().caseMaterial}
-                                    lugsWidth={item.data().lugsWidth}
-                                    mechanism={item.data().mechanism}
-                                    cost={item.data().cost}
-                                    timeStamp={item.data().timeStamp}
-                                    postId={item.id}
-                                    likes={item.data().likes}
-                                    userIdNumber={item.data().userIdNumber}
-                                    // userDetails={item.data().uid}
-                                    comments={item.data().comments}
-                                    approved={''}
-                                    onApprove={function (): void {
-                                        throw new Error('Function not implemented.');
-                                    } } onReject={function (): void {
-                                        throw new Error('Function not implemented.');
-                                    } }
-                                    />
-                                    } 
+                            </View>
+                            :
+                            <View>
+                                <FlatList
+                                    data={filteredPost}
+                                    renderItem={
+                                        ({ item }) => <Rendering
+                                            message={item.data().message}
+                                            name={item.data().userName}
+                                            iamge_1={item.data().iamge_1}
+                                            iamge_2={item.data().iamge_2}
+                                            iamge_3={item.data().iamge_3}
+                                            iamge_4={item.data().iamge_4}
+                                            brand={item.data().brand}
+                                            caseSize={item.data().caseSize}
+                                            caseMaterial={item.data().caseMaterial}
+                                            lugsWidth={item.data().lugsWidth}
+                                            mechanism={item.data().mechanism}
+                                            cost={item.data().cost}
+                                            timeStamp={item.data().timeStamp}
+                                            postId={item.id}
+                                            likes={item.data().likes}
+                                            userIdNumber={item.data().userIdNumber}
+                                            // userDetails={item.data().uid}
+                                            comments={item.data().comments}
+                                            approved={''}
+                                            onApprove={function (): void {
+                                                throw new Error('Function not implemented.');
+                                            }} onReject={function (): void {
+                                                throw new Error('Function not implemented.');
+                                            }}
+                                        />
+                                    }
                                 />
                             </View>
                         }
                     </View>
-                :
+                    :
                     <View>
-                            <FlatList
+                        <FlatList
                             data={approvedPost}
                             renderItem={
-                                    ({item}) => <Rendering
+                                ({ item }) => <Rendering
                                     message={item.data().message}
                                     name={item.data().userName}
                                     iamge_1={item.data().iamge_1}
@@ -280,14 +290,14 @@ const NestedScreen:  React.FC<Props> = ({ route, navigation }) => {
                                     approved={''}
                                     onApprove={function (): void {
                                         throw new Error('Function not implemented.');
-                                    } } onReject={function (): void {
+                                    }} onReject={function (): void {
                                         throw new Error('Function not implemented.');
-                                    } }
-                                    />
-                                    } 
+                                    }}
                                 />
-                            </View>
-            
+                            }
+                        />
+                    </View>
+
                 }
             </View>
         </View>
@@ -297,21 +307,21 @@ const NestedScreen:  React.FC<Props> = ({ route, navigation }) => {
 export default NestedScreen
 
 const styles = StyleSheet.create({
-    screen:{
-        flex:1,
-        display:'flex',
-        backgroundColor:'white',
+    screen: {
+        flex: 1,
+        display: 'flex',
+        backgroundColor: 'white',
     },
     headerContainter: {
         paddingBottom: 10,
         borderBottomWidth: 1,
         borderBottomColor: 'grey'
     },
-    text:{
+    text: {
         marginLeft: 5,
-        color:'#000',
-        fontWeight:'700',
-        fontSize:20,
+        color: '#000',
+        fontWeight: '700',
+        fontSize: 20,
     },
     container: {
         flex: 1,
@@ -370,11 +380,11 @@ const styles = StyleSheet.create({
         // marginLeft: 'auto',
         // marginRight: 'auto',
         width: '40%',
-        
+
         alignItems: 'center',
         justifyContent: 'center',
         padding: 2.5,
-        borderRadius:5,
+        borderRadius: 5,
         marginVertical: 2,
     },
     buttonSmallHilight: {
@@ -383,11 +393,11 @@ const styles = StyleSheet.create({
         // marginLeft: 'auto',
         // marginRight: 'auto',
         width: '40%',
-        
+
         alignItems: 'center',
         justifyContent: 'center',
         padding: 2.5,
-        borderRadius:5,
+        borderRadius: 5,
         marginVertical: 2,
     },
     button: {
@@ -397,13 +407,13 @@ const styles = StyleSheet.create({
         marginLeft: 'auto',
         marginRight: 'auto',
         width: '98%',
-        
+
         alignItems: 'center',
         justifyContent: 'center',
         padding: 2.5,
-        borderRadius:5,
+        borderRadius: 5,
         marginVertical: 2,
     },
-    
+
 
 })
