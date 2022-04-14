@@ -26,11 +26,14 @@ const App: FC<Props> = (props) => {
     const auth = getAuth()
     const user = auth.currentUser?.uid
 
+    // console.log('poset', props.postUser)
+
     const deletePost = async () => {
         setIsFollowing(!isFollowing)
+        await firebase.firestore().collection('users').doc(props.postUser).update({ followers: isFollowing ? firebase.firestore.FieldValue.arrayRemove(user) : firebase.firestore.FieldValue.arrayUnion(user) })
         console.log('confirm change')
     }
-    console.log(isFollowing)
+    // console.log('here', isFollowing)
 
     // const deletePost = async () => {
     //     Alert.alert("Are your sure?",
@@ -59,19 +62,25 @@ const App: FC<Props> = (props) => {
 
 
     return (
-        <TouchableHighlight onPress={() => deletePost()}>
-            {isFollowing ?
-                <View style={styles.container}>
-                    <Image style={styles.likeIconTrue} source={require('../../assets/icons/followingIcon.png')} />
-                    <Text style={styles.text}>Following</Text>
-                </View>
+        <View>
+            {props.postUser === user ?
+                null
                 :
-                <View style={styles.containerNot}>
-                    <Image style={styles.likeIconFalse} source={require('../../assets/icons/nofollowing.png')} />
-                    <Text style={styles.textNot}>Follow?</Text>
-                </View>
+                <TouchableHighlight onPress={() => deletePost()}>
+                    {isFollowing ?
+                        <View style={styles.container}>
+                            <Image style={styles.likeIconTrue} source={require('../../assets/icons/followingIcon.png')} />
+                            <Text style={styles.text}>Following</Text>
+                        </View>
+                        :
+                        <View style={styles.containerNot}>
+                            <Image style={styles.likeIconFalse} source={require('../../assets/icons/nofollowing.png')} />
+                            <Text style={styles.textNot}>Follow?</Text>
+                        </View>
+                    }
+                </TouchableHighlight>
             }
-        </TouchableHighlight>
+        </View>
     )
 }
 

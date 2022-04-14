@@ -36,6 +36,8 @@ const NestedScreen: React.FC<Props> = ({ route, navigation }) => {
     const [watchesNotForSale, setWatchesNotForSale] = useState<number>(0)
     const [isFollowing, setIsFollowing] = useState<boolean>(false)
     const [followerArray, setFollowerArray] = useState<any>(null)
+    console.log('isfollowing2', isFollowing)
+
 
     let saleItems = 0
     let notSaleItem = 0
@@ -53,7 +55,7 @@ const NestedScreen: React.FC<Props> = ({ route, navigation }) => {
         setUserDetails(userDeta)
         getWatchSale()
         getFollowers()
-        // console.log('user', userDeta.data().followers[0].followerId)
+        console.log('user', userDeta.data().followers)
         setFollowerArray(userDeta.data().followers)
     }
 
@@ -70,14 +72,13 @@ const NestedScreen: React.FC<Props> = ({ route, navigation }) => {
         setWatchesNotForSale(notSaleItem)
 
     }
-    // console.log(followerArray)
+    // console.log('isfollowing', isFollowing)
+
     const getFollowers = async () => {
-        if (followerArray.filter((e: { followerId: string | undefined; }) => e.followerId === user)) {
+        if (followerArray.includes((e: { followerId: string | undefined; }) => e.followerId === user)) {
             setIsFollowing(true)
         }
     }
-    console.log(isFollowing)
-
     const testing = () => {
         console.log('FOORR SSAALLEE', watchesForSale)
         console.log('NNOOTT FOORR SSAALLEE', watchesNotForSale)
