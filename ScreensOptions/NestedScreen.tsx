@@ -44,6 +44,7 @@ const NestedScreen: React.FC<Props> = ({ route, navigation }) => {
 
     const auth = getAuth()
     const user = auth.currentUser?.uid
+    console.log(auth.currentUser?.metadata)
 
     const getPostsandUserInfo = async () => {
         firebase.firestore().collection('posts').where('userIdNumber', '==', id).onSnapshot(querySnapShot => {
@@ -75,7 +76,7 @@ const NestedScreen: React.FC<Props> = ({ route, navigation }) => {
     // console.log('isfollowing', isFollowing)
 
     const getFollowers = async () => {
-        if (followerArray.includes((e: { followerId: string | undefined; }) => e.followerId === user)) {
+        if (followerArray.filter((e: { followerId: string | undefined; }) => e.followerId === user)) {
             setIsFollowing(true)
         }
     }
@@ -112,18 +113,6 @@ const NestedScreen: React.FC<Props> = ({ route, navigation }) => {
             setFilteredPosts(filtered)
         }
     }
-
-    // const setForSaleFilter = () => {
-    //     const filtered = approvedPost.filter((item: { data: () => { (): any; new(): any; cost: string; }; }) => item.data().cost != 'Not for sale')
-    //     setFilteredPosts(filtered)
-    //     setFilterSwitch(true)
-    // }
-
-    // const setNotForSaleFilter = () => {
-    //     const filtered = approvedPost.filter((item: { data: () => { (): any; new(): any; cost: string; }; }) => item.data().cost == 'Not for sale')
-    //     setFilteredPosts(filtered)
-    //     setFilterSwitch(true)
-    // }
 
     const getFilterForSale = async () => {
         setStartFilter(true)
@@ -165,7 +154,7 @@ const NestedScreen: React.FC<Props> = ({ route, navigation }) => {
                     <Text style={styles.text}>{name}'s Watch Box</Text>
                     <FollowButton authUser={user} isFollowing={isFollowing} postUser={id} />
                     <TouchableOpacity style={styles.goBackButton} onPress={() => navigation.goBack()}>
-                        <Text style={styles.goBackText}>{"<-"} Back</Text>
+                        <Text style={styles.goBackText}>X</Text>
                     </TouchableOpacity>
                 </View>
                 <Text style={styles.text}>They currently have {watchNumber >= 2 ? `${watchNumber} watches` : `${watchNumber} watch`}</Text>
@@ -340,13 +329,15 @@ const styles = StyleSheet.create({
         marginRight: 5,
         borderBottomLeftRadius: 5,
         borderBottomRightRadius: 5,
-        paddingLeft: 5,
-        paddingRight: 5,
+        paddingLeft: 10,
+        paddingRight: 10,
+        paddingTop: 2,
     },
     goBackText: {
         color: 'white',
         fontWeight: 'bold',
         paddingTop: 3,
+        fontSize: 20,
     },
     saleFilter: {
         paddingLeft: 10,

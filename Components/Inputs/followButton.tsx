@@ -14,6 +14,7 @@ interface Props {
     authUser: any;
     isFollowing: any;
     postUser: any;
+    userName: string;
 
 }
 
@@ -25,36 +26,16 @@ const App: FC<Props> = (props) => {
 
     const auth = getAuth()
     const user = auth.currentUser?.uid
+    // const userName = auth.currentUser?.data().na
 
-    // console.log('poset', props.postUser)
+    console.log('poset', auth.currentUser)
 
     const deletePost = async () => {
         setIsFollowing(!isFollowing)
-        await firebase.firestore().collection('users').doc(props.postUser).update({ followers: isFollowing ? firebase.firestore.FieldValue.arrayRemove(user) : firebase.firestore.FieldValue.arrayUnion(user) })
+        await firebase.firestore().collection('users').doc(props.postUser).update({ followers: isFollowing ? firebase.firestore.FieldValue.arrayRemove({ name: props.userName, followerId: user }) : firebase.firestore.FieldValue.arrayUnion({ name: props.userName, followerId: user }) })
         console.log('confirm change')
     }
     // console.log('here', isFollowing)
-
-    // const deletePost = async () => {
-    //     Alert.alert("Are your sure?",
-    //         "Are you sure you want to remove this beautiful box?",
-    //         [
-    //             // The "Yes" button
-    //             {
-    //                 text: "Yes",
-    //                 onPress: () => {
-    //                     runDelete()
-    //                 },
-    //             },
-    //             // The "No" button
-    //             // Does nothing but dismiss the dialog when tapped
-    //             {
-    //                 text: "No",
-    //             },
-    //         ]
-    //     );
-
-    // }
 
     useEffect(() => {
         setIsFollowing(props.isFollowing)

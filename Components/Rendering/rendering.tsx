@@ -83,7 +83,7 @@ const App: React.FC<Props> = (props) => {
         // props.sendBoxOpening(openBox)
         // props.onPress
     }
-    // console.log('post',openBox)
+    console.log('post', openBox)
 
 
     useEffect(() => {

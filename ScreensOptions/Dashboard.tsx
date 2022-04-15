@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Button, TouchableOpacity, Image } from 'react-native';
 import { ProfileImagePicker } from '../Components/ExpoImage';
 
-import firebase  from "firebase/compat/app";
+import firebase from "firebase/compat/app";
 import "firebase/compat/auth"
 import "firebase/compat/firestore"
 
@@ -14,13 +14,13 @@ import { WatchScrollList } from '../Components/Inputs';
 import { WatchList } from '../Components/DataLists';
 
 
-const App : FC = (props) => {
+const App: FC = (props) => {
 
     const [userDetails, setUserDetails] = useState<any>(null)
     const [userEmail, setUserEmail] = useState<any>(null)
     const [userName, setUserName] = useState<any>(null)
     const [approvedPost, setApprovedPosts] = useState<any>(null)
-    const [filteredPost, setFilteredPosts] = useState<any>(null) 
+    const [filteredPost, setFilteredPosts] = useState<any>(null)
     const [userId, setUserId] = useState<any>(null)
     const [watchNumber, setWatchNumber] = useState<any>(null)
     const [forSaleCount, setForSaleCount] = useState<number>(0)
@@ -65,11 +65,11 @@ const App : FC = (props) => {
         } else if (notForSaleFilter && watchFilter) {
             const filtered = approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().brand == watchFilter && item.data().cost == 'Not for sale')
             setFilteredPosts(filtered)
-        } else if ( notForSaleFilter && !watchFilter) {
+        } else if (notForSaleFilter && !watchFilter) {
             const filtered = approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost == 'Not for sale')
             setFilteredPosts(filtered)
         } else {
-            const filtered = approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().brand == watchFilter )
+            const filtered = approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().brand == watchFilter)
             setFilteredPosts(filtered)
         }
     }
@@ -105,15 +105,16 @@ const App : FC = (props) => {
         const uid = firebase.auth().currentUser.uid;
         setUserId(uid)
         const user = await firebase.firestore().collection('users').doc(uid).get();
-        setUserDetails({id: user.id,  ...user.data()})
+        setUserDetails({ id: user.id, ...user.data() })
         setUserEmail(user.data().email)
         setUserName(user.data().name)
         setUserPic(user.data().profilePicture)
         setFollowersList(user.data().followers)
+        console.log(user.data().followers)
     }
 
     const testing = () => {
-        console.log('DOCS LENGTH',approvedPost.length)
+        console.log('DOCS LENGTH', approvedPost.length)
 
     }
 
@@ -122,7 +123,7 @@ const App : FC = (props) => {
         if (notForSaleFilter) {
             setNotForSaleFilter(!notForSaleFilter)
             setForSaleFilter(!forSaleFilter)
-            
+
         }
         setForSaleFilter(!forSaleFilter)
     }
@@ -173,20 +174,20 @@ const App : FC = (props) => {
 
             {/* <Button title="TESTING" onPress={testing} /> */}
             {/* <View> */}
-                <View style={styles.header}>
-                    <View style={styles.headerInfo}>
-                        <Text style={styles.infoText}>UserName : {userName}</Text>
-                        <Text style={styles.infoText}>User Email : {userEmail}</Text>
-                        <Text style={styles.infoText}>You have {watchNumber} in you collection</Text>
-                        <Text style={styles.infoText}>For Sale: {forSaleCount} Not for Sale: {notForSaleCount}</Text>
-                        {/* <Button title="SignOut" onPress={signOutUser} /> */}
-                        <Text style={styles.infoText}>Following:</Text>
-                        <WatchScrollList inportData={followersList} sendFilter={(name: string) => changeFolowerFilter(name)}/>
-                    </View>
-                    <View style={styles.profileImageBox}>
-                        <ProfileImagePicker profilePic={userPic} userId={userId} />
-                    </View>
+            <View style={styles.header}>
+                <View style={styles.headerInfo}>
+                    <Text style={styles.infoText}>UserName : {userName}</Text>
+                    <Text style={styles.infoText}>User Email : {userEmail}</Text>
+                    <Text style={styles.infoText}>You have {watchNumber} in you collection</Text>
+                    <Text style={styles.infoText}>For Sale: {forSaleCount} Not for Sale: {notForSaleCount}</Text>
+                    {/* <Button title="SignOut" onPress={signOutUser} /> */}
+                    <Text style={styles.infoText}>Following:</Text>
+                    <WatchScrollList inportData={followersList} sendFilter={(name: string) => changeFolowerFilter(name)} />
                 </View>
+                <View style={styles.profileImageBox}>
+                    <ProfileImagePicker profilePic={userPic} userId={userId} />
+                </View>
+            </View>
 
             {/* </View> */}
             <WatchScrollList inportData={WatchList} sendFilter={(name: string) => changeFilter(name)} />
@@ -194,94 +195,94 @@ const App : FC = (props) => {
             <TouchableOpacity style={styles.button} onPress={clearWatchFilter}>
                 <Text style={styles.text}>Clear Filter</Text>
             </TouchableOpacity>
-            <View style={{flexDirection: 'row'}}>
-            <TouchableOpacity style={forSaleFilter === true ? styles.buttonSmallHilight : styles.buttonSmall} onPress={getFilterForSale}>
+            <View style={{ flexDirection: 'row' }}>
+                <TouchableOpacity style={forSaleFilter === true ? styles.buttonSmallHilight : styles.buttonSmall} onPress={getFilterForSale}>
                     <Text style={styles.text}>For Sale </Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={notForSaleFilter === true ? styles.buttonSmallHilight : styles.buttonSmall} onPress={getFilterNotForSale}>
-                <Text style={styles.text}>Not for Sale</Text>
-            </TouchableOpacity>
+                </TouchableOpacity>
+                <TouchableOpacity style={notForSaleFilter === true ? styles.buttonSmallHilight : styles.buttonSmall} onPress={getFilterNotForSale}>
+                    <Text style={styles.text}>Not for Sale</Text>
+                </TouchableOpacity>
             </View>
             <View style={styles.approvedPosts}>
-            {startFilter ?
-                <View >
-                    {filteredPost.length === 0 ?
-                    <View>
-                        <Text style={styles.NoWatches}>You currently done have any {watchFilter}</Text>
-                        <FlatList
-                        data={approvedPost}
-                        renderItem={
-                                ({item}) => <Rendering
-                                message={item.data().message}
-                                name={item.data().userName}
-                                iamge_1={item.data().iamge_1}
-                                iamge_2={item.data().iamge_2}
-                                iamge_3={item.data().iamge_3}
-                                iamge_4={item.data().iamge_4}
-                                brand={item.data().brand}
-                                caseSize={item.data().caseSize}
-                                caseMaterial={item.data().caseMaterial}
-                                lugsWidth={item.data().lugsWidth}
-                                mechanism={item.data().mechanism}
-                                cost={item.data().cost}
-                                timeStamp={item.data().timeStamp}
-                                postId={item.id}
-                                likes={item.data().likes}
-                                userIdNumber={item.data().userIdNumber}
-                                // userDetails={item.data().uid}
-                                comments={item.data().comments}
-                                approved={''}
-                                onApprove={function (): void {
-                                    throw new Error('Function not implemented.');
-                                } } onReject={function (): void {
-                                    throw new Error('Function not implemented.');
-                                } }
+                {startFilter ?
+                    <View >
+                        {filteredPost.length === 0 ?
+                            <View>
+                                <Text style={styles.NoWatches}>You currently done have any {watchFilter}</Text>
+                                <FlatList
+                                    data={approvedPost}
+                                    renderItem={
+                                        ({ item }) => <Rendering
+                                            message={item.data().message}
+                                            name={item.data().userName}
+                                            iamge_1={item.data().iamge_1}
+                                            iamge_2={item.data().iamge_2}
+                                            iamge_3={item.data().iamge_3}
+                                            iamge_4={item.data().iamge_4}
+                                            brand={item.data().brand}
+                                            caseSize={item.data().caseSize}
+                                            caseMaterial={item.data().caseMaterial}
+                                            lugsWidth={item.data().lugsWidth}
+                                            mechanism={item.data().mechanism}
+                                            cost={item.data().cost}
+                                            timeStamp={item.data().timeStamp}
+                                            postId={item.id}
+                                            likes={item.data().likes}
+                                            userIdNumber={item.data().userIdNumber}
+                                            // userDetails={item.data().uid}
+                                            comments={item.data().comments}
+                                            approved={''}
+                                            onApprove={function (): void {
+                                                throw new Error('Function not implemented.');
+                                            }} onReject={function (): void {
+                                                throw new Error('Function not implemented.');
+                                            }}
+                                        />
+                                    }
                                 />
-                            } 
-                        />
-                        </View>
-                    :
-                        <View>
-                            <FlatList
-                            data={filteredPost}
-                            // style={{width: '10%'}}
-                            renderItem={
-                                    ({item}) => <Rendering
-                                        message={item.data().message}
-                                        name={item.data().userName}
-                                        iamge_1={item.data().iamge_1}
-                                        iamge_2={item.data().iamge_2}
-                                        iamge_3={item.data().iamge_3}
-                                        iamge_4={item.data().iamge_4}
-                                        brand={item.data().brand}
-                                        caseSize={item.data().caseSize}
-                                        caseMaterial={item.data().caseMaterial}
-                                        lugsWidth={item.data().lugsWidth}
-                                        mechanism={item.data().mechanism}
-                                        cost={item.data().cost}
-                                        timeStamp={item.data().timeStamp}
-                                        postId={item.id}
-                                        likes={item.data().likes}
-                                        userIdNumber={item.data().userIdNumber}
-                                        // userDetails={item.data().uid}
-                                        comments={item.data().comments}
-                                        approved={''}
-                                        onApprove={function (): void {
-                                            throw new Error('Function not implemented.');
-                                        } } onReject={function (): void {
-                                            throw new Error('Function not implemented.');
-                                        } } userDetails={undefined}                                    />
-                                    } 
+                            </View>
+                            :
+                            <View>
+                                <FlatList
+                                    data={filteredPost}
+                                    // style={{width: '10%'}}
+                                    renderItem={
+                                        ({ item }) => <Rendering
+                                            message={item.data().message}
+                                            name={item.data().userName}
+                                            iamge_1={item.data().iamge_1}
+                                            iamge_2={item.data().iamge_2}
+                                            iamge_3={item.data().iamge_3}
+                                            iamge_4={item.data().iamge_4}
+                                            brand={item.data().brand}
+                                            caseSize={item.data().caseSize}
+                                            caseMaterial={item.data().caseMaterial}
+                                            lugsWidth={item.data().lugsWidth}
+                                            mechanism={item.data().mechanism}
+                                            cost={item.data().cost}
+                                            timeStamp={item.data().timeStamp}
+                                            postId={item.id}
+                                            likes={item.data().likes}
+                                            userIdNumber={item.data().userIdNumber}
+                                            // userDetails={item.data().uid}
+                                            comments={item.data().comments}
+                                            approved={''}
+                                            onApprove={function (): void {
+                                                throw new Error('Function not implemented.');
+                                            }} onReject={function (): void {
+                                                throw new Error('Function not implemented.');
+                                            }} userDetails={undefined} />
+                                    }
                                 />
                             </View>
                         }
                     </View>
-                :
+                    :
                     <View>
-                            <FlatList
+                        <FlatList
                             data={approvedPost}
                             renderItem={
-                                    ({item}) => <Rendering
+                                ({ item }) => <Rendering
                                     message={item.data().message}
                                     name={item.data().userName}
                                     iamge_1={item.data().iamge_1}
@@ -303,14 +304,14 @@ const App : FC = (props) => {
                                     approved={''}
                                     onApprove={function (): void {
                                         throw new Error('Function not implemented.');
-                                    } } onReject={function (): void {
+                                    }} onReject={function (): void {
                                         throw new Error('Function not implemented.');
-                                    } }
-                                    />
-                                    } 
+                                    }}
                                 />
-                            </View>
-            
+                            }
+                        />
+                    </View>
+
                 }
             </View>
         </View>
@@ -354,7 +355,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         padding: 2.5,
-        borderRadius:5,
+        borderRadius: 5,
         marginVertical: 2,
     },
     buttonSmall: {
@@ -368,7 +369,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         padding: 2.5,
-        borderRadius:5,
+        borderRadius: 5,
         marginVertical: 2,
     },
     buttonSmallHilight: {
@@ -377,11 +378,11 @@ const styles = StyleSheet.create({
         marginLeft: 'auto',
         marginRight: 'auto',
         width: '48%',
-        
+
         alignItems: 'center',
         justifyContent: 'center',
         padding: 2.5,
-        borderRadius:5,
+        borderRadius: 5,
         marginVertical: 2,
     },
     // profileImage: {

@@ -6,14 +6,16 @@ import firebase from "firebase/compat/app"
 import "firebase/compat/auth"
 import "firebase/compat/firestore"
 import { white } from 'react-native-paper/lib/typescript/styles/colors';
+import { getAuth } from 'firebase/auth';
 
-const App : FC = (props) => {
+const App: FC = (props) => {
 
     const [name, setName] = useState<string | null>(null)
     const [email, setEmail] = useState<string | null>(null)
     const [password, setPassword] = useState<string | null>(null)
     const [confirm, setConfirm] = useState<string | null>(null)
     const [error, setError] = useState<string | null>(null)
+    // const [userDetails, setUserDetails] = useState<any>(null)
 
 
     const signup = async () => {
@@ -22,26 +24,44 @@ const App : FC = (props) => {
         } else {
             if (error !== '') setError('')
 
-            if(name !== null && email !== null && password !== null && confirm !== null){
-                try{
-                    const {user} = await firebase.auth().createUserWithEmailAndPassword(email, password)
-                    if(user) {
-                        await firebase.firestore().collection('users').doc(user.uid).set({name, email, password})
+            if (name !== null && email !== null && password !== null && confirm !== null) {
+                try {
+                    await firebase.auth().createUserWithEmailAndPassword(email, password)
+                        .then((res) => {
+                            const current = firebase.auth().currentUser;
+                            return current?.updateProfile({
+                                displayName: name
+                            })
+                        })
+
+                    // getAuth().currentUser({
+                    //     email: email,
+                    //     displayName: name,
+                    //     photoUrl: '',
+                    //     password: password,
+                    //     emailVerified: false,
+                    //     phoneNumber: '+11234567890',
+                    //     photoURL: 'http://www.example.com/12345678/photo.png',
+                    //     disabled: false,
+
+                    // })
+                    // setUserDetails(user)
+                    if (user) {
+                        await firebase.firestore().collection('users').doc(user.uid).set({ name, email, password })
+
                     }
                 } catch (error) {
                     // Alert.alert(JSON.stringify(error))
 
-                if (error.code.includes('auth/weak-password')) {
-                    Alert.alert('Please enter a stronger password');
-                }
-                else if (error.code.includes('auth/email-already-in-use'))
-                {
-                    Alert.alert('Email alreay in use');
-                }
-                else
-                {
-                    Alert.alert('Somthing is Worng with the details, Please Re-Enter')
-                }
+                    if (error.code.includes('auth/weak-password')) {
+                        Alert.alert('Please enter a stronger password');
+                    }
+                    else if (error.code.includes('auth/email-already-in-use')) {
+                        Alert.alert('Email alreay in use');
+                    }
+                    else {
+                        Alert.alert('Somthing is Worng with the details, Please Re-Enter')
+                    }
                 }
                 // firebase.auth().createUserWithEmailAndPassword()
             } else {
@@ -49,7 +69,14 @@ const App : FC = (props) => {
             }
         }
     }
-    
+    // getAuth?.updateUser(userDetails, {})
+    // const currentUser = firebase.auth().currentUser
+    // currentUser?.updateProfile({
+    //     displayName: name,
+    //     email: email,
+    //     password: password,
+    // })
+
     return (
         <View style={styles.container}>
             <View style={styles.introTitleContainer}>
@@ -63,7 +90,7 @@ const App : FC = (props) => {
             <Input placeholder='Password' secureTextEntry onChangeText={(text) => setPassword(text)} />
             <Input placeholder='Confirm' secureTextEntry onChangeText={(text) => setConfirm(text)} />
             {/* <Button title='SignUp' onPress={signup} /> */}
-            <TouchableOpacity style={styles.loginButton} onPress={() => signup}>
+            <TouchableOpacity style={styles.loginButton} onPress={() => signup()}>
                 <Text style={styles.Large}>Sign Up</Text>
             </TouchableOpacity>
             <View style={styles.loginText}>
