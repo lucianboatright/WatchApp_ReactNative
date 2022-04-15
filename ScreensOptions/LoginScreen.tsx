@@ -7,29 +7,29 @@ import "firebase/compat/auth"
 import "firebase/compat/firestore"
 
 
-const App : FC = (props) => {
+const App: FC = (props) => {
     const [email, setEmail] = useState<string | null>(null)
     const [password, setPassword] = useState<string | null>(null)
 
     const login = async () => {
-        if(email === null || password === null ){
+        if (email === null || password === null) {
 
             Alert.alert('Missing Fields')
         } else {
             try {
-                const {user} = await firebase.auth().signInWithEmailAndPassword(email, password)
+                const { user } = await firebase.auth().signInWithEmailAndPassword(email, password)
 
             } catch (error) {
                 if (error.code.includes('auth/user-not-found')) {
                     Alert.alert('User does not exist')
-                    }
                 }
-                
             }
+
         }
-        const testing = () => {
-            console.log('EMAIL AND PWORD', email, password)
-        }
+    }
+    const testing = () => {
+        console.log('EMAIL AND PWORD', email, password)
+    }
 
 
     return (
@@ -41,13 +41,13 @@ const App : FC = (props) => {
             <Input placeholder='Password' secureTextEntry onChangeText={(text) => setPassword(text)} />
             {/* <Button title='Login' onPress={() => login()} /> */}
             <TouchableOpacity style={styles.loginButton} onPress={() => login()}>
-                    <Text style={styles.Large}>Login</Text>
+                <Text style={styles.Large}>Login</Text>
             </TouchableOpacity>
             {/* <Button title='TESTONMG' onPress={testing} /> */}
             <View style={styles.loginText}>
-                <Text style={styles.loginLabel}>Dont Have an Account?</Text>
+                <Text style={styles.loginLabel}>Need to Sign Up?</Text>
                 <TouchableOpacity style={styles.loginButton} onPress={() => props.navigation.navigate('Signup')}>
-                    <Text>Signup Here</Text>
+                    <Text style={{ color: 'white', fontWeight: 'bold' }}>Signup Here</Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -85,8 +85,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#44D0DF',
         color: 'white',
         padding: 5,
-        paddingRight: 10,
-        paddingLeft: 10,
+        paddingRight: 20,
+        paddingLeft: 20,
         borderRadius: 5,
         textAlign: 'center',
         textAlignVertical: 'center',

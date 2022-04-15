@@ -123,7 +123,7 @@ const App: FC = (props) => {
     }, [watchFilter, startFilter, notForSaleFilter, forSaleFilter])
     return (
         <View style={styles.container}>
-            <WatchScrollList inportData={WatchList} sendFilter={(name: string) => changeFilter(name)} />
+            <WatchScrollList inportData={WatchList} bgcolor={'orange'} sendFilter={(name: string) => changeFilter(name)} />
             <TouchableOpacity style={styles.button} onPress={clearWatchFilter}>
                 <Text style={styles.text}>Clear Filter</Text>
             </TouchableOpacity>

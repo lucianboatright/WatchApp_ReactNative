@@ -75,7 +75,7 @@ const App: FC = (props) => {
     }
 
     const getFilteredFollowersPosts = async () => {
-        // console.log('I am being clicked')
+        console.log('I am being clicked')
         // if (forSaleFilter && watchFilter) {
         //     const filtered = approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().brand == watchFilter && item.data().cost != 'Not for sale')
         //     setFilteredPosts(filtered)
@@ -105,17 +105,15 @@ const App: FC = (props) => {
         const uid = firebase.auth().currentUser.uid;
         setUserId(uid)
         const user = await firebase.firestore().collection('users').doc(uid).get();
-        setUserDetails({ id: user.id, ...user.data() })
-        setUserEmail(user.data().email)
-        setUserName(user.data().name)
-        setUserPic(user.data().profilePicture)
-        setFollowersList(user.data().followers)
-        console.log(user.data().followers)
+        await setUserDetails({ id: user.id, ...user.data() })
+        await setUserEmail(user.data().email)
+        await setUserName(user.data().name)
+        await setUserPic(user.data().profilePicture)
+        await setFollowersList(user.data().followers)
+        // console.log(user.data().followers)
     }
-
     const testing = () => {
         console.log('DOCS LENGTH', approvedPost.length)
-
     }
 
     const getFilterForSale = async () => {
@@ -131,14 +129,12 @@ const App: FC = (props) => {
     const changeFilter = async (name: string) => {
         setStartFilter(true)
         setWatchFilter(name);
-        // setKeyfilter('brand')
         getFilteredPosts();
     }
 
     const changeFolowerFilter = async (name: string) => {
         setStartFilter(true)
         setFollowerFilter(name);
-        // setKeyfilter('brand')
         getFilteredFollowersPosts();
     }
 
@@ -149,10 +145,6 @@ const App: FC = (props) => {
             setForSaleFilter(!forSaleFilter)
         }
         setNotForSaleFilter(!notForSaleFilter)
-    }
-
-    const profileUpload = async () => {
-        console.log('testing§')
     }
 
     const clearWatchFilter = () => {
@@ -171,26 +163,24 @@ const App: FC = (props) => {
 
     return (
         <View style={styles.container}>
-
-            {/* <Button title="TESTING" onPress={testing} /> */}
-            {/* <View> */}
             <View style={styles.header}>
                 <View style={styles.headerInfo}>
-                    <Text style={styles.infoText}>UserName : {userName}</Text>
-                    <Text style={styles.infoText}>User Email : {userEmail}</Text>
-                    <Text style={styles.infoText}>You have {watchNumber} in you collection</Text>
-                    <Text style={styles.infoText}>For Sale: {forSaleCount} Not for Sale: {notForSaleCount}</Text>
-                    {/* <Button title="SignOut" onPress={signOutUser} /> */}
-                    <Text style={styles.infoText}>Following:</Text>
-                    <WatchScrollList inportData={followersList} sendFilter={(name: string) => changeFolowerFilter(name)} />
+                    <View>
+                        <Text style={styles.infoText}>UserName : {userName}</Text>
+                        <Text style={styles.infoText}>User Email : {userEmail}</Text>
+                        <Text style={styles.infoText}>You have {watchNumber} in you collection</Text>
+                        <Text style={styles.infoText}>For Sale: {forSaleCount} Not for Sale: {notForSaleCount}</Text>
+                    </View>
+                    <View>
+                        <Text style={styles.infoText}>Following:</Text>
+                        <WatchScrollList inportData={followersList} bgcolor={'#44D0DF'} sendFilter={(name: string) => changeFolowerFilter(name)} />
+                    </View>
                 </View>
                 <View style={styles.profileImageBox}>
                     <ProfileImagePicker profilePic={userPic} userId={userId} />
                 </View>
             </View>
-
-            {/* </View> */}
-            <WatchScrollList inportData={WatchList} sendFilter={(name: string) => changeFilter(name)} />
+            <WatchScrollList inportData={WatchList} bgcolor={'orange'} sendFilter={(name: string) => changeFilter(name)} />
 
             <TouchableOpacity style={styles.button} onPress={clearWatchFilter}>
                 <Text style={styles.text}>Clear Filter</Text>
@@ -342,6 +332,7 @@ const styles = StyleSheet.create({
     },
     headerInfo: {
         flex: 1,
+        justifyContent: 'space-between',
         // width: '55%',
     },
     approvedPosts: {

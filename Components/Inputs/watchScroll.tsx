@@ -13,8 +13,9 @@ import {
 import { Card } from "react-native-paper";
 
 interface Props {
-    sendFilter: (name: string) => void;
-    inportData: any;
+  sendFilter: (name: string) => void;
+  inportData: any;
+  bgcolor: string;
 }
 
 const { width } = Dimensions.get('window');
@@ -26,8 +27,14 @@ if (
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
-const App : FC <Props> = (props) =>  {
-  const [data, setData] = React.useState(props.inportData); 
+const App: FC<Props> = (props) => {
+  const [data, setData] = React.useState<any>(null);
+  const settingData = async () => {
+    await setData(props.inportData)
+  }
+  useEffect(() => {
+    settingData()
+  }, [data])
 
   return (
     <View style={styles.container}>
@@ -36,14 +43,14 @@ const App : FC <Props> = (props) =>  {
         contentContainerStyle={styles.flatList}
         horizontal={true}
         data={data}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => {
           return (
             <TouchableOpacity
               style={styles.cardContainer}
               onPress={() => props.sendFilter(item.name)}
             >
-              <Card style={[styles.card, {backgroundColor: item.color}]}>
+              <Card style={[styles.card, { backgroundColor: props.bgcolor }]}>
                 <Text style={styles.text}>{item.name}</Text>
               </Card>
             </TouchableOpacity>
@@ -59,19 +66,11 @@ export default App;
 const styles = StyleSheet.create({
   container: {
     marginLeft: 5,
-    // flex: 1,
     justifyContent: "center",
-    // paddingTop: 2,
-    // backgroundColor: "white",
-    // padding: 1,
-    // margin: 2,
   },
   flatList: {
-    // paddingHorizontal: 16,
-    // paddingVertical: 16,
   },
   cardContainer: {
-    // height: 28,
     width: 'auto',
     marginRight: 8,
   },

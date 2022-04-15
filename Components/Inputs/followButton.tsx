@@ -25,16 +25,12 @@ const App: FC<Props> = (props) => {
     const auth = getAuth()
     const user = auth.currentUser?.uid
     const displayName = auth.currentUser?.displayName
-    // const userName = auth.currentUser?.data().na
-
-    console.log('poset', auth.currentUser)
 
     const deletePost = async () => {
         setIsFollowing(!isFollowing)
         await firebase.firestore().collection('users').doc(props.postUser).update({ followers: isFollowing ? firebase.firestore.FieldValue.arrayRemove({ name: displayName, followerId: user }) : firebase.firestore.FieldValue.arrayUnion({ name: displayName, followerId: user }) })
         console.log('confirm change')
     }
-    // console.log('here', isFollowing)
 
     useEffect(() => {
         setIsFollowing(props.isFollowing)
@@ -68,12 +64,12 @@ export default App;
 
 const styles = StyleSheet.create({
     likeIconFalse: {
-        height: 25,
-        width: 25,
+        height: 23,
+        width: 23,
     },
     likeIconTrue: {
-        height: 25,
-        width: 25,
+        height: 23,
+        width: 23,
     },
     container: {
         marginTop: 5,

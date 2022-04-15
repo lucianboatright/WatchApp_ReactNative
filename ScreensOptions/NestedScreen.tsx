@@ -157,7 +157,7 @@ const NestedScreen: React.FC<Props> = ({ route, navigation }) => {
                         <Text style={styles.goBackText}>X</Text>
                     </TouchableOpacity>
                 </View>
-                <Text style={styles.text}>They currently have {watchNumber >= 2 ? `${watchNumber} watches` : `${watchNumber} watch`}</Text>
+                <Text style={styles.textSmall}>They currently have {watchNumber >= 2 ? `${watchNumber} watches` : `${watchNumber} watch`}</Text>
                 <TouchableOpacity style={styles.button} onPress={clearWatchFilter}>
                     <Text style={styles.filterButtonText}>Clear Filter</Text>
                 </TouchableOpacity>
@@ -312,7 +312,14 @@ const styles = StyleSheet.create({
         marginLeft: 5,
         color: '#000',
         fontWeight: '700',
-        fontSize: 20,
+        fontSize: 18,
+    },
+    textSmall: {
+        // paddingTop: 5,
+        marginLeft: 5,
+        color: '#000',
+        fontWeight: '700',
+        fontSize: 15,
     },
     container: {
         flex: 1,
