@@ -66,7 +66,6 @@ const App: React.FC<Props> = (props) => {
 
     const sendLikes = () => {
         // console.log('clicked')
-
     }
     const message = props.userDetails
 

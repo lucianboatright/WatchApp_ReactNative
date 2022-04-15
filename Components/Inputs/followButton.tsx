@@ -14,8 +14,6 @@ interface Props {
     authUser: any;
     isFollowing: any;
     postUser: any;
-    userName: string;
-
 }
 
 const App: FC<Props> = (props) => {
@@ -26,13 +24,14 @@ const App: FC<Props> = (props) => {
 
     const auth = getAuth()
     const user = auth.currentUser?.uid
+    const displayName = auth.currentUser?.displayName
     // const userName = auth.currentUser?.data().na
 
     console.log('poset', auth.currentUser)
 
     const deletePost = async () => {
         setIsFollowing(!isFollowing)
-        await firebase.firestore().collection('users').doc(props.postUser).update({ followers: isFollowing ? firebase.firestore.FieldValue.arrayRemove({ name: props.userName, followerId: user }) : firebase.firestore.FieldValue.arrayUnion({ name: props.userName, followerId: user }) })
+        await firebase.firestore().collection('users').doc(props.postUser).update({ followers: isFollowing ? firebase.firestore.FieldValue.arrayRemove({ name: displayName, followerId: user }) : firebase.firestore.FieldValue.arrayUnion({ name: displayName, followerId: user }) })
         console.log('confirm change')
     }
     // console.log('here', isFollowing)

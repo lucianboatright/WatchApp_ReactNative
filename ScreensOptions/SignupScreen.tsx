@@ -6,7 +6,7 @@ import firebase from "firebase/compat/app"
 import "firebase/compat/auth"
 import "firebase/compat/firestore"
 import { white } from 'react-native-paper/lib/typescript/styles/colors';
-import { getAuth } from 'firebase/auth';
+import { getAuth, updateProfile } from 'firebase/auth';
 
 const App: FC = (props) => {
 
@@ -16,6 +16,7 @@ const App: FC = (props) => {
     const [confirm, setConfirm] = useState<string | null>(null)
     const [error, setError] = useState<string | null>(null)
     // const [userDetails, setUserDetails] = useState<any>(null)
+    const followers: never[] = []
 
 
     const signup = async () => {
@@ -26,28 +27,15 @@ const App: FC = (props) => {
 
             if (name !== null && email !== null && password !== null && confirm !== null) {
                 try {
-                    await firebase.auth().createUserWithEmailAndPassword(email, password)
-                        .then((res) => {
-                            const current = firebase.auth().currentUser;
-                            return current?.updateProfile({
-                                displayName: name
-                            })
-                        })
+                    const { user } = await firebase.auth().createUserWithEmailAndPassword(email, password)
 
-                    // getAuth().currentUser({
-                    //     email: email,
-                    //     displayName: name,
-                    //     photoUrl: '',
-                    //     password: password,
-                    //     emailVerified: false,
-                    //     phoneNumber: '+11234567890',
-                    //     photoURL: 'http://www.example.com/12345678/photo.png',
-                    //     disabled: false,
-
-                    // })
-                    // setUserDetails(user)
                     if (user) {
-                        await firebase.firestore().collection('users').doc(user.uid).set({ name, email, password })
+                        await firebase.firestore().collection('users').doc(user.uid).set({ name, email, password, followers })
+                        const current = firebase.auth().currentUser;
+                        // setUserDetails(current)
+                        return current?.updateProfile({
+                            displayName: name
+                        })
 
                     }
                 } catch (error) {
@@ -68,14 +56,26 @@ const App: FC = (props) => {
                 Alert.alert('Error', 'Missing Fields')
             }
         }
+        addDisplayName()
+    }
+
+    const addDisplayName = async () => {
+        const auth = getAuth()
+        updateProfile.cu
+
+        //     await firebase.auth().createUserWithEmailAndPassword(email, password)
+        //     .then((res) => {
+        //         const current = firebase.auth().currentUser;
+        //         setUserDetails(current)
+        //         return current?.updateProfile({
+        //             displayName: name
+        //     })
+        // })
+        // if (userDetails) {
+        //     await firebase.firestore().collection('users').doc(userDetails.uid).set({ name, email, password })
+
     }
     // getAuth?.updateUser(userDetails, {})
-    // const currentUser = firebase.auth().currentUser
-    // currentUser?.updateProfile({
-    //     displayName: name,
-    //     email: email,
-    //     password: password,
-    // })
 
     return (
         <View style={styles.container}>

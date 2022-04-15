@@ -326,7 +326,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     header: {
-        flex: 0.3,
+        flex: 0.4,
         paddingLeft: 5,
         backgroundColor: "orange",
         margin: 5,
@@ -337,12 +337,12 @@ const styles = StyleSheet.create({
     },
     profileImageBox: {
         height: 10,
-        width: '90%',
-        flex: 0.6,
+        // width: '90%',
+        flex: 0.5,
     },
     headerInfo: {
-        // flex: 0.7
-        width: '55%',
+        flex: 1,
+        // width: '55%',
     },
     approvedPosts: {
         flex: 1,

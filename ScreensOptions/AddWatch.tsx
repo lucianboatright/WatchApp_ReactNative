@@ -70,8 +70,9 @@ const App: FC<Props> = (props) => {
                 console.log(err)
             }
         }
+        getUserDetails()
         setPost(null)
-        setCost('')
+        setCost('Not For Sale')
         setMessage("")
         setSelectedCase('')
         setSelectedLug('')
@@ -94,6 +95,18 @@ const App: FC<Props> = (props) => {
 
     useEffect(() => {
         getUserDetails()
+        setPost(null)
+        setCost('Not For Sale')
+        setMessage("")
+        setSelectedCase('')
+        setSelectedLug('')
+        setSelectedMech('')
+        setSelectedWatch('')
+        setSelectedMaterial('')
+        setUrl_1(null)
+        setUrl_2(null)
+        setUrl_3(null)
+        setUrl_4(null)
     }, [])
 
     return (
