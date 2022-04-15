@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Button, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Button, TouchableOpacity, ScrollView, Pressable } from 'react-native';
 // import { Button } from '../Components/Inputs';
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth"
@@ -24,6 +24,7 @@ const App: FC = (props) => {
     const [forSaleFilter, setForSaleFilter] = useState<boolean>(false)
     const [notForSaleFilter, setNotForSaleFilter] = useState<boolean>(false)
     const [openBoxContainer, setOpenBoxContainer] = useState<boolean>(false)
+    const [colomns, setColomns] = useState<number>(2)
 
 
     const getUserDetails = async () => {
@@ -96,10 +97,23 @@ const App: FC = (props) => {
         setNotForSaleFilter(!notForSaleFilter)
     }
 
-    const changeBoxView = async (openBox: boolean) => {
-        setOpenBoxContainer(!openBox)
-        console.log('hey', openBox)
+    const changeView = async () => {
+        console.log('clicked')
+        // if (colomns === 1) {
+        //     setColomns(2)
+        // } else {
+        //     setColomns(1)
+        // }
     }
+
+    // const changeBoxView = async (openBox: boolean) => {
+    //     setOpenBoxContainer(openBox)
+    //     if (openBox) {
+    //         setColomns(1)
+    //     }
+    //     setColomns(2)
+    //     console.log('hey', openBox)
+    // }
 
     const testing = () => {
         // console.log('WATCH FILTER', watchFilter)
@@ -148,7 +162,7 @@ const App: FC = (props) => {
                                     key={openBoxContainer ? 1 : 2}
                                     renderItem={
                                         ({ item }) => <Rendering
-                                            onPress={() => setOpenBoxContainer(!openBoxContainer)}
+                                            // onPress={() => setOpenBoxContainer(!openBoxContainer)}
                                             message={item.data().message}
                                             name={item.data().userName}
                                             iamge_1={item.data().iamge_1}
@@ -185,7 +199,7 @@ const App: FC = (props) => {
                                     key={openBoxContainer ? 1 : 2}
                                     renderItem={
                                         ({ item }) => <Rendering
-                                            onPress={() => setOpenBoxContainer(!openBoxContainer)}
+                                            // onPress={() => setOpenBoxContainer(!openBoxContainer)}
                                             message={item.data().message}
                                             name={item.data().userName}
                                             iamge_1={item.data().iamge_1}
@@ -218,21 +232,21 @@ const App: FC = (props) => {
                     </View>
                     :
                     <View style={styles.test}>
+                        <TouchableOpacity onPress={() => changeView()}></TouchableOpacity>
                         <FlatList
                             data={approvedPost}
-                            // contentContainerStyle={{alignSelf: 'flex-start'}}
+                            // contentContainerStyle={{ alignSelf: 'flex-start' }}
                             // numColumns={Math.ceil(2)}
                             // showsVerticalScrollIndicator={false}
                             // showsHorizontalScrollIndicator={false}
                             // numColumns={1}
                             // key={1}
-                            numColumns={openBoxContainer ? 1 : 2}
-                            key={openBoxContainer ? 'one' : 'two'}
+                            numColumns={1}
+                            key={1}
                             style={styles.grid}
                             renderItem={
-                                ({ item }) => <Rendering
-                                    sendBoxOpening={(openBox: boolean) => changeBoxView(openBox)}
-                                    // onPress={() => setOpenBoxContainer(!openBoxContainer)}
+                                ({ item }) => <TouchableOpacity onPress={() => console.log('WEEEEEHAAA')}><Rendering
+                                    // sendBoxOpening={(openBox: boolean) => changeBoxView(openBox)}
                                     message={item.data().message}
                                     name={item.data().userName}
                                     iamge_1={item.data().iamge_1}
@@ -256,8 +270,9 @@ const App: FC = (props) => {
                                         throw new Error('Function not implemented.');
                                     }} onReject={function (): void {
                                         throw new Error('Function not implemented.');
-                                    }}
+                                    }} userDetails={undefined}
                                 />
+                                </TouchableOpacity>
                             }
                         />
                     </View>

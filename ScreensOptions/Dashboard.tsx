@@ -269,6 +269,7 @@ const App: FC = (props) => {
                     </View>
                     :
                     <View>
+                        {/* <Text>HERE</Text> */}
                         <FlatList
                             data={approvedPost}
                             renderItem={

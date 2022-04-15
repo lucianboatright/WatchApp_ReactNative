@@ -35,7 +35,7 @@ interface Props {
     userIdNumber: any;
     onApprove: () => void;
     onReject: () => void;
-    sendBoxOpening: (openBox: boolean) => void;
+    // sendBoxOpening: (openBox: boolean) => void;
     // onPress: () => void;
 }
 
@@ -64,9 +64,6 @@ const App: React.FC<Props> = (props) => {
     const [openBox, setOpenBox] = useState<boolean>(false)
     const [openBoxSend, setOpenBoxSend] = useState<boolean>(false)
 
-    const sendLikes = () => {
-        // console.log('clicked')
-    }
     const message = props.userDetails
 
     const navigation = useNavigation<StackNavigationProp<RootStackParamsList>>();
@@ -74,7 +71,7 @@ const App: React.FC<Props> = (props) => {
     const openClicked = () => {
         // console.log('pre',openBox)
         // console.log('pre',openBoxSend)
-        console.log('CLICKED')
+        // console.log('CLICKED')
         // setOpenBox(!openBox)
         // setOpenBoxSend(!openBoxSend)
         // props.sendBoxOpening(openBox)
@@ -86,7 +83,7 @@ const App: React.FC<Props> = (props) => {
 
 
     useEffect(() => {
-        // console.log('pre',openBox)
+        console.log('pre', openBox)
         // console.log('pre',openBoxSend)
     }, [])
 
@@ -109,7 +106,7 @@ const App: React.FC<Props> = (props) => {
                     <View style={styles.postContainer}>
                         <View style={styles.infoBoxContainer} >
                             <View style={styles.message}>
-                                <Text style={styles.infoHeader}>Massage: </Text>
+                                <Text>Massage: </Text>
                                 <Text>{props.message}</Text>
                             </View>
                             <View style={styles.infoBox}>
