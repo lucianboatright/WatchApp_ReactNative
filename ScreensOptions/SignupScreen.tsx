@@ -56,26 +56,7 @@ const App: FC = (props) => {
                 Alert.alert('Error', 'Missing Fields')
             }
         }
-        addDisplayName()
     }
-
-    const addDisplayName = async () => {
-        const auth = getAuth()
-        updateProfile.cu
-
-        //     await firebase.auth().createUserWithEmailAndPassword(email, password)
-        //     .then((res) => {
-        //         const current = firebase.auth().currentUser;
-        //         setUserDetails(current)
-        //         return current?.updateProfile({
-        //             displayName: name
-        //     })
-        // })
-        // if (userDetails) {
-        //     await firebase.firestore().collection('users').doc(userDetails.uid).set({ name, email, password })
-
-    }
-    // getAuth?.updateUser(userDetails, {})
 
     return (
         <View style={styles.container}>

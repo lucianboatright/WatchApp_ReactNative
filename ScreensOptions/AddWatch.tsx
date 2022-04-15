@@ -1,15 +1,11 @@
-import React, { FC, useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Alert, Image, Platform, Dimensions, ScrollView, Button } from 'react-native';
-import { Input, MultiLineInput, ForSale } from '../Components/Inputs';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-// import { ImagePicker } from '../Components/imagePicker';
+import React, { FC, useState, useEffect, Props } from 'react';
+import { View, Text, StyleSheet, Alert, Dimensions, ScrollView, Pressable } from 'react-native';
+import { MultiLineInput, ForSale } from '../Components/Inputs';
 import { Imagepicker } from '../Components/ExpoImage';
-// import { Camera } from '../Components/ExpoCamera';
-
 import { WatchList, CaseSize, Mechanism, Material, Lugs } from '../Components/DataLists';
 
 import { DropDown } from '../Components/DropDowns';
-
+import { getAuth, signOut } from 'firebase/auth'
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth"
 import "firebase/compat/firestore"
@@ -21,11 +17,12 @@ import Watch_4 from '../assets/icons/watch_4.png'
 
 const { height, width } = Dimensions.get('screen')
 
-const App: FC<Props> = (props) => {
+const App: FC = (props) => {
 
     const [post, setPost] = useState<string | null>(null)
     const [userDetails, setUserDetails] = useState<any>(null)
-    const [userId, setUserId] = useState<string | null>(null)
+    const [userId, setUserId] = useState<string>('')
+    const [userName, setUserName] = useState<string>('null')
 
     const [url_1, setUrl_1] = useState<any | null>(null)
     const [url_2, setUrl_2] = useState<any | null>(null)
@@ -40,6 +37,7 @@ const App: FC<Props> = (props) => {
     const [cost, setCost] = useState<string | null>('Not For Sale')
 
     const submitPost = async () => {
+        console.log('clicked')
         if (message === null) {
             Alert.alert('Please enter somthing before submitting')
         } else {
@@ -56,7 +54,7 @@ const App: FC<Props> = (props) => {
                 lugsWidth: selectedLug,
                 mechanism: selectedMech,
                 cost: cost,
-                userName: userDetails.name,
+                userName: userName,
                 userIdNumber: userId,
                 timeStamp: Date.now(),
                 likes: [],
@@ -70,7 +68,6 @@ const App: FC<Props> = (props) => {
                 console.log(err)
             }
         }
-        getUserDetails()
         setPost(null)
         setCost('Not For Sale')
         setMessage("")
@@ -83,30 +80,15 @@ const App: FC<Props> = (props) => {
         setUrl_2(null)
         setUrl_3(null)
         setUrl_4(null)
-        props.navigation.navigate('Home')
-    }
-
-    const getUserDetails = async () => {
-        const uid = firebase.auth().currentUser.uid;
-        const user = await firebase.firestore().collection('users').doc(uid).get();
-        setUserDetails({ id: user.id, ...user.data() })
-        setUserId(user.id)
+        props.navigation.navigate('Timeline')
     }
 
     useEffect(() => {
-        getUserDetails()
-        setPost(null)
-        setCost('Not For Sale')
-        setMessage("")
-        setSelectedCase('')
-        setSelectedLug('')
-        setSelectedMech('')
-        setSelectedWatch('')
-        setSelectedMaterial('')
-        setUrl_1(null)
-        setUrl_2(null)
-        setUrl_3(null)
-        setUrl_4(null)
+        const auth = getAuth()
+        const user = auth.currentUser?.uid
+        const currentUserName = auth.currentUser?.displayName
+        setUserId(String(user))
+        setUserName(String(currentUserName))
     }, [])
 
     return (
@@ -130,21 +112,19 @@ const App: FC<Props> = (props) => {
                     <DropDown title='Lug Size' inputData={Lugs} placeHolder='Select Lug Size' sendSelected={(selected) => setSelectedLug(selected)} />
                     <DropDown title='Movment' inputData={Mechanism} placeHolder='Select Mechanism' sendSelected={(selected: any) => setSelectedMech(selected)} />
                     <ForSale sendCost={(cost) => setCost(cost)} />
-                    <TouchableOpacity style={styles.buttonSmall} onPress={submitPost}>
+                    <Pressable style={styles.buttonSmall} onPress={submitPost}>
                         <Text style={styles.text}>Submit</Text>
-                    </TouchableOpacity>
+                    </Pressable>
                 </View>
-                {userDetails ? userDetails.isAdmin ? (
+                {/* {userDetails ? userDetails.isAdmin ? (
                     <View>
                         <Button title="AuthDashboard" onPress={() => props.navigation.navigate('AuthDashboard')} />
                     </View>
-                ) : null : null}
+                ) : null : null} */}
             </View>
-            {/* <Button title='TESTING' onPress={testing} /> */}
         </View>
     )
 }
-
 export default App;
 
 const styles = StyleSheet.create({
@@ -183,6 +163,7 @@ const styles = StyleSheet.create({
         marginLeft: 'auto',
         marginRight: 'auto',
         width: '48%',
+        // marginBottom: 100,
 
         alignItems: 'center',
         justifyContent: 'center',
@@ -196,3 +177,4 @@ const styles = StyleSheet.create({
         fontSize: 18,
     },
 })
+

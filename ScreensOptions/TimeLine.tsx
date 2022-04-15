@@ -117,7 +117,6 @@ const App: FC = (props) => {
     }
 
     useEffect(() => {
-        console.log('REFRESHED')
         getUserDetails()
         getApprovedPosts()
         getFilteredPosts()

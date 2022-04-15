@@ -43,8 +43,6 @@ const App: FC<Props> = (props) => {
 
   const [resetPic, setResetPic] = useState<boolean>(false)
 
-  //   const [pickedImagePath, setPickedImagePath] = useState('');
-
   const [editorVisible, setEditorVisible] = useState<boolean>(false);
 
   // const setMargin = props.margintop
