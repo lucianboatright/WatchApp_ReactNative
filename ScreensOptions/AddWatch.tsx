@@ -2,7 +2,7 @@ import React, { FC, useState, useEffect, Props } from 'react';
 import { View, Text, StyleSheet, Alert, Dimensions, ScrollView, Pressable } from 'react-native';
 import { MultiLineInput, ForSale } from '../Components/Inputs';
 import { Imagepicker } from '../Components/ExpoImage';
-import { WatchList, CaseSize, Mechanism, Material, Lugs } from '../Components/DataLists';
+import { WatchList, CaseSize, Mechanism, Material, Lugs, Styles, Straps, Years } from '../Components/DataLists';
 
 import { DropDown } from '../Components/DropDowns';
 import { getAuth, signOut } from 'firebase/auth'
@@ -106,11 +106,15 @@ const App: FC = (props) => {
             <View>
                 <View>
                     <MultiLineInput sendMessage={(value: string) => setMessage(value)} setBorder={{ borderBottomWidth: 1 }} setHeight={{ padding: 10, height: 60 }} />
+                    {/* <DropDown title='Type' inputData={WatchList} placeHolder='Type' sendSelected={(selected: any) => setSelectedWatch(selected)} /> */}
                     <DropDown title='Select Brand' inputData={WatchList} placeHolder='Select Watch' sendSelected={(selected: any) => setSelectedWatch(selected)} />
                     <DropDown title='Case Size' inputData={CaseSize} placeHolder="Select Case Size" sendSelected={(selected: any) => setSelectedCase(selected)} />
-                    <DropDown title='Material' inputData={Material} placeHolder='Select Material' sendSelected={(selected: any) => setSelectedMaterial(selected)} />
                     <DropDown title='Lug Size' inputData={Lugs} placeHolder='Select Lug Size' sendSelected={(selected) => setSelectedLug(selected)} />
+                    <DropDown title='Material' inputData={Material} placeHolder='Select Material' sendSelected={(selected: any) => setSelectedMaterial(selected)} />
                     <DropDown title='Movment' inputData={Mechanism} placeHolder='Select Mechanism' sendSelected={(selected: any) => setSelectedMech(selected)} />
+                    <DropDown title='Select Year' inputData={Years} placeHolder='Select Year' sendSelected={(selected: any) => setSelectedMech(selected)} />
+                    <DropDown title='Select Style' inputData={Styles} placeHolder='Select Style' sendSelected={(selected: any) => setSelectedMech(selected)} />
+                    <DropDown title='Strap Type' inputData={Straps} placeHolder='Strap Type' sendSelected={(selected: any) => setSelectedMech(selected)} />
                     <ForSale sendCost={(cost) => setCost(cost)} />
                     <Pressable style={styles.buttonSmall} onPress={submitPost}>
                         <Text style={styles.text}>Submit</Text>

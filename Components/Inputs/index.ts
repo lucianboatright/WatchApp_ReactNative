@@ -9,5 +9,6 @@ import FilterLines from './filterLines'
 import DeleteIcon from './deleteButton'
 import CloseWindow from './closeWindow'
 import FollowButton from './followButton'
+import Modal from './Modal'
 
-export { Button, Input, MultiLineInput, ForSale, WatchScrollList, LikesButton, UserProfile, FilterLines, DeleteIcon, CloseWindow, FollowButton }
+export { Button, Input, MultiLineInput, ForSale, WatchScrollList, LikesButton, UserProfile, FilterLines, DeleteIcon, CloseWindow, FollowButton, Modal }

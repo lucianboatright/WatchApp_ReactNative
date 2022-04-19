@@ -1,7 +1,7 @@
 import React, { FC, useState } from 'react';
-import { View, Text, StyleSheet, Alert, Linking } from 'react-native';
+import { View, Text, StyleSheet, Alert, Linking, Modal, Button } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { Input, Button } from '../Components/Inputs';
+import { Input } from '../Components/Inputs';
 import firebase from "firebase/compat/app"
 import "firebase/compat/auth"
 import "firebase/compat/firestore"
@@ -17,6 +17,8 @@ const App: FC = (props) => {
     const [error, setError] = useState<string | null>(null)
     // const [userDetails, setUserDetails] = useState<any>(null)
     const followers: never[] = []
+
+    const [openModal, setOpenModal] = useState<boolean>(false)
 
 
     const signup = async () => {
@@ -93,7 +95,41 @@ const App: FC = (props) => {
             {/* <Button title='SignUp' onPress={signup} /> */}
             <View style={styles.introTextContainer}>
                 <View style={{ flexDirection: 'row' }}>
-                    <Text><Text style={styles.introTextSmall}>By signing up you agree to the Terms & Conditions found </Text><Text style={styles.links} onPress={() => Linking.openURL('https://www.termsfeed.com/live/f1f2f92c-f9d2-48a1-80ea-68b048591174')}>Here</Text><Text style={styles.introTextSmall}> and Privacy Policy here </Text><Text style={styles.links} onPress={() => Linking.openURL('https://www.termsfeed.com/live/f1f2f92c-f9d2-48a1-80ea-68b048591174')}>Here</Text><Text style={styles.introTextSmall}>Otherwise Feel free to contact us at RollandBox@gmail.com</Text></Text>
+                    <Text>
+                        <Text style={styles.introTextSmall}>By signing up you agree to the Terms & Conditions found </Text>
+                        <Text style={styles.links} onPress={() => Linking.openURL('https://www.termsfeed.com/live/f1f2f92c-f9d2-48a1-80ea-68b048591174')}> Here </Text>
+                        {/* <Text style={styles.introTextSmall}> and General Rules here </Text> */}
+                        {/* <Button title='MODALEEEE' onPress={() => setOpenModal(!openModal)} />
+                        <Modal visible={openModal}  >
+                            <View style={styles.modal}>
+                                <Text style={styles.modalText}>
+                                    Inside Modal TExt
+                                </Text>
+                                <Text style={styles.modalText}>
+                                    Inside Modal TExt
+                                </Text>
+                                <Text style={styles.modalText}>
+                                    Inside Modal TExt
+                                </Text>
+                                <Text style={styles.modalText}>
+                                    Inside Modal TExt
+                                </Text>
+                                <Text style={styles.modalText}>
+                                    Inside Modal TExt
+                                </Text>
+                                <Text style={styles.modalText}>
+                                    Inside Modal TExt
+                                </Text>
+                                <Button title='MODALEEEE' onPress={() => setOpenModal(!openModal)} />
+                            </View>
+                        </Modal> */}
+                        {/* <Modal isVisible={true}>
+                            <View style={{ flex: 1 }}>
+                                <Text>I am the modal content!</Text>
+                            </View>
+                        </Modal> */}
+                        <Text style={styles.introTextSmall}>Otherwise Feel free to contact us at RollandBox@gmail.com</Text>
+                    </Text>
                 </View>
             </View>
             <View>
@@ -179,5 +215,15 @@ const styles = StyleSheet.create({
         fontSize: 25,
         color: 'white',
         // height: 5,
-    }
+    },
+    modal: {
+        marginBottom: 40,
+        padding: 20,
+        backgroundColor: 'white',
+    },
+    modalText: {
+
+        fontSize: 30,
+        color: 'black',
+    },
 })

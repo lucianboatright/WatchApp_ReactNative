@@ -2,6 +2,8 @@ import React, { FC, useEffect, useState } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, Button } from 'react-native'
 import { FilterLines, FollowButton, WatchScrollList } from '../Components/Inputs';
 
+import { WatchList } from '../Components/DataLists';
+
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth"
 import "firebase/compat/firestore"
@@ -145,7 +147,7 @@ const NestedScreen: React.FC<Props> = ({ route, navigation }) => {
         getPostsandUserInfo()
         getFilteredPosts()
         // getWatchSale()
-    }, [userId, startFilter, notForSaleFilter, forSaleFilter])
+    }, [userId, startFilter, notForSaleFilter, forSaleFilter, watchesForSale])
 
     return (
         <View style={styles.screen}>
@@ -177,7 +179,9 @@ const NestedScreen: React.FC<Props> = ({ route, navigation }) => {
                         {/* <Button style={styles.filterButton} title='View Not For Sale' onPress={setNotForSaleFilter} /> */}
                     </View>
                 </View>
-                {/* <WatchScrollList sendWatchFilter={(name: string) => changeFilter(name)} /> */}
+                <View style={{ paddingTop: 5 }}>
+                    <WatchScrollList inportData={WatchList} bgcolor={'orange'} sendFilter={(name: string) => changeFilter(name)} />
+                </View>
             </View>
             <View style={styles.approvedPosts}>
                 {startFilter ?

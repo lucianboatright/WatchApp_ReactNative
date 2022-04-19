@@ -9,6 +9,10 @@ import { Rendering } from '../Components/Rendering';
 
 import { WatchList } from '../Components/DataLists';
 import { WatchScrollList } from '../Components/Inputs';
+import watchNamesList from '../Components/DataLists/watchMakes';
+
+import { fullList } from '../Components/DataLists/fullList'
+import { stringify } from '@firebase/util';
 
 const App: FC = (props) => {
 
@@ -115,6 +119,37 @@ const App: FC = (props) => {
     //     console.log('hey', openBox)
     // }
 
+    const forYear = async () => {
+        // console.log(watchNamesList)
+        console.log('starting')
+        // const finList: { id: number; name: any; color: string; }[] = []
+        // let count = 0
+
+        // watchNamesList.forEach((item: any) => {
+        //     finList.push({
+        //         "id": count,
+        //         'name': item,
+        //         'color': 'orange'
+        //     })
+        //     count += 1
+        // })
+        // console.log(JSON.stringify(finList))
+        const finList: { id: number; year: number; }[] = []
+        let count = 1900
+        let setyear = 1900
+        if (count < 2022)
+            watchNamesList.forEach((item: any) => {
+                finList.push({
+                    id: count,
+                    year: setyear
+                })
+                count += 1
+                setyear += 1
+            })
+        console.log(JSON.stringify(finList))
+
+    }
+
     const testing = () => {
         // console.log('WATCH FILTER', watchFilter)
         // console.log('WatchDOcs', approvedPost[0].data().comments)
@@ -149,7 +184,7 @@ const App: FC = (props) => {
                     <Text style={styles.text}>Not for Sale</Text>
                 </TouchableOpacity>
             </View>
-            {/* <Button style={styles.button} title='TESTING' onPress={testing} /> */}
+            <Button style={styles.button} title='TESTING' onPress={forYear} />
             <View style={styles.approvedPosts}>
                 {startFilter ?
                     <View>

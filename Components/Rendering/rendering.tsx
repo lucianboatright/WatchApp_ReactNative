@@ -1,8 +1,9 @@
 import React, { FC, useEffect, useState } from "react";
-import { View, Text, StyleSheet, Dimensions, Image, TouchableHighlight, FlatList, TouchableOpacity, ImageBackground } from "react-native";
+import { View, Text, StyleSheet, Dimensions, Image, TouchableHighlight, FlatList, TouchableOpacity, ImageBackground, Pressable, Modal } from "react-native";
 import { LikesButton, UserProfile, DeleteIcon, CloseWindow } from "../Inputs";
 import { CommentsBar, WatchInfoLines } from ".";
 import InsetShadow from 'react-native-inset-shadow'
+
 
 
 import { NestedScreen } from "../../ScreensOptions";
@@ -63,6 +64,7 @@ const App: React.FC<Props> = (props) => {
 
     const [openBox, setOpenBox] = useState<boolean>(false)
     const [openBoxSend, setOpenBoxSend] = useState<boolean>(false)
+    const [openModal, setOpenModal] = useState<boolean>(false)
 
     const message = props.userDetails
 
@@ -79,7 +81,7 @@ const App: React.FC<Props> = (props) => {
         // props.sendBoxOpening(openBox)
         // props.onPress
     }
-    // console.log('post', openBox)
+    console.log('MOODDAALL', openModal)
 
 
     useEffect(() => {
@@ -95,7 +97,7 @@ const App: React.FC<Props> = (props) => {
                         <TouchableOpacity style={styles.viewBoxButton} onPress={() => navigation.navigate('NestedScreen', { id: props.userIdNumber, name: props.name })} >
                             <Text style={styles.headerTitle}>User: {props.name}</Text>
                         </TouchableOpacity>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '50%' }}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '46%' }}>
                             <DeleteIcon postId={props.postId} postUser={props.userIdNumber} likes={props.likes} />
                             <TouchableHighlight onPress={() => (openClicked(), props.onPress)}>
                                 <Image style={styles.icon} source={require('../../assets/icons/closeWindowIcon.png')} />
@@ -119,10 +121,18 @@ const App: React.FC<Props> = (props) => {
                             </View>
                         </View>
                         <View style={styles.imageContainer}>
-                            <ImageBackground source={require('../../assets/pictures/woodenBox_5.png')} style={styles.imageContainerBorder}>
-                                {/* <Image style={styles.imageBoxLarge} source={require('../../assets/pictures/watch_roll_blue.png')} /> */}
-                                <Image style={styles.imageBox} source={{ uri: props.iamge_1 }} />
-                            </ImageBackground>
+                            <Pressable onPress={() => setOpenModal(!openModal)}>
+                                <ImageBackground source={require('../../assets/pictures/woodenBox_5.png')} style={styles.imageContainerBorder}>
+                                    {/* <Image style={styles.imageBoxLarge} source={require('../../assets/pictures/watch_roll_blue.png')} /> */}
+                                    <Image style={styles.imageBox} source={{ uri: props.iamge_1 }} />
+                                </ImageBackground>
+                            </Pressable>
+                            <Modal>
+                                <View style={{ flex: 1, marginTop: 50 }}>
+                                    <Text>I am the modal content!</Text>
+                                </View>
+                            </Modal>
+
                         </View>
                     </View>
                     <View style={styles.commentsBox}>

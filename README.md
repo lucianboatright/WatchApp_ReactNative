@@ -25,3 +25,36 @@ Building this project was fairly tough as it took a littel time to figure out wh
 <!-- ![wireframe](./assets/pictures/readme_1.png), [wireframe](./assets/pictures/readme_2.png), [wireframe](./assets/pictures/readme_3.png)
 ![wireframe](./assets/pictures/readme_4.png), [wireframe](./assets/pictures/readme_5.png), [wireframe](./assets/pictures/readme_6.png)
 ![wireframe](./assets/pictures/readme_7.png) -->
+
+
+#### Equations for sorting the data
+    const forWatches = async () => {
+        const finList: { id: number; name: any; color: string; }[] = []
+        let count = 0
+
+        watchNamesList.forEach((item: any) => {
+            finList.push({
+                "id": count,
+                'name': item,
+                'color': 'orange'
+            })
+            count += 1
+        })
+        console.log(JSON.stringify(finList))
+    }
+    const forYear = async () => {
+        const finList: { id: number; year: number; }[] = []
+        let count = 1900
+        let setyear = 1900
+        if (count < 2022)
+            watchNamesList.forEach((item: any) => {
+                finList.push({
+                    id: count,
+                    year: setyear
+                })
+                count += 1
+                setyear += 1
+            })
+        console.log(JSON.stringify(finList))
+
+    }

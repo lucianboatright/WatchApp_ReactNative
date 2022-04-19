@@ -29,9 +29,11 @@ if (
 
 const App: FC<Props> = (props) => {
   const [data, setData] = React.useState<any>(null);
+
   const settingData = async () => {
     await setData(props.inportData)
   }
+
   useEffect(() => {
     settingData()
   }, [data])
