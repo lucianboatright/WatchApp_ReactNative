@@ -33,6 +33,9 @@ const App: FC = (props) => {
     const [selectedMaterial, setSelectedMaterial] = useState<string | null>(null)
     const [selectedLug, setSelectedLug] = useState<string | null>(null)
     const [selectedMech, setSelectedMech] = useState<string | null>(null)
+    const [selectedYear, setSelectedYear] = useState<string>('')
+    const [selectedStyle, setSelectedStyle] = useState<string>('')
+    const [selectedType, setSelectedType] = useState<string>('')
     const [message, setMessage] = useState<string>('')
     const [cost, setCost] = useState<string | null>('Not For Sale')
 
@@ -54,6 +57,9 @@ const App: FC = (props) => {
                 lugsWidth: selectedLug,
                 mechanism: selectedMech,
                 cost: cost,
+                year: selectedYear,
+                watchStyle: selectedStyle,
+                watchType: selectedType,
                 userName: userName,
                 userIdNumber: userId,
                 timeStamp: Date.now(),
@@ -112,9 +118,9 @@ const App: FC = (props) => {
                     <DropDown title='Lug Size' inputData={Lugs} placeHolder='Select Lug Size' sendSelected={(selected) => setSelectedLug(selected)} />
                     <DropDown title='Material' inputData={Material} placeHolder='Select Material' sendSelected={(selected: any) => setSelectedMaterial(selected)} />
                     <DropDown title='Movment' inputData={Mechanism} placeHolder='Select Mechanism' sendSelected={(selected: any) => setSelectedMech(selected)} />
-                    <DropDown title='Select Year' inputData={Years} placeHolder='Select Year' sendSelected={(selected: any) => setSelectedMech(selected)} />
-                    <DropDown title='Select Style' inputData={Styles} placeHolder='Select Style' sendSelected={(selected: any) => setSelectedMech(selected)} />
-                    <DropDown title='Strap Type' inputData={Straps} placeHolder='Strap Type' sendSelected={(selected: any) => setSelectedMech(selected)} />
+                    <DropDown title='Select Year' inputData={Years} placeHolder='Select Year' sendSelected={(selected: any) => setSelectedYear(selected)} />
+                    <DropDown title='Select Style' inputData={Styles} placeHolder='Select Style' sendSelected={(selected: any) => setSelectedStyle(selected)} />
+                    <DropDown title='Strap Type' inputData={Straps} placeHolder='Strap Type' sendSelected={(selected: any) => setSelectedType(selected)} />
                     <ForSale sendCost={(cost) => setCost(cost)} />
                     <Pressable style={styles.buttonSmall} onPress={submitPost}>
                         <Text style={styles.text}>Submit</Text>

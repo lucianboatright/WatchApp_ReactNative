@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from "react";
-import { View, Text, StyleSheet, Dimensions, Image, TouchableHighlight, FlatList, TouchableOpacity, ImageBackground, Pressable, Modal } from "react-native";
+import { View, Text, StyleSheet, Dimensions, Image, TouchableHighlight, FlatList, TouchableOpacity, ImageBackground, Pressable, Modal, Button, ScrollView } from "react-native";
 import { LikesButton, UserProfile, DeleteIcon, CloseWindow } from "../Inputs";
 import { CommentsBar, WatchInfoLines } from ".";
 import InsetShadow from 'react-native-inset-shadow'
@@ -127,9 +127,27 @@ const App: React.FC<Props> = (props) => {
                                     <Image style={styles.imageBox} source={{ uri: props.iamge_1 }} />
                                 </ImageBackground>
                             </Pressable>
-                            <Modal>
-                                <View style={{ flex: 1, marginTop: 50 }}>
-                                    <Text>I am the modal content!</Text>
+                            <Modal visible={openModal}>
+                                <View style={{ flex: 0.1, marginTop: 50, padding: 5 }}>
+                                    <Text>Name: {props.brand}</Text>
+                                    <Text>Message: {props.message}</Text>
+                                    <Button title='Return' onPress={() => setOpenModal(!openModal)} />
+                                </View>
+                                <View style={{ flex: 0.9 }}>
+                                    <ScrollView>
+                                        <ImageBackground source={require('../../assets/pictures/woodenBox_5.png')} style={styles.imageContainerBorder}>
+                                            <Image style={styles.imageBoxDisplay} source={{ uri: props.iamge_1 }} />
+                                        </ImageBackground>
+                                        <ImageBackground source={require('../../assets/pictures/woodenBox_5.png')} style={styles.imageContainerBorder}>
+                                            <Image style={styles.imageBoxDisplay} source={{ uri: props.iamge_2 }} />
+                                        </ImageBackground>
+                                        <ImageBackground source={require('../../assets/pictures/woodenBox_5.png')} style={styles.imageContainerBorder}>
+                                            <Image style={styles.imageBoxDisplay} source={{ uri: props.iamge_3 }} />
+                                        </ImageBackground>
+                                        <ImageBackground source={require('../../assets/pictures/woodenBox_5.png')} style={styles.imageContainerBorder}>
+                                            <Image style={styles.imageBoxDisplay} source={{ uri: props.iamge_4 }} />
+                                        </ImageBackground>
+                                    </ScrollView>
                                 </View>
                             </Modal>
 
@@ -239,6 +257,21 @@ const styles = StyleSheet.create({
         marginTop: 11,
         marginBottom: 11,
         marginRight: 0,
+    },
+    imageBoxDisplay: {
+        borderRadius: 5,
+        display: 'flex',
+        // height: 464,
+        margin: '4.5%',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '91%',
+        aspectRatio: 10 / 16,
+        // padding: 15
+        // marginLeft: 18,
+        // marginTop: 15,
+        // marginBottom: 15,
+        // marginRight: 0,
     },
 
     imageBoxContainer: {

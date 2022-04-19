@@ -77,12 +77,13 @@ const styles = StyleSheet.create({
     marginRight: 8,
   },
   card: {
-    height: 25,
+    marginBottom: 1,
+    height: 20,
     width: 'auto',
     paddingLeft: 10,
     paddingRight: 10,
     borderRadius: 5,
-    padding: 3,
+    paddingTop: 2,
   },
   text: { color: "white", fontWeight: 'bold' }
 });
