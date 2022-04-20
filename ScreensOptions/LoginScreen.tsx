@@ -39,11 +39,9 @@ const App: FC = (props) => {
             </View>
             <Input placeholder='Email' onChangeText={(text) => setEmail(text)} />
             <Input placeholder='Password' secureTextEntry onChangeText={(text) => setPassword(text)} />
-            {/* <Button title='Login' onPress={() => login()} /> */}
             <TouchableOpacity style={styles.loginButton} onPress={() => login()}>
                 <Text style={styles.Large}>Login</Text>
             </TouchableOpacity>
-            {/* <Button title='TESTONMG' onPress={testing} /> */}
             <View style={styles.loginText}>
                 <Text style={styles.loginLabel}>Need to Sign Up?</Text>
                 <TouchableOpacity style={styles.loginButton} onPress={() => props.navigation.navigate('Signup')}>
@@ -68,13 +66,13 @@ const styles = StyleSheet.create({
         marginVertical: 20
     },
     introText: {
+        fontFamily: 'Nunito',
         padding: 5,
         fontSize: 20,
         fontWeight: 'bold',
         textAlign: 'center',
     },
     introTextContainer: {
-        backgroundColor: 'orange',
         borderRadius: 5,
     },
     loginLabel: {

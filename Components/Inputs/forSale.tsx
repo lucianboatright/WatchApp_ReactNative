@@ -35,9 +35,9 @@ const App: FC<Props> = (props) => {
         </View> */}
             <View>
                 {isEnabled ?
-                    <View style={{ flexDirection: 'row' }}><Text style={{ fontSize: 20 }}> :  </Text><TextInput style={styles.forSale} placeholder=" Insert Value in £" onChangeText={setCost} /></View>
+                    <View style={{ flexDirection: 'row' }}><Text style={{ fontSize: 20, fontFamily: 'NunitoBold', }}> :  </Text><TextInput style={styles.forSale} placeholder=" Insert Value in £" onChangeText={setCost} /></View>
                     :
-                    <View style={{ flexDirection: 'row' }}><Text style={{ fontSize: 20 }}> : </Text><Text style={{ fontSize: 20, paddingTop: 2 }}> Not For sale</Text></View>
+                    <View style={{ flexDirection: 'row' }}><Text style={{ fontSize: 20, fontFamily: 'NunitoBold', }}> : </Text><Text style={{ fontSize: 20, paddingTop: 2, fontFamily: 'NunitoBold', }}> Not For sale</Text></View>
                 }
             </View>
         </View>

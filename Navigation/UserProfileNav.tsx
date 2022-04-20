@@ -12,33 +12,33 @@ type RootStackParamsList = {
     Timeline: any;
     Add: any;
     Profile: any;
-    NestedScreen: {id: string};
+    NestedScreen: { id: string };
 }
 
 
 const Stack = createStackNavigator<RootStackParamsList>()
 
 
-const HomeStackNavigator:  React.FC = (props) => {
+const HomeStackNavigator: React.FC = (props) => {
 
     const msg = 'hello this is a message'
     return (
         <Stack.Navigator
             screenOptions={{
                 headerShown: false,
-                headerBackTitleVisible: true
+                headerBackTitleVisible: false
             }}
         >
             <Stack.Screen
                 name="Home"
                 component={Home}
-                initialParams={{id: msg}}
+                initialParams={{ id: msg }}
             />
 
             <Stack.Screen
                 name="NestedScreen"
                 component={NestedScreen}
-                initialParams={{id: msg}}
+                initialParams={{ id: msg }}
             />
         </Stack.Navigator>
     )
@@ -54,11 +54,13 @@ const TimeLineStackNavigator: FC = () => {
             }}
         >
             <Stack.Screen
+                options={{ headerShown: false }}
                 name="TimeLine"
                 component={TimeLine}
             />
 
             <Stack.Screen
+                options={{ headerShown: false }}
                 name="NestedScreen"
                 component={NestedScreen}
             />
@@ -66,4 +68,4 @@ const TimeLineStackNavigator: FC = () => {
     )
 }
 
-export {HomeStackNavigator, TimeLineStackNavigator}
+export { HomeStackNavigator, TimeLineStackNavigator }

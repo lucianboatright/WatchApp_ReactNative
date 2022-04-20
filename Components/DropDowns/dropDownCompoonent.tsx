@@ -36,13 +36,14 @@ const App: FC<Props> = (props) => {
             onItemSelect={(item) => (setSelectedWatch(item.name), setPlaceHolder(item.name))}
             containerStyle={{ padding: 0 }}
             textInputStyle={{
-              padding: 5,
+              padding: 3,
               paddingLeft: 10,
               borderWidth: 1,
               borderColor: '#ccc',
               backgroundColor: '#FAF7F6',
               width: 150,
               borderRadius: 5,
+              fontFamily: 'NunitoBold',
             }}
             itemStyle={{
               padding: 2,
@@ -54,6 +55,7 @@ const App: FC<Props> = (props) => {
               backgroundColor: '#FAF9F8',
               borderColor: '#bbb',
               borderWidth: 1,
+              // fontFamily: 'NunitoBold',
             }}
             itemTextStyle={{
               color: '#222',
@@ -68,7 +70,7 @@ const App: FC<Props> = (props) => {
             underlineColorAndroid="transparent"
           />
           <Text style={{ fontSize: 20 }}> : </Text>
-          <Text style={{ fontSize: 20, paddingTop: 1 }}>{selectedWatch ? <Text>{selectedWatch}</Text> : <Text>{props.title}</Text>}</Text>
+          <Text style={{ fontSize: 20, paddingTop: 1, fontFamily: 'NunitoBold', }}>{selectedWatch ? <Text>{selectedWatch}</Text> : <Text>{props.title}</Text>}</Text>
         </View>
       </View>
     </View>
@@ -89,6 +91,7 @@ const styles = StyleSheet.create({
     paddingVertical: 1,
   },
   titleText: {
+    fontFamily: 'NunitoBold',
     padding: 0,
     fontSize: 16,
     textAlign: 'center',

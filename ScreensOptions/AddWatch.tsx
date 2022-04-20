@@ -1,5 +1,5 @@
 import React, { FC, useState, useEffect, Props } from 'react';
-import { View, Text, StyleSheet, Alert, Dimensions, ScrollView, Pressable } from 'react-native';
+import { View, Text, StyleSheet, Alert, Dimensions, ScrollView, Pressable, SafeAreaView } from 'react-native';
 import { MultiLineInput, ForSale } from '../Components/Inputs';
 import { Imagepicker } from '../Components/ExpoImage';
 import { WatchList, CaseSize, Mechanism, Material, Lugs, Styles, Straps, Years } from '../Components/DataLists';
@@ -98,41 +98,43 @@ const App: FC = (props) => {
     }, [])
 
     return (
-        <View style={styles.container}>
-            <ScrollView>
-                <View style={styles.ImageSelectors}>
-                    <Imagepicker watchImage={Watch_1} sendUrl={(url) => setUrl_1(url)} margintop={25} />
-                    <Imagepicker watchImage={Watch_2} sendUrl={(url) => setUrl_2(url)} margintop={25} />
-                </View>
-                <View style={styles.ImageSelectors}>
-                    <Imagepicker watchImage={Watch_3} sendUrl={(url) => setUrl_3(url)} margintop={25} />
-                    <Imagepicker watchImage={Watch_4} sendUrl={(url) => setUrl_4(url)} margintop={25} />
-                </View>
-            </ScrollView>
-            <View>
-                <View>
-                    <MultiLineInput sendMessage={(value: string) => setMessage(value)} setBorder={{ borderBottomWidth: 1 }} setHeight={{ padding: 10, height: 60 }} />
-                    {/* <DropDown title='Type' inputData={WatchList} placeHolder='Type' sendSelected={(selected: any) => setSelectedWatch(selected)} /> */}
-                    <DropDown title='Select Brand' inputData={WatchList} placeHolder='Select Watch' sendSelected={(selected: any) => setSelectedWatch(selected)} />
-                    <DropDown title='Case Size' inputData={CaseSize} placeHolder="Select Case Size" sendSelected={(selected: any) => setSelectedCase(selected)} />
-                    <DropDown title='Lug Size' inputData={Lugs} placeHolder='Select Lug Size' sendSelected={(selected) => setSelectedLug(selected)} />
-                    <DropDown title='Material' inputData={Material} placeHolder='Select Material' sendSelected={(selected: any) => setSelectedMaterial(selected)} />
-                    <DropDown title='Movment' inputData={Mechanism} placeHolder='Select Mechanism' sendSelected={(selected: any) => setSelectedMech(selected)} />
-                    <DropDown title='Select Year' inputData={Years} placeHolder='Select Year' sendSelected={(selected: any) => setSelectedYear(selected)} />
-                    <DropDown title='Select Style' inputData={Styles} placeHolder='Select Style' sendSelected={(selected: any) => setSelectedStyle(selected)} />
-                    <DropDown title='Strap Type' inputData={Straps} placeHolder='Strap Type' sendSelected={(selected: any) => setSelectedType(selected)} />
-                    <ForSale sendCost={(cost) => setCost(cost)} />
-                    <Pressable style={styles.buttonSmall} onPress={submitPost}>
-                        <Text style={styles.text}>Submit</Text>
-                    </Pressable>
-                </View>
-                {/* {userDetails ? userDetails.isAdmin ? (
-                    <View>
-                        <Button title="AuthDashboard" onPress={() => props.navigation.navigate('AuthDashboard')} />
+        <SafeAreaView style={{ flex: 1 }}>
+            <View style={styles.container}>
+                <ScrollView>
+                    <View style={styles.ImageSelectors}>
+                        <Imagepicker watchImage={Watch_1} sendUrl={(url) => setUrl_1(url)} margintop={25} />
+                        <Imagepicker watchImage={Watch_2} sendUrl={(url) => setUrl_2(url)} margintop={25} />
                     </View>
-                ) : null : null} */}
+                    <View style={styles.ImageSelectors}>
+                        <Imagepicker watchImage={Watch_3} sendUrl={(url) => setUrl_3(url)} margintop={25} />
+                        <Imagepicker watchImage={Watch_4} sendUrl={(url) => setUrl_4(url)} margintop={25} />
+                    </View>
+                </ScrollView>
+                <View>
+                    <View>
+                        <MultiLineInput sendMessage={(value: string) => setMessage(value)} setBorder={{ borderBottomWidth: 1 }} setHeight={{ padding: 10, height: 60 }} />
+                        {/* <DropDown title='Type' inputData={WatchList} placeHolder='Type' sendSelected={(selected: any) => setSelectedWatch(selected)} /> */}
+                        <DropDown title='Select Brand' inputData={WatchList} placeHolder='Select Watch' sendSelected={(selected: any) => setSelectedWatch(selected)} />
+                        <DropDown title='Case Size' inputData={CaseSize} placeHolder="Select Case Size" sendSelected={(selected: any) => setSelectedCase(selected)} />
+                        <DropDown title='Lug Size' inputData={Lugs} placeHolder='Select Lug Size' sendSelected={(selected) => setSelectedLug(selected)} />
+                        <DropDown title='Material' inputData={Material} placeHolder='Select Material' sendSelected={(selected: any) => setSelectedMaterial(selected)} />
+                        <DropDown title='Movment' inputData={Mechanism} placeHolder='Select Mechanism' sendSelected={(selected: any) => setSelectedMech(selected)} />
+                        <DropDown title='Select Year' inputData={Years} placeHolder='Select Year' sendSelected={(selected: any) => setSelectedYear(selected)} />
+                        <DropDown title='Select Style' inputData={Styles} placeHolder='Select Style' sendSelected={(selected: any) => setSelectedStyle(selected)} />
+                        <DropDown title='Strap Type' inputData={Straps} placeHolder='Strap Type' sendSelected={(selected: any) => setSelectedType(selected)} />
+                        <ForSale sendCost={(cost) => setCost(cost)} />
+                        <Pressable style={styles.buttonSmall} onPress={submitPost}>
+                            <Text style={styles.text}>Submit</Text>
+                        </Pressable>
+                    </View>
+                    {/* {userDetails ? userDetails.isAdmin ? (
+                        <View>
+                            <Button title="AuthDashboard" onPress={() => props.navigation.navigate('AuthDashboard')} />
+                        </View>
+                    ) : null : null} */}
+                </View>
             </View>
-        </View>
+        </SafeAreaView>
     )
 }
 export default App;
@@ -182,6 +184,7 @@ const styles = StyleSheet.create({
         marginVertical: 2,
     },
     text: {
+        fontFamily: 'NunitoBold',
         color: 'white',
         fontWeight: 'bold',
         fontSize: 18,

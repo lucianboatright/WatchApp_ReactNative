@@ -36,7 +36,7 @@ const App: FC<Props> = (props) => {
 
   useEffect(() => {
     settingData()
-  }, [data])
+  }, [props.inportData])
 
   return (
     <View style={styles.container}>
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingRight: 10,
     borderRadius: 5,
-    paddingTop: 2,
+    paddingTop: 1,
   },
-  text: { color: "white", fontWeight: 'bold' }
+  text: { color: "white", fontWeight: 'bold', fontFamily: 'NunitoBold' }
 });

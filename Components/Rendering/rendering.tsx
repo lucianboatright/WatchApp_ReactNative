@@ -30,6 +30,8 @@ interface Props {
     userDetails: object;
     approved: string;
     timeStamp: number;
+    year: string;
+    watchType: string;
     postId: any;
     likes: any;
     comments: any;
@@ -81,11 +83,11 @@ const App: React.FC<Props> = (props) => {
         // props.sendBoxOpening(openBox)
         // props.onPress
     }
-    console.log('MOODDAALL', openModal)
+    // console.log('MOODDAALL', openModal)
 
 
     useEffect(() => {
-        console.log('pre', openBox)
+        // console.log('pre', openBox)
         // console.log('pre',openBoxSend)
     }, [])
 
@@ -108,8 +110,8 @@ const App: React.FC<Props> = (props) => {
                     <View style={styles.postContainer}>
                         <View style={styles.infoBoxContainer} >
                             <View style={styles.message}>
-                                <Text>Massage: </Text>
-                                <Text>{props.message}</Text>
+                                <Text style={styles.font}>Massage: </Text>
+                                <Text style={styles.font}>{props.message}</Text>
                             </View>
                             <View style={styles.infoBox}>
                                 <WatchInfoLines title="Brand" info={props.brand} />
@@ -117,6 +119,8 @@ const App: React.FC<Props> = (props) => {
                                 <WatchInfoLines title="Material" info={props.caseMaterial} />
                                 <WatchInfoLines title="lug Width" info={props.lugsWidth} />
                                 <WatchInfoLines title="Mechanism" info={props.mechanism} />
+                                <WatchInfoLines title="Year" info={props.year} />
+                                <WatchInfoLines title="Type" info={props.watchType} />
                                 <WatchInfoLines title="Cost" info={props.cost} />
                             </View>
                         </View>
@@ -128,10 +132,15 @@ const App: React.FC<Props> = (props) => {
                                 </ImageBackground>
                             </Pressable>
                             <Modal visible={openModal}>
-                                <View style={{ flex: 0.1, marginTop: 50, padding: 5 }}>
-                                    <Text>Name: {props.brand}</Text>
-                                    <Text>Message: {props.message}</Text>
-                                    <Button title='Return' onPress={() => setOpenModal(!openModal)} />
+                                <View style={{ marginTop: 45, padding: 5 }}>
+                                    <Text style={{ fontFamily: 'Nunito' }}>Name: {props.brand}</Text>
+                                    <Text style={{ fontFamily: 'Nunito' }}>Message: {props.message}</Text>
+                                    <View>
+                                        <Pressable style={styles.button} onPress={() => setOpenModal(!openModal)} >
+                                            <Text style={styles.fontButton}>Return</Text>
+                                        </Pressable>
+                                    </View>
+                                    {/* <Button title='Return' onPress={() => setOpenModal(!openModal)} /> */}
                                 </View>
                                 <View style={{ flex: 0.9 }}>
                                     <ScrollView>
@@ -206,6 +215,22 @@ const styles = StyleSheet.create({
         borderBottomLeftRadius: 10,
         borderColor: 'grey',
         paddingLeft: 5,
+    },
+    font: {
+        fontFamily: 'Nunito',
+    },
+    fontButton: {
+        fontFamily: 'NunitoBold',
+        color: 'white',
+
+    },
+    button: {
+        marginTop: 5,
+        alignItems: 'center',
+        // justifyContent: 'flex-end',
+        backgroundColor: '#44D0DF',
+        borderRadius: 5,
+
     },
     userHeader: {
         flexDirection: 'row',

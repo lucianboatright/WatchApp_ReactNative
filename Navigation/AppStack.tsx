@@ -37,6 +37,7 @@ const AppStack: React.FC = () => {
         name="Timeline"
         component={TimeLineStackNavigator}
         options={{
+          headerShown: false,
           tabBarLabel: 'Timeline',
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="table-network" color={'green'} size={size} />
@@ -47,6 +48,7 @@ const AppStack: React.FC = () => {
         name="Add"
         component={AddWatch}
         options={{
+          headerShown: false,
           tabBarLabel: 'Add',
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="plus-outline" color={'red'} size={45} />
@@ -57,6 +59,7 @@ const AppStack: React.FC = () => {
         name="Profile"
         component={Dashboard}
         options={{
+          headerShown: false,
           tabBarLabel: 'Home',
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="account-settings" color={'blue'} size={size} />

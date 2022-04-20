@@ -15,7 +15,6 @@ const App: FC = (props) => {
     const [password, setPassword] = useState<string | null>(null)
     const [confirm, setConfirm] = useState<string | null>(null)
     const [error, setError] = useState<string | null>(null)
-    // const [userDetails, setUserDetails] = useState<any>(null)
     const followers: never[] = []
 
     const [openModal, setOpenModal] = useState<boolean>(false)
@@ -25,7 +24,6 @@ const App: FC = (props) => {
         Alert.alert("Are your sure?",
             "By clicking yes you agree to the Terms and Conditions",
             [
-                // The "Yes" button
                 {
                     text: "Yes",
                     onPress: async () => {
@@ -41,15 +39,12 @@ const App: FC = (props) => {
                                     if (user) {
                                         await firebase.firestore().collection('users').doc(user.uid).set({ name, email, password, followers })
                                         const current = firebase.auth().currentUser;
-                                        // setUserDetails(current)
                                         return current?.updateProfile({
                                             displayName: name
                                         })
 
                                     }
                                 } catch (error) {
-                                    // Alert.alert(JSON.stringify(error))
-
                                     if (error.code.includes('auth/weak-password')) {
                                         Alert.alert('Please enter a stronger password');
                                     }
@@ -60,15 +55,12 @@ const App: FC = (props) => {
                                         Alert.alert('Somthing is Worng with the details, Please Re-Enter')
                                     }
                                 }
-                                // firebase.auth().createUserWithEmailAndPassword()
                             } else {
                                 Alert.alert('Error', 'Missing Fields')
                             }
                         }
                     },
                 },
-                // The "No" button
-                // Does nothing but dismiss the dialog when tapped
                 {
                     text: "Go Back",
                 },
@@ -80,54 +72,21 @@ const App: FC = (props) => {
     return (
         <View style={styles.container}>
             <View style={styles.introTitleContainer}>
-                <Text style={styles.title}>Welcome to Show Box</Text>
+                <Text style={styles.title}>Welcome to Roll and Box</Text>
             </View>
             <View style={styles.introTextContainer}>
                 <Text style={styles.introText}>Start Your Free Virtual Watch Box Collection Today!</Text>
-                {/* <View style={{ flexDirection: 'row' }}>
-                    <Text><Text style={styles.introTextSmall}>By signing up you agree to the Terms & Conditions found </Text><Text style={styles.links} onPress={() => Linking.openURL('https://www.termsfeed.com/live/f1f2f92c-f9d2-48a1-80ea-68b048591174')}>Here</Text><Text style={styles.introTextSmall}> and Privacy Policy here </Text><Text style={styles.links} onPress={() => Linking.openURL('https://www.termsfeed.com/live/f1f2f92c-f9d2-48a1-80ea-68b048591174')}>Here</Text><Text style={styles.introTextSmall}>Otherwise Feel free to contact us at RollandBox@gmail.com</Text></Text>
-                </View> */}
             </View>
             <Input placeholder=" Enter Your First Name" onChangeText={(text) => setName(text)} />
             <Input placeholder='Email' onChangeText={(text) => setEmail(text)} />
             <Input placeholder='Password' secureTextEntry onChangeText={(text) => setPassword(text)} />
             <Input placeholder='Confirm' secureTextEntry onChangeText={(text) => setConfirm(text)} />
             {/* <Button title='SignUp' onPress={signup} /> */}
-            <View style={styles.introTextContainer}>
+            <View style={styles.introTextContainerBottom}>
                 <View style={{ flexDirection: 'row' }}>
-                    <Text>
+                    <Text style={{ padding: 10 }}>
                         <Text style={styles.introTextSmall}>By signing up you agree to the Terms & Conditions found </Text>
                         <Text style={styles.links} onPress={() => Linking.openURL('https://www.termsfeed.com/live/f1f2f92c-f9d2-48a1-80ea-68b048591174')}> Here </Text>
-                        {/* <Text style={styles.introTextSmall}> and General Rules here </Text> */}
-                        {/* <Button title='MODALEEEE' onPress={() => setOpenModal(!openModal)} />
-                        <Modal visible={openModal}  >
-                            <View style={styles.modal}>
-                                <Text style={styles.modalText}>
-                                    Inside Modal TExt
-                                </Text>
-                                <Text style={styles.modalText}>
-                                    Inside Modal TExt
-                                </Text>
-                                <Text style={styles.modalText}>
-                                    Inside Modal TExt
-                                </Text>
-                                <Text style={styles.modalText}>
-                                    Inside Modal TExt
-                                </Text>
-                                <Text style={styles.modalText}>
-                                    Inside Modal TExt
-                                </Text>
-                                <Text style={styles.modalText}>
-                                    Inside Modal TExt
-                                </Text>
-                                <Button title='MODALEEEE' onPress={() => setOpenModal(!openModal)} />
-                            </View>
-                        </Modal> */}
-                        {/* <Modal isVisible={true}>
-                            <View style={{ flex: 1 }}>
-                                <Text>I am the modal content!</Text>
-                            </View>
-                        </Modal> */}
                         <Text style={styles.introTextSmall}>Otherwise Feel free to contact us at RollandBox@gmail.com</Text>
                     </Text>
                 </View>
@@ -140,7 +99,7 @@ const App: FC = (props) => {
             <View style={styles.loginText}>
                 <Text style={styles.loginLabel}>Already Have an Account?</Text>
                 <TouchableOpacity style={styles.loginButton} onPress={() => props.navigation.navigate('Login')}>
-                    <Text>Login Here</Text>
+                    <Text style={{ fontFamily: 'NunitoBold', color: 'white' }}>Login Here</Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -161,19 +120,21 @@ const styles = StyleSheet.create({
         marginVertical: 20
     },
     title: {
+        fontFamily: 'Nunito',
         padding: 10,
         fontSize: 25,
         fontWeight: 'bold',
         textAlign: 'center',
     },
     introText: {
+        fontFamily: 'Nunito',
         padding: 5,
         fontSize: 20,
         fontWeight: 'bold',
         textAlign: 'center',
     },
     introTextSmall: {
-        padding: 5,
+        fontFamily: 'Nunito',
         fontSize: 15,
         fontWeight: 'bold',
         textAlign: 'center',
@@ -186,13 +147,15 @@ const styles = StyleSheet.create({
         color: 'white'
     },
     introTextContainer: {
-        backgroundColor: 'orange',
         borderRadius: 5,
         marginBottom: 10,
-        width: '95%'
     },
     introTitleContainer: {
-        backgroundColor: '#44D0DF',
+        borderRadius: 5,
+        marginBottom: 10,
+    },
+    introTextContainerBottom: {
+        backgroundColor: 'orange',
         borderRadius: 5,
         marginBottom: 10,
     },
@@ -214,7 +177,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 25,
         color: 'white',
-        // height: 5,
     },
     modal: {
         marginBottom: 40,

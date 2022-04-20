@@ -1,8 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 // import { auth } from './config/firebase';
 import './config/config'
 import { StyleSheet, Text, View, Image, Dimensions, SafeAreaView } from 'react-native';
 import MainNav from './Navigation/mainNavigation';
+
+import * as Font from 'expo-font';
+import AppLoading from 'expo-app-loading';
+import useFonts from './Hooks/useFonts';
 
 const { width, height } = Dimensions.get("screen");
 const MainImage = require('./assets/pictures/watch_roll_blue.png')
@@ -11,6 +15,22 @@ const MainImage = require('./assets/pictures/watch_roll_blue.png')
 
 
 export default function App() {
+  const [IsReady, SetIsReady] = useState(false);
+
+  const LoadFonts = async () => {
+    await useFonts();
+  };
+
+  if (!IsReady) {
+    return (
+      <AppLoading
+        startAsync={LoadFonts}
+        onFinish={() => SetIsReady(true)}
+        onError={() => { }}
+      />
+    );
+  }
+
   return (
     <MainNav />
   )
