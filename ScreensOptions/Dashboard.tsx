@@ -9,7 +9,7 @@ import "firebase/compat/firestore"
 import { FlatList } from 'react-native-gesture-handler';
 import { getAuth, signOut } from 'firebase/auth';
 import { Rendering } from '../Components/Rendering';
-import { WatchScrollList } from '../Components/Inputs';
+import { WatchScrollLink } from '../Components/Inputs';
 
 import { WatchList } from '../Components/DataLists';
 
@@ -33,8 +33,9 @@ const App: FC = (props) => {
     const [forSaleFilter, setForSaleFilter] = useState<boolean>(false)
     const [notForSaleFilter, setNotForSaleFilter] = useState<boolean>(false)
     const [followersList, setFollowersList] = useState<any>(null)
-    const [profilePic, setProfilePic] = useState<any | null>(null)
+    const [followingList, setFollowingList] = useState<any>(null)
     const [followerLength, setFollowerLength] = useState<any>(null)
+    const [followingLength, setFollowingLength] = useState<any>(null)
 
 
     const signOutUser = async () => {
@@ -56,7 +57,6 @@ const App: FC = (props) => {
     }
 
     const getFilteredPosts = async () => {
-        // console.log('I am being clicked')
         if (forSaleFilter && watchFilter) {
             const filtered = approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().brand == watchFilter && item.data().cost != 'Not for sale')
             setFilteredPosts(filtered)
@@ -111,8 +111,9 @@ const App: FC = (props) => {
         await setUserName(user.data().name)
         await setUserPic(user.data().profilePicture)
         await setFollowersList(user.data().followers)
+        await setFollowingList(user.data().following)
         await setFollowerLength(user.data().followers.length)
-        // console.log(user.data().followers)
+        await setFollowingLength(user.data().followers.length)
     }
     const testing = () => {
         console.log('DOCS LENGTH', approvedPost.length)
@@ -126,12 +127,6 @@ const App: FC = (props) => {
 
         }
         setForSaleFilter(!forSaleFilter)
-    }
-
-    const changeFilter = async (name: string) => {
-        setStartFilter(true)
-        setWatchFilter(name);
-        getFilteredPosts();
     }
 
     const changeFolowerFilter = async (name: string) => {
@@ -173,25 +168,20 @@ const App: FC = (props) => {
                             <Text style={styles.infoText}>User Email : {userEmail}</Text>
                             <Text style={styles.infoText}>You have {watchNumber} in you collection</Text>
                             <Text style={styles.infoText}>For Sale: {forSaleCount} Not for Sale: {notForSaleCount}</Text>
-                            <Text style={styles.infoText}>Number of Followers: {followerLength}</Text>
+                            {/* <Text style={styles.infoText}>Followers: {followerLength}</Text>
+                            <Text style={styles.infoText}>Following: {followingLength}</Text> */}
                         </View>
                         <View>
-                            {/* <Text style={styles.infoText}>Following:</Text>
-                            <WatchScrollList inportData={followersList} bgcolor={'#44D0DF'} sendFilter={(name: string) => changeFolowerFilter(name)} /> */}
-                            {/* <TouchableOpacity style={styles.button} onPress={clearWatchFilter}>
-                                <Text style={styles.text}>Clear Filter</Text>
-                            </TouchableOpacity> */}
                             <View style={styles.profileImageBox}>
                                 <ProfileImagePicker profilePic={userPic} userId={userId} />
                             </View>
                         </View>
                     </View>
-                    {/* <View style={styles.profileImageBox}>
-                        <ProfileImagePicker profilePic={userPic} userId={userId} />
-                    </View> */}
                     <View>
-                        <Text style={styles.infoText}>Following:</Text>
-                        <WatchScrollList inportData={followersList} bgcolor={'#44D0DF'} sendFilter={(name: string) => changeFolowerFilter(name)} />
+                        <Text style={styles.infoText}>Following:  {followingLength}</Text>
+                        <WatchScrollLink inportData={followingList} bgcolor={'#44D0DF'} />
+                        <Text style={styles.infoText}>Followers:  {followerLength}</Text>
+                        <WatchScrollLink inportData={followersList} bgcolor={'#44D0DF'} />
                         <View style={{ flexDirection: 'row' }}>
                             <TouchableOpacity style={forSaleFilter === true ? styles.buttonSmallHilight : styles.buttonSmall} onPress={getFilterForSale}>
                                 <Text style={styles.text}>For Sale </Text>
@@ -205,21 +195,6 @@ const App: FC = (props) => {
                         </TouchableOpacity>
                     </View>
                 </View>
-                {/* <TouchableOpacity style={styles.button} onPress={clearWatchFilter}>
-                    <Text style={styles.text}>Clear Filter</Text>
-                </TouchableOpacity> */}
-                {/* <WatchScrollList inportData={WatchList} bgcolor={'orange'} sendFilter={(name: string) => changeFilter(name)} />
-                <View style={{ flexDirection: 'row' }}>
-                    <TouchableOpacity style={forSaleFilter === true ? styles.buttonSmallHilight : styles.buttonSmall} onPress={getFilterForSale}>
-                        <Text style={styles.text}>For Sale </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={notForSaleFilter === true ? styles.buttonSmallHilight : styles.buttonSmall} onPress={getFilterNotForSale}>
-                        <Text style={styles.text}>Not for Sale</Text>
-                    </TouchableOpacity>
-                </View>
-                <TouchableOpacity style={styles.button} onPress={clearWatchFilter}>
-                    <Text style={styles.text}>Clear Filter</Text>
-                </TouchableOpacity> */}
                 <View style={styles.approvedPosts}>
                     {startFilter ?
                         <View >
@@ -246,7 +221,6 @@ const App: FC = (props) => {
                                                 postId={item.id}
                                                 likes={item.data().likes}
                                                 userIdNumber={item.data().userIdNumber}
-                                                // userDetails={item.data().uid}
                                                 comments={item.data().comments}
                                                 approved={''}
                                                 onApprove={function (): void {
@@ -262,7 +236,6 @@ const App: FC = (props) => {
                                 <View>
                                     <FlatList
                                         data={filteredPost}
-                                        // style={{width: '10%'}}
                                         renderItem={
                                             ({ item }) => <Rendering
                                                 message={item.data().message}
@@ -281,7 +254,6 @@ const App: FC = (props) => {
                                                 postId={item.id}
                                                 likes={item.data().likes}
                                                 userIdNumber={item.data().userIdNumber}
-                                                // userDetails={item.data().uid}
                                                 comments={item.data().comments}
                                                 approved={''}
                                                 onApprove={function (): void {
@@ -296,7 +268,6 @@ const App: FC = (props) => {
                         </View>
                         :
                         <View>
-                            {/* <Text>HERE</Text> */}
                             <FlatList
                                 data={approvedPost}
                                 renderItem={
@@ -317,7 +288,6 @@ const App: FC = (props) => {
                                         postId={item.id}
                                         likes={item.data().likes}
                                         userIdNumber={item.data().userIdNumber}
-                                        // userDetails={item.data().uid}
                                         comments={item.data().comments}
                                         approved={''}
                                         onApprove={function (): void {
@@ -352,26 +322,16 @@ const styles = StyleSheet.create({
         margin: 5,
         borderRadius: 5,
         padding: 5,
-        // flexDirection: 'row',
-        // justifyContent: 'space-between',
-
-        borderColor: 'black',
-        borderWidth: 2,
     },
     profileImageBox: {
         height: 10,
         marginLeft: 20,
         paddingRight: 5,
         width: '55%',
-        // flex: 0.2,
     },
     headerInfo: {
         flex: 1,
-        // justifyContent: 'space-between',
         flexDirection: 'row',
-        // width: '55%',
-        // borderColor: 'black',
-        // borderWidth: 2,
     },
     approvedPosts: {
         flex: 1,
@@ -389,7 +349,6 @@ const styles = StyleSheet.create({
     },
     buttonSmall: {
         backgroundColor: "#44D0DF",
-        // minWidth: 100,
         marginLeft: 'auto',
         marginRight: 'auto',
         width: '48%',
@@ -403,7 +362,6 @@ const styles = StyleSheet.create({
     },
     buttonSmallHilight: {
         backgroundColor: "orange",
-        // minWidth: 100,
         marginLeft: 'auto',
         marginRight: 'auto',
         width: '48%',
@@ -414,19 +372,12 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         marginVertical: 2,
     },
-    // profileImage: {
-    //     height: '10',
-    //     // opacity: 0.5,
-    //     // borderWidth: 1,
-    //     // borderRadius: 5,
-    //     // borderColor: "grey",
-    //     // paddingBottom: 10,
-    // },
     text: {
         color: 'white',
         fontWeight: 'bold',
     },
     infoText: {
+        marginLeft: 5,
         fontWeight: 'bold',
         fontSize: 15,
     },

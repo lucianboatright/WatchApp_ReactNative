@@ -2,7 +2,7 @@ import Button from './button'
 import Input from './input'
 import MultiLineInput from './multiLineInput'
 import ForSale from './forSale'
-import WatchScrollList from './watchScroll'
+import WatchScrollList from './scrollBasic'
 import LikesButton from './likesButton'
 import UserProfile from './buttonUserWatches'
 import FilterLines from './filterLines'
@@ -10,5 +10,6 @@ import DeleteIcon from './deleteButton'
 import CloseWindow from './closeWindow'
 import FollowButton from './followButton'
 import Modal from './Modal'
+import WatchScrollLink from './scrollWithLink'
 
-export { Button, Input, MultiLineInput, ForSale, WatchScrollList, LikesButton, UserProfile, FilterLines, DeleteIcon, CloseWindow, FollowButton, Modal }
+export { Button, Input, MultiLineInput, ForSale, WatchScrollList, LikesButton, UserProfile, FilterLines, DeleteIcon, CloseWindow, FollowButton, Modal, WatchScrollLink }
