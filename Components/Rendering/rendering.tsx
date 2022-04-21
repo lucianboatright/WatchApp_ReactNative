@@ -1,8 +1,7 @@
 import React, { FC, useEffect, useState } from "react";
-import { View, Text, StyleSheet, Dimensions, Image, TouchableHighlight, FlatList, TouchableOpacity, ImageBackground, Pressable, Modal, Button, ScrollView } from "react-native";
-import { LikesButton, UserProfile, DeleteIcon, CloseWindow } from "../Inputs";
-import { CommentsBar, WatchInfoLines } from ".";
-import InsetShadow from 'react-native-inset-shadow'
+import { View, Text, StyleSheet, Dimensions, Image, TouchableHighlight, TouchableOpacity, ImageBackground, Pressable, Modal, ScrollView } from "react-native";
+import { LikesButton, DeleteIcon, CommentsBar, WatchInfoLines } from "../Inputs";
+// import InsetShadow from 'react-native-inset-shadow'
 
 
 
@@ -171,11 +170,11 @@ const App: React.FC<Props> = (props) => {
                     <TouchableOpacity onPress={() => (openClicked(), props.onPress)}>
 
                         <ImageBackground source={require('../../assets/pictures/woodenBox_5.png')} style={styles.imageContainerBorderBox}>
-                            <InsetShadow left={true} right={true} bottom={true} >
-                                {/* <View style={{}}> */}
-                                <Image style={styles.imageBoxLarge} source={{ uri: props.iamge_1 }} />
-                                {/* </View> */}
-                            </InsetShadow>
+                            {/* <InsetShadow left={true} right={true} bottom={true} > */}
+                            {/* <View style={{}}> */}
+                            <Image style={styles.imageBoxLarge} source={{ uri: props.iamge_1 }} />
+                            {/* </View> */}
+                            {/* </InsetShadow> */}
                         </ImageBackground>
 
                     </TouchableOpacity>
@@ -189,7 +188,7 @@ export default App
 
 const styles = StyleSheet.create({
     container: {
-        width: "95%",
+        width: (width - 10),
         // paddingLeft: 5,
         alignSelf: 'center',
         marginVertical: 10,

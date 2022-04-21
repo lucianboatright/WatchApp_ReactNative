@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
-// import { auth } from './config/firebase';
 import './config/config'
-import { StyleSheet, Text, View, Image, Dimensions, SafeAreaView } from 'react-native';
+import { StyleSheet, Dimensions, } from 'react-native';
 import MainNav from './Navigation/mainNavigation';
 
 import * as Font from 'expo-font';

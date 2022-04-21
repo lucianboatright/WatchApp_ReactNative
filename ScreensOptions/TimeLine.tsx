@@ -234,15 +234,23 @@ const App: FC = (props) => {
                     {startFilter ?
                         <View>
                             {filteredPost.length === 0 ?
-                                <View>
-                                    <Text style={styles.NoWatches}>Be the first to add a {watchFilter}</Text>
+                                <View style={styles.test}>
+                                    <TouchableOpacity onPress={() => console.log('SOMEWAHTTTEEE')}></TouchableOpacity>
                                     <FlatList
                                         data={approvedPost}
-                                        numColumns={openBoxContainer ? 1 : 2}
-                                        key={openBoxContainer ? 1 : 2}
+                                        // contentContainerStyle={{ alignSelf: 'flex-start' }}
+                                        // numColumns={Math.ceil(2)}
+                                        // showsVerticalScrollIndicator={false}
+                                        // showsHorizontalScrollIndicator={false}
+                                        // numColumns={1}
+                                        // key={1}
+                                        // numColumns={openBoxContainer ? 1 : 2}
+                                        // key={openBoxContainer ? 1 : 2}
+                                        // style={styles.grid}
+                                        contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap" }}
                                         renderItem={
-                                            ({ item }) => <Rendering
-                                                // onPress={() => setOpenBoxContainer(!openBoxContainer)}
+                                            ({ item }) => <Pressable onPress={() => console.log('WEEEEEHAAA')}><Rendering
+                                                // sendBoxOpening={(openBox: boolean) => changeBoxView(openBox)}
                                                 message={item.data().message}
                                                 name={item.data().userName}
                                                 iamge_1={item.data().iamge_1}
@@ -268,20 +276,30 @@ const App: FC = (props) => {
                                                     throw new Error('Function not implemented.');
                                                 }} onReject={function (): void {
                                                     throw new Error('Function not implemented.');
-                                                }}
+                                                }} userDetails={undefined}
                                             />
+                                            </Pressable>
                                         }
                                     />
                                 </View>
                                 :
-                                <View>
+                                <View style={styles.test}>
+                                    <TouchableOpacity onPress={() => console.log('SOMEWAHTTTEEE')}></TouchableOpacity>
                                     <FlatList
-                                        data={filteredPost}
-                                        numColumns={openBoxContainer ? 1 : 2}
-                                        key={openBoxContainer ? 1 : 2}
+                                        data={approvedPost}
+                                        // contentContainerStyle={{ alignSelf: 'flex-start' }}
+                                        // numColumns={Math.ceil(2)}
+                                        // showsVerticalScrollIndicator={false}
+                                        // showsHorizontalScrollIndicator={false}
+                                        // numColumns={1}
+                                        // key={1}
+                                        // numColumns={openBoxContainer ? 1 : 2}
+                                        // key={openBoxContainer ? 1 : 2}
+                                        // style={styles.grid}
+                                        contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap" }}
                                         renderItem={
-                                            ({ item }) => <Rendering
-                                                // onPress={() => setOpenBoxContainer(!openBoxContainer)}
+                                            ({ item }) => <Pressable onPress={() => console.log('WEEEEEHAAA')}><Rendering
+                                                // sendBoxOpening={(openBox: boolean) => changeBoxView(openBox)}
                                                 message={item.data().message}
                                                 name={item.data().userName}
                                                 iamge_1={item.data().iamge_1}
@@ -307,8 +325,9 @@ const App: FC = (props) => {
                                                     throw new Error('Function not implemented.');
                                                 }} onReject={function (): void {
                                                     throw new Error('Function not implemented.');
-                                                }}
+                                                }} userDetails={undefined}
                                             />
+                                            </Pressable>
                                         }
                                     />
                                 </View>
@@ -316,7 +335,6 @@ const App: FC = (props) => {
                         </View>
                         :
                         <View style={styles.test}>
-                            <TouchableOpacity onPress={() => changeView()}></TouchableOpacity>
                             <FlatList
                                 data={approvedPost}
                                 // contentContainerStyle={{ alignSelf: 'flex-start' }}
@@ -325,11 +343,12 @@ const App: FC = (props) => {
                                 // showsHorizontalScrollIndicator={false}
                                 // numColumns={1}
                                 // key={1}
-                                numColumns={1}
-                                key={1}
-                                style={styles.grid}
+                                // numColumns={openBoxContainer ? 1 : 2}
+                                // key={openBoxContainer ? 1 : 2}
+                                // style={styles.grid}
+                                contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap" }}
                                 renderItem={
-                                    ({ item }) => <TouchableOpacity onPress={() => console.log('WEEEEEHAAA')}><Rendering
+                                    ({ item }) => <Pressable onPress={() => console.log('WEEEEEHAAA')}><Rendering
                                         // sendBoxOpening={(openBox: boolean) => changeBoxView(openBox)}
                                         message={item.data().message}
                                         name={item.data().userName}
@@ -358,7 +377,7 @@ const App: FC = (props) => {
                                             throw new Error('Function not implemented.');
                                         }} userDetails={undefined}
                                     />
-                                    </TouchableOpacity>
+                                    </Pressable>
                                 }
                             />
                         </View>

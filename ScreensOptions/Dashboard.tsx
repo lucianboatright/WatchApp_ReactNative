@@ -203,6 +203,7 @@ const App: FC = (props) => {
                                     <Text style={styles.NoWatches}>You currently done have any {watchFilter}</Text>
                                     <FlatList
                                         data={approvedPost}
+                                        contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap" }}
                                         renderItem={
                                             ({ item }) => <Rendering
                                                 message={item.data().message}
@@ -236,6 +237,7 @@ const App: FC = (props) => {
                                 <View>
                                     <FlatList
                                         data={filteredPost}
+                                        contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap" }}
                                         renderItem={
                                             ({ item }) => <Rendering
                                                 message={item.data().message}
@@ -270,6 +272,7 @@ const App: FC = (props) => {
                         <View>
                             <FlatList
                                 data={approvedPost}
+                                contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap" }}
                                 renderItem={
                                     ({ item }) => <Rendering
                                         message={item.data().message}
@@ -334,6 +337,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     approvedPosts: {
+        marginLeft: 5,
         flex: 1,
     },
     button: {
