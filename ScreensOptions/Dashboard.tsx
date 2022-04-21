@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Button, TouchableOpacity, Image, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { ProfileImagePicker } from '../Components/ExpoImage';
 
 import firebase from "firebase/compat/app";
@@ -48,7 +49,7 @@ const App: FC = (props) => {
     }
 
     const getApprovedPosts = async () => {
-        firebase.firestore().collection('posts').where('userIdNumber', '==', userId).onSnapshot(querySnapShot => {
+        await firebase.firestore().collection('posts').where('userIdNumber', '==', userId).onSnapshot(querySnapShot => {
             const documents = querySnapShot.docs;
             setApprovedPosts(documents)
             setWatchNumber(documents.length)
@@ -58,19 +59,19 @@ const App: FC = (props) => {
 
     const getFilteredPosts = async () => {
         if (forSaleFilter && watchFilter) {
-            const filtered = approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().brand == watchFilter && item.data().cost != 'Not for sale')
+            const filtered = await approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().brand == watchFilter && item.data().cost != 'Not for sale')
             setFilteredPosts(filtered)
         } else if (forSaleFilter && !watchFilter) {
-            const filtered = approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost != 'Not for sale')
+            const filtered = await approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost != 'Not for sale')
             setFilteredPosts(filtered)
         } else if (notForSaleFilter && watchFilter) {
-            const filtered = approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().brand == watchFilter && item.data().cost == 'Not for sale')
+            const filtered = await approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().brand == watchFilter && item.data().cost == 'Not for sale')
             setFilteredPosts(filtered)
         } else if (notForSaleFilter && !watchFilter) {
-            const filtered = approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost == 'Not for sale')
+            const filtered = await approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost == 'Not for sale')
             setFilteredPosts(filtered)
         } else {
-            const filtered = approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().brand == watchFilter)
+            const filtered = await approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().brand == watchFilter)
             setFilteredPosts(filtered)
         }
     }
@@ -95,15 +96,15 @@ const App: FC = (props) => {
         // }
     }
 
-    const runSaleCounter = () => {
-        const forSale = approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost != 'Not for sale')
-        const notForSale = approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost == 'Not for sale')
+    const runSaleCounter = async () => {
+        const forSale = await approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost != 'Not for sale')
+        const notForSale = await approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost == 'Not for sale')
         setForSaleCount(forSale.length)
         setNotForSaleCount(notForSale.length)
     }
 
     const getUserDetails = async () => {
-        const uid = firebase.auth().currentUser.uid;
+        const uid = await firebase.auth().currentUser.uid;
         setUserId(uid)
         const user = await firebase.firestore().collection('users').doc(uid).get();
         await setUserDetails({ id: user.id, ...user.data() })
@@ -129,12 +130,6 @@ const App: FC = (props) => {
         setForSaleFilter(!forSaleFilter)
     }
 
-    const changeFolowerFilter = async (name: string) => {
-        setStartFilter(true)
-        setFollowerFilter(name);
-        getFilteredFollowersPosts();
-    }
-
     const getFilterNotForSale = async () => {
         setStartFilter(true)
         if (forSaleFilter) {
@@ -155,7 +150,7 @@ const App: FC = (props) => {
     useEffect(() => {
         getUserDetails()
         getApprovedPosts()
-        getFilteredPosts()
+        // getFilteredPosts()
     }, [userId, userEmail, watchFilter, startFilter, notForSaleFilter, forSaleFilter, userPic, followersList])
 
     return (
@@ -203,7 +198,7 @@ const App: FC = (props) => {
                                     <Text style={styles.NoWatches}>You currently done have any {watchFilter}</Text>
                                     <FlatList
                                         data={approvedPost}
-                                        contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap" }}
+                                        // contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap" }}
                                         renderItem={
                                             ({ item }) => <Rendering
                                                 message={item.data().message}
@@ -237,7 +232,7 @@ const App: FC = (props) => {
                                 <View>
                                     <FlatList
                                         data={filteredPost}
-                                        contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap" }}
+                                        // contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap" }}
                                         renderItem={
                                             ({ item }) => <Rendering
                                                 message={item.data().message}
@@ -319,7 +314,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     header: {
-        flex: 0.4,
+        flex: 0.45,
         paddingLeft: 5,
         backgroundColor: "orange",
         margin: 5,

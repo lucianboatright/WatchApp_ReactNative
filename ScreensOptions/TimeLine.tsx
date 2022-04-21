@@ -1,6 +1,7 @@
 import React, { FC, useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Button, TouchableOpacity, ScrollView, Pressable, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet, Button, TouchableOpacity, ScrollView, Pressable } from 'react-native';
 // import { Button } from '../Components/Inputs';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth"
 import "firebase/compat/firestore"
@@ -346,9 +347,14 @@ const App: FC = (props) => {
                                 // numColumns={openBoxContainer ? 1 : 2}
                                 // key={openBoxContainer ? 1 : 2}
                                 // style={styles.grid}
-                                contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap" }}
+                                // numColumns={2}
+                                // contentContainerStyle={{ flexDirection: "row" }}
+                                // keyExtractor={(item, index) => item + index}
+                                // horizontal={false}
+                                // numColumns={2}
+                                contentContainerStyle={{ flexDirection: 'row', flexWrap: "wrap" }}
                                 renderItem={
-                                    ({ item }) => <Pressable onPress={() => console.log('WEEEEEHAAA')}><Rendering
+                                    ({ item }) => <Rendering
                                         // sendBoxOpening={(openBox: boolean) => changeBoxView(openBox)}
                                         message={item.data().message}
                                         name={item.data().userName}
@@ -377,7 +383,6 @@ const App: FC = (props) => {
                                             throw new Error('Function not implemented.');
                                         }} userDetails={undefined}
                                     />
-                                    </Pressable>
                                 }
                             />
                         </View>
@@ -403,6 +408,7 @@ const styles = StyleSheet.create({
         flex: 0.1
     },
     approvedPosts: {
+        marginLeft: 5,
         flex: 1
     },
 

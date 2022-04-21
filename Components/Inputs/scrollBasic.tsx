@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from "react";
+import React, { FC, useEffect, useState } from "react";
 import {
   Text,
   View,
@@ -9,6 +9,7 @@ import {
   Platform,
   TouchableOpacity,
   Dimensions,
+  Pressable,
 } from "react-native";
 import { Card } from "react-native-paper";
 
@@ -30,9 +31,12 @@ if (
 const App: FC<Props> = (props) => {
   const [data, setData] = React.useState<any>(null);
 
+  const [clicked, setClicked] = useState<boolean>(false)
+
   const settingData = async () => {
     await setData(props.inportData)
   }
+
 
   useEffect(() => {
     settingData()
@@ -52,9 +56,11 @@ const App: FC<Props> = (props) => {
               style={styles.cardContainer}
               onPress={() => props.sendFilter(item.name)}
             >
-              <Card style={[styles.card, { backgroundColor: props.bgcolor }]}>
-                <Text style={styles.text}>{item.name}</Text>
-              </Card>
+              <Pressable onPress={() => setClicked(!clicked)}>
+                <Card style={clicked ? [styles.card, { backgroundColor: '#44D0DF' }] : [styles.card, { backgroundColor: props.bgcolor }]}>
+                  <Text style={styles.text}>{item.name}</Text>
+                </Card>
+              </Pressable>
             </TouchableOpacity>
           );
         }}

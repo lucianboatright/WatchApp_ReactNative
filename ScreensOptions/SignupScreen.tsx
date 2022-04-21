@@ -77,14 +77,14 @@ const App: FC = (props) => {
             <View style={styles.introTextContainer}>
                 <Text style={styles.introText}>Start Your Free Virtual Watch Box Collection Today!</Text>
             </View>
-            <Input placeholder=" Enter Your First Name" onChangeText={(text) => setName(text)} />
+            <Input placeholder="Enter Your First Name" onChangeText={(text) => setName(text)} />
             <Input placeholder='Email' onChangeText={(text) => setEmail(text)} />
             <Input placeholder='Password' secureTextEntry onChangeText={(text) => setPassword(text)} />
             <Input placeholder='Confirm' secureTextEntry onChangeText={(text) => setConfirm(text)} />
             {/* <Button title='SignUp' onPress={signup} /> */}
             <View style={styles.introTextContainerBottom}>
                 <View style={{ flexDirection: 'row' }}>
-                    <Text style={{ padding: 10 }}>
+                    <Text style={{ margin: 5, padding: 8 }}>
                         <Text style={styles.introTextSmall}>By signing up you agree to the Terms & Conditions found </Text>
                         <Text style={styles.links} onPress={() => Linking.openURL('https://www.termsfeed.com/live/f1f2f92c-f9d2-48a1-80ea-68b048591174')}> Here </Text>
                         <Text style={styles.introTextSmall}>Otherwise Feel free to contact us at RollandBox@gmail.com</Text>
@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
         fontSize: 15,
         fontWeight: 'bold',
         textAlign: 'center',
-        color: 'white'
+        color: '#44D0DF'
     },
     introTextContainer: {
         borderRadius: 5,
@@ -155,9 +155,12 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     introTextContainerBottom: {
-        backgroundColor: 'orange',
+        // backgroundColor: 'orange',
+        borderColor: 'orange',
+        borderWidth: 0.5,
         borderRadius: 5,
-        marginBottom: 10,
+        marginBottom: 15,
+        marginTop: 10,
     },
     loginLabel: {
         paddingTop: 5,

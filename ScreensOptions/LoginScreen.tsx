@@ -39,13 +39,13 @@ const App: FC = (props) => {
             </View>
             <Input placeholder='Email' onChangeText={(text) => setEmail(text)} />
             <Input placeholder='Password' secureTextEntry onChangeText={(text) => setPassword(text)} />
-            <TouchableOpacity style={styles.loginButton} onPress={() => login()}>
+            <TouchableOpacity style={styles.loginButtonLarge} onPress={() => login()}>
                 <Text style={styles.Large}>Login</Text>
             </TouchableOpacity>
             <View style={styles.loginText}>
                 <Text style={styles.loginLabel}>Need to Sign Up?</Text>
                 <TouchableOpacity style={styles.loginButton} onPress={() => props.navigation.navigate('Signup')}>
-                    <Text style={{ color: 'white', fontWeight: 'bold' }}>Signup Here</Text>
+                    <Text style={{ color: 'white', fontWeight: 'bold', fontFamily: 'NunitoBold' }}>Signup Here</Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     },
     loginText: {
         flexDirection: 'row',
-        marginVertical: 20
+        marginVertical: 25
     },
     introText: {
         fontFamily: 'Nunito',
@@ -71,6 +71,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         textAlign: 'center',
+        marginBottom: 20,
     },
     introTextContainer: {
         borderRadius: 5,
@@ -88,12 +89,23 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         textAlign: 'center',
         textAlignVertical: 'center',
-
+    },
+    loginButtonLarge: {
+        marginTop: 20,
+        backgroundColor: '#44D0DF',
+        color: 'white',
+        padding: 5,
+        paddingRight: 20,
+        paddingLeft: 20,
+        borderRadius: 5,
+        textAlign: 'center',
+        textAlignVertical: 'center',
     },
     Large: {
         fontWeight: 'bold',
         fontSize: 25,
         color: 'white',
+        fontFamily: 'NunitoBold'
         // height: 5,
     }
 })

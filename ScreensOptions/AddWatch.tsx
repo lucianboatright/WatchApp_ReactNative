@@ -1,5 +1,6 @@
 import React, { FC, useState, useEffect, Props } from 'react';
-import { View, Text, StyleSheet, Alert, Dimensions, ScrollView, Pressable, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet, Alert, Dimensions, ScrollView, Pressable } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { MultiLineInput, ForSale } from '../Components/Inputs';
 import { Imagepicker } from '../Components/ExpoImage';
 import { WatchList, CaseSize, Mechanism, Material, Lugs, Styles, Straps, Years } from '../Components/DataLists';
