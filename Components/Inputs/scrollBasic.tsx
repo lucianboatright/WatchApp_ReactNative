@@ -31,8 +31,6 @@ if (
 const App: FC<Props> = (props) => {
   const [data, setData] = React.useState<any>(null);
 
-  const [clicked, setClicked] = useState<boolean>(false)
-
   const settingData = async () => {
     await setData(props.inportData)
   }
@@ -56,11 +54,9 @@ const App: FC<Props> = (props) => {
               style={styles.cardContainer}
               onPress={() => props.sendFilter(item.name)}
             >
-              <Pressable onPress={() => setClicked(!clicked)}>
-                <Card style={clicked ? [styles.card, { backgroundColor: '#44D0DF' }] : [styles.card, { backgroundColor: props.bgcolor }]}>
-                  <Text style={styles.text}>{item.name}</Text>
-                </Card>
-              </Pressable>
+              <Card style={[styles.card, { backgroundColor: props.bgcolor }]}>
+                <Text style={styles.text}>{item.name}</Text>
+              </Card>
             </TouchableOpacity>
           );
         }}
@@ -84,12 +80,17 @@ const styles = StyleSheet.create({
   },
   card: {
     marginBottom: 1,
-    height: 20,
+    height: 17,
     width: 'auto',
     paddingLeft: 10,
     paddingRight: 10,
     borderRadius: 5,
-    paddingTop: 1,
+    // paddingTop: 1,
   },
-  text: { color: "white", fontWeight: 'bold', fontFamily: 'NunitoBold' }
+  text: {
+    color: "white",
+    fontWeight: 'bold',
+    fontFamily: 'NunitoBold',
+    fontSize: 13,
+  }
 });

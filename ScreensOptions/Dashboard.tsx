@@ -28,6 +28,8 @@ const App: FC = (props) => {
     const [notForSaleCount, setNotForSaleCount] = useState<number>(0)
     const [userPic, setUserPic] = useState<any | null>(null)
 
+    const [filterLength, setFilterLength] = useState<any>(null)
+
     const [watchFilter, setWatchFilter] = useState<any>(null)
     const [followerFilter, setFollowerFilter] = useState<any>(null)
     const [startFilter, setStartFilter] = useState<boolean>(false)
@@ -125,7 +127,7 @@ const App: FC = (props) => {
         if (notForSaleFilter) {
             setNotForSaleFilter(!notForSaleFilter)
             setForSaleFilter(!forSaleFilter)
-
+            // getFilteredPosts()
         }
         setForSaleFilter(!forSaleFilter)
     }
@@ -135,6 +137,7 @@ const App: FC = (props) => {
         if (forSaleFilter) {
             setNotForSaleFilter(!notForSaleFilter)
             setForSaleFilter(!forSaleFilter)
+            // getFilteredPosts()
         }
         setNotForSaleFilter(!notForSaleFilter)
     }
@@ -267,7 +270,7 @@ const App: FC = (props) => {
                         <View>
                             <FlatList
                                 data={approvedPost}
-                                contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap" }}
+                                // contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap" }}
                                 renderItem={
                                     ({ item }) => <Rendering
                                         message={item.data().message}

@@ -126,8 +126,8 @@ const App: React.FC<Props> = (props) => {
                         <View style={styles.imageContainer}>
                             <Pressable onPress={() => setOpenModal(!openModal)}>
                                 <ImageBackground source={require('../../assets/pictures/woodenBox_5.png')} style={styles.imageContainerBorder}>
-                                    {/* <Image style={styles.imageBoxLarge} source={require('../../assets/pictures/watch_roll_blue.png')} /> */}
-                                    <Image style={styles.imageBox} source={{ uri: props.iamge_1 }} />
+                                    <Image style={styles.imageBoxTest} source={require('../../assets/pictures/1.jpg')} />
+                                    {/* <Image style={styles.imageBox} source={{ uri: props.iamge_1 }} /> */}
                                 </ImageBackground>
                             </Pressable>
                             <Modal visible={openModal}>
@@ -168,15 +168,10 @@ const App: React.FC<Props> = (props) => {
                 :
                 <View style={styles.imageBoxContainer}>
                     <TouchableOpacity onPress={() => (openClicked(), props.onPress)}>
-
                         <ImageBackground source={require('../../assets/pictures/woodenBox_5.png')} style={styles.imageContainerBorderBox}>
-                            {/* <InsetShadow left={true} right={true} bottom={true} > */}
-                            {/* <View style={{}}> */}
-                            <Image style={styles.imageBoxLarge} source={{ uri: props.iamge_1 }} />
-                            {/* </View> */}
-                            {/* </InsetShadow> */}
+                            {/* <Image style={styles.imageBoxLarge} source={{ uri: props.iamge_1 }} /> */}
+                            <Image style={styles.imageBoxTest} source={require('../../assets/pictures/1.jpg')} />
                         </ImageBackground>
-
                     </TouchableOpacity>
                 </View>
             }
@@ -276,6 +271,16 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         // height: 264,
         width: 172,
+        aspectRatio: 10 / 16,
+        marginLeft: 12,
+        marginTop: 11,
+        marginBottom: 11,
+        marginRight: 0,
+    },
+    imageBoxTest: {
+        borderRadius: 5,
+        height: 264,
+        width: 10,
         aspectRatio: 10 / 16,
         marginLeft: 12,
         marginTop: 11,
