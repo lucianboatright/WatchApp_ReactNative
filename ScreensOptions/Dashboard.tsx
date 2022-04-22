@@ -39,6 +39,11 @@ const App: FC = (props) => {
     const [followingList, setFollowingList] = useState<any>(null)
     const [followerLength, setFollowerLength] = useState<any>(null)
     const [followingLength, setFollowingLength] = useState<any>(null)
+    const [notForSale, setNotForSale] = useState<boolean>(false)
+    const [forSale, setForSale] = useState<boolean>(false)
+
+    const [forSaleList, setForSaleList] = useState<any>(null)
+    const [notForSaleList, setNotForSaleList] = useState<any>(null)
 
 
     const signOutUser = async () => {
@@ -102,7 +107,9 @@ const App: FC = (props) => {
         const forSale = await approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost != 'Not for sale')
         const notForSale = await approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost == 'Not for sale')
         setForSaleCount(forSale.length)
+        setForSaleList(forSale)
         setNotForSaleCount(notForSale.length)
+        setNotForSaleList(notForSale)
     }
 
     const getUserDetails = async () => {
@@ -124,6 +131,7 @@ const App: FC = (props) => {
 
     const getFilterForSale = async () => {
         setStartFilter(true)
+        setForSale(true)
         if (notForSaleFilter) {
             setNotForSaleFilter(!notForSaleFilter)
             setForSaleFilter(!forSaleFilter)
@@ -134,6 +142,7 @@ const App: FC = (props) => {
 
     const getFilterNotForSale = async () => {
         setStartFilter(true)
+        setNotForSale(true)
         if (forSaleFilter) {
             setNotForSaleFilter(!notForSaleFilter)
             setForSaleFilter(!forSaleFilter)
@@ -196,7 +205,7 @@ const App: FC = (props) => {
                 <View style={styles.approvedPosts}>
                     {startFilter ?
                         <View >
-                            {filteredPost.length === 0 ?
+                            {!notForSale ?
                                 <View>
                                     <Text style={styles.NoWatches}>You currently done have any {watchFilter}</Text>
                                     <FlatList
