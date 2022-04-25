@@ -30,7 +30,7 @@ interface Props {
     approved: string;
     timeStamp: number;
     year: string;
-    watchType: string;
+    watchStyle: string;
     postId: any;
     likes: any;
     comments: any;
@@ -86,7 +86,7 @@ const App: React.FC<Props> = (props) => {
 
 
     useEffect(() => {
-        // console.log('pre', openBox)
+        // console.log('pre', props.watchStyle)
         // console.log('pre',openBoxSend)
     }, [])
 
@@ -119,7 +119,7 @@ const App: React.FC<Props> = (props) => {
                                 <WatchInfoLines title="lug Width" info={props.lugsWidth} />
                                 <WatchInfoLines title="Mechanism" info={props.mechanism} />
                                 <WatchInfoLines title="Year" info={props.year} />
-                                <WatchInfoLines title="Type" info={props.watchType} />
+                                <WatchInfoLines title="Type" info={props.watchStyle} />
                                 <WatchInfoLines title="Cost" info={props.cost} />
                             </View>
                         </View>
