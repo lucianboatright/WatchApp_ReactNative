@@ -38,8 +38,8 @@ const App: FC = (props) => {
     const [openBoxContainer, setOpenBoxContainer] = useState<boolean>(false)
     const [colomns, setColomns] = useState<number>(2)
 
-    const [forSaleCount, setForSaleCount] = useState<any>(null)
-    const [notForSaleCount, setNotForSaleCount] = useState<any>(null)
+    const [forSale, setForSale] = useState<any>(null)
+    const [notForSale, setNotForSale] = useState<any>(null)
 
 
     const getUserDetails = async () => {
@@ -65,24 +65,31 @@ const App: FC = (props) => {
     // }
 
     const changeFilterWatch = async (name: string) => {
+        // clearWatchFilter()
         setStartFilter(true)
         setWatchFilter(name);
         getFilteredPostsWatch();
     }
     const changeFilterCase = async (name: string) => {
+        // clearWatchFilter()
         setStartFilter(true)
         setWatchCaseFilter(name);
-        getFilteredPostsWatchCase(name);
+        // getFilteredPostsWatchCase(name);
+        getFilteredPostsWatch()
     }
     const changeFilterMechanism = async (name: string) => {
+        // clearWatchFilter()
         setStartFilter(true)
         setWatchMechanismFilter(name);
-        getFilteredPostsMechanism(name);
+        // getFilteredPostsMechanism(name);
+        getFilteredPostsWatch()
     }
     const changeFilterType = async (name: string) => {
+        // clearWatchFilter()
         setStartFilter(true)
         setWatchTypeFilter(name);
-        getFilteredPostsWatchType(name);
+        // getFilteredPostsWatchType(name);
+        getFilteredPostsWatch()
     }
     const getFilterForSale = async () => {
         setStartFilter(true)
@@ -101,6 +108,7 @@ const App: FC = (props) => {
         // if (!watchCaseFilter && !watchMechanismFilter && !watchFilter && !watchTypeFilter) {
         //     getForSaleFilter()
         // }
+
         if (forSaleFilter) {
             setNotForSaleFilter(!notForSaleFilter)
             setForSaleFilter(!forSaleFilter)
@@ -108,104 +116,64 @@ const App: FC = (props) => {
         setNotForSaleFilter(!notForSaleFilter)
     }
 
+    const runSaleCounter = async () => {
+        const forSale = await approvedPost.map((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost != 'Not for sale')
+        const notForSale = await approvedPost.map((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost == 'Not for sale')
+        setForSale(forSale)
+        setNotForSale(notForSale)
+    }
 
     const getFilteredPostsWatch = async () => {
-        if (filterLength > 0) {
-            if (forSaleFilter && watchFilter) {
-                const filtered = await filteredPost.filter(
-                    (item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) =>
-                        item.data().brand == watchFilter
-                        &&
-                        item.data().cost != 'Not for sale')
-                setFilteredPosts(filtered)
-                setFilterLength(filtered.length)
-            } else if (forSaleFilter && !watchFilter) {
-                const filtered = await filteredPost.filter(
-                    (item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) =>
-                        item.data().cost != 'Not for sale')
-                setFilteredPosts(filtered)
-                setFilterLength(filtered.length)
-            } else if (notForSaleFilter && watchFilter) {
-                const filtered = await filteredPost.filter(
-                    (item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) =>
-                        item.data().brand == watchFilter && item.data().cost == 'Not for sale')
-                setFilteredPosts(filtered)
-                setFilterLength(filtered.length)
-
-            } else if (notForSaleFilter && !watchFilter) {
-                const filtered = await filteredPost.filter(
-                    (item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) =>
-                        item.data().cost == 'Not for sale')
-                setFilteredPosts(filtered)
-                setFilterLength(filtered.length)
-            } else {
-                const filtered = await filteredPost.filter(
-                    (item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) =>
-                        item.data().brand == watchFilter)
-                setFilteredPosts(filtered)
-                setFilterLength(filtered.length)
-            }
-        }
+        console.log('in here111')
         if (forSaleFilter && watchFilter) {
             const filtered = await approvedPost.filter(
-                (item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) =>
-                    item.data().brand == watchFilter
+                (item: { data: () => { (): any; new(): any; brand: string; caseSize: string; watchStyle: string; mechanism: string; cost: string; }; }) =>
+                    (watchFilter ? item.data().brand == watchFilter : null)
+                    &&
+                    (watchCaseFilter ? item.data().caseSize == watchCaseFilter : null)
+                    &&
+                    (watchMechanismFilter ? item.data().mechanism == watchMechanismFilter : null)
+                    &&
+                    (watchTypeFilter ? item.data().watchStyle == watchTypeFilter : null)
                     &&
                     item.data().cost != 'Not for sale')
             setFilteredPosts(filtered)
             setFilterLength(filtered.length)
         } else if (forSaleFilter && !watchFilter) {
             const filtered = await approvedPost.filter(
-                (item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) =>
+                (item: { data: () => { (): any; new(): any; brand: string; caseSize: string; watchStyle: string; mechanism: string; cost: string; }; }) =>
                     item.data().cost != 'Not for sale')
             setFilteredPosts(filtered)
             setFilterLength(filtered.length)
         } else if (notForSaleFilter && watchFilter) {
             const filtered = await approvedPost.filter(
-                (item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) =>
-                    item.data().brand == watchFilter && item.data().cost == 'Not for sale')
+                (item: { data: () => { (): any; new(): any; brand: string; caseSize: string; watchStyle: string; mechanism: string; cost: string; }; }) =>
+                    (watchFilter ? item.data().brand == watchFilter : null)
+                    &&
+                    (watchCaseFilter ? item.data().caseSize == watchCaseFilter : null)
+                    &&
+                    (watchMechanismFilter ? item.data().mechanism == watchMechanismFilter : null)
+                    &&
+                    (watchTypeFilter ? item.data().watchStyle == watchTypeFilter : null)
+                    && item.data().cost == 'Not for sale')
             setFilteredPosts(filtered)
             setFilterLength(filtered.length)
 
         } else if (notForSaleFilter && !watchFilter) {
             const filtered = await approvedPost.filter(
-                (item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) =>
+                (item: { data: () => { (): any; new(): any; brand: string; caseSize: string; watchStyle: string; mechanism: string; cost: string; }; }) =>
                     item.data().cost == 'Not for sale')
             setFilteredPosts(filtered)
             setFilterLength(filtered.length)
         } else {
             const filtered = await approvedPost.filter(
-                (item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) =>
+                (item: { data: () => { (): any; new(): any; brand: string; caseSize: string; watchStyle: string; mechanism: string; cost: string; }; }) =>
                     item.data().brand == watchFilter)
             setFilteredPosts(filtered)
             setFilterLength(filtered.length)
         }
     }
     const getFilteredPostsWatchCase = async (name: string) => {
-        if (filterLength > 0) {
-            if (forSaleFilter && name) {
-                const filtered = await filteredPost.filter((item: { data: () => { (): any; new(): any; caseSize: string; cost: string; }; }) => item.data().caseSize == name && item.data().cost != 'Not for sale')
-                await setFilteredPosts(filtered)
-                setFilterLength(filtered.length)
-            } else if (forSaleFilter && !name) {
-                const filtered = await filteredPost.filter((item: { data: () => { (): any; new(): any; caseSize: string; cost: string; }; }) => item.data().cost != 'Not for sale')
-                await setFilteredPosts(filtered)
-                setFilterLength(filtered.length)
-                console.log(filtered.length)
-            } else if (notForSaleFilter && name) {
-                const filtered = await filteredPost.filter((item: { data: () => { (): any; new(): any; caseSize: string; cost: string; }; }) => item.data().caseSize == name && item.data().cost == 'Not for sale')
-                await setFilteredPosts(filtered)
-                setFilterLength(filtered.length)
-            } else if (notForSaleFilter && !name) {
-                const filtered = await filteredPost.filter((item: { data: () => { (): any; new(): any; caseSize: string; cost: string; }; }) => item.data().cost == 'Not for sale')
-                await setFilteredPosts(filtered)
-                setFilterLength(filtered.length)
-            } else {
-                const filtered = await filteredPost.filter((item: { data: () => { (): any; new(): any; caseSize: string; cost: string; }; }) => item.data().caseSize == name)
-                await setFilteredPosts(filtered)
-                setFilterLength(filtered.length)
-            }
-        }
         if (forSaleFilter && name) {
             const filtered = await approvedPost.filter((item: { data: () => { (): any; new(): any; caseSize: string; cost: string; }; }) => item.data().caseSize == name && item.data().cost != 'Not for sale')
             await setFilteredPosts(filtered)
@@ -231,30 +199,6 @@ const App: FC = (props) => {
     }
     const getFilteredPostsMechanism = async (name: string) => {
         // console.log('I am being clicked')
-        if (filterLength > 0) {
-            console.log('here i am now')
-            if (forSaleFilter && name) {
-                const filtered = await filteredPost.filter((item: { data: () => { (): any; new(): any; mechanism: string; cost: string; }; }) => item.data().mechanism == name && item.data().cost != 'Not for sale')
-                setFilteredPosts(filtered)
-                setFilterLength(filtered.length)
-            } else if (forSaleFilter && !name) {
-                const filtered = await filteredPost.filter((item: { data: () => { (): any; new(): any; mechanism: string; cost: string; }; }) => item.data().cost != 'Not for sale')
-                setFilteredPosts(filtered)
-                setFilterLength(filtered.length)
-            } else if (notForSaleFilter && name) {
-                const filtered = await filteredPost.filter((item: { data: () => { (): any; new(): any; mechanism: string; cost: string; }; }) => item.data().mechanism == name && item.data().cost == 'Not for sale')
-                setFilteredPosts(filtered)
-                setFilterLength(filtered.length)
-            } else if (notForSaleFilter && !name) {
-                const filtered = await filteredPost.filter((item: { data: () => { (): any; new(): any; mechanism: string; cost: string; }; }) => item.data().cost == 'Not for sale')
-                setFilteredPosts(filtered)
-                setFilterLength(filtered.length)
-            } else {
-                const filtered = await filteredPost.filter((item: { data: () => { (): any; new(): any; mechanism: string; cost: string; }; }) => item.data().mechanism == name)
-                setFilteredPosts(filtered)
-                setFilterLength(filtered.length)
-            }
-        }
         if (forSaleFilter && name) {
             const filtered = await approvedPost.filter((item: { data: () => { (): any; new(): any; mechanism: string; cost: string; }; }) => item.data().mechanism == name && item.data().cost != 'Not for sale')
             setFilteredPosts(filtered)
@@ -279,29 +223,6 @@ const App: FC = (props) => {
     }
     const getFilteredPostsWatchType = async (name: string) => {
         // console.log('I am being clicked')
-        if (filterLength > 0) {
-            if (forSaleFilter && name) {
-                const filtered = await filteredPost.filter((item: { data: () => { (): any; new(): any; watchStyle: string; cost: string; }; }) => item.data().watchStyle == name && item.data().cost != 'Not for sale')
-                setFilteredPosts(filtered)
-                setFilterLength(filtered.length)
-            } else if (forSaleFilter && !name) {
-                const filtered = await filteredPost.filter((item: { data: () => { (): any; new(): any; watchStyle: string; cost: string; }; }) => item.data().cost != 'Not for sale')
-                setFilteredPosts(filtered)
-                setFilterLength(filtered.length)
-            } else if (notForSaleFilter && name) {
-                const filtered = await filteredPost.filter((item: { data: () => { (): any; new(): any; watchStyle: string; cost: string; }; }) => item.data().watchStyle == name && item.data().cost == 'Not for sale')
-                setFilteredPosts(filtered)
-                setFilterLength(filtered.length)
-            } else if (notForSaleFilter && !name) {
-                const filtered = await filteredPost.filter((item: { data: () => { (): any; new(): any; watchStyle: string; cost: string; }; }) => item.data().cost == 'Not for sale')
-                setFilteredPosts(filtered)
-                setFilterLength(filtered.length)
-            } else {
-                const filtered = await filteredPost.filter((item: { data: () => { (): any; new(): any; watchStyle: string; cost: string; }; }) => item.data().watchStyle == name)
-                setFilteredPosts(filtered)
-                setFilterLength(filtered.length)
-            }
-        }
         if (forSaleFilter && name) {
             const filtered = await approvedPost.filter((item: { data: () => { (): any; new(): any; watchStyle: string; cost: string; }; }) => item.data().watchStyle == name && item.data().cost != 'Not for sale')
             setFilteredPosts(filtered)
@@ -353,7 +274,7 @@ const App: FC = (props) => {
         // console.log('WatchDOcs', filteredPost[0].data().watchStyle)
         // console.log('WatchDOcs', filteredPost.length)
         console.log(filterLength)
-        // console.log(filteredPost)
+        console.log(filteredPost)
         // console.log(approvedPost)
         // console.log('opening', openBoxContainer)
     }
@@ -374,6 +295,7 @@ const App: FC = (props) => {
     useEffect(() => {
         getUserDetails()
         getApprovedPosts()
+        runSaleCounter()
         // getFilteredPostsWatch()
     }, [watchFilter, startFilter, notForSaleFilter, forSaleFilter, filteredPost])
 
@@ -434,10 +356,10 @@ const App: FC = (props) => {
                     <WatchScrollList inportData={Styles} bgcolor={'orange'} sendFilter={(name: string) => changeFilterType(name)} />
                 </View>
                 <View style={{ flexDirection: 'row' }}>
-                    <TouchableOpacity style={forSaleFilter === true ? styles.buttonSmallHilight : styles.buttonSmall} onPress={getFilterForSale}>
+                    <TouchableOpacity style={forSaleFilter === true ? styles.buttonSmallHilight : styles.buttonSmall} onPress={() => getFilterForSale()}>
                         <Text style={styles.text}>For Sale </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={notForSaleFilter === true ? styles.buttonSmallHilight : styles.buttonSmall} onPress={getFilterNotForSale}>
+                    <TouchableOpacity style={notForSaleFilter === true ? styles.buttonSmallHilight : styles.buttonSmall} onPress={() => getFilterNotForSale()}>
                         <Text style={styles.text}>Not for Sale</Text>
                     </TouchableOpacity>
                 </View>
