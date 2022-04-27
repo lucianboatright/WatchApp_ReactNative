@@ -54,15 +54,15 @@ const App: FC = (props) => {
             const documents = querySnapShot.docs;
             setApprovedPosts(documents)
         })
-        runSaleCounter()
+        // runSaleCounter()
     }
 
-    const runSaleCounter = async () => {
-        const forSale = await approvedPost.map((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost != 'Not for sale')
-        const notForSale = await approvedPost.map((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost == 'Not for sale')
-        setForSaleCount(forSale)
-        setNotForSaleCount(notForSale)
-    }
+    // const runSaleCounter = async () => {
+    //     const forSale = await approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost != 'Not for sale')
+    //     const notForSale = await approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost == 'Not for sale')
+    //     setForSaleCount(forSale)
+    //     setNotForSaleCount(notForSale)
+    // }
 
     const changeFilterWatch = async (name: string) => {
         setStartFilter(true)
@@ -110,8 +110,44 @@ const App: FC = (props) => {
 
 
     const getFilteredPostsWatch = async () => {
+        if (filterLength > 0) {
+            if (forSaleFilter && watchFilter) {
+                const filtered = await filteredPost.filter(
+                    (item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) =>
+                        item.data().brand == watchFilter
+                        &&
+                        item.data().cost != 'Not for sale')
+                setFilteredPosts(filtered)
+                setFilterLength(filtered.length)
+            } else if (forSaleFilter && !watchFilter) {
+                const filtered = await filteredPost.filter(
+                    (item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) =>
+                        item.data().cost != 'Not for sale')
+                setFilteredPosts(filtered)
+                setFilterLength(filtered.length)
+            } else if (notForSaleFilter && watchFilter) {
+                const filtered = await filteredPost.filter(
+                    (item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) =>
+                        item.data().brand == watchFilter && item.data().cost == 'Not for sale')
+                setFilteredPosts(filtered)
+                setFilterLength(filtered.length)
+
+            } else if (notForSaleFilter && !watchFilter) {
+                const filtered = await filteredPost.filter(
+                    (item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) =>
+                        item.data().cost == 'Not for sale')
+                setFilteredPosts(filtered)
+                setFilterLength(filtered.length)
+            } else {
+                const filtered = await filteredPost.filter(
+                    (item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) =>
+                        item.data().brand == watchFilter)
+                setFilteredPosts(filtered)
+                setFilterLength(filtered.length)
+            }
+        }
         if (forSaleFilter && watchFilter) {
-            const filtered = await approvedPost.map(
+            const filtered = await approvedPost.filter(
                 (item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) =>
                     item.data().brand == watchFilter
                     &&
@@ -119,26 +155,26 @@ const App: FC = (props) => {
             setFilteredPosts(filtered)
             setFilterLength(filtered.length)
         } else if (forSaleFilter && !watchFilter) {
-            const filtered = await approvedPost.map(
+            const filtered = await approvedPost.filter(
                 (item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) =>
                     item.data().cost != 'Not for sale')
             setFilteredPosts(filtered)
             setFilterLength(filtered.length)
         } else if (notForSaleFilter && watchFilter) {
-            const filtered = await approvedPost.map(
+            const filtered = await approvedPost.filter(
                 (item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) =>
                     item.data().brand == watchFilter && item.data().cost == 'Not for sale')
             setFilteredPosts(filtered)
             setFilterLength(filtered.length)
 
         } else if (notForSaleFilter && !watchFilter) {
-            const filtered = await approvedPost.map(
+            const filtered = await approvedPost.filter(
                 (item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) =>
                     item.data().cost == 'Not for sale')
             setFilteredPosts(filtered)
             setFilterLength(filtered.length)
         } else {
-            const filtered = await approvedPost.map(
+            const filtered = await approvedPost.filter(
                 (item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) =>
                     item.data().brand == watchFilter)
             setFilteredPosts(filtered)
@@ -146,73 +182,144 @@ const App: FC = (props) => {
         }
     }
     const getFilteredPostsWatchCase = async (name: string) => {
+        if (filterLength > 0) {
+            if (forSaleFilter && name) {
+                const filtered = await filteredPost.filter((item: { data: () => { (): any; new(): any; caseSize: string; cost: string; }; }) => item.data().caseSize == name && item.data().cost != 'Not for sale')
+                await setFilteredPosts(filtered)
+                setFilterLength(filtered.length)
+            } else if (forSaleFilter && !name) {
+                const filtered = await filteredPost.filter((item: { data: () => { (): any; new(): any; caseSize: string; cost: string; }; }) => item.data().cost != 'Not for sale')
+                await setFilteredPosts(filtered)
+                setFilterLength(filtered.length)
+                console.log(filtered.length)
+            } else if (notForSaleFilter && name) {
+                const filtered = await filteredPost.filter((item: { data: () => { (): any; new(): any; caseSize: string; cost: string; }; }) => item.data().caseSize == name && item.data().cost == 'Not for sale')
+                await setFilteredPosts(filtered)
+                setFilterLength(filtered.length)
+            } else if (notForSaleFilter && !name) {
+                const filtered = await filteredPost.filter((item: { data: () => { (): any; new(): any; caseSize: string; cost: string; }; }) => item.data().cost == 'Not for sale')
+                await setFilteredPosts(filtered)
+                setFilterLength(filtered.length)
+            } else {
+                const filtered = await filteredPost.filter((item: { data: () => { (): any; new(): any; caseSize: string; cost: string; }; }) => item.data().caseSize == name)
+                await setFilteredPosts(filtered)
+                setFilterLength(filtered.length)
+            }
+        }
         if (forSaleFilter && name) {
-            const filtered = await approvedPost.map((item: { data: () => { (): any; new(): any; caseSize: string; cost: string; }; }) => item.data().caseSize == name && item.data().cost != 'Not for sale')
+            const filtered = await approvedPost.filter((item: { data: () => { (): any; new(): any; caseSize: string; cost: string; }; }) => item.data().caseSize == name && item.data().cost != 'Not for sale')
             await setFilteredPosts(filtered)
             setFilterLength(filtered.length)
         } else if (forSaleFilter && !name) {
-            const filtered = await approvedPost.map((item: { data: () => { (): any; new(): any; caseSize: string; cost: string; }; }) => item.data().cost != 'Not for sale')
+            const filtered = await approvedPost.filter((item: { data: () => { (): any; new(): any; caseSize: string; cost: string; }; }) => item.data().cost != 'Not for sale')
             await setFilteredPosts(filtered)
             setFilterLength(filtered.length)
             console.log(filtered.length)
         } else if (notForSaleFilter && name) {
-            const filtered = await approvedPost.map((item: { data: () => { (): any; new(): any; caseSize: string; cost: string; }; }) => item.data().caseSize == name && item.data().cost == 'Not for sale')
+            const filtered = await approvedPost.filter((item: { data: () => { (): any; new(): any; caseSize: string; cost: string; }; }) => item.data().caseSize == name && item.data().cost == 'Not for sale')
             await setFilteredPosts(filtered)
             setFilterLength(filtered.length)
         } else if (notForSaleFilter && !name) {
-            const filtered = await approvedPost.map((item: { data: () => { (): any; new(): any; caseSize: string; cost: string; }; }) => item.data().cost == 'Not for sale')
+            const filtered = await approvedPost.filter((item: { data: () => { (): any; new(): any; caseSize: string; cost: string; }; }) => item.data().cost == 'Not for sale')
             await setFilteredPosts(filtered)
             setFilterLength(filtered.length)
         } else {
-            const filtered = await approvedPost.map((item: { data: () => { (): any; new(): any; caseSize: string; cost: string; }; }) => item.data().caseSize == name)
+            const filtered = await approvedPost.filter((item: { data: () => { (): any; new(): any; caseSize: string; cost: string; }; }) => item.data().caseSize == name)
             await setFilteredPosts(filtered)
             setFilterLength(filtered.length)
         }
     }
     const getFilteredPostsMechanism = async (name: string) => {
         // console.log('I am being clicked')
+        if (filterLength > 0) {
+            console.log('here i am now')
+            if (forSaleFilter && name) {
+                const filtered = await filteredPost.filter((item: { data: () => { (): any; new(): any; mechanism: string; cost: string; }; }) => item.data().mechanism == name && item.data().cost != 'Not for sale')
+                setFilteredPosts(filtered)
+                setFilterLength(filtered.length)
+            } else if (forSaleFilter && !name) {
+                const filtered = await filteredPost.filter((item: { data: () => { (): any; new(): any; mechanism: string; cost: string; }; }) => item.data().cost != 'Not for sale')
+                setFilteredPosts(filtered)
+                setFilterLength(filtered.length)
+            } else if (notForSaleFilter && name) {
+                const filtered = await filteredPost.filter((item: { data: () => { (): any; new(): any; mechanism: string; cost: string; }; }) => item.data().mechanism == name && item.data().cost == 'Not for sale')
+                setFilteredPosts(filtered)
+                setFilterLength(filtered.length)
+            } else if (notForSaleFilter && !name) {
+                const filtered = await filteredPost.filter((item: { data: () => { (): any; new(): any; mechanism: string; cost: string; }; }) => item.data().cost == 'Not for sale')
+                setFilteredPosts(filtered)
+                setFilterLength(filtered.length)
+            } else {
+                const filtered = await filteredPost.filter((item: { data: () => { (): any; new(): any; mechanism: string; cost: string; }; }) => item.data().mechanism == name)
+                setFilteredPosts(filtered)
+                setFilterLength(filtered.length)
+            }
+        }
         if (forSaleFilter && name) {
-            const filtered = await approvedPost.map((item: { data: () => { (): any; new(): any; mechanism: string; cost: string; }; }) => item.data().mechanism == name && item.data().cost != 'Not for sale')
+            const filtered = await approvedPost.filter((item: { data: () => { (): any; new(): any; mechanism: string; cost: string; }; }) => item.data().mechanism == name && item.data().cost != 'Not for sale')
             setFilteredPosts(filtered)
             setFilterLength(filtered.length)
         } else if (forSaleFilter && !name) {
-            const filtered = await approvedPost.map((item: { data: () => { (): any; new(): any; mechanism: string; cost: string; }; }) => item.data().cost != 'Not for sale')
+            const filtered = await approvedPost.filter((item: { data: () => { (): any; new(): any; mechanism: string; cost: string; }; }) => item.data().cost != 'Not for sale')
             setFilteredPosts(filtered)
             setFilterLength(filtered.length)
         } else if (notForSaleFilter && name) {
-            const filtered = await approvedPost.map((item: { data: () => { (): any; new(): any; mechanism: string; cost: string; }; }) => item.data().mechanism == name && item.data().cost == 'Not for sale')
+            const filtered = await approvedPost.filter((item: { data: () => { (): any; new(): any; mechanism: string; cost: string; }; }) => item.data().mechanism == name && item.data().cost == 'Not for sale')
             setFilteredPosts(filtered)
             setFilterLength(filtered.length)
         } else if (notForSaleFilter && !name) {
-            const filtered = await approvedPost.map((item: { data: () => { (): any; new(): any; mechanism: string; cost: string; }; }) => item.data().cost == 'Not for sale')
+            const filtered = await approvedPost.filter((item: { data: () => { (): any; new(): any; mechanism: string; cost: string; }; }) => item.data().cost == 'Not for sale')
             setFilteredPosts(filtered)
             setFilterLength(filtered.length)
         } else {
-            const filtered = await approvedPost.map((item: { data: () => { (): any; new(): any; mechanism: string; cost: string; }; }) => item.data().mechanism == name)
+            const filtered = await approvedPost.filter((item: { data: () => { (): any; new(): any; mechanism: string; cost: string; }; }) => item.data().mechanism == name)
             setFilteredPosts(filtered)
             setFilterLength(filtered.length)
         }
     }
     const getFilteredPostsWatchType = async (name: string) => {
         // console.log('I am being clicked')
+        if (filterLength > 0) {
+            if (forSaleFilter && name) {
+                const filtered = await filteredPost.filter((item: { data: () => { (): any; new(): any; watchStyle: string; cost: string; }; }) => item.data().watchStyle == name && item.data().cost != 'Not for sale')
+                setFilteredPosts(filtered)
+                setFilterLength(filtered.length)
+            } else if (forSaleFilter && !name) {
+                const filtered = await filteredPost.filter((item: { data: () => { (): any; new(): any; watchStyle: string; cost: string; }; }) => item.data().cost != 'Not for sale')
+                setFilteredPosts(filtered)
+                setFilterLength(filtered.length)
+            } else if (notForSaleFilter && name) {
+                const filtered = await filteredPost.filter((item: { data: () => { (): any; new(): any; watchStyle: string; cost: string; }; }) => item.data().watchStyle == name && item.data().cost == 'Not for sale')
+                setFilteredPosts(filtered)
+                setFilterLength(filtered.length)
+            } else if (notForSaleFilter && !name) {
+                const filtered = await filteredPost.filter((item: { data: () => { (): any; new(): any; watchStyle: string; cost: string; }; }) => item.data().cost == 'Not for sale')
+                setFilteredPosts(filtered)
+                setFilterLength(filtered.length)
+            } else {
+                const filtered = await filteredPost.filter((item: { data: () => { (): any; new(): any; watchStyle: string; cost: string; }; }) => item.data().watchStyle == name)
+                setFilteredPosts(filtered)
+                setFilterLength(filtered.length)
+            }
+        }
         if (forSaleFilter && name) {
-            const filtered = await approvedPost.map((item: { data: () => { (): any; new(): any; watchStyle: string; cost: string; }; }) => item.data().watchStyle == name && item.data().cost != 'Not for sale')
+            const filtered = await approvedPost.filter((item: { data: () => { (): any; new(): any; watchStyle: string; cost: string; }; }) => item.data().watchStyle == name && item.data().cost != 'Not for sale')
             setFilteredPosts(filtered)
             setFilterLength(filtered.length)
         } else if (forSaleFilter && !name) {
-            const filtered = await approvedPost.map((item: { data: () => { (): any; new(): any; watchStyle: string; cost: string; }; }) => item.data().cost != 'Not for sale')
+            const filtered = await approvedPost.filter((item: { data: () => { (): any; new(): any; watchStyle: string; cost: string; }; }) => item.data().cost != 'Not for sale')
             setFilteredPosts(filtered)
             setFilterLength(filtered.length)
         } else if (notForSaleFilter && name) {
-            const filtered = await approvedPost.map((item: { data: () => { (): any; new(): any; watchStyle: string; cost: string; }; }) => item.data().watchStyle == name && item.data().cost == 'Not for sale')
+            const filtered = await approvedPost.filter((item: { data: () => { (): any; new(): any; watchStyle: string; cost: string; }; }) => item.data().watchStyle == name && item.data().cost == 'Not for sale')
             setFilteredPosts(filtered)
             setFilterLength(filtered.length)
         } else if (notForSaleFilter && !name) {
-            const filtered = await approvedPost.map((item: { data: () => { (): any; new(): any; watchStyle: string; cost: string; }; }) => item.data().cost == 'Not for sale')
+            const filtered = await approvedPost.filter((item: { data: () => { (): any; new(): any; watchStyle: string; cost: string; }; }) => item.data().cost == 'Not for sale')
             setFilteredPosts(filtered)
             setFilterLength(filtered.length)
         } else {
-            const filtered = await approvedPost.map((item: { data: () => { (): any; new(): any; watchStyle: string; cost: string; }; }) => item.data().watchStyle == name)
+            const filtered = await approvedPost.filter((item: { data: () => { (): any; new(): any; watchStyle: string; cost: string; }; }) => item.data().watchStyle == name)
             setFilteredPosts(filtered)
             setFilterLength(filtered.length)
         }
@@ -223,16 +330,16 @@ const App: FC = (props) => {
         console.log('for sale', forSaleFilter)
         console.log('NOT for sale', notForSaleFilter)
         if (forSaleFilter) {
-            const filtered = await approvedPost.map((item: { data: () => { (): any; new(): any; watchStyle: string; cost: string; }; }) => item.data().cost != 'Not for sale')
+            const filtered = await approvedPost.filter((item: { data: () => { (): any; new(): any; watchStyle: string; cost: string; }; }) => item.data().cost != 'Not for sale')
             setFilteredPosts(filtered)
         } else if (forSaleFilter) {
-            const filtered = await approvedPost.map((item: { data: () => { (): any; new(): any; watchStyle: string; cost: string; }; }) => item.data().cost != 'Not for sale')
+            const filtered = await approvedPost.filter((item: { data: () => { (): any; new(): any; watchStyle: string; cost: string; }; }) => item.data().cost != 'Not for sale')
             setFilteredPosts(filtered)
         } else if (notForSaleFilter) {
-            const filtered = await approvedPost.map((item: { data: () => { (): any; new(): any; watchStyle: string; cost: string; }; }) => item.data().cost == 'Not for sale')
+            const filtered = await approvedPost.filter((item: { data: () => { (): any; new(): any; watchStyle: string; cost: string; }; }) => item.data().cost == 'Not for sale')
             setFilteredPosts(filtered)
         } else if (notForSaleFilter) {
-            const filtered = await approvedPost.map((item: { data: () => { (): any; new(): any; watchStyle: string; cost: string; }; }) => item.data().cost == 'Not for sale')
+            const filtered = await approvedPost.filter((item: { data: () => { (): any; new(): any; watchStyle: string; cost: string; }; }) => item.data().cost == 'Not for sale')
             setFilteredPosts(filtered)
         }
     }
@@ -246,7 +353,7 @@ const App: FC = (props) => {
         // console.log('WatchDOcs', filteredPost[0].data().watchStyle)
         // console.log('WatchDOcs', filteredPost.length)
         console.log(filterLength)
-        console.log(filteredPost)
+        // console.log(filteredPost)
         // console.log(approvedPost)
         // console.log('opening', openBoxContainer)
     }
@@ -347,6 +454,8 @@ const App: FC = (props) => {
                                     <Text style={{ fontSize: 20, margin: 2, fontFamily: 'NunitoBold', textAlign: 'center', color: "#44D0DF" }}> Nothing with the Filter Selected </Text>
                                     <FlatList
                                         data={approvedPost}
+                                        keyExtractor={(item, index) => item + index}
+
                                         // contentContainerStyle={{ alignSelf: 'flex-start' }}
                                         // numColumns={Math.ceil(2)}
                                         // showsVerticalScrollIndicator={false}
@@ -395,6 +504,7 @@ const App: FC = (props) => {
                                     <Text style={{ fontSize: 20 }}> something with the Filter { }</Text>
                                     <FlatList
                                         data={filteredPost}
+                                        keyExtractor={(item, index) => item + index}
                                         // contentContainerStyle={{ alignSelf: 'flex-start' }}
                                         // numColumns={Math.ceil(2)}
                                         // showsVerticalScrollIndicator={false}
@@ -442,7 +552,7 @@ const App: FC = (props) => {
                         </View>
                         :
                         <View style={styles.test}>
-                            <Text>All clear</Text>
+                            {/* <Text>All clear</Text> */}
                             <FlatList
                                 data={approvedPost}
                                 // contentContainerStyle={{ alignSelf: 'flex-start' }}
@@ -456,7 +566,7 @@ const App: FC = (props) => {
                                 // style={styles.grid}
                                 // numColumns={2}
                                 // contentContainerStyle={{ flexDirection: "row" }}
-                                // keyExtractor={(item, index) => item + index}
+                                keyExtractor={(item, index) => item + index}
                                 // horizontal={false}
                                 // numColumns={2}
                                 // contentContainerStyle={{ flexDirection: 'row', flexWrap: "wrap" }}

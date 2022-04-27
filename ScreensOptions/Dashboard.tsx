@@ -28,15 +28,15 @@ const App: FC = (props) => {
     const [notForSaleCount, setNotForSaleCount] = useState<number>(0)
     const [userPic, setUserPic] = useState<any | null>(null)
 
-    const [watchFilter, setWatchFilter] = useState<any | null>(null)
-    const [followerFilter, setFollowerFilter] = useState<any | null>(null)
+    const [watchFilter, setWatchFilter] = useState<any>(null)
+    const [followerFilter, setFollowerFilter] = useState<any>(null)
     const [startFilter, setStartFilter] = useState<boolean>(false)
     const [forSaleFilter, setForSaleFilter] = useState<boolean>(false)
     const [notForSaleFilter, setNotForSaleFilter] = useState<boolean>(false)
-    const [followersList, setFollowersList] = useState<any | null>(null)
-    const [followingList, setFollowingList] = useState<any | null>(null)
-    const [followerLength, setFollowerLength] = useState<any | null>(null)
-    const [followingLength, setFollowingLength] = useState<any | null>(null)
+    const [followersList, setFollowersList] = useState<any>(null)
+    const [followingList, setFollowingList] = useState<any>(null)
+    const [followerLength, setFollowerLength] = useState<any>(null)
+    const [followingLength, setFollowingLength] = useState<any>(null)
 
 
     const signOutUser = async () => {
@@ -49,7 +49,7 @@ const App: FC = (props) => {
     }
 
     const getApprovedPosts = async () => {
-        await firebase.firestore().collection('posts').where('userIdNumber', '==', userId).onSnapshot(querySnapShot => {
+        firebase.firestore().collection('posts').where('userIdNumber', '==', userId).onSnapshot(querySnapShot => {
             const documents = querySnapShot.docs;
             setApprovedPosts(documents)
             setWatchNumber(documents.length)
@@ -59,19 +59,19 @@ const App: FC = (props) => {
 
     const getFilteredPosts = async () => {
         if (forSaleFilter && watchFilter) {
-            const filtered = await approvedPost.map((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().brand == watchFilter && item.data().cost != 'Not for sale')
+            const filtered = await approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().brand == watchFilter && item.data().cost != 'Not for sale')
             setFilteredPosts(filtered)
         } else if (forSaleFilter && !watchFilter) {
-            const filtered = await approvedPost.map((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost != 'Not for sale')
+            const filtered = await approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost != 'Not for sale')
             setFilteredPosts(filtered)
         } else if (notForSaleFilter && watchFilter) {
-            const filtered = await approvedPost.map((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().brand == watchFilter && item.data().cost == 'Not for sale')
+            const filtered = await approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().brand == watchFilter && item.data().cost == 'Not for sale')
             setFilteredPosts(filtered)
         } else if (notForSaleFilter && !watchFilter) {
-            const filtered = await approvedPost.map((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost == 'Not for sale')
+            const filtered = await approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost == 'Not for sale')
             setFilteredPosts(filtered)
         } else {
-            const filtered = await approvedPost.map((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().brand == watchFilter)
+            const filtered = await approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().brand == watchFilter)
             setFilteredPosts(filtered)
         }
     }
@@ -79,19 +79,19 @@ const App: FC = (props) => {
     const getFilteredFollowersPosts = async () => {
         // console.log('I am being clicked')
         // if (forSaleFilter && watchFilter) {
-        //     const filtered = approvedPost.map((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().brand == watchFilter && item.data().cost != 'Not for sale')
+        //     const filtered = approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().brand == watchFilter && item.data().cost != 'Not for sale')
         //     setFilteredPosts(filtered)
         // } else if (forSaleFilter && !watchFilter) {
-        //     const filtered = approvedPost.map((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost != 'Not for sale')
+        //     const filtered = approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost != 'Not for sale')
         //     setFilteredPosts(filtered)
         // } else if (notForSaleFilter && watchFilter) {
-        //     const filtered = approvedPost.map((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().brand == watchFilter && item.data().cost == 'Not for sale')
+        //     const filtered = approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().brand == watchFilter && item.data().cost == 'Not for sale')
         //     setFilteredPosts(filtered)
         // } else if ( notForSaleFilter && !watchFilter) {
-        //     const filtered = approvedPost.map((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost == 'Not for sale')
+        //     const filtered = approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost == 'Not for sale')
         //     setFilteredPosts(filtered)
         // } else {
-        //     const filtered = approvedPost.map((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().brand == watchFilter )
+        //     const filtered = approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().brand == watchFilter )
         //     setFilteredPosts(filtered)
         // }
     }
@@ -104,7 +104,7 @@ const App: FC = (props) => {
     }
 
     const getUserDetails = async () => {
-        const uid = await firebase.auth().currentUser.uid;
+        const uid = firebase.auth().currentUser.uid;
         setUserId(uid)
         const user = await firebase.firestore().collection('users').doc(uid).get();
         await setUserDetails({ id: user.id, ...user.data() })
