@@ -38,8 +38,8 @@ const App: FC = (props) => {
     const [openBoxContainer, setOpenBoxContainer] = useState<boolean>(false)
     const [colomns, setColomns] = useState<number>(2)
 
-    const [forSale, setForSale] = useState<any>(null)
-    const [notForSale, setNotForSale] = useState<any>(null)
+    const [forSaleCount, setForSaleCount] = useState<any>(null)
+    const [notForSaleCount, setNotForSaleCount] = useState<any>(null)
 
 
     const getUserDetails = async () => {
@@ -57,39 +57,36 @@ const App: FC = (props) => {
         // runSaleCounter()
     }
 
-    // const runSaleCounter = async () => {
-    //     const forSale = await approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost != 'Not for sale')
-    //     const notForSale = await approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost == 'Not for sale')
-    //     setForSaleCount(forSale)
-    //     setNotForSaleCount(notForSale)
-    // }
+    const runSaleCounter = async () => {
+        const forSale = await approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost != 'Not for sale')
+        const notForSale = await approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost == 'Not for sale')
+        setForSaleCount(forSale)
+        setNotForSaleCount(notForSale)
+    }
 
     const changeFilterWatch = async (name: string) => {
-        // clearWatchFilter()
+        clearBandFilter()
         setStartFilter(true)
         setWatchFilter(name);
-        getFilteredPostsWatch();
+        getFilteredPostsWatch(name);
     }
     const changeFilterCase = async (name: string) => {
-        // clearWatchFilter()
+        clearBandFilter()
         setStartFilter(true)
         setWatchCaseFilter(name);
-        // getFilteredPostsWatchCase(name);
-        getFilteredPostsWatch()
+        getFilteredPostsWatchCase(name);
     }
     const changeFilterMechanism = async (name: string) => {
-        // clearWatchFilter()
+        clearBandFilter()
         setStartFilter(true)
         setWatchMechanismFilter(name);
-        // getFilteredPostsMechanism(name);
-        getFilteredPostsWatch()
+        getFilteredPostsMechanism(name);
     }
     const changeFilterType = async (name: string) => {
-        // clearWatchFilter()
+        clearBandFilter()
         setStartFilter(true)
         setWatchTypeFilter(name);
-        // getFilteredPostsWatchType(name);
-        getFilteredPostsWatch()
+        getFilteredPostsWatchType(name);
     }
     const getFilterForSale = async () => {
         setStartFilter(true)
@@ -108,7 +105,6 @@ const App: FC = (props) => {
         // if (!watchCaseFilter && !watchMechanismFilter && !watchFilter && !watchTypeFilter) {
         //     getForSaleFilter()
         // }
-
         if (forSaleFilter) {
             setNotForSaleFilter(!notForSaleFilter)
             setForSaleFilter(!forSaleFilter)
@@ -116,59 +112,39 @@ const App: FC = (props) => {
         setNotForSaleFilter(!notForSaleFilter)
     }
 
-    const runSaleCounter = async () => {
-        const forSale = await approvedPost.map((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost != 'Not for sale')
-        const notForSale = await approvedPost.map((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost == 'Not for sale')
-        setForSale(forSale)
-        setNotForSale(notForSale)
-    }
 
-    const getFilteredPostsWatch = async () => {
-        console.log('in here111')
-        if (forSaleFilter && watchFilter) {
+    const getFilteredPostsWatch = async (name: string) => {
+        if (forSaleFilter && name) {
             const filtered = await approvedPost.filter(
-                (item: { data: () => { (): any; new(): any; brand: string; caseSize: string; watchStyle: string; mechanism: string; cost: string; }; }) =>
-                    (watchFilter ? item.data().brand == watchFilter : null)
-                    &&
-                    (watchCaseFilter ? item.data().caseSize == watchCaseFilter : null)
-                    &&
-                    (watchMechanismFilter ? item.data().mechanism == watchMechanismFilter : null)
-                    &&
-                    (watchTypeFilter ? item.data().watchStyle == watchTypeFilter : null)
+                (item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) =>
+                    item.data().brand == name
                     &&
                     item.data().cost != 'Not for sale')
             setFilteredPosts(filtered)
             setFilterLength(filtered.length)
-        } else if (forSaleFilter && !watchFilter) {
+        } else if (forSaleFilter && !name) {
             const filtered = await approvedPost.filter(
-                (item: { data: () => { (): any; new(): any; brand: string; caseSize: string; watchStyle: string; mechanism: string; cost: string; }; }) =>
+                (item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) =>
                     item.data().cost != 'Not for sale')
             setFilteredPosts(filtered)
             setFilterLength(filtered.length)
-        } else if (notForSaleFilter && watchFilter) {
+        } else if (notForSaleFilter && name) {
             const filtered = await approvedPost.filter(
-                (item: { data: () => { (): any; new(): any; brand: string; caseSize: string; watchStyle: string; mechanism: string; cost: string; }; }) =>
-                    (watchFilter ? item.data().brand == watchFilter : null)
-                    &&
-                    (watchCaseFilter ? item.data().caseSize == watchCaseFilter : null)
-                    &&
-                    (watchMechanismFilter ? item.data().mechanism == watchMechanismFilter : null)
-                    &&
-                    (watchTypeFilter ? item.data().watchStyle == watchTypeFilter : null)
-                    && item.data().cost == 'Not for sale')
+                (item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) =>
+                    item.data().brand == name && item.data().cost == 'Not for sale')
             setFilteredPosts(filtered)
             setFilterLength(filtered.length)
 
-        } else if (notForSaleFilter && !watchFilter) {
+        } else if (notForSaleFilter && !name) {
             const filtered = await approvedPost.filter(
-                (item: { data: () => { (): any; new(): any; brand: string; caseSize: string; watchStyle: string; mechanism: string; cost: string; }; }) =>
+                (item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) =>
                     item.data().cost == 'Not for sale')
             setFilteredPosts(filtered)
             setFilterLength(filtered.length)
         } else {
             const filtered = await approvedPost.filter(
-                (item: { data: () => { (): any; new(): any; brand: string; caseSize: string; watchStyle: string; mechanism: string; cost: string; }; }) =>
-                    item.data().brand == watchFilter)
+                (item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) =>
+                    item.data().brand == name)
             setFilteredPosts(filtered)
             setFilterLength(filtered.length)
         }
@@ -292,11 +268,18 @@ const App: FC = (props) => {
         setFilterLength(0)
     }
 
+    const clearBandFilter = () => {
+        setWatchFilter('')
+        setWatchCaseFilter('')
+        setWatchMechanismFilter('')
+        setWatchTypeFilter('')
+    }
+
     useEffect(() => {
         getUserDetails()
         getApprovedPosts()
-        runSaleCounter()
         // getFilteredPostsWatch()
+        runSaleCounter()
     }, [watchFilter, startFilter, notForSaleFilter, forSaleFilter, filteredPost])
 
 
@@ -356,10 +339,10 @@ const App: FC = (props) => {
                     <WatchScrollList inportData={Styles} bgcolor={'orange'} sendFilter={(name: string) => changeFilterType(name)} />
                 </View>
                 <View style={{ flexDirection: 'row' }}>
-                    <TouchableOpacity style={forSaleFilter === true ? styles.buttonSmallHilight : styles.buttonSmall} onPress={() => getFilterForSale()}>
+                    <TouchableOpacity style={forSaleFilter === true ? styles.buttonSmallHilight : styles.buttonSmall} onPress={getFilterForSale}>
                         <Text style={styles.text}>For Sale </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={notForSaleFilter === true ? styles.buttonSmallHilight : styles.buttonSmall} onPress={() => getFilterNotForSale()}>
+                    <TouchableOpacity style={notForSaleFilter === true ? styles.buttonSmallHilight : styles.buttonSmall} onPress={getFilterNotForSale}>
                         <Text style={styles.text}>Not for Sale</Text>
                     </TouchableOpacity>
                 </View>
@@ -367,7 +350,7 @@ const App: FC = (props) => {
                     <Text style={styles.text}>Clear Filter</Text>
                 </TouchableOpacity>
 
-                <Button style={styles.button} title='TESTING' onPress={testing} />
+                {/* <Button style={styles.button} title='TESTING' onPress={testing} /> */}
                 <View style={styles.approvedPosts}>
                     {startFilter ?
                         <View>

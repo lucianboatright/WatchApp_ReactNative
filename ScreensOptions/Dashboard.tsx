@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Button } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ProfileImagePicker } from '../Components/ExpoImage';
 
@@ -26,6 +26,8 @@ const App: FC = (props) => {
     const [watchNumber, setWatchNumber] = useState<any>(null)
     const [forSaleCount, setForSaleCount] = useState<number>(0)
     const [notForSaleCount, setNotForSaleCount] = useState<number>(0)
+    const [forSale, setForSale] = useState<any>(null)
+    const [notForSale, setNotForSale] = useState<any>(null)
     const [userPic, setUserPic] = useState<any | null>(null)
 
     const [watchFilter, setWatchFilter] = useState<any>(null)
@@ -49,7 +51,7 @@ const App: FC = (props) => {
     }
 
     const getApprovedPosts = async () => {
-        firebase.firestore().collection('posts').where('userIdNumber', '==', userId).onSnapshot(querySnapShot => {
+        await firebase.firestore().collection('posts').where('userIdNumber', '==', userId).onSnapshot(querySnapShot => {
             const documents = querySnapShot.docs;
             setApprovedPosts(documents)
             setWatchNumber(documents.length)
@@ -57,24 +59,25 @@ const App: FC = (props) => {
         runSaleCounter()
     }
 
-    const getFilteredPosts = async () => {
-        if (forSaleFilter && watchFilter) {
-            const filtered = await approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().brand == watchFilter && item.data().cost != 'Not for sale')
-            setFilteredPosts(filtered)
-        } else if (forSaleFilter && !watchFilter) {
-            const filtered = await approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost != 'Not for sale')
-            setFilteredPosts(filtered)
-        } else if (notForSaleFilter && watchFilter) {
-            const filtered = await approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().brand == watchFilter && item.data().cost == 'Not for sale')
-            setFilteredPosts(filtered)
-        } else if (notForSaleFilter && !watchFilter) {
-            const filtered = await approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost == 'Not for sale')
-            setFilteredPosts(filtered)
-        } else {
-            const filtered = await approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().brand == watchFilter)
-            setFilteredPosts(filtered)
-        }
-    }
+    // const getFilteredPosts = async () => {
+    //     // console.log('im somwhere')
+    //     if (forSaleFilter && watchFilter) {
+    //         const filtered = await approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().brand == watchFilter && item.data().cost != 'Not for sale')
+    //         setFilteredPosts(filtered)
+    //     } else if (forSaleFilter && !watchFilter) {
+    //         const filtered = await approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost != 'Not for sale')
+    //         setFilteredPosts(filtered)
+    //     } else if (notForSaleFilter && watchFilter) {
+    //         const filtered = await approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().brand == watchFilter && item.data().cost == 'Not for sale')
+    //         setFilteredPosts(filtered)
+    //     } else if (notForSaleFilter && !watchFilter) {
+    //         const filtered = await approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost == 'Not for sale')
+    //         setFilteredPosts(filtered)
+    //     } else {
+    //         const filtered = await approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().brand == watchFilter)
+    //         setFilteredPosts(filtered)
+    //     }
+    // }
 
     const getFilteredFollowersPosts = async () => {
         // console.log('I am being clicked')
@@ -97,14 +100,16 @@ const App: FC = (props) => {
     }
 
     const runSaleCounter = async () => {
-        const forSale = await approvedPost.map((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost != 'Not for sale')
-        const notForSale = await approvedPost.map((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost == 'Not for sale')
+        const forSale = await approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost != 'Not for sale')
+        const notForSale = await approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost == 'Not for sale')
         setForSaleCount(forSale.length)
         setNotForSaleCount(notForSale.length)
+        setForSale(forSale)
+        setNotForSale(notForSale)
     }
 
     const getUserDetails = async () => {
-        const uid = firebase.auth().currentUser.uid;
+        const uid = await firebase.auth().currentUser.uid;
         setUserId(uid)
         const user = await firebase.firestore().collection('users').doc(uid).get();
         await setUserDetails({ id: user.id, ...user.data() })
@@ -117,7 +122,9 @@ const App: FC = (props) => {
         await setFollowingLength(user.data().followers.length)
     }
     const testing = () => {
-        console.log('DOCS LENGTH', approvedPost.length)
+        // console.log('DOCS LENGTH', approvedPost.length)
+        console.log('forsale', forSale)
+        console.log('Notforsale', notForSale)
     }
 
     const getFilterForSale = async () => {
@@ -156,7 +163,7 @@ const App: FC = (props) => {
     useEffect(() => {
         getUserDetails()
         getApprovedPosts()
-        getFilteredPosts()
+        // getFilteredPosts()
     }, [userId, userEmail, watchFilter, startFilter, notForSaleFilter, forSaleFilter, userPic, followersList])
 
     return (
@@ -196,14 +203,14 @@ const App: FC = (props) => {
                         </TouchableOpacity>
                     </View>
                 </View>
+                {/* <Button onPress={testing} title="testing" /> */}
                 <View style={styles.approvedPosts}>
                     {startFilter ?
                         <View >
-                            {filteredPost.length === 0 ?
+                            {notForSaleFilter && !forSaleFilter ? (
                                 <View>
-                                    <Text style={styles.NoWatches}>You currently done have any {watchFilter}</Text>
                                     <FlatList
-                                        data={approvedPost}
+                                        data={notForSale}
                                         // contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap" }}
                                         renderItem={
                                             ({ item }) => <Rendering
@@ -236,10 +243,10 @@ const App: FC = (props) => {
                                         }
                                     />
                                 </View>
-                                :
+                            ) : forSaleFilter && !notForSaleFilter ? (
                                 <View>
                                     <FlatList
-                                        data={filteredPost}
+                                        data={forSale}
                                         // contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap" }}
                                         renderItem={
                                             ({ item }) => <Rendering
@@ -268,6 +275,43 @@ const App: FC = (props) => {
                                                 }} onReject={function (): void {
                                                     throw new Error('Function not implemented.');
                                                 }} userDetails={undefined} />
+                                        }
+                                    />
+                                </View>
+                            )
+                                :
+                                <View>
+                                    <FlatList
+                                        data={approvedPost}
+                                        // contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap" }}
+                                        renderItem={
+                                            ({ item }) => <Rendering
+                                                message={item.data().message}
+                                                name={item.data().userName}
+                                                iamge_1={item.data().iamge_1}
+                                                iamge_2={item.data().iamge_2}
+                                                iamge_3={item.data().iamge_3}
+                                                iamge_4={item.data().iamge_4}
+                                                brand={item.data().brand}
+                                                caseSize={item.data().caseSize}
+                                                caseMaterial={item.data().caseMaterial}
+                                                lugsWidth={item.data().lugsWidth}
+                                                mechanism={item.data().mechanism}
+                                                cost={item.data().cost}
+                                                timeStamp={item.data().timeStamp}
+                                                year={item.data().year}
+                                                watchStyle={item.data().watchStyle}
+                                                postId={item.id}
+                                                likes={item.data().likes}
+                                                userIdNumber={item.data().userIdNumber}
+                                                comments={item.data().comments}
+                                                approved={''}
+                                                onApprove={function (): void {
+                                                    throw new Error('Function not implemented.');
+                                                }} onReject={function (): void {
+                                                    throw new Error('Function not implemented.');
+                                                }}
+                                            />
                                         }
                                     />
                                 </View>

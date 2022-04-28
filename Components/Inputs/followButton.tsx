@@ -21,7 +21,7 @@ const App: FC<Props> = (props) => {
 
     const [userLiked, setUserLiked] = useState<boolean>(false)
     const [info, setInfo] = useState<any>(null)
-    const [isFollowing, setIsFollowing] = useState<boolean>(false)
+    const [isFollowing, setIsFollowing] = useState<boolean>(props.isFollowing)
 
     const auth = getAuth()
     const user = auth.currentUser?.uid
@@ -35,7 +35,7 @@ const App: FC<Props> = (props) => {
     }
 
     useEffect(() => {
-        setIsFollowing(props.isFollowing)
+        // setIsFollowing(props.isFollowing)
     }, [])
 
 

@@ -23,7 +23,7 @@ const NestedScreen: React.FC<Props> = ({ route, navigation }) => {
     const { name } = route.params
 
 
-    const [approvedPost, setApprovedPosts] = useState<any>(null)
+    const [approvedPost, setApprovedPosts] = useState<any | null>(null)
     const [userId, setUserId] = useState<any>(null)
     const [watchNumber, setWatchNumber] = useState<any>(null)
     const [filteredPost, setFilteredPosts] = useState<any>(null)
@@ -37,7 +37,7 @@ const NestedScreen: React.FC<Props> = ({ route, navigation }) => {
     const [watchesForSale, setWatchesForSale] = useState<number>(0)
     const [watchesNotForSale, setWatchesNotForSale] = useState<number>(0)
     const [isFollowing, setIsFollowing] = useState<boolean>(false)
-    const [followerArray, setFollowerArray] = useState<any>(null)
+    const [followerArray, setFollowerArray] = useState<any | null>(null)
     // console.log('isfollowing2', isFollowing)
 
 
@@ -46,7 +46,7 @@ const NestedScreen: React.FC<Props> = ({ route, navigation }) => {
 
     const auth = getAuth()
     const user = auth.currentUser?.uid
-    console.log(auth.currentUser?.metadata)
+    // console.log(auth.currentUser?.metadata)
 
     const getPostsandUserInfo = async () => {
         firebase.firestore().collection('posts').where('userIdNumber', '==', id).onSnapshot(querySnapShot => {
@@ -57,9 +57,20 @@ const NestedScreen: React.FC<Props> = ({ route, navigation }) => {
         const userDeta = await firebase.firestore().collection('users').doc(id).get();
         setUserDetails(userDeta)
         getWatchSale()
-        getFollowers()
+        // getFollowers()
         // console.log('user', userDeta.data().followers)
-        setFollowerArray(userDeta.data().followers)
+        setFollowerArray(userDeta.data()!.followers)
+        // getWatchSale()
+        // documents.forEach((item: { data: () => { (): any; new(): any; cost: string; }; }) => {
+        //     if (item.data().cost === 'Not for sale') {
+        //         notSaleItem += 1
+        //     } else if (item.data().cost !== 'Not for sale') {
+        //         saleItems += 1
+
+        //     }
+        // })
+        // setWatchesForSale(saleItems)
+        // setWatchesNotForSale(notSaleItem)
     }
 
     const getWatchSale = async () => {
@@ -89,7 +100,7 @@ const NestedScreen: React.FC<Props> = ({ route, navigation }) => {
     }
 
     const changeFilter = (name: string) => {
-        console.log(name)
+        // console.log(name)
         setStartFilter(true)
         setWatchFilter(name);
         // setKeyfilter('brand')
