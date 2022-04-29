@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from "react";
-import { Dimensions, TextInput, View, StyleSheet, Image, Text, Alert } from "react-native";
+import { Dimensions, TextInput, View, StyleSheet, Image, Text, Alert, Button } from "react-native";
 import { TouchableHighlight } from "react-native-gesture-handler";
 
 import firebase from "firebase/compat/app";
@@ -21,7 +21,7 @@ const App: FC<Props> = (props) => {
 
     const [userLiked, setUserLiked] = useState<boolean>(false)
     const [info, setInfo] = useState<any>(null)
-    const [isFollowing, setIsFollowing] = useState<boolean>(props.isFollowing)
+    const [isFollowing, setIsFollowing] = useState<boolean>(false)
 
     const auth = getAuth()
     const user = auth.currentUser?.uid
@@ -34,9 +34,14 @@ const App: FC<Props> = (props) => {
         console.log('confirm change')
     }
 
+    const testing = () => {
+        console.log('insfollwing inside buitton', isFollowing)
+        console.log('insfollwing inside props', props.isFollowing)
+    }
+
     useEffect(() => {
-        // setIsFollowing(props.isFollowing)
-    }, [])
+        setIsFollowing(props.isFollowing)
+    }, [isFollowing])
 
 
     return (
@@ -58,6 +63,7 @@ const App: FC<Props> = (props) => {
                     }
                 </TouchableHighlight>
             }
+            {/* <Button onPress={testing} title="testing" /> */}
         </View>
     )
 }

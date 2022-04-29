@@ -41,11 +41,6 @@ const App: FC = (props) => {
     const [forSaleCount, setForSaleCount] = useState<any>(null)
     const [notForSaleCount, setNotForSaleCount] = useState<any>(null)
 
-    const [brand, setBrand] = useState<any>(null)
-    const [caseSize, setCaseSize] = useState<any>(null)
-    const [mech, setMech] = useState<any>(null)
-    const [style, setStyle] = useState<any>(null)
-
 
     const getUserDetails = async () => {
         const uid = firebase.auth().currentUser.uid;
@@ -73,32 +68,25 @@ const App: FC = (props) => {
         clearBandFilter()
         setStartFilter(true)
         setWatchFilter(name);
-        setBrand('brand')
         getFilteredPostsWatch(name);
     }
     const changeFilterCase = async (name: string) => {
         clearBandFilter()
         setStartFilter(true)
         setWatchCaseFilter(name);
-        setCaseSize('case')
-        // getFilteredPostsWatchCase(name);
-        getFilteredPostsWatch(name);
+        getFilteredPostsWatchCase(name);
     }
     const changeFilterMechanism = async (name: string) => {
         clearBandFilter()
         setStartFilter(true)
         setWatchMechanismFilter(name);
-        setMech('mechanism')
-        // getFilteredPostsMechanism(name);
-        getFilteredPostsWatch(name);
+        getFilteredPostsMechanism(name);
     }
     const changeFilterType = async (name: string) => {
         clearBandFilter()
         setStartFilter(true)
         setWatchTypeFilter(name);
-        setStyle('style')
-        // getFilteredPostsWatchType(name);
-        getFilteredPostsWatch(name);
+        getFilteredPostsWatchType(name);
     }
     const getFilterForSale = async () => {
         setStartFilter(true)
@@ -107,9 +95,10 @@ const App: FC = (props) => {
             setNotForSaleFilter(!notForSaleFilter)
             setForSaleFilter(!forSaleFilter)
             getFilteredPostsWatch('')
+        } else {
+            setForSaleFilter(!forSaleFilter)
+            getFilteredPostsWatch('')
         }
-        setForSaleFilter(!forSaleFilter)
-        getFilteredPostsWatch('')
     }
     // console.log('post for sale', forSaleFilter)
 
@@ -122,73 +111,37 @@ const App: FC = (props) => {
         if (forSaleFilter) {
             setNotForSaleFilter(!notForSaleFilter)
             setForSaleFilter(!forSaleFilter)
-            getFilteredPostsWatch('')
+            // getFilteredPostsWatch('')
+        } else {
+            setNotForSaleFilter(!notForSaleFilter)
         }
-        setNotForSaleFilter(!notForSaleFilter)
-        getFilteredPostsWatch('')
     }
 
 
     const getFilteredPostsWatch = async (name: string) => {
         if (forSaleFilter && name) {
-            console.log('im at least here')
-            const filtered = await approvedPost.filter(
-                (item: { data: () => { (): any; new(): any; brand: string; cost: string; caseSize: string; mechanism: string; watchStyle: string; }; }) =>
-                    (brand == 'brand' ? item.data().brand == name : null)
-                    &&
-                    (caseSize == 'case' ? item.data().caseSize == name : null)
-                    &&
-                    (mech == 'mechanism' ? item.data().mechanism == name : null)
-                    &&
-                    (style == 'style' ? item.data().watchStyle == name : null)
-                    &&
-                    item.data().cost != 'Not for sale')
+            const filtered = await forSaleCount.filter(
+                (item: { data: () => { (): any; new(): any; brand: string; cost: string; caseSize: string; mechanism: string; watchStyle: string; }; }) => item.data().brand == name && item.data().cost != 'Not for sale')
             setFilteredPosts(filtered)
             setFilterLength(filtered.length)
         } else if (forSaleFilter && !name) {
-            const filtered = await approvedPost.filter(
-                (item: { data: () => { (): any; new(): any; brand: string; cost: string; caseSize: string; mechanism: string; watchStyle: string; }; }) =>
-                    // (keyFilter == 'brand' ? item.data().brand == name : null)
-                    // &&
-                    // (keyFilter == 'case' ? item.data().caseSize == name : null)
-                    // &&
-                    // (keyFilter == 'mechanism' ? item.data().mechanism == name : null)
-                    // &&
-                    // (keyFilter == 'style' ? item.data().watchStyle == name : null)
-                    // &&
-                    item.data().cost != 'Not for sale')
+            const filtered = await forSaleCount.filter(
+                (item: { data: () => { (): any; new(): any; brand: string; cost: string; caseSize: string; mechanism: string; watchStyle: string; }; }) => item.data().cost != 'Not for sale')
             setFilteredPosts(filtered)
             setFilterLength(filtered.length)
         } else if (notForSaleFilter && name) {
-            const filtered = await approvedPost.filter(
-                (item: { data: () => { (): any; new(): any; brand: string; cost: string; caseSize: string; mechanism: string; watchStyle: string; }; }) =>
-                    (brand == 'brand' ? item.data().brand == name : null)
-                    &&
-                    (caseSize == 'case' ? item.data().caseSize == name : null)
-                    &&
-                    (mech == 'mechanism' ? item.data().mechanism == name : null)
-                    &&
-                    (style == 'style' ? item.data().watchStyle == name : null)
-                    &&
-                    item.data().cost == 'Not for sale')
+            const filtered = await notForSaleCount.filter(
+                (item: { data: () => { (): any; new(): any; brand: string; cost: string; caseSize: string; mechanism: string; watchStyle: string; }; }) => item.data().brand == name && item.data().cost == 'Not for sale')
             setFilteredPosts(filtered)
             setFilterLength(filtered.length)
-
         } else if (notForSaleFilter && !name) {
-            const filtered = await approvedPost.filter(
+            const filtered = await notForSaleCount.filter(
                 (item: { data: () => { (): any; new(): any; brand: string; cost: string; caseSize: string; mechanism: string; watchStyle: string; }; }) => item.data().cost == 'Not for sale')
             setFilteredPosts(filtered)
             setFilterLength(filtered.length)
-        } else {
+        } else if (!notForSaleFilter && !forSaleFilter && name) {
             const filtered = await approvedPost.filter(
-                (item: { data: () => { (): any; new(): any; brand: string; cost: string; caseSize: string; mechanism: string; watchStyle: string; }; }) =>
-                    (brand == 'brand' ? item.data().brand == name : null)
-                    &&
-                    (caseSize == 'case' ? item.data().caseSize == name : null)
-                    &&
-                    (mech == 'mechanism' ? item.data().mechanism == name : null)
-                    &&
-                    (style == 'style' ? item.data().watchStyle == name : null))
+                (item: { data: () => { (): any; new(): any; brand: string; cost: string; caseSize: string; mechanism: string; watchStyle: string; }; }) => item.data().brand == name)
             setFilteredPosts(filtered)
             setFilterLength(filtered.length)
         }
@@ -294,7 +247,9 @@ const App: FC = (props) => {
         // console.log('WatchDOcs', filteredPost[0].data().watchStyle)
         // console.log('WatchDOcs', filteredPost.length)
         console.log(filterLength)
-        console.log(filteredPost)
+        // console.log(filteredPost)
+        console.log(forSaleFilter)
+        console.log(notForSaleFilter)
         // console.log(approvedPost)
         // console.log('opening', openBoxContainer)
     }
@@ -322,9 +277,9 @@ const App: FC = (props) => {
     useEffect(() => {
         getUserDetails()
         getApprovedPosts()
-        // getFilteredPostsWatch()
+        getFilteredPostsWatch('')
         runSaleCounter()
-    }, [watchFilter, startFilter, notForSaleFilter, forSaleFilter, filteredPost])
+    }, [startFilter])
 
 
     return (
@@ -393,115 +348,114 @@ const App: FC = (props) => {
                 <TouchableOpacity style={styles.button} onPress={clearWatchFilter}>
                     <Text style={styles.text}>Clear Filter</Text>
                 </TouchableOpacity>
-
                 {/* <Button style={styles.button} title='TESTING' onPress={testing} /> */}
                 <View style={styles.approvedPosts}>
-                    {startFilter ?
-                        <View>
-                            {filterLength === 0 ?
-                                <View style={styles.test}>
-                                    <Text style={{ fontSize: 20, margin: 2, fontFamily: 'NunitoBold', textAlign: 'center', color: "#44D0DF" }}> Nothing with the Filter Selected </Text>
-                                    <FlatList
-                                        data={approvedPost}
-                                        keyExtractor={(item, index) => item + index}
+                    {/* {startFilter ?
+                        <View> */}
+                    {filterLength === 0 ?
+                        <View style={styles.test}>
+                            {filterLength === 0 && startFilter ? <Text style={{ fontSize: 20, margin: 2, fontFamily: 'NunitoBold', textAlign: 'center', color: "#44D0DF" }}> Nothing with the Filter Selected </Text> : null}
+                            {/* <Text style={{ fontSize: 20, margin: 2, fontFamily: 'NunitoBold', textAlign: 'center', color: "#44D0DF" }}> Nothing with the Filter Selected </Text> */}
+                            <FlatList
+                                data={approvedPost}
+                                keyExtractor={(item, index) => item + index}
 
-                                        // contentContainerStyle={{ alignSelf: 'flex-start' }}
-                                        // numColumns={Math.ceil(2)}
-                                        // showsVerticalScrollIndicator={false}
-                                        // showsHorizontalScrollIndicator={false}
-                                        // numColumns={1}
-                                        // key={1}
-                                        // numColumns={openBoxContainer ? 1 : 2}
-                                        // key={openBoxContainer ? 1 : 2}
-                                        // style={styles.grid}
-                                        // contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap" }}
-                                        renderItem={
-                                            ({ item }) => <Rendering
-                                                // sendBoxOpening={(openBox: boolean) => changeBoxView(openBox)}
-                                                message={item.data().message}
-                                                name={item.data().userName}
-                                                iamge_1={item.data().iamge_1}
-                                                iamge_2={item.data().iamge_2}
-                                                iamge_3={item.data().iamge_3}
-                                                iamge_4={item.data().iamge_4}
-                                                brand={item.data().brand}
-                                                caseSize={item.data().caseSize}
-                                                caseMaterial={item.data().caseMaterial}
-                                                lugsWidth={item.data().lugsWidth}
-                                                mechanism={item.data().mechanism}
-                                                cost={item.data().cost}
-                                                timeStamp={item.data().timeStamp}
-                                                postId={item.data().id}
-                                                year={item.data().year}
-                                                watchStyle={item.data().watchStyle}
-                                                likes={item.data().likes}
-                                                userIdNumber={item.data().userIdNumber}
-                                                // userDetails={item.data().uid}
-                                                comments={item.data().comments}
-                                                approved={''}
-                                                onApprove={function (): void {
-                                                    throw new Error('Function not implemented.');
-                                                }} onReject={function (): void {
-                                                    throw new Error('Function not implemented.');
-                                                }} userDetails={undefined}
-                                            />
-                                        }
+                                // contentContainerStyle={{ alignSelf: 'flex-start' }}
+                                // numColumns={Math.ceil(2)}
+                                // showsVerticalScrollIndicator={false}
+                                // showsHorizontalScrollIndicator={false}
+                                // numColumns={1}
+                                // key={1}
+                                // numColumns={openBoxContainer ? 1 : 2}
+                                // key={openBoxContainer ? 1 : 2}
+                                // style={styles.grid}
+                                // contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap" }}
+                                renderItem={
+                                    ({ item }) => <Rendering
+                                        // sendBoxOpening={(openBox: boolean) => changeBoxView(openBox)}
+                                        message={item.data().message}
+                                        name={item.data().userName}
+                                        iamge_1={item.data().iamge_1}
+                                        iamge_2={item.data().iamge_2}
+                                        iamge_3={item.data().iamge_3}
+                                        iamge_4={item.data().iamge_4}
+                                        brand={item.data().brand}
+                                        caseSize={item.data().caseSize}
+                                        caseMaterial={item.data().caseMaterial}
+                                        lugsWidth={item.data().lugsWidth}
+                                        mechanism={item.data().mechanism}
+                                        cost={item.data().cost}
+                                        timeStamp={item.data().timeStamp}
+                                        postId={item.data().id}
+                                        year={item.data().year}
+                                        watchStyle={item.data().watchStyle}
+                                        likes={item.data().likes}
+                                        userIdNumber={item.data().userIdNumber}
+                                        // userDetails={item.data().uid}
+                                        comments={item.data().comments}
+                                        approved={''}
+                                        onApprove={function (): void {
+                                            throw new Error('Function not implemented.');
+                                        }} onReject={function (): void {
+                                            throw new Error('Function not implemented.');
+                                        }} userDetails={undefined}
                                     />
-                                </View>
-                                :
-                                <View style={styles.test}>
-                                    <Text style={{ fontSize: 20 }}> something with the Filter { }</Text>
-                                    <FlatList
-                                        data={filteredPost}
-                                        keyExtractor={(item, index) => item + index}
-                                        // contentContainerStyle={{ alignSelf: 'flex-start' }}
-                                        // numColumns={Math.ceil(2)}
-                                        // showsVerticalScrollIndicator={false}
-                                        // showsHorizontalScrollIndicator={false}
-                                        // numColumns={1}
-                                        // key={1}
-                                        // numColumns={openBoxContainer ? 1 : 2}
-                                        // key={openBoxContainer ? 1 : 2}
-                                        // style={styles.grid}
-                                        // contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap" }}
-                                        renderItem={
-                                            ({ item }) => <Rendering
-                                                // sendBoxOpening={(openBox: boolean) => changeBoxView(openBox)}
-                                                message={item.data().message}
-                                                name={item.data().userName}
-                                                iamge_1={item.data().iamge_1}
-                                                iamge_2={item.data().iamge_2}
-                                                iamge_3={item.data().iamge_3}
-                                                iamge_4={item.data().iamge_4}
-                                                brand={item.data().brand}
-                                                caseSize={item.data().caseSize}
-                                                caseMaterial={item.data().caseMaterial}
-                                                lugsWidth={item.data().lugsWidth}
-                                                mechanism={item.data().mechanism}
-                                                cost={item.data().cost}
-                                                timeStamp={item.data().timeStamp}
-                                                postId={item.id}
-                                                year={item.data().year}
-                                                watchStyle={item.data().watchStyle}
-                                                likes={item.data().likes}
-                                                userIdNumber={item.data().userIdNumber}
-                                                // userDetails={item.data().uid}
-                                                comments={item.data().comments}
-                                                approved={''}
-                                                onApprove={function (): void {
-                                                    throw new Error('Function not implemented.');
-                                                }} onReject={function (): void {
-                                                    throw new Error('Function not implemented.');
-                                                }} userDetails={undefined}
-                                            />
-                                        }
-                                    />
-                                </View>
-                            }
+                                }
+                            />
                         </View>
                         :
                         <View style={styles.test}>
-                            {/* <Text>All clear</Text> */}
+                            {/* <Text style={{ fontSize: 20 }}> something with the Filter { }</Text> */}
+                            <FlatList
+                                data={filteredPost}
+                                keyExtractor={(item, index) => item + index}
+                                // contentContainerStyle={{ alignSelf: 'flex-start' }}
+                                // numColumns={Math.ceil(2)}
+                                // showsVerticalScrollIndicator={false}
+                                // showsHorizontalScrollIndicator={false}
+                                // numColumns={1}
+                                // key={1}
+                                // numColumns={openBoxContainer ? 1 : 2}
+                                // key={openBoxContainer ? 1 : 2}
+                                // style={styles.grid}
+                                // contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap" }}
+                                renderItem={
+                                    ({ item }) => <Rendering
+                                        // sendBoxOpening={(openBox: boolean) => changeBoxView(openBox)}
+                                        message={item.data().message}
+                                        name={item.data().userName}
+                                        iamge_1={item.data().iamge_1}
+                                        iamge_2={item.data().iamge_2}
+                                        iamge_3={item.data().iamge_3}
+                                        iamge_4={item.data().iamge_4}
+                                        brand={item.data().brand}
+                                        caseSize={item.data().caseSize}
+                                        caseMaterial={item.data().caseMaterial}
+                                        lugsWidth={item.data().lugsWidth}
+                                        mechanism={item.data().mechanism}
+                                        cost={item.data().cost}
+                                        timeStamp={item.data().timeStamp}
+                                        postId={item.id}
+                                        year={item.data().year}
+                                        watchStyle={item.data().watchStyle}
+                                        likes={item.data().likes}
+                                        userIdNumber={item.data().userIdNumber}
+                                        // userDetails={item.data().uid}
+                                        comments={item.data().comments}
+                                        approved={''}
+                                        onApprove={function (): void {
+                                            throw new Error('Function not implemented.');
+                                        }} onReject={function (): void {
+                                            throw new Error('Function not implemented.');
+                                        }} userDetails={undefined}
+                                    />
+                                }
+                            />
+                        </View>
+                    }
+                    {/* </View>
+                        :
+                        <View style={styles.test}>
                             <FlatList
                                 data={approvedPost}
                                 // contentContainerStyle={{ alignSelf: 'flex-start' }}
@@ -553,7 +507,7 @@ const App: FC = (props) => {
                             />
                         </View>
 
-                    }
+                    } */}
                 </View>
             </View>
         </SafeAreaView>
