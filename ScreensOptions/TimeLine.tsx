@@ -359,7 +359,7 @@ const App: FC = (props) => {
                             <FlatList
                                 data={approvedPost}
                                 keyExtractor={(item, index) => item + index}
-
+                                initialNumToRender={8}
                                 // contentContainerStyle={{ alignSelf: 'flex-start' }}
                                 // numColumns={Math.ceil(2)}
                                 // showsVerticalScrollIndicator={false}
@@ -409,6 +409,7 @@ const App: FC = (props) => {
                             <FlatList
                                 data={filteredPost}
                                 keyExtractor={(item, index) => item + index}
+                                initialNumToRender={8}
                                 // contentContainerStyle={{ alignSelf: 'flex-start' }}
                                 // numColumns={Math.ceil(2)}
                                 // showsVerticalScrollIndicator={false}

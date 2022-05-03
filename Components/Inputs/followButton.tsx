@@ -11,7 +11,6 @@ import "firebase/compat/firestore"
 const { height, width } = Dimensions.get('screen')
 
 interface Props {
-    authUser: any;
     isFollowing: any;
     postUser: any;
     postUserName: any;
@@ -41,6 +40,7 @@ const App: FC<Props> = (props) => {
 
     useEffect(() => {
         setIsFollowing(props.isFollowing)
+        console.log('mmmm here', props.isFollowing)
     }, [isFollowing])
 
 

@@ -26,6 +26,9 @@ const App: React.FC<Props> = ({ route, navigation }) => {
     const { id } = route.params
     const { name } = route.params
 
+    const auth = getAuth()
+    const authUser = auth.currentUser?.uid
+
     const [userDetails, setUserDetails] = useState<any>(null)
     const [userEmail, setUserEmail] = useState<any>(null)
     const [userName, setUserName] = useState<any>(null)
@@ -46,8 +49,9 @@ const App: React.FC<Props> = ({ route, navigation }) => {
     const [notForSaleFilter, setNotForSaleFilter] = useState<boolean>(false)
     const [followersList, setFollowersList] = useState<any>(null)
     const [followingList, setFollowingList] = useState<any>(null)
-    const [followerLength, setFollowerLength] = useState<any>(null)
-    const [followingLength, setFollowingLength] = useState<any>(null)
+    const [followerLength, setFollowerLength] = useState<number>(0)
+    const [followingLength, setFollowingLength] = useState<number>(0)
+    const [isFollowing, setIsFollowing] = useState<any>(null)
 
 
     const signOutUser = async () => {
@@ -65,6 +69,7 @@ const App: React.FC<Props> = ({ route, navigation }) => {
             setApprovedPosts(documents)
             setWatchNumber(documents.length)
         })
+        runSaleCounter()
     }
     // const getFilteredPosts = async () => {
     //     // console.log('im somwhere')
@@ -106,29 +111,24 @@ const App: React.FC<Props> = ({ route, navigation }) => {
         // }
     }
 
+    // const setRunSaleCounter = async (forSaleInfo: string | any[], notForSaleInfo: string | any[]) => {
+    //     setForSaleCount(forSaleInfo.length)
+    //     setNotForSaleCount(notForSaleInfo.length)
+    //     setForSale(forSaleInfo)
+    //     setNotForSale(notForSaleInfo)
+    // }
     const runSaleCounter = async () => {
+        console.log('I MADE IT HERE')
         // if (forSale === null && notForSale === null) {
         const forSaleInfo = Object.values(approvedPost).filter((item: any) => item.data().cost != 'Not for sale')
         const notForSaleInfo = await approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost == 'Not for sale')
-        // setForSaleCount(forSaleInfo.length)
-        // setNotForSaleCount(notForSaleInfo.length)
-        // setForSale(forSaleInfo)
-        // setNotForSale(notForSaleInfo)
-        setRunSaleCounter(forSaleInfo, notForSaleInfo)
-        // }
-    }
-
-    const setRunSaleCounter = async (forSaleInfo: string | any[], notForSaleInfo: string | any[]) => {
         setForSaleCount(forSaleInfo.length)
         setNotForSaleCount(notForSaleInfo.length)
         setForSale(forSaleInfo)
         setNotForSale(notForSaleInfo)
+        // setRunSaleCounter(forSaleInfo, notForSaleInfo)
+        // }
     }
-
-    const getWatchList = async () => {
-
-    }
-
 
 
     const getUserDetails = async () => {
@@ -138,14 +138,29 @@ const App: React.FC<Props> = ({ route, navigation }) => {
 
     const setDetails = async (userDeta: any) => {
         setUserDetails({ id: (userDeta).id, ...(userDeta).data() })
-        setUserEmail(userDeta.data().email)
-        setUserName(userDeta.data().name)
-        setUserPic(userDeta.data().profilePicture)
-        setFollowersList(userDeta.data().followers)
-        setFollowingList(userDeta.data().following)
-        setFollowerLength(userDeta.data().followers.length)
-        setFollowingLength(userDeta.data().followers.length)
+        await setUserEmail(userDeta.data().email)
+        await setUserName(userDeta.data().name)
+        await setUserPic(userDeta.data().profilePicture)
+        await setFollowersList(userDeta.data().followers)
+        await setFollowingList(userDeta.data().following)
+        await setFollowerLength(userDeta.data().followers.length)
+        // await setFollowingLength(userDeta.data().following.length)
+        // checkWaiting()
     }
+
+    const checkWaiting = () => {
+        console.log('IF INSIDE')
+        // if (followersList.hasOwnProperty(authUser)) {
+        //     setIsFollowing(true)
+        //     console.log('IF YESS')
+        // }
+        // runSaleCounter()
+        if (typeof followersList !== 'undefined') {
+            setIsFollowing(true)
+        }
+    }
+
+
     const testing = () => {
         // console.log('DOCS LENGTH', approvedPost.length)
         // console.log('forsale', forSale)
@@ -163,11 +178,11 @@ const App: React.FC<Props> = ({ route, navigation }) => {
         setForSaleFilter(!forSaleFilter)
     }
 
-    const changeFolowerFilter = async (name: string) => {
-        setStartFilter(true)
-        setFollowerFilter(name);
-        getFilteredFollowersPosts();
-    }
+    // const changeFolowerFilter = async (name: string) => {
+    //     setStartFilter(true)
+    //     setFollowerFilter(name);
+    //     getFilteredFollowersPosts();
+    // }
 
     const getFilterNotForSale = async () => {
         setStartFilter(true)
@@ -189,8 +204,11 @@ const App: React.FC<Props> = ({ route, navigation }) => {
     useEffect(() => {
         getUserDetails()
         getApprovedPosts()
-        runSaleCounter()
+        // runSaleCounter()
+        checkWaiting()
         // getFilteredPosts()
+        // console.log(id)
+        // console.log(followersList)
     }, [])
 
     return (
@@ -228,7 +246,9 @@ const App: React.FC<Props> = ({ route, navigation }) => {
                                 <TouchableOpacity style={styles.goBackButton} onPress={() => navigation.goBack()}>
                                     <Text style={styles.goBackText}>Back</Text>
                                 </TouchableOpacity>
-                                {/* <FollowButton authUser={user} isFollowing={isFollowing} postUser={id} postUserName={name} /> */}
+                            </View>
+                            <View style={{ marginTop: '60%' }}>
+                                <FollowButton isFollowing={isFollowing} postUser={id} postUserName={name} />
                             </View>
                         </View>
                     </View>
@@ -258,6 +278,7 @@ const App: React.FC<Props> = ({ route, navigation }) => {
                                 <View>
                                     <FlatList
                                         data={notForSale}
+                                        initialNumToRender={8}
                                         // contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap" }}
                                         renderItem={
                                             ({ item }) => <Rendering
@@ -294,6 +315,8 @@ const App: React.FC<Props> = ({ route, navigation }) => {
                                 <View>
                                     <FlatList
                                         data={forSale}
+                                        initialNumToRender={8}
+                                        keyExtractor={(item, index) => item + index}
                                         // contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap" }}
                                         renderItem={
                                             ({ item }) => <Rendering
@@ -330,6 +353,8 @@ const App: React.FC<Props> = ({ route, navigation }) => {
                                 <View>
                                     <FlatList
                                         data={approvedPost}
+                                        initialNumToRender={8}
+                                        keyExtractor={(item, index) => item + index}
                                         // contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap" }}
                                         renderItem={
                                             ({ item }) => <Rendering
