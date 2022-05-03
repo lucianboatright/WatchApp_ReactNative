@@ -155,9 +155,16 @@ const App: React.FC<Props> = ({ route, navigation }) => {
         //     console.log('IF YESS')
         // }
         // runSaleCounter()
-        if (typeof followersList !== 'undefined') {
-            setIsFollowing(true)
+        if (followersList) {
+            if (followersList.hasOwnProperty(authUser)) {
+                setIsFollowing(true)
+            } else {
+                setIsFollowing(false)
+            }
+        } else {
+            setIsFollowing(false)
         }
+
     }
 
 
@@ -226,9 +233,9 @@ const App: React.FC<Props> = ({ route, navigation }) => {
                                 <Text numberOfLines={1} style={styles.infoText}>{userEmail}</Text>
                             </View>
                             <View style={{ flexDirection: 'row' }}>
-                                <Text style={styles.infoText}>They have </Text>
+                                {/* <Text style={styles.infoText}>They have </Text> */}
                                 <Text style={styles.infoTextHighlight}>{watchNumber}</Text>
-                                <Text style={styles.infoText}>in you collection</Text>
+                                <Text style={styles.infoText}>in Their collection</Text>
                             </View>
                             <View style={{ flexDirection: 'row' }}>
                                 <Text style={styles.infoText}>For Sale: </Text>
