@@ -11,26 +11,24 @@ import "firebase/compat/firestore"
 const { height, width } = Dimensions.get('screen')
 
 interface Props {
-    isFollowing: any;
+    isFollowing: boolean;
     postUser: any;
     postUserName: any;
 }
 
 const App: FC<Props> = (props) => {
 
-    const [userLiked, setUserLiked] = useState<boolean>(false)
-    const [info, setInfo] = useState<any>(null)
     const [isFollowing, setIsFollowing] = useState<boolean>(false)
 
     const auth = getAuth()
     const user = auth.currentUser?.uid
     const displayName = auth.currentUser?.displayName
 
-    const deletePost = async () => {
+    const changeFollowingStatus = async () => {
         setIsFollowing(!isFollowing)
         await firebase.firestore().collection('users').doc(props.postUser).update({ followers: isFollowing ? firebase.firestore.FieldValue.arrayRemove({ name: displayName, followerId: user }) : firebase.firestore.FieldValue.arrayUnion({ name: displayName, followerId: user }) })
         await firebase.firestore().collection('users').doc(user).update({ following: isFollowing ? firebase.firestore.FieldValue.arrayRemove({ name: props.postUserName, followerId: props.postUser }) : firebase.firestore.FieldValue.arrayUnion({ name: props.postUserName, followerId: props.postUser }) })
-        console.log('confirm change')
+        // console.log('confirm change')
     }
 
     const testing = () => {
@@ -40,8 +38,8 @@ const App: FC<Props> = (props) => {
 
     useEffect(() => {
         setIsFollowing(props.isFollowing)
-        console.log('mmmm here', props.isFollowing)
-    }, [isFollowing])
+        // console.log('mmmm here', props.isFollowing)
+    }, [props.isFollowing])
 
 
     return (
@@ -49,7 +47,7 @@ const App: FC<Props> = (props) => {
             {props.postUser === user ?
                 null
                 :
-                <TouchableHighlight onPress={() => deletePost()}>
+                <TouchableHighlight onPress={() => changeFollowingStatus()}>
                     {isFollowing ?
                         <View style={styles.container}>
                             <Image style={styles.likeIconTrue} source={require('../../assets/icons/followingIcon.png')} />

@@ -1,8 +1,6 @@
 import React, { FC, useEffect, useState } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, Button, SafeAreaView, Image } from 'react-native'
 import { FilterLines, FollowButton, WatchScrollList } from '../Components/Inputs';
-import { ProfileImagePicker } from '../Components/ExpoImage';
-
 import { WatchList } from '../Components/DataLists';
 
 import firebase from "firebase/compat/app";
@@ -12,7 +10,7 @@ import "firebase/compat/firestore"
 import { FlatList } from 'react-native-gesture-handler';
 import { getAuth, signOut } from 'firebase/auth';
 import { Rendering } from '../Components/Rendering';
-import { WatchScrollLink } from '../Components/Inputs';
+import { ScrollWithLink } from '../Components/Inputs';
 
 
 
@@ -28,12 +26,14 @@ const App: React.FC<Props> = ({ route, navigation }) => {
 
     const auth = getAuth()
     const authUser = auth.currentUser?.uid
+    const displayName = auth.currentUser?.displayName
 
     const [userDetails, setUserDetails] = useState<any>(null)
     const [userEmail, setUserEmail] = useState<any>(null)
     const [userName, setUserName] = useState<any>(null)
     const [approvedPost, setApprovedPosts] = useState<any>(null)
-    const [filteredPost, setFilteredPosts] = useState<any>(null)
+    const [forSalePosts, setForSalePosts] = useState<any>(null)
+    const [notForSalePosts, setNotForSalePosts] = useState<any>(null)
     const [userId, setUserId] = useState<any>(null)
     const [watchNumber, setWatchNumber] = useState<any>(null)
     const [forSaleCount, setForSaleCount] = useState<number>(0)
@@ -69,6 +69,23 @@ const App: React.FC<Props> = ({ route, navigation }) => {
             setApprovedPosts(documents)
             setWatchNumber(documents.length)
         })
+
+        const forSaleItems: any[] = []
+        const notForSaleItems: any[] = []
+        approvedPost.forEach((item: { data: () => { (): any; new(): any; cost: string; }; }) => {
+            if (item.data().cost !== 'Not for sale') {
+                forSaleItems.push(item)
+                console.log('12345')
+            }
+        })
+        approvedPost.forEach((item: { data: () => { (): any; new(): any; cost: string; }; }) => {
+            if (item.data().cost === 'Not for sale') {
+                notForSaleItems.push(item)
+                console.log('54321')
+            }
+        })
+        setForSalePosts(forSaleItems)
+        setNotForSalePosts(notForSaleItems)
         runSaleCounter()
     }
     // const getFilteredPosts = async () => {
@@ -91,44 +108,12 @@ const App: React.FC<Props> = ({ route, navigation }) => {
     //     }
     // }
 
-    const getFilteredFollowersPosts = async () => {
-        // console.log('I am being clicked')
-        // if (forSaleFilter && watchFilter) {
-        //     const filtered = approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().brand == watchFilter && item.data().cost != 'Not for sale')
-        //     setFilteredPosts(filtered)
-        // } else if (forSaleFilter && !watchFilter) {
-        //     const filtered = approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost != 'Not for sale')
-        //     setFilteredPosts(filtered)
-        // } else if (notForSaleFilter && watchFilter) {
-        //     const filtered = approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().brand == watchFilter && item.data().cost == 'Not for sale')
-        //     setFilteredPosts(filtered)
-        // } else if ( notForSaleFilter && !watchFilter) {
-        //     const filtered = approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost == 'Not for sale')
-        //     setFilteredPosts(filtered)
-        // } else {
-        //     const filtered = approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().brand == watchFilter )
-        //     setFilteredPosts(filtered)
-        // }
-    }
-
     // const setRunSaleCounter = async (forSaleInfo: string | any[], notForSaleInfo: string | any[]) => {
     //     setForSaleCount(forSaleInfo.length)
     //     setNotForSaleCount(notForSaleInfo.length)
     //     setForSale(forSaleInfo)
     //     setNotForSale(notForSaleInfo)
     // }
-    const runSaleCounter = async () => {
-        console.log('I MADE IT HERE')
-        // if (forSale === null && notForSale === null) {
-        const forSaleInfo = Object.values(approvedPost).filter((item: any) => item.data().cost != 'Not for sale')
-        const notForSaleInfo = await approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost == 'Not for sale')
-        setForSaleCount(forSaleInfo.length)
-        setNotForSaleCount(notForSaleInfo.length)
-        setForSale(forSaleInfo)
-        setNotForSale(notForSaleInfo)
-        // setRunSaleCounter(forSaleInfo, notForSaleInfo)
-        // }
-    }
 
 
     const getUserDetails = async () => {
@@ -144,35 +129,65 @@ const App: React.FC<Props> = ({ route, navigation }) => {
         await setFollowersList(userDeta.data().followers)
         await setFollowingList(userDeta.data().following)
         await setFollowerLength(userDeta.data().followers.length)
-        // await setFollowingLength(userDeta.data().following.length)
-        // checkWaiting()
+        await setFollowingLength(userDeta.data().following.length)
+        if ((userDeta.data().followers).filter((item: { followerId: string | undefined; }) => item.followerId === authUser)) {
+            await setIsFollowing(true)
+            console.log('YESS HE IS FOLLOWING')
+        }
     }
 
     const checkWaiting = () => {
-        console.log('IF INSIDE')
+        // console.log('IF INSIDE')
         // if (followersList.hasOwnProperty(authUser)) {
         //     setIsFollowing(true)
         //     console.log('IF YESS')
         // }
         // runSaleCounter()
-        if (followersList) {
-            if (followersList.hasOwnProperty(authUser)) {
-                setIsFollowing(true)
-            } else {
-                setIsFollowing(false)
-            }
-        } else {
-            setIsFollowing(false)
-        }
+        // if (followersList) {
+        //     if (followersList.hasOwnProperty(authUser)) {
+        //         setIsFollowing(true)
+        //     } else {
+        //         setIsFollowing(false)
+        //     }
+        // } else {
+        //     setIsFollowing(false)
+        // }
+        // console.log(followersList)
 
+    }
+
+    const runSaleCounter = async () => {
+        console.log('im hereeeee now')
+        // const forSaleItems: any[] = []
+        // const notForSaleItems: any[] = []
+        // // const forSaleInfo = await approvedPost.filter((item: any) => item.data().cost != 'Not for sale')
+        // await approvedPost.forEach((item: { data: () => { (): any; new(): any; cost: string; }; }) => {
+        //     if (item.data().cost !== 'Not for sale') {
+        //         forSaleItems.push(item)
+        //     }
+        // })
+        // await approvedPost.forEach((item: { data: () => { (): any; new(): any; cost: string; }; }) => {
+        //     if (item.data().cost === 'Not for sale') {
+        //         notForSaleItems.push(item)
+        //     }
+        // })
+        // setForSalePosts(forSaleItems)
+        // setNotForSalePosts(notForSaleItems)
+        // const notForSaleInfo = await approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost == 'Not for sale')
+        // setForSaleCount(forSaleInfo.length)
+        // setNotForSaleCount(notForSaleInfo.length)
+        // setForSale(forSaleInfo)
+        // setNotForSale(notForSaleInfo)
     }
 
 
     const testing = () => {
-        // console.log('DOCS LENGTH', approvedPost.length)
+        console.log('DOCS LENGTH', approvedPost)
         // console.log('forsale', forSale)
         // console.log('Notforsale', notForSale)
-        console.log('Notforsale', userDetails.following)
+        // console.log('Notforsale', userDetails.following)
+        console.log('filter posts', forSale)
+        console.log('filter posts', notForSale)
     }
 
     const getFilterForSale = async () => {
@@ -202,7 +217,7 @@ const App: React.FC<Props> = ({ route, navigation }) => {
 
     const clearWatchFilter = () => {
         setWatchFilter(null)
-        setFilteredPosts(null)
+        // setFilteredPosts(null)
         setForSaleFilter(false)
         setNotForSaleFilter(false)
         setStartFilter(false)
@@ -213,10 +228,7 @@ const App: React.FC<Props> = ({ route, navigation }) => {
         getApprovedPosts()
         // runSaleCounter()
         checkWaiting()
-        // getFilteredPosts()
-        // console.log(id)
-        // console.log(followersList)
-    }, [])
+    }, [startFilter, forSale, notForSale, forSalePosts, notForSalePosts])
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
@@ -235,7 +247,7 @@ const App: React.FC<Props> = ({ route, navigation }) => {
                             <View style={{ flexDirection: 'row' }}>
                                 {/* <Text style={styles.infoText}>They have </Text> */}
                                 <Text style={styles.infoTextHighlight}>{watchNumber}</Text>
-                                <Text style={styles.infoText}>in Their collection</Text>
+                                <Text style={styles.infoText}>in their collection</Text>
                             </View>
                             <View style={{ flexDirection: 'row' }}>
                                 <Text style={styles.infoText}>For Sale: </Text>
@@ -243,8 +255,6 @@ const App: React.FC<Props> = ({ route, navigation }) => {
                                 <Text style={styles.infoText}>& Not for Sale: </Text>
                                 <Text style={styles.infoTextHighlight}> {notForSaleCount}</Text>
                             </View>
-                            {/* <Text style={styles.infoText}>Followers: {followerLength}</Text>
-                            <Text style={styles.infoText}>Following: {followingLength}</Text> */}
                         </View>
                         <View>
                             <View style={styles.profileImageBox}>
@@ -261,9 +271,9 @@ const App: React.FC<Props> = ({ route, navigation }) => {
                     </View>
                     <View>
                         <Text style={styles.infoText}>Following:  {followingLength}</Text>
-                        <WatchScrollLink inportData={followingList} bgcolor={'#44D0DF'} />
+                        <ScrollWithLink inportData={followingList} bgcolor={'#44D0DF'} />
                         <Text style={styles.infoText}>Followers:  {followerLength}</Text>
-                        <WatchScrollLink inportData={followersList} bgcolor={'#44D0DF'} />
+                        <ScrollWithLink inportData={followersList} bgcolor={'#44D0DF'} />
                         <View style={{ flexDirection: 'row' }}>
                             <TouchableOpacity style={forSaleFilter === true ? styles.buttonSmallHilight : styles.buttonSmall} onPress={getFilterForSale}>
                                 <Text style={styles.text}>For Sale </Text>
@@ -277,7 +287,7 @@ const App: React.FC<Props> = ({ route, navigation }) => {
                         </TouchableOpacity>
                     </View>
                 </View>
-                {/* <Button onPress={testing} title="testing" /> */}
+                <Button onPress={testing} title="testing" />
                 <View style={styles.approvedPosts}>
                     {startFilter ?
                         <View >
@@ -449,7 +459,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     header: {
-        flex: 0.45,
+        flex: 0.5,
         paddingLeft: 5,
         // backgroundColor: "orange",
         borderColor: 'grey',
@@ -537,7 +547,7 @@ const styles = StyleSheet.create({
         marginLeft: 5,
         fontWeight: 'bold',
         fontSize: 15,
-        maxWidth: 120,
+        maxWidth: 128,
         // flex: 1,
     },
     infoTextHighlight: {

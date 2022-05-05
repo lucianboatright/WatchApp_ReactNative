@@ -10,8 +10,8 @@ import DeleteIcon from './deleteButton'
 import CloseWindow from './closeWindow'
 import FollowButton from './followButton'
 import Modal from './Modal'
-import WatchScrollLink from './scrollWithLink'
+import ScrollWithLink from './scrollWithLink'
 import WatchInfoLines from './watchInfoLine'
 import CommentsBar from './commentsBar'
 
-export { Button, Input, MultiLineInput, ForSale, WatchScrollList, LikesButton, UserProfile, FilterLines, DeleteIcon, CloseWindow, FollowButton, Modal, WatchScrollLink, WatchInfoLines, CommentsBar }
+export { Button, Input, MultiLineInput, ForSale, WatchScrollList, LikesButton, UserProfile, FilterLines, DeleteIcon, CloseWindow, FollowButton, Modal, ScrollWithLink, WatchInfoLines, CommentsBar }
