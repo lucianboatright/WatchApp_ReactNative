@@ -32,8 +32,7 @@ const App: React.FC<Props> = ({ route, navigation }) => {
     const [userEmail, setUserEmail] = useState<any>(null)
     const [userName, setUserName] = useState<any>(null)
     const [approvedPost, setApprovedPosts] = useState<any>(null)
-    const [forSalePosts, setForSalePosts] = useState<any>(null)
-    const [notForSalePosts, setNotForSalePosts] = useState<any>(null)
+    const [filteredPost, setFilteredPosts] = useState<any>(null)
     const [userId, setUserId] = useState<any>(null)
     const [watchNumber, setWatchNumber] = useState<any>(null)
     const [forSaleCount, setForSaleCount] = useState<number>(0)
@@ -69,44 +68,17 @@ const App: React.FC<Props> = ({ route, navigation }) => {
             setApprovedPosts(documents)
             setWatchNumber(documents.length)
         })
-
-        const forSaleItems: any[] = []
-        const notForSaleItems: any[] = []
-        approvedPost.forEach((item: { data: () => { (): any; new(): any; cost: string; }; }) => {
-            if (item.data().cost !== 'Not for sale') {
-                forSaleItems.push(item)
-                console.log('12345')
-            }
-        })
-        approvedPost.forEach((item: { data: () => { (): any; new(): any; cost: string; }; }) => {
-            if (item.data().cost === 'Not for sale') {
-                notForSaleItems.push(item)
-                console.log('54321')
-            }
-        })
-        setForSalePosts(forSaleItems)
-        setNotForSalePosts(notForSaleItems)
         runSaleCounter()
     }
-    // const getFilteredPosts = async () => {
-    //     // console.log('im somwhere')
-    //     if (forSaleFilter && watchFilter) {
-    //         const filtered = await approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().brand == watchFilter && item.data().cost != 'Not for sale')
-    //         setFilteredPosts(filtered)
-    //     } else if (forSaleFilter && !watchFilter) {
-    //         const filtered = await approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost != 'Not for sale')
-    //         setFilteredPosts(filtered)
-    //     } else if (notForSaleFilter && watchFilter) {
-    //         const filtered = await approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().brand == watchFilter && item.data().cost == 'Not for sale')
-    //         setFilteredPosts(filtered)
-    //     } else if (notForSaleFilter && !watchFilter) {
-    //         const filtered = await approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost == 'Not for sale')
-    //         setFilteredPosts(filtered)
-    //     } else {
-    //         const filtered = await approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().brand == watchFilter)
-    //         setFilteredPosts(filtered)
-    //     }
-    // }
+
+    const runSaleCounter = async () => {
+        const forSaleInfo = await approvedPost.filter((item: any) => item.data().cost != 'Not for sale')
+        const notForSaleInfo = await approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost == 'Not for sale')
+        setForSaleCount(forSaleInfo.length)
+        setNotForSaleCount(notForSaleInfo.length)
+        setForSale(forSaleInfo)
+        setNotForSale(notForSaleInfo)
+    }
 
     // const setRunSaleCounter = async (forSaleInfo: string | any[], notForSaleInfo: string | any[]) => {
     //     setForSaleCount(forSaleInfo.length)
@@ -114,8 +86,6 @@ const App: React.FC<Props> = ({ route, navigation }) => {
     //     setForSale(forSaleInfo)
     //     setNotForSale(notForSaleInfo)
     // }
-
-
     const getUserDetails = async () => {
         const userDeta = await firebase.firestore().collection('users').doc(id).get()
         setDetails(userDeta)
@@ -136,58 +106,12 @@ const App: React.FC<Props> = ({ route, navigation }) => {
         }
     }
 
-    const checkWaiting = () => {
-        // console.log('IF INSIDE')
-        // if (followersList.hasOwnProperty(authUser)) {
-        //     setIsFollowing(true)
-        //     console.log('IF YESS')
-        // }
-        // runSaleCounter()
-        // if (followersList) {
-        //     if (followersList.hasOwnProperty(authUser)) {
-        //         setIsFollowing(true)
-        //     } else {
-        //         setIsFollowing(false)
-        //     }
-        // } else {
-        //     setIsFollowing(false)
-        // }
-        // console.log(followersList)
-
-    }
-
-    const runSaleCounter = async () => {
-        console.log('im hereeeee now')
-        // const forSaleItems: any[] = []
-        // const notForSaleItems: any[] = []
-        // // const forSaleInfo = await approvedPost.filter((item: any) => item.data().cost != 'Not for sale')
-        // await approvedPost.forEach((item: { data: () => { (): any; new(): any; cost: string; }; }) => {
-        //     if (item.data().cost !== 'Not for sale') {
-        //         forSaleItems.push(item)
-        //     }
-        // })
-        // await approvedPost.forEach((item: { data: () => { (): any; new(): any; cost: string; }; }) => {
-        //     if (item.data().cost === 'Not for sale') {
-        //         notForSaleItems.push(item)
-        //     }
-        // })
-        // setForSalePosts(forSaleItems)
-        // setNotForSalePosts(notForSaleItems)
-        // const notForSaleInfo = await approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost == 'Not for sale')
-        // setForSaleCount(forSaleInfo.length)
-        // setNotForSaleCount(notForSaleInfo.length)
-        // setForSale(forSaleInfo)
-        // setNotForSale(notForSaleInfo)
-    }
-
 
     const testing = () => {
-        console.log('DOCS LENGTH', approvedPost)
+        // console.log('DOCS LENGTH', approvedPost.length)
         // console.log('forsale', forSale)
         // console.log('Notforsale', notForSale)
-        // console.log('Notforsale', userDetails.following)
-        console.log('filter posts', forSale)
-        console.log('filter posts', notForSale)
+        console.log('Notforsale', userDetails.following)
     }
 
     const getFilterForSale = async () => {
@@ -217,7 +141,7 @@ const App: React.FC<Props> = ({ route, navigation }) => {
 
     const clearWatchFilter = () => {
         setWatchFilter(null)
-        // setFilteredPosts(null)
+        setFilteredPosts(null)
         setForSaleFilter(false)
         setNotForSaleFilter(false)
         setStartFilter(false)
@@ -227,8 +151,7 @@ const App: React.FC<Props> = ({ route, navigation }) => {
         getUserDetails()
         getApprovedPosts()
         // runSaleCounter()
-        checkWaiting()
-    }, [startFilter, forSale, notForSale, forSalePosts, notForSalePosts])
+    }, [startFilter, forSale, notForSale])
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
@@ -287,7 +210,7 @@ const App: React.FC<Props> = ({ route, navigation }) => {
                         </TouchableOpacity>
                     </View>
                 </View>
-                <Button onPress={testing} title="testing" />
+                {/* <Button onPress={testing} title="testing" /> */}
                 <View style={styles.approvedPosts}>
                     {startFilter ?
                         <View >

@@ -10,7 +10,7 @@ import "firebase/compat/firestore"
 import { FlatList } from 'react-native-gesture-handler';
 import { getAuth, signOut } from 'firebase/auth';
 import { Rendering } from '../Components/Rendering';
-import { WatchScrollLink } from '../Components/Inputs';
+import { ScrollWithLink } from '../Components/Inputs';
 
 import { WatchList } from '../Components/DataLists';
 
@@ -59,46 +59,6 @@ const App: FC = (props) => {
         runSaleCounter()
     }
 
-    // const getFilteredPosts = async () => {
-    //     // console.log('im somwhere')
-    //     if (forSaleFilter && watchFilter) {
-    //         const filtered = await approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().brand == watchFilter && item.data().cost != 'Not for sale')
-    //         setFilteredPosts(filtered)
-    //     } else if (forSaleFilter && !watchFilter) {
-    //         const filtered = await approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost != 'Not for sale')
-    //         setFilteredPosts(filtered)
-    //     } else if (notForSaleFilter && watchFilter) {
-    //         const filtered = await approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().brand == watchFilter && item.data().cost == 'Not for sale')
-    //         setFilteredPosts(filtered)
-    //     } else if (notForSaleFilter && !watchFilter) {
-    //         const filtered = await approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost == 'Not for sale')
-    //         setFilteredPosts(filtered)
-    //     } else {
-    //         const filtered = await approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().brand == watchFilter)
-    //         setFilteredPosts(filtered)
-    //     }
-    // }
-
-    const getFilteredFollowersPosts = async () => {
-        // console.log('I am being clicked')
-        // if (forSaleFilter && watchFilter) {
-        //     const filtered = approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().brand == watchFilter && item.data().cost != 'Not for sale')
-        //     setFilteredPosts(filtered)
-        // } else if (forSaleFilter && !watchFilter) {
-        //     const filtered = approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost != 'Not for sale')
-        //     setFilteredPosts(filtered)
-        // } else if (notForSaleFilter && watchFilter) {
-        //     const filtered = approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().brand == watchFilter && item.data().cost == 'Not for sale')
-        //     setFilteredPosts(filtered)
-        // } else if ( notForSaleFilter && !watchFilter) {
-        //     const filtered = approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost == 'Not for sale')
-        //     setFilteredPosts(filtered)
-        // } else {
-        //     const filtered = approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().brand == watchFilter )
-        //     setFilteredPosts(filtered)
-        // }
-    }
-
     const runSaleCounter = async () => {
         const forSale = await approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost != 'Not for sale')
         const notForSale = await approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost == 'Not for sale')
@@ -109,7 +69,7 @@ const App: FC = (props) => {
     }
 
     const getUserDetails = async () => {
-        const uid = await firebase.auth().currentUser.uid;
+        const uid = firebase.auth().currentUser.uid;
         setUserId(uid)
         const user = await firebase.firestore().collection('users').doc(uid).get();
         await setUserDetails({ id: user.id, ...user.data() })
@@ -137,11 +97,11 @@ const App: FC = (props) => {
         setForSaleFilter(!forSaleFilter)
     }
 
-    const changeFolowerFilter = async (name: string) => {
-        setStartFilter(true)
-        setFollowerFilter(name);
-        getFilteredFollowersPosts();
-    }
+    // const changeFolowerFilter = async (name: string) => {
+    //     setStartFilter(true)
+    //     setFollowerFilter(name);
+    //     getFilteredFollowersPosts();
+    // }
 
     const getFilterNotForSale = async () => {
         setStartFilter(true)
@@ -187,9 +147,9 @@ const App: FC = (props) => {
                     </View>
                     <View>
                         <Text style={styles.infoText}>Following:  {followingLength}</Text>
-                        <WatchScrollLink inportData={followingList} bgcolor={'#44D0DF'} />
+                        <ScrollWithLink inportData={followingList} bgcolor={'#44D0DF'} />
                         <Text style={styles.infoText}>Followers:  {followerLength}</Text>
-                        <WatchScrollLink inportData={followersList} bgcolor={'#44D0DF'} />
+                        <ScrollWithLink inportData={followersList} bgcolor={'#44D0DF'} />
                         <View style={{ flexDirection: 'row' }}>
                             <TouchableOpacity style={forSaleFilter === true ? styles.buttonSmallHilight : styles.buttonSmall} onPress={getFilterForSale}>
                                 <Text style={styles.text}>For Sale </Text>
