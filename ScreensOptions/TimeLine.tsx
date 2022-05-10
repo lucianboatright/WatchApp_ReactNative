@@ -279,7 +279,7 @@ const App: FC = (props) => {
         getApprovedPosts()
         getFilteredPostsWatch('')
         runSaleCounter()
-    }, [startFilter])
+    }, [startFilter, watchCaseFilter, watchFilter, watchMechanismFilter, watchTypeFilter])
 
 
     return (
