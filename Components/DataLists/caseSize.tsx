@@ -1,0 +1,28 @@
+const CaseSize = [
+    {id: 1, name: '29 mm'},
+    {id: 2, name: '30 mm'},
+    {id: 3, name: '31 mm'},
+    {id: 4, name: '32 mm'},
+    {id: 5, name: '33 mm'},
+    {id: 6, name: '34 mm'},
+    {id: 7, name: '35 mm'},
+    {id: 8, name: '36 mm'},
+    {id: 9, name: '37 mm'},
+    {id: 10, name: '38 mm'},
+    {id: 11, name: '39 mm'},
+    {id: 12, name: '40 mm'},
+    {id: 13, name: '41 mm'},
+    {id: 14, name: '42 mm'},
+    {id: 15, name: '43 mm'},
+    {id: 16, name: '44 mm'},
+    {id: 17, name: '45 mm'},
+    {id: 18, name: '46 mm'},
+    {id: 19, name: '47 mm'},
+    {id: 20, name: '48 mm'},
+    {id: 21, name: '49 mm'},
+    {id: 22, name: '50 mm'},
+    {id: 23, name: '51 mm'},
+    {id: 24, name: '52 mm'},
+]
+
+export default CaseSize;

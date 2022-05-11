@@ -7,45 +7,45 @@ import "firebase/compat/auth"
 import "firebase/compat/firestore"
 
 
-const App : FC = (props) => {
+const App: FC = (props) => {
     const [email, setEmail] = useState<string | null>(null)
     const [password, setPassword] = useState<string | null>(null)
 
     const login = async () => {
-        if(email === null || password === null ){
+        if (email === null || password === null) {
 
             Alert.alert('Missing Fields')
         } else {
             try {
-                const {user} = await firebase.auth().signInWithEmailAndPassword(email, password)
+                const { user } = await firebase.auth().signInWithEmailAndPassword(email, password)
 
             } catch (error) {
                 if (error.code.includes('auth/user-not-found')) {
                     Alert.alert('User does not exist')
-                    }
                 }
-                
             }
+
         }
-        const testing = () => {
-            console.log('EMAIL AND PWORD', email, password)
-        }
+    }
+    const testing = () => {
+        console.log('EMAIL AND PWORD', email, password)
+    }
 
 
     return (
         <View style={styles.container}>
-            <Text>Hello From LOGIN</Text>
+            <View style={styles.introTextContainer}>
+                <Text style={styles.introText}>Login with your details below or signup</Text>
+            </View>
             <Input placeholder='Email' onChangeText={(text) => setEmail(text)} />
             <Input placeholder='Password' secureTextEntry onChangeText={(text) => setPassword(text)} />
-            {/* <Button title='Login' onPress={() => login()} /> */}
-            <TouchableOpacity style={styles.loginButton} onPress={() => login()}>
-                    <Text style={styles.Large}>Login</Text>
+            <TouchableOpacity style={styles.loginButtonLarge} onPress={() => login()}>
+                <Text style={styles.Large}>Login</Text>
             </TouchableOpacity>
-            {/* <Button title='TESTONMG' onPress={testing} /> */}
             <View style={styles.loginText}>
-                <Text style={styles.loginLabel}>Dont Have an Account?</Text>
+                <Text style={styles.loginLabel}>Need to Sign Up?</Text>
                 <TouchableOpacity style={styles.loginButton} onPress={() => props.navigation.navigate('Signup')}>
-                    <Text>Signup Here</Text>
+                    <Text style={{ color: 'white', fontWeight: 'bold', fontFamily: 'NunitoBold' }}>Signup Here</Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -63,7 +63,18 @@ const styles = StyleSheet.create({
     },
     loginText: {
         flexDirection: 'row',
-        marginVertical: 20
+        marginVertical: 25
+    },
+    introText: {
+        fontFamily: 'Nunito',
+        padding: 5,
+        fontSize: 20,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        marginBottom: 20,
+    },
+    introTextContainer: {
+        borderRadius: 5,
     },
     loginLabel: {
         paddingTop: 5,
@@ -73,17 +84,28 @@ const styles = StyleSheet.create({
         backgroundColor: '#44D0DF',
         color: 'white',
         padding: 5,
-        paddingRight: 10,
-        paddingLeft: 10,
+        paddingRight: 20,
+        paddingLeft: 20,
         borderRadius: 5,
         textAlign: 'center',
         textAlignVertical: 'center',
-
+    },
+    loginButtonLarge: {
+        marginTop: 20,
+        backgroundColor: '#44D0DF',
+        color: 'white',
+        padding: 5,
+        paddingRight: 20,
+        paddingLeft: 20,
+        borderRadius: 5,
+        textAlign: 'center',
+        textAlignVertical: 'center',
     },
     Large: {
         fontWeight: 'bold',
         fontSize: 25,
         color: 'white',
+        fontFamily: 'NunitoBold'
         // height: 5,
     }
 })

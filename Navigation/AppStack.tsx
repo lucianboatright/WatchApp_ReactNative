@@ -1,13 +1,9 @@
 import React, { FC } from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import {NavigationContainer} from '@react-navigation/native'
-import { Dashboard, Home, AddWatch, TimeLine } from "../ScreensOptions";
-
-import { HomeStackNavigator, TimeLineStackNavigator } from './UserProfileNav';
-
+import { Dashboard, AddWatch } from "../ScreensOptions";
+import { TimeLineStackNavigator } from './UserProfileNav';
 
 type RootStackParamsList = {
   Home: undefined;
@@ -20,53 +16,46 @@ const Tab = createBottomTabNavigator();
 
 const { Navigator, Screen } = createStackNavigator();
 
-const AppStack :  React.FC = () => {
-    return (
-        <Tab.Navigator>
-            {/* <Tab.Screen
-                name="HomeMain"
-                component={HomeStackNavigator}
-                options={{
-                    tabBarLabel: 'Home',
-                    tabBarIcon: ({ color, size }) => (
-                      <MaterialCommunityIcons name="home" color={color} size={size} />
-                    ),
-                  }}
-            /> */}
-            <Tab.Screen
-                name="Timneline"
-                component={TimeLineStackNavigator}
-                options={{
-                    tabBarLabel: 'Timneline',
-                    tabBarIcon: ({ color, size }) => (
-                      <MaterialCommunityIcons name="table-network" color={'green'} size={size} />
-                    ),
-                  }}
-            />
-            <Tab.Screen
-                name="Add"
-                component={AddWatch}
-                options={{
-                    tabBarLabel: 'Add',
-                    tabBarIcon: ({ color, size }) => (
-                      <MaterialCommunityIcons name="plus-outline" color={'red'} size={45} />
-                    ),
-                  }}
-            />
-            <Tab.Screen
-                name="Profile"
-                component={Dashboard}
-                options={{
-                    tabBarLabel: 'Home',
-                    tabBarIcon: ({ color, size }) => (
-                      <MaterialCommunityIcons name="account-settings" color={'blue'} size={size} />
-                    ),
-                  }}
-                
-            />
-        </Tab.Navigator>
+const AppStack: React.FC = () => {
+  return (
+    <Tab.Navigator>
+      <Tab.Screen
+        name="Timeline"
+        component={TimeLineStackNavigator}
+        options={{
+          headerShown: false,
+          tabBarLabel: 'Timeline',
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="table-network" color={'green'} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Add"
+        component={AddWatch}
+        options={{
+          headerShown: false,
+          tabBarLabel: 'Add',
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="plus-outline" color={'red'} size={45} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={Dashboard}
+        options={{
+          headerShown: false,
+          tabBarLabel: 'Home',
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="account-settings" color={'blue'} size={size} />
+          ),
+        }}
 
-    )
+      />
+    </Tab.Navigator>
+
+  )
 }
 
 export default AppStack;
