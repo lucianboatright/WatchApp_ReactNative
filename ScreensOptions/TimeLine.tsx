@@ -126,48 +126,48 @@ const App: FC = (props) => {
         console.log('start of filter post')
         if (forSaleFilter) {
             console.log('for sale filter')
-            const filtered = await forSaleCount.filter(
+            const filtered = await forSaleCount.flatMap(
                 (item: { data: () => { (): any; new(): any; brand: string; cost: string; caseSize: string; mechanism: string; watchStyle: string; }; }) =>
-                    (watchFilter != null ? item.data().brand == watchFilter : null)
-                    ||
-                    (watchCaseFilter != null ? item.data().caseSize == watchCaseFilter : null)
-                    ||
-                    (watchMechanismFilter != null ? item.data().mechanism == watchMechanismFilter : null)
-                    ||
-                    (watchTypeFilter != null ? item.data().watchStyle == watchTypeFilter : null)
-                    ||
-                    item.data().cost !== 'Not for sale'
+                    [[watchFilter != null ? item.data().brand == watchFilter : null],
+                    [watchCaseFilter != null ? item.data().caseSize == watchCaseFilter : null],
+
+                    [watchMechanismFilter != null ? item.data().mechanism == watchMechanismFilter : null],
+
+                    [watchTypeFilter != null ? item.data().watchStyle == watchTypeFilter : null],
+
+                    [item.data().cost !== 'Not for sale']]
             )
             console.log('for SALE filtered posts ', filtered)
             setFilteredPosts(filtered)
             setFilterLength(filtered.length)
         } else if (notForSaleFilter) {
             console.log('not for sale filter')
-            const filtered = await notForSaleCount.filter(
+            const filtered = await notForSaleCount.flatMap(
                 (item: { data: () => { (): any; new(): any; brand: string; cost: string; caseSize: string; mechanism: string; watchStyle: string; }; }) =>
                     (watchFilter != null ? item.data().brand == watchFilter : null)
-                    ||
+                    &&
                     (watchCaseFilter != null ? item.data().caseSize == watchCaseFilter : null)
-                    ||
+                    &&
                     (watchMechanismFilter != null ? item.data().mechanism == watchMechanismFilter : null)
-                    ||
+                    &&
                     (watchTypeFilter != null ? item.data().watchStyle == watchTypeFilter : null)
-                    ||
+                    &&
                     item.data().cost == 'Not for sale')
             console.log('nto for sale filtered posts ', filtered)
             setFilteredPosts(filtered)
             setFilterLength(filtered.length)
         } else if (!notForSaleFilter && !forSaleFilter) {
-            console.log('no sale filters')
-            const filtered = await approvedPost.filter(
+            console.log('no sale filters HERE')
+            const filtered = await approvedPost.flatMap(
                 (item: { data: () => { (): any; new(): any; brand: string; cost: string; caseSize: string; mechanism: string; watchStyle: string; }; }) =>
-                    item.data().brand == watchFilter
-                    ||
-                    item.data().caseSize == watchCaseFilter
-                    ||
-                    item.data().mechanism == watchMechanismFilter
-                    ||
-                    item.data().watchStyle == watchTypeFilter)
+                    (watchFilter != null ? item.data().brand == watchFilter : null)
+                    &&
+                    (watchCaseFilter != null ? item.data().caseSize == watchCaseFilter : null)
+                    &&
+                    (watchMechanismFilter != null ? item.data().mechanism == watchMechanismFilter : null)
+                    &&
+                    (watchTypeFilter != null ? item.data().watchStyle == watchTypeFilter : null))
+            console.log('JUST fitlers', filtered)
             setFilteredPosts(filtered)
             setFilterLength(filtered.length)
         }
@@ -262,7 +262,7 @@ const App: FC = (props) => {
                 <TouchableOpacity style={styles.button} onPress={clearWatchFilter}>
                     <Text style={styles.text}>Clear Filter</Text>
                 </TouchableOpacity>
-                {/* <Button style={styles.button} title='TESTING' onPress={testing} /> */}
+                <Button style={styles.button} title='TESTING' onPress={testing} />
                 <View style={styles.approvedPosts}>
                     {/* {startFilter ?
                         <View> */}
