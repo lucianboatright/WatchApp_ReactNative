@@ -7,7 +7,7 @@ const { height, width } = Dimensions.get('screen')
 
 interface Props {
     lable: string,
-    filter: string | null,
+    filter: any | null,
     clearButton: () => void
 }
 
