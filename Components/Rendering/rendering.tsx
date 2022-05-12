@@ -37,8 +37,6 @@ interface Props {
     userIdNumber: any;
     onApprove: () => void;
     onReject: () => void;
-    // sendBoxOpening: (openBox: boolean) => void;
-    // onPress: () => void;
 }
 
 const formatTime = (timeStamp: number): any => {
@@ -64,7 +62,6 @@ type RootStackParamsList = {
 const App: React.FC<Props> = (props) => {
 
     const [openBox, setOpenBox] = useState<boolean>(false)
-    const [openBoxSend, setOpenBoxSend] = useState<boolean>(false)
     const [openModal, setOpenModal] = useState<boolean>(false)
 
     const message = props.userDetails
@@ -72,22 +69,10 @@ const App: React.FC<Props> = (props) => {
     const navigation = useNavigation<StackNavigationProp<RootStackParamsList>>();
 
     const openClicked = () => {
-        // console.log('pre',openBox)
-        // console.log('pre',openBoxSend)
-        // console.log('CLICKED')
-        // setOpenBox(!openBox)
-        // setOpenBoxSend(!openBoxSend)
-        // props.sendBoxOpening(openBox)
         setOpenBox(!openBox)
-        // props.sendBoxOpening(openBox)
-        // props.onPress
     }
-    // console.log('MOODDAALL', openModal)
-
 
     useEffect(() => {
-        // console.log('pre', props.watchStyle)
-        // console.log('pre',openBoxSend)
     }, [])
 
     return (
@@ -100,7 +85,7 @@ const App: React.FC<Props> = (props) => {
                         </TouchableOpacity>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '46%' }}>
                             <DeleteIcon postId={props.postId} postUser={props.userIdNumber} likes={props.likes} />
-                            <TouchableHighlight onPress={() => (openClicked(), props.onPress)}>
+                            <TouchableHighlight onPress={() => (openClicked())}>
                                 <Image style={styles.icon} source={require('../../assets/icons/closeWindowIcon.png')} />
                             </TouchableHighlight>
                             <LikesButton postId={props.postId} likes={props.likes} />
@@ -127,7 +112,6 @@ const App: React.FC<Props> = (props) => {
                             <Pressable onPress={() => setOpenModal(!openModal)}>
                                 <ImageBackground source={require('../../assets/pictures/woodenBox_5.png')} style={styles.imageContainerBorder}>
                                     <Image style={styles.imageBoxTest} source={require('../../assets/pictures/1.jpg')} />
-                                    {/* <Image style={styles.imageBox} source={{ uri: props.iamge_1 }} /> */}
                                 </ImageBackground>
                             </Pressable>
                             <Modal visible={openModal}>
@@ -139,7 +123,6 @@ const App: React.FC<Props> = (props) => {
                                             <Text style={styles.fontButton}>Return</Text>
                                         </Pressable>
                                     </View>
-                                    {/* <Button title='Return' onPress={() => setOpenModal(!openModal)} /> */}
                                 </View>
                                 <View style={{ flex: 0.9 }}>
                                     <ScrollView>
@@ -167,7 +150,7 @@ const App: React.FC<Props> = (props) => {
                 </View>
                 :
                 <View style={styles.imageBoxContainer}>
-                    <TouchableOpacity onPress={() => (openClicked(), props.onPress)}>
+                    <TouchableOpacity onPress={() => (openClicked())}>
                         <ImageBackground source={require('../../assets/pictures/woodenBox_5.png')} style={styles.imageContainerBorderBox}>
                             {/* <Image style={styles.imageBoxLarge} source={{ uri: props.iamge_1 }} /> */}
                             <Image style={styles.imageBoxTest} source={require('../../assets/pictures/1.jpg')} />
@@ -279,12 +262,12 @@ const styles = StyleSheet.create({
     },
     imageBoxTest: {
         borderRadius: 5,
-        height: 264,
-        width: 10,
+        height: 268,
+        // width: 10,
         aspectRatio: 10 / 16,
         marginLeft: 12,
-        marginTop: 11,
-        marginBottom: 11,
+        marginTop: 5,
+        marginBottom: 12,
         marginRight: 0,
     },
     imageBoxDisplay: {

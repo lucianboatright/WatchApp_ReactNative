@@ -64,38 +64,9 @@ const App: FC = (props) => {
         setNotForSaleCount(notForSale)
     }
 
-    // const changeFilterWatch = async (name: string) => {
-    //     // clearBandFilter()
-    //     setStartFilter(true)
-    //     setWatchFilter(name);
-    //     getFilteredPostsWatch();
-    // }
-    // const changeFilterCase = async (name: string) => {
-    //     // clearBandFilter()
-    //     setStartFilter(true)
-    //     setWatchCaseFilter(name);
-    //     getFilteredPostsWatch()
-    //     // getFilteredPostsWatchCase(name);
-    // }
-    // const changeFilterMechanism = async (name: string) => {
-    //     // clearBandFilter()
-    //     setStartFilter(true)
-    //     setWatchMechanismFilter(name);
-    //     getFilteredPostsWatch()
-    //     // getFilteredPostsMechanism(name);
-    // }
-    // const changeFilterType = async (name: string) => {
-    //     // clearBandFilter()
-    //     setStartFilter(true)
-    //     setWatchTypeFilter(name);
-    //     getFilteredPostsWatch()
-    //     // getFilteredPostsWatchType(name);
-    // }
-
     const getFilterForSale = async () => {
         setStartFilter(true)
         if (notForSaleFilter) {
-            // console.log('pre for sale', forSaleFilter)
             setNotForSaleFilter(!notForSaleFilter)
             setForSaleFilter(!forSaleFilter)
             getFilteredPostsWatch()
@@ -104,18 +75,12 @@ const App: FC = (props) => {
             getFilteredPostsWatch()
         }
     }
-    // console.log('post for sale', forSaleFilter)
-
 
     const getFilterNotForSale = async () => {
         setStartFilter(true)
-        // if (!watchCaseFilter && !watchMechanismFilter && !watchFilter && !watchTypeFilter) {
-        //     getForSaleFilter()
-        // }
         if (forSaleFilter) {
             setNotForSaleFilter(!notForSaleFilter)
             setForSaleFilter(!forSaleFilter)
-            // getFilteredPostsWatch('')
         } else {
             setNotForSaleFilter(!notForSaleFilter)
         }
@@ -174,11 +139,6 @@ const App: FC = (props) => {
         }
     }
 
-
-    const changeView = async () => {
-        console.log('clicked')
-    }
-
     const testing = () => {
         // console.log('WATCH FILTER', filteredPost.length)
         // console.log('WatchDOcs', filteredPost[0].data().watchStyle)
@@ -192,10 +152,6 @@ const App: FC = (props) => {
         console.log('mech', watchMechanismFilter)
         console.log('for sale', forSaleFilter)
         console.log('NOT for sale', notForSaleFilter)
-
-
-        // console.log(approvedPost)
-        // console.log('opening', openBoxContainer)
     }
 
     const clearWatchFilter = () => {
@@ -238,19 +194,19 @@ const App: FC = (props) => {
             <View style={styles.container}>
                 <View style={{ flexDirection: 'row' }}>
                     <FilterLable lable={'Brand:'} filter={watchFilter} clearButton={() => setWatchFilter(null)} />
-                    <WatchScrollList inportData={WatchList} bgcolor={'orange'} sendFilter={(name: string | null) => setWatchFilter(name)} />
+                    <WatchScrollList inportData={WatchList} bgcolor={'orange'} sendFilter={(name: any | null) => setWatchFilter(name)} />
                 </View>
                 <View style={{ flexDirection: 'row' }}>
                     <FilterLable lable={'Case Size:'} filter={watchCaseFilter} clearButton={() => setWatchCaseFilter(null)} />
-                    <WatchScrollList inportData={CaseSize} bgcolor={'orange'} sendFilter={(name: string | null) => setWatchCaseFilter(name)} />
+                    <WatchScrollList inportData={CaseSize} bgcolor={'orange'} sendFilter={(name: any | null) => setWatchCaseFilter(name)} />
                 </View>
                 <View style={{ flexDirection: 'row' }}>
                     <FilterLable lable={'Mechanism:'} filter={watchMechanismFilter} clearButton={() => setWatchMechanismFilter(null)} />
-                    <WatchScrollList inportData={Mechanism} bgcolor={'orange'} sendFilter={(name: string | null) => setWatchMechanismFilter(name)} />
+                    <WatchScrollList inportData={Mechanism} bgcolor={'orange'} sendFilter={(name: any | null) => setWatchMechanismFilter(name)} />
                 </View>
                 <View style={{ flexDirection: 'row' }}>
                     <FilterLable lable={'Type:'} filter={watchTypeFilter} clearButton={() => setWatchTypeFilter(null)} />
-                    <WatchScrollList inportData={Styles} bgcolor={'orange'} sendFilter={(name: string | null) => setWatchTypeFilter(name)} />
+                    <WatchScrollList inportData={Styles} bgcolor={'orange'} sendFilter={(name: any | null) => setWatchTypeFilter(name)} />
                 </View>
                 <View style={{ flexDirection: 'row' }}>
                     <TouchableOpacity style={forSaleFilter === true ? styles.buttonSmallHilight : styles.buttonSmall} onPress={getFilterForSale}>
@@ -263,7 +219,7 @@ const App: FC = (props) => {
                 <TouchableOpacity style={styles.button} onPress={clearWatchFilter}>
                     <Text style={styles.text}>Clear Filter</Text>
                 </TouchableOpacity>
-                <Button style={styles.button} title='TESTING' onPress={testing} />
+                {/* <Button style={styles.button} title='TESTING' onPress={testing} /> */}
                 <View style={styles.approvedPosts}>
                     {/* {startFilter ?
                         <View> */}
