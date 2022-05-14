@@ -111,7 +111,7 @@ const App: React.FC<Props> = (props) => {
                         <View style={styles.imageContainer}>
                             <Pressable onPress={() => setOpenModal(!openModal)}>
                                 <ImageBackground source={require('../../assets/pictures/woodenBox_5.png')} style={styles.imageContainerBorder}>
-                                    <Image style={styles.imageBoxTest} source={require('../../assets/pictures/1.jpg')} />
+                                    <Image style={styles.imageBoxInCard} source={require('../../assets/pictures/1.jpg')} />
                                 </ImageBackground>
                             </Pressable>
                             <Modal visible={openModal}>
@@ -246,8 +246,7 @@ const styles = StyleSheet.create({
     },
 
     imageContainerBorder: {
-        // width: '99.5%',
-        // height: '100%',
+        width: '100%',
         flex: 1,
     },
     imageBox: {
@@ -262,11 +261,32 @@ const styles = StyleSheet.create({
     },
     imageBoxTest: {
         borderRadius: 5,
-        height: 268,
+        flex: 1,
+        // height: "10%",
+        // width: 10,
+        aspectRatio: 10 / 16,
+        // marginLeft: 8,
+        // marginRight: 10,
+        // marginTop: 12,
+        // marginBottom: 12,
+        // paddingRight: 12,
+    },
+    imageContainerBorderBox: {
+        // height: '11%',
+        aspectRatio: 10 / 16,
+        flex: 1,
+        paddingTop: 13,
+        paddingBottom: 12,
+        paddingLeft: 8,
+        // paddingRight: 10,
+    },
+    imageBoxInCard: {
+        borderRadius: 5,
+        height: 278,
         // width: 10,
         aspectRatio: 10 / 16,
         marginLeft: 12,
-        marginTop: 5,
+        marginTop: 18,
         marginBottom: 12,
         marginRight: 0,
     },
@@ -274,10 +294,13 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         display: 'flex',
         // height: 464,
-        margin: '4.5%',
+        marginRight: 20,
+        marginLeft: 20,
+        marginTop: 24,
+        marginBottom: 22,
         alignItems: 'center',
         justifyContent: 'center',
-        width: '91%',
+        width: '90%',
         aspectRatio: 10 / 16,
         // padding: 15
         // marginLeft: 18,
@@ -291,10 +314,6 @@ const styles = StyleSheet.create({
         width: (width - 10) / 2,
         // height: 'auto',
         // marginLeft: 2,        
-    },
-    imageContainerBorderBox: {
-        flex: 1,
-        paddingTop: 8,
     },
     imageBoxLarge: {
         marginLeft: 10,

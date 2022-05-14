@@ -330,7 +330,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     header: {
-        flex: 0.45,
+        flex: 0.5,
         paddingLeft: 5,
         backgroundColor: "orange",
         margin: 5,

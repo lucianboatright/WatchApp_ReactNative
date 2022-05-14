@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
     },
     introTextSmall: {
         fontFamily: 'Nunito',
-        fontSize: 15,
+        fontSize: 14,
         fontWeight: 'bold',
         textAlign: 'center',
     },
@@ -161,6 +161,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         marginBottom: 15,
         marginTop: 10,
+        width: '95%'
     },
     loginLabel: {
         paddingTop: 5,
