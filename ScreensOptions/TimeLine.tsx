@@ -240,7 +240,7 @@ const App: FC = (props) => {
                                 // numColumns={openBoxContainer ? 1 : 2}
                                 // key={openBoxContainer ? 1 : 2}
                                 // style={styles.grid}
-                                // contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap" }}
+                                contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap" }}
                                 renderItem={
                                     ({ item }) => <Rendering
                                         // sendBoxOpening={(openBox: boolean) => changeBoxView(openBox)}
@@ -290,7 +290,7 @@ const App: FC = (props) => {
                                 // numColumns={openBoxContainer ? 1 : 2}
                                 // key={openBoxContainer ? 1 : 2}
                                 // style={styles.grid}
-                                // contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap" }}
+                                contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap" }}
                                 renderItem={
                                     ({ item }) => <Rendering
                                         // sendBoxOpening={(openBox: boolean) => changeBoxView(openBox)}
@@ -391,6 +391,7 @@ export default App;
 
 const styles = StyleSheet.create({
     test: {
+        // flex: 1,
     },
     container: {
         flex: 1,
@@ -401,7 +402,8 @@ const styles = StyleSheet.create({
     },
     approvedPosts: {
         marginLeft: 5,
-        flex: 1
+        // flex: 1
+        height: '100%',
     },
 
     grid: {

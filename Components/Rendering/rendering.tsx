@@ -81,7 +81,7 @@ const App: React.FC<Props> = (props) => {
                 <View style={styles.container}>
                     <View style={styles.userHeader}>
                         <TouchableOpacity style={styles.viewBoxButton} onPress={() => navigation.navigate('NestedScreen', { id: props.userIdNumber, name: props.name })} >
-                            <Text style={styles.headerTitle}>User: {props.name}</Text>
+                            <Text numberOfLines={1} style={styles.headerTitle}>User: {props.name}</Text>
                         </TouchableOpacity>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '46%' }}>
                             <DeleteIcon postId={props.postId} postUser={props.userIdNumber} likes={props.likes} />
@@ -222,11 +222,6 @@ const styles = StyleSheet.create({
         shadowRadius: 5,
         elevation: 5
     },
-    headerTitle: {
-        fontWeight: 'bold',
-        borderColor: 'black',
-        fontSize: 20,
-    },
     icon: {
         marginTop: 2,
         height: 30,
@@ -244,51 +239,30 @@ const styles = StyleSheet.create({
         // width: '50%'
         flex: 1,
     },
-
-    imageContainerBorder: {
-        width: '100%',
+    imageContainerBorderBox: {
+        aspectRatio: 10.3 / 16,
         flex: 1,
-    },
-    imageBox: {
-        borderRadius: 5,
-        // height: 264,
-        width: 172,
-        aspectRatio: 10 / 16,
-        marginLeft: 12,
-        marginTop: 11,
-        marginBottom: 11,
-        marginRight: 0,
+        paddingTop: 13,
+        paddingBottom: 12,
+        paddingLeft: 10,
     },
     imageBoxTest: {
         borderRadius: 5,
         flex: 1,
-        // height: "10%",
-        // width: 10,
         aspectRatio: 10 / 16,
-        // marginLeft: 8,
-        // marginRight: 10,
-        // marginTop: 12,
-        // marginBottom: 12,
-        // paddingRight: 12,
     },
-    imageContainerBorderBox: {
-        // height: '11%',
-        aspectRatio: 10 / 16,
+    imageContainerBorder: {
+        aspectRatio: 10.3 / 16,
         flex: 1,
         paddingTop: 13,
         paddingBottom: 12,
-        paddingLeft: 8,
-        // paddingRight: 10,
+        paddingLeft: 10,
     },
     imageBoxInCard: {
         borderRadius: 5,
-        height: 278,
-        // width: 10,
+        flex: 1,
         aspectRatio: 10 / 16,
-        marginLeft: 12,
-        marginTop: 18,
-        marginBottom: 12,
-        marginRight: 0,
+        // marginRight: 0,
     },
     imageBoxDisplay: {
         borderRadius: 5,
@@ -340,8 +314,16 @@ const styles = StyleSheet.create({
         paddingTop: 5,
         paddingLeft: 5,
         paddingRight: 5,
-        width: 'auto',
-        minWidth: '48%'
+        width: 10,
+        minWidth: '48%',
+        flexDirection: 'row',
+        // padding: 10,
+    },
+    headerTitle: {
+        fontWeight: 'bold',
+        borderColor: 'black',
+        fontSize: 20,
+        flex: 1,
     },
     viewBoxButtonText: {
     },
