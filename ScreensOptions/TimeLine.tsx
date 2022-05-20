@@ -194,19 +194,19 @@ const App: FC = (props) => {
             <View style={styles.container}>
                 <View style={{ flexDirection: 'row' }}>
                     <FilterLable lable={'Brand:'} filter={watchFilter} clearButton={() => setWatchFilter(null)} />
-                    <WatchScrollList inportData={WatchList} bgcolor={'orange'} sendFilter={(name: any | null) => setWatchFilter(name)} />
+                    <WatchScrollList inportData={WatchList} bgcolor={'#A9D6E5'} sendFilter={(name: any | null) => setWatchFilter(name)} />
                 </View>
                 <View style={{ flexDirection: 'row' }}>
                     <FilterLable lable={'Case Size:'} filter={watchCaseFilter} clearButton={() => setWatchCaseFilter(null)} />
-                    <WatchScrollList inportData={CaseSize} bgcolor={'orange'} sendFilter={(name: any | null) => setWatchCaseFilter(name)} />
+                    <WatchScrollList inportData={CaseSize} bgcolor={'#89C2D9'} sendFilter={(name: any | null) => setWatchCaseFilter(name)} />
                 </View>
                 <View style={{ flexDirection: 'row' }}>
                     <FilterLable lable={'Mechanism:'} filter={watchMechanismFilter} clearButton={() => setWatchMechanismFilter(null)} />
-                    <WatchScrollList inportData={Mechanism} bgcolor={'orange'} sendFilter={(name: any | null) => setWatchMechanismFilter(name)} />
+                    <WatchScrollList inportData={Mechanism} bgcolor={'#61A5C2'} sendFilter={(name: any | null) => setWatchMechanismFilter(name)} />
                 </View>
                 <View style={{ flexDirection: 'row' }}>
                     <FilterLable lable={'Type:'} filter={watchTypeFilter} clearButton={() => setWatchTypeFilter(null)} />
-                    <WatchScrollList inportData={Styles} bgcolor={'orange'} sendFilter={(name: any | null) => setWatchTypeFilter(name)} />
+                    <WatchScrollList inportData={Styles} bgcolor={'#468FAF'} sendFilter={(name: any | null) => setWatchTypeFilter(name)} />
                 </View>
                 <View style={{ flexDirection: 'row' }}>
                     <TouchableOpacity style={forSaleFilter === true ? styles.buttonSmallHilight : styles.buttonSmall} onPress={getFilterForSale}>
@@ -225,7 +225,7 @@ const App: FC = (props) => {
                         <View> */}
                     {filterLength === 0 ?
                         <View style={styles.test}>
-                            {filterLength === 0 && startFilter ? <Text style={{ fontSize: 20, margin: 2, fontFamily: 'NunitoBold', textAlign: 'center', color: "#44D0DF" }}> Nothing with the Filter Selected </Text> : null}
+                            {filterLength === 0 && startFilter ? <Text style={{ fontSize: 20, margin: 2, fontFamily: 'NunitoBold', textAlign: 'center', color: "#2A6F97" }}> Nothing with the Filter Selected </Text> : null}
                             {/* <Text style={{ fontSize: 20, margin: 2, fontFamily: 'NunitoBold', textAlign: 'center', color: "#44D0DF" }}> Nothing with the Filter Selected </Text> */}
                             <FlatList
                                 data={approvedPost}
@@ -240,7 +240,7 @@ const App: FC = (props) => {
                                 // numColumns={openBoxContainer ? 1 : 2}
                                 // key={openBoxContainer ? 1 : 2}
                                 // style={styles.grid}
-                                contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap" }}
+                                // contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap" }}
                                 renderItem={
                                     ({ item }) => <Rendering
                                         // sendBoxOpening={(openBox: boolean) => changeBoxView(openBox)}
@@ -290,7 +290,7 @@ const App: FC = (props) => {
                                 // numColumns={openBoxContainer ? 1 : 2}
                                 // key={openBoxContainer ? 1 : 2}
                                 // style={styles.grid}
-                                contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap" }}
+                                // contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap" }}
                                 renderItem={
                                     ({ item }) => <Rendering
                                         // sendBoxOpening={(openBox: boolean) => changeBoxView(openBox)}
@@ -417,7 +417,7 @@ const styles = StyleSheet.create({
     },
     button: {
         // backgroundColor: 'red',
-        backgroundColor: "#44D0DF",
+        backgroundColor: "#2A6F97",
         // minWidth: 100,
         marginLeft: 'auto',
         marginRight: 'auto',
@@ -457,25 +457,25 @@ const styles = StyleSheet.create({
         marginRight: 'auto'
     },
     buttonSmall: {
-        backgroundColor: "#44D0DF",
+        backgroundColor: "#2C7DA0",
         // minWidth: 100,
         marginLeft: 'auto',
         marginRight: 'auto',
         width: '48%',
-
         alignItems: 'center',
         justifyContent: 'center',
         padding: 0,
+        color: '#5C6B73',
         borderRadius: 5,
         marginVertical: 2,
     },
     buttonSmallHilight: {
-        backgroundColor: "orange",
+        backgroundColor: "#A9D6E5",
         // minWidth: 100,
         marginLeft: 'auto',
         marginRight: 'auto',
         width: '48%',
-
+        color: '#5C6B73',
         alignItems: 'center',
         justifyContent: 'center',
         padding: 0,

@@ -204,7 +204,6 @@ const styles = StyleSheet.create({
     button: {
         marginTop: 5,
         alignItems: 'center',
-        // justifyContent: 'flex-end',
         backgroundColor: '#44D0DF',
         borderRadius: 5,
 
@@ -236,7 +235,6 @@ const styles = StyleSheet.create({
         borderColor: 'grey'
     },
     imageContainer: {
-        // width: '50%'
         flex: 1,
     },
     imageContainerBorderBox: {
@@ -262,12 +260,10 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         flex: 1,
         aspectRatio: 10 / 16,
-        // marginRight: 0,
     },
     imageBoxDisplay: {
         borderRadius: 5,
         display: 'flex',
-        // height: 464,
         marginRight: 20,
         marginLeft: 20,
         marginTop: 24,
@@ -276,18 +272,11 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         width: '90%',
         aspectRatio: 10 / 16,
-        // padding: 15
-        // marginLeft: 18,
-        // marginTop: 15,
-        // marginBottom: 15,
-        // marginRight: 0,
     },
 
     imageBoxContainer: {
         flex: 1,
         width: (width - 10) / 2,
-        // height: 'auto',
-        // marginLeft: 2,        
     },
     imageBoxLarge: {
         marginLeft: 10,
@@ -308,7 +297,7 @@ const styles = StyleSheet.create({
         margin: 5,
     },
     viewBoxButton: {
-        backgroundColor: '#44D0DF',
+        backgroundColor: '#A9D6E5',
         borderTopLeftRadius: 10,
         borderTopRightRadius: 5,
         paddingTop: 5,
@@ -322,6 +311,7 @@ const styles = StyleSheet.create({
     headerTitle: {
         fontWeight: 'bold',
         borderColor: 'black',
+        color: '#012A4A',
         fontSize: 20,
         flex: 1,
     },

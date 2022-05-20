@@ -130,14 +130,14 @@ const styles = StyleSheet.create({
 
   },
   submitButtonContainer: {
-    backgroundColor: "#44D0DF",
+    backgroundColor: "#A9D6E5",
     // borderRadius: 5,
     borderTopLeftRadius: 5,
     borderTopRightRadius: 5,
     width: '40%'
   },
   submitButton: {
-    color: 'white',
+    color: '#012A4A',
     padding: 2,
     paddingLeft: 13,
     fontWeight: 'bold',

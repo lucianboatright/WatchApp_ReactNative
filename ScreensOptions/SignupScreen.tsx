@@ -98,7 +98,7 @@ const App: FC = (props) => {
             </View>
             <View style={styles.loginText}>
                 <Text style={styles.loginLabel}>Already Have an Account?</Text>
-                <TouchableOpacity style={styles.loginButton} onPress={() => props.navigation.navigate('Login')}>
+                <TouchableOpacity style={styles.loginButtonSmall} onPress={() => props.navigation.navigate('Login')}>
                     <Text style={{ fontFamily: 'NunitoBold', color: 'white' }}>Login Here</Text>
                 </TouchableOpacity>
             </View>
@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
         fontSize: 15,
         fontWeight: 'bold',
         textAlign: 'center',
-        color: '#44D0DF'
+        color: '#5C6B73'
     },
     introTextContainer: {
         borderRadius: 5,
@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
     },
     introTextContainerBottom: {
         // backgroundColor: 'orange',
-        borderColor: 'orange',
+        borderColor: '#253237',
         borderWidth: 0.5,
         borderRadius: 5,
         marginBottom: 15,
@@ -168,7 +168,17 @@ const styles = StyleSheet.create({
         marginHorizontal: 5
     },
     loginButton: {
-        backgroundColor: '#44D0DF',
+        backgroundColor: '#89C2D9',
+        color: 'white',
+        padding: 5,
+        borderRadius: 5,
+        textAlign: 'center',
+        textAlignVertical: 'center',
+        paddingRight: 20,
+        paddingLeft: 20,
+    },
+    loginButtonSmall: {
+        backgroundColor: '#9DB4C0',
         color: 'white',
         padding: 5,
         borderRadius: 5,

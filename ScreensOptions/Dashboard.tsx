@@ -136,8 +136,6 @@ const App: FC = (props) => {
                             <Text style={styles.infoText}>User Email : {userEmail}</Text>
                             <Text style={styles.infoText}>You have {watchNumber} in you collection</Text>
                             <Text style={styles.infoText}>For Sale: {forSaleCount} Not for Sale: {notForSaleCount}</Text>
-                            {/* <Text style={styles.infoText}>Followers: {followerLength}</Text>
-                            <Text style={styles.infoText}>Following: {followingLength}</Text> */}
                         </View>
                         <View>
                             <View style={styles.profileImageBox}>
@@ -147,9 +145,9 @@ const App: FC = (props) => {
                     </View>
                     <View>
                         <Text style={styles.infoText}>Following:  {followingLength}</Text>
-                        <ScrollWithLink inportData={followingList} bgcolor={'#44D0DF'} />
+                        <ScrollWithLink inportData={followingList} bgcolor={'#61A5C2'} />
                         <Text style={styles.infoText}>Followers:  {followerLength}</Text>
-                        <ScrollWithLink inportData={followersList} bgcolor={'#44D0DF'} />
+                        <ScrollWithLink inportData={followersList} bgcolor={'#468FAF'} />
                         <View style={{ flexDirection: 'row' }}>
                             <TouchableOpacity style={forSaleFilter === true ? styles.buttonSmallHilight : styles.buttonSmall} onPress={getFilterForSale}>
                                 <Text style={styles.text}>For Sale </Text>
@@ -332,7 +330,7 @@ const styles = StyleSheet.create({
     header: {
         flex: 0.5,
         paddingLeft: 5,
-        backgroundColor: "orange",
+        backgroundColor: "#C2DFE3",
         margin: 5,
         borderRadius: 5,
         padding: 5,
@@ -352,7 +350,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     button: {
-        backgroundColor: "#44D0DF",
+        backgroundColor: "#2A6F97",
         marginLeft: 'auto',
         marginRight: 'auto',
         width: '98%',
@@ -363,7 +361,7 @@ const styles = StyleSheet.create({
         marginVertical: 2,
     },
     buttonSmall: {
-        backgroundColor: "#44D0DF",
+        backgroundColor: "#2C7DA0",
         marginLeft: 'auto',
         marginRight: 'auto',
         width: '48%',
@@ -376,7 +374,7 @@ const styles = StyleSheet.create({
         marginVertical: 2,
     },
     buttonSmallHilight: {
-        backgroundColor: "orange",
+        backgroundColor: "#61A5C2",
         marginLeft: 'auto',
         marginRight: 'auto',
         width: '48%',
