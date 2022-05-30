@@ -59,12 +59,12 @@ const App: FC = (props) => {
         // runSaleCounter()
     }
 
-    // const runSaleCounter = async () => {
-    //     const forSale = await approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost != 'Not for sale')
-    //     const notForSale = await approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost == 'Not for sale')
-    //     setForSaleCount(forSale)
-    //     setNotForSaleCount(notForSale)
-    // }
+    const runSaleCounter = async () => {
+        const forSale = await approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost != 'Not for sale')
+        const notForSale = await approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost == 'Not for sale')
+        setForSaleCount(forSale)
+        setNotForSaleCount(notForSale)
+    }
 
     const getFilterForSale = async () => {
         setStartFilter(true)
@@ -136,28 +136,33 @@ const App: FC = (props) => {
 
     const getFilteredPostsWatch = async () => {
         console.log('start of filter post')
-        // if (forSaleFilter) {
-        //     console.log('for sale filter')
-        const test: number | null = (0)
+        const currentFilter: any = ({})
         if (forSaleFilter) {
             console.log('for sale')
-            if (test === 0) {
+            if (filteredPost == null) {
                 console.log('now here')
                 const filtered = await approvedPost.filter(
-                    (item: { data: () => { (): any; new(): any; brand: string; cost: string; caseSize: string; mechanism: string; watchStyle: string; }; }) => item.data().cost == '')
-                setTestState(filtered)
+                    (item: { data: () => { (): any; new(): any; brand: string; cost: string; caseSize: string; mechanism: string; watchStyle: string; }; }) => item.data().cost != 'Not for sale')
+                console.log('exit filter data', filtered[0].data().brand)
+                currentFilter.push(filtered)
+                // setFilteredPosts(filtered)
                 setFilterLength(filtered.length)
-                test + 1
             } else {
                 console.log('no here instead')
                 const filtered = await testState.filter(
-                    (item: { data: () => { (): any; new(): any; brand: string; cost: string; caseSize: string; mechanism: string; watchStyle: string; }; }) => item.data().cost == '')
+                    (item: { data: () => { (): any; new(): any; brand: string; cost: string; caseSize: string; mechanism: string; watchStyle: string; }; }) => item.data().cost == 'Not for sale')
                 // setFilteredPosts(filtered)
-                setTestState(filtered)
+                currentFilter.push(filtered)
+                // console.log('exit filter data', filtered)
+                // setFilteredPosts(filtered)
                 setFilterLength(filtered.length)
-                test + 1
             }
         }
+
+        console.log('im way out here', typeof (currentFilter))
+        console.log('im way out here', currentFilter)
+
+        // setFilteredPosts(currentFilter)
 
         if (notForSaleFilter) {
             if (testState.length === 0) {
@@ -176,6 +181,7 @@ const App: FC = (props) => {
                 setFilterLength(filtered.length)
             }
         }
+
 
         if (watchFilter != null) {
             console.log('watch filter')
@@ -256,12 +262,12 @@ const App: FC = (props) => {
     }
 
     const testing = () => {
-        // console.log('approved post', filteredPost)
+        // console.log('filtered post', filteredPost)
+        console.log('filtered function', typeof (approvedPost))
+        console.log('approved post', approvedPost)
         // console.log('filtered function', typeof (filteredPost))
-        // console.log('approved post', approvedPost[1])
-        // console.log('filtered function', typeof (approvedPost))
-        console.log('START FILTER', startFilter)
-        console.log('filtered function', testState)
+        // console.log('START FILTER', startFilter)
+        // console.log('filtered function', testState)
         // console.log('filtered function', testState[-1])
         // console.log('length', testState.length)
         // console.log('WATCH FILTER', filteredPost.length)
@@ -307,11 +313,11 @@ const App: FC = (props) => {
             getApprovedPosts()
             getUserDetails()
             getFilteredPostsWatch()
-            // runSaleCounter()
+            runSaleCounter()
         } else {
             getUserDetails()
             getFilteredPostsWatch()
-            // runSaleCounter()
+            runSaleCounter()
         }
 
     }, [notForSaleFilter, forSaleFilter, watchCaseFilter, watchFilter, watchMechanismFilter, watchTypeFilter])
@@ -352,7 +358,7 @@ const App: FC = (props) => {
                 <View style={styles.approvedPosts}>
                     {/* {startFilter ?
                         <View> */}
-                    {!startFilter ?
+                    {filterLength == 0 ?
                         <View style={styles.test}>
                             <Text>HERE 1</Text>
 
@@ -407,7 +413,7 @@ const App: FC = (props) => {
                         </View>
                         :
                         <View style={styles.test}>
-                            <Text>HERE 2</Text>
+                            {/* <Text>HERE 2</Text> */}
 
                             {/* <Text style={{ fontSize: 20 }}> something with the Filter { }</Text> */}
                             <FlatList
