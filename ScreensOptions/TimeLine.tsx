@@ -11,6 +11,7 @@ import { Rendering } from '../Components/Rendering';
 import { CaseSize, Mechanism, Styles, WatchList } from '../Components/DataLists';
 import { FilterLable, WatchScrollList } from '../Components/Inputs';
 import watchNamesList from '../Components/DataLists/watchMakes';
+import { stringify } from '@firebase/util';
 
 // import { fullList } from '../Components/DataLists/fullList'
 // import { stringify } from '@firebase/util';
@@ -59,22 +60,22 @@ const App: FC = (props) => {
         // runSaleCounter()
     }
 
-    const runSaleCounter = async () => {
-        const forSale = await approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost != 'Not for sale')
-        const notForSale = await approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost == 'Not for sale')
-        setForSaleCount(forSale)
-        setNotForSaleCount(notForSale)
-    }
+    // const runSaleCounter = async () => {
+    //     const forSale = await approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost != 'Not for sale')
+    //     const notForSale = await approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost == 'Not for sale')
+    //     setForSaleCount(forSale)
+    //     setNotForSaleCount(notForSale)
+    // }
 
     const getFilterForSale = async () => {
         setStartFilter(true)
         if (notForSaleFilter) {
             setNotForSaleFilter(!notForSaleFilter)
             setForSaleFilter(!forSaleFilter)
-            getFilteredPostsWatch()
+            getFilteredPostsWatch(approvedPost)
         } else {
             setForSaleFilter(!forSaleFilter)
-            getFilteredPostsWatch()
+            getFilteredPostsWatch(approvedPost)
         }
     }
 
@@ -83,10 +84,10 @@ const App: FC = (props) => {
         if (forSaleFilter) {
             setNotForSaleFilter(!notForSaleFilter)
             setForSaleFilter(!forSaleFilter)
-            getFilteredPostsWatch()
+            getFilteredPostsWatch(approvedPost)
         } else {
             setNotForSaleFilter(!notForSaleFilter)
-            getFilteredPostsWatch()
+            getFilteredPostsWatch(approvedPost)
         }
     }
 
@@ -94,10 +95,10 @@ const App: FC = (props) => {
         setStartFilter(true)
         if (watchFilter != null) {
             setWatchFilter(null)
-            getFilteredPostsWatch()
+            getFilteredPostsWatch(approvedPost)
         } else if (watchFilter === null) {
             setWatchFilter(name)
-            getFilteredPostsWatch()
+            getFilteredPostsWatch(approvedPost)
         }
     }
 
@@ -105,10 +106,10 @@ const App: FC = (props) => {
         setStartFilter(true)
         if (watchCaseFilter != null) {
             setWatchCaseFilter(null)
-            getFilteredPostsWatch()
+            getFilteredPostsWatch(approvedPost)
         } else if (watchCaseFilter === null) {
             setWatchCaseFilter(name)
-            getFilteredPostsWatch()
+            getFilteredPostsWatch(approvedPost)
         }
     }
 
@@ -116,10 +117,10 @@ const App: FC = (props) => {
         setStartFilter(true)
         if (watchMechanismFilter != null) {
             setWatchMechanismFilter(null)
-            getFilteredPostsWatch()
+            getFilteredPostsWatch(approvedPost)
         } else if (watchMechanismFilter === null) {
             setWatchMechanismFilter(name)
-            getFilteredPostsWatch()
+            getFilteredPostsWatch(approvedPost)
         }
     }
 
@@ -127,32 +128,73 @@ const App: FC = (props) => {
         setStartFilter(true)
         if (watchTypeFilter != null) {
             setWatchTypeFilter(null)
-            getFilteredPostsWatch()
-        } else if (watchTypeFilter != null) {
+            getFilteredPostsWatch(approvedPost)
+        } else if (watchTypeFilter === null) {
             setWatchTypeFilter(name)
-            getFilteredPostsWatch()
+            getFilteredPostsWatch(approvedPost)
         }
     }
 
-    const getFilteredPostsWatch = async () => {
+    if (startFilter) {
+        const filterTest = approvedPost
+            .filter(((watch: { data: () => { (): any; new(): any; cost: string; }; }) => watch.data().cost != 'Not for sale'))
+            // .filter(((watch: { data: () => { (): any; new(): any; watchStyle: null; }; }) => watch.data().watchStyle === watchTypeFilter))
+            .filter(((watch: { data: () => { (): any; new(): any; caseSize: string; }; }) => watch.data().caseSize === watchCaseFilter))
+    }
+
+    // if (startFilter) {
+    //     setFilteredPosts(filterTest)
+    // }
+
+
+    // if (startFilter) {
+    //     const filterTest = approvedPost
+    //         .filter(((watch: { data: () => { (): any; new(): any; cost: string; }; }) => watch.data().cost != 'Not for sale'))
+    //         .filter(((watch: { data: () => { (): any; new(): any; watchStyle: null; }; }) => watch.data().watchStyle === watchTypeFilter))
+    //         .filter(((watch: { data: () => { (): any; new(): any; caseSize: null; }; }) => watch.data().caseSize === watchCaseFilter))
+    //         .filter(((watch: { data: () => { (): any; new(): any; brand: null; }; }) => watch.data().brand === watchFilter))
+    //     console.log('LENGTH', filterTest.length)
+    // }
+
+    // console.log('LENGTH', filterTest.length)
+    // console.log('FILKTER TEST', filterTest)
+
+    const getFilteredPostsWatch = async (watch: { data: () => { (): any; new(): any; cost: string; }; }) => {
         console.log('start of filter post')
-        const currentFilter: any = ({})
+
+        // if (approvedPost != null && forSaleFilter) {
+        //     console.log('inside here')
+        //     return forSaleFilter && approvedPost.data().cost != 'Not for sale'
+        // }
+        // if (watch) {
+        //     return watch.data().cost != 'Not for sale'
+        // }
+
+        // console.log('returned',)
+
+        let currentFilter: any[] = []
+
         if (forSaleFilter) {
             console.log('for sale')
             if (filteredPost == null) {
                 console.log('now here')
                 const filtered = await approvedPost.filter(
                     (item: { data: () => { (): any; new(): any; brand: string; cost: string; caseSize: string; mechanism: string; watchStyle: string; }; }) => item.data().cost != 'Not for sale')
-                console.log('exit filter data', filtered[0].data().brand)
-                currentFilter.push(filtered)
+                console.log('exit filter data', filtered[1].data().brand)
+                console.log('exit filter data LENGTH', filtered.length)
+                filtered.forEach((item: any) => {
+                    currentFilter.push(item)
+                })
+                // currentFilter.push(filtered)
                 // setFilteredPosts(filtered)
                 setFilterLength(filtered.length)
-            } else {
+            }
+            else {
                 console.log('no here instead')
-                const filtered = await testState.filter(
+                const filtered = await currentFilter.filter(
                     (item: { data: () => { (): any; new(): any; brand: string; cost: string; caseSize: string; mechanism: string; watchStyle: string; }; }) => item.data().cost == 'Not for sale')
                 // setFilteredPosts(filtered)
-                currentFilter.push(filtered)
+                // currentFilter.(filtered)
                 // console.log('exit filter data', filtered)
                 // setFilteredPosts(filtered)
                 setFilterLength(filtered.length)
@@ -160,94 +202,94 @@ const App: FC = (props) => {
         }
 
         console.log('im way out here', typeof (currentFilter))
-        console.log('im way out here', currentFilter)
+        console.log('im way out here mesuring', currentFilter.length)
+        console.log('im way out here 1111', stringify(currentFilter))
+        console.log('im way out here 2222', stringify(currentFilter[1]))
 
-        // setFilteredPosts(currentFilter)
+        setFilteredPosts({ currentFilter })
 
-        if (notForSaleFilter) {
-            if (testState.length === 0) {
-                console.log('Not for sale')
-                const filtered = await approvedPost.filter(
-                    (item: { data: () => { (): any; new(): any; brand: string; cost: string; caseSize: string; mechanism: string; watchStyle: string; }; }) => item.data().cost != '')
-                // setFilteredPosts(filtered)
-                setTestState(testState + filtered)
-                setFilterLength(filtered.length)
-            } else {
-                console.log('Not for sale')
-                const filtered = await testState.filter(
-                    (item: { data: () => { (): any; new(): any; brand: string; cost: string; caseSize: string; mechanism: string; watchStyle: string; }; }) => item.data().cost != '')
-                // setFilteredPosts(filtered)
-                setTestState(testState + filtered)
-                setFilterLength(filtered.length)
-            }
-        }
+        // if (notForSaleFilter) {
+        //     if (testState.length === 0) {
+        //         console.log('Not for sale')
+        //         const filtered = await approvedPost.filter(
+        //             (item: { data: () => { (): any; new(): any; brand: string; cost: string; caseSize: string; mechanism: string; watchStyle: string; }; }) => item.data().cost != '')
+        //         // setFilteredPosts(filtered)
+        //         setTestState(testState + filtered)
+        //         setFilterLength(filtered.length)
+        //     } else {
+        //         console.log('Not for sale')
+        //         const filtered = await testState.filter(
+        //             (item: { data: () => { (): any; new(): any; brand: string; cost: string; caseSize: string; mechanism: string; watchStyle: string; }; }) => item.data().cost != '')
+        //         // setFilteredPosts(filtered)
+        //         setTestState(testState + filtered)
+        //         setFilterLength(filtered.length)
+        //     }
+        // }
 
 
-        if (watchFilter != null) {
-            console.log('watch filter')
-            if (testState.length === 0) {
-                const filtered = await approvedPost.filter(
-                    (item: { data: () => { (): any; new(): any; brand: string; cost: string; caseSize: string; mechanism: string; watchStyle: string; }; }) => item.data().brand == watchFilter)
-                // setFilteredPosts(filtered)
-                setTestState(testState + filtered)
-                setFilterLength(filtered.length)
-            } else {
-                const filtered = await testState.filter(
-                    (item: { data: () => { (): any; new(): any; brand: string; cost: string; caseSize: string; mechanism: string; watchStyle: string; }; }) => item.data().brand == watchFilter)
-                // setFilteredPosts(filtered)
-                setTestState(testState + filtered)
-                setFilterLength(filtered.length)
-            }
-        }
+        // if (watchFilter != null) {
+        //     console.log('watch filter')
+        //     if (testState.length === 0) {
+        //         const filtered = await approvedPost.filter(
+        //             (item: { data: () => { (): any; new(): any; brand: string; cost: string; caseSize: string; mechanism: string; watchStyle: string; }; }) => item.data().brand == watchFilter)
+        //         // setFilteredPosts(filtered)
+        //         setTestState(testState + filtered)
+        //         setFilterLength(filtered.length)
+        //     } else {
+        //         const filtered = await testState.filter(
+        //             (item: { data: () => { (): any; new(): any; brand: string; cost: string; caseSize: string; mechanism: string; watchStyle: string; }; }) => item.data().brand == watchFilter)
+        //         // setFilteredPosts(filtered)
+        //         setTestState(testState + filtered)
+        //         setFilterLength(filtered.length)
+        //     }
+        // }
 
-        if (watchCaseFilter != null) {
-            console.log('watch case')
-            if (testState.length === 0) {
-                const filtered = await approvedPost.filter(
-                    (item: { data: () => { (): any; new(): any; brand: string; cost: string; caseSize: string; mechanism: string; watchStyle: string; }; }) => item.data().caseSize == watchCaseFilter)
-                // setFilteredPosts(filtered)
-                setTestState(testState + filtered)
-                setFilterLength(filtered.length)
-            } else {
-                const filtered = await testState.filter(
-                    (item: { data: () => { (): any; new(): any; brand: string; cost: string; caseSize: string; mechanism: string; watchStyle: string; }; }) => item.data().caseSize == watchCaseFilter)
-                // setFilteredPosts(filtered)
-                setTestState(testState + filtered)
-                setFilterLength(filtered.length)
-            }
-        }
+        // if (watchCaseFilter != null) {
+        //     console.log('watch case')
+        //     if (testState.length === 0) {
+        //         const filtered = await approvedPost.filter(
+        //             (item: { data: () => { (): any; new(): any; brand: string; cost: string; caseSize: string; mechanism: string; watchStyle: string; }; }) => item.data().caseSize == watchCaseFilter)
+        //         // setFilteredPosts(filtered)
+        //         setTestState(testState + filtered)
+        //         setFilterLength(filtered.length)
+        //     } else {
+        //         const filtered = await testState.filter(
+        //             (item: { data: () => { (): any; new(): any; brand: string; cost: string; caseSize: string; mechanism: string; watchStyle: string; }; }) => item.data().caseSize == watchCaseFilter)
+        //         // setFilteredPosts(filtered)
+        //         setTestState(testState + filtered)
+        //         setFilterLength(filtered.length)
+        //     }
+        // }
 
-        if (watchMechanismFilter != null) {
-            console.log('watch mech')
-            if (testState.length === 0) {
-                const filtered = await approvedPost.filter(
-                    (item: { data: () => { (): any; new(): any; brand: string; cost: string; caseSize: string; mechanism: string; watchStyle: string; }; }) => item.data().mechanism == watchMechanismFilter)
-                setFilteredPosts(filtered)
-                setFilterLength(filtered.length)
-            } else {
-                const filtered = await testState.filter(
-                    (item: { data: () => { (): any; new(): any; brand: string; cost: string; caseSize: string; mechanism: string; watchStyle: string; }; }) => item.data().mechanism == watchMechanismFilter)
-                setFilteredPosts(filtered)
-                setFilterLength(filtered.length)
-            }
-        }
+        // if (watchMechanismFilter != null) {
+        //     console.log('watch mech')
+        //     if (testState.length === 0) {
+        //         const filtered = await approvedPost.filter(
+        //             (item: { data: () => { (): any; new(): any; brand: string; cost: string; caseSize: string; mechanism: string; watchStyle: string; }; }) => item.data().mechanism == watchMechanismFilter)
+        //         setFilteredPosts(filtered)
+        //         setFilterLength(filtered.length)
+        //     } else {
+        //         const filtered = await testState.filter(
+        //             (item: { data: () => { (): any; new(): any; brand: string; cost: string; caseSize: string; mechanism: string; watchStyle: string; }; }) => item.data().mechanism == watchMechanismFilter)
+        //         setFilteredPosts(filtered)
+        //         setFilterLength(filtered.length)
+        //     }
+        // }
 
-        if (watchTypeFilter != null) {
-            console.log('watch type')
-            if (testState.length === 0) {
-                const filtered = await approvedPost.filter(
-                    (item: { data: () => { (): any; new(): any; brand: string; cost: string; caseSize: string; mechanism: string; watchStyle: string; }; }) => item.data().watchStyle == watchTypeFilter)
-                setFilteredPosts(filtered)
-                setFilterLength(filtered.length)
-            } else {
-                const filtered = await testState.filter(
-                    (item: { data: () => { (): any; new(): any; brand: string; cost: string; caseSize: string; mechanism: string; watchStyle: string; }; }) => item.data().watchStyle == watchTypeFilter)
-                setFilteredPosts(filtered)
-                setFilterLength(filtered.length)
-            }
-        }
-
-        setFilteredPosts(testState)
+        // if (watchTypeFilter != null) {
+        //     console.log('watch type')
+        //     if (testState.length === 0) {
+        //         const filtered = await approvedPost.filter(
+        //             (item: { data: () => { (): any; new(): any; brand: string; cost: string; caseSize: string; mechanism: string; watchStyle: string; }; }) => item.data().watchStyle == watchTypeFilter)
+        //         setFilteredPosts(filtered)
+        //         setFilterLength(filtered.length)
+        //     } else {
+        //         const filtered = await testState.filter(
+        //             (item: { data: () => { (): any; new(): any; brand: string; cost: string; caseSize: string; mechanism: string; watchStyle: string; }; }) => item.data().watchStyle == watchTypeFilter)
+        //         setFilteredPosts(filtered)
+        //         setFilterLength(filtered.length)
+        //     }
+        // }
 
 
         // (watchCaseFilter != null ? item.data().caseSize == watchCaseFilter : null)
@@ -261,10 +303,18 @@ const App: FC = (props) => {
         // console.log('for SALE filtered posts ', testState)
     }
 
+    // const newFilter = approvedPost.filter(getApprovedPosts())
+
+
     const testing = () => {
-        // console.log('filtered post', filteredPost)
-        console.log('filtered function', typeof (approvedPost))
-        console.log('approved post', approvedPost)
+        // console.log('filtered post LENGTH', filteredPost.length)
+        // console.log('NEW FILTER', newFilter)
+        console.log('filtered post NEW LENGTH', approvedPost.length)
+        console.log('filtered post NEW', stringify(approvedPost[0].data()))
+        console.log('filtered post NEW', stringify(approvedPost[1].data()))
+        // console.log('approved type', typeof (approvedPost))
+        // console.log('approved post', approvedPost)
+        // console.log('approved post', stringify(approvedPost))
         // console.log('filtered function', typeof (filteredPost))
         // console.log('START FILTER', startFilter)
         // console.log('filtered function', testState)
@@ -312,12 +362,12 @@ const App: FC = (props) => {
         if (approvedPost == null) {
             getApprovedPosts()
             getUserDetails()
-            getFilteredPostsWatch()
-            runSaleCounter()
+            getFilteredPostsWatch(approvedPost)
+            // runSaleCounter()
         } else {
             getUserDetails()
-            getFilteredPostsWatch()
-            runSaleCounter()
+            getFilteredPostsWatch(approvedPost)
+            // runSaleCounter()
         }
 
     }, [notForSaleFilter, forSaleFilter, watchCaseFilter, watchFilter, watchMechanismFilter, watchTypeFilter])
@@ -327,19 +377,19 @@ const App: FC = (props) => {
         <SafeAreaView style={{ flex: 1 }}>
             <View style={styles.container}>
                 <View style={{ flexDirection: 'row' }}>
-                    <FilterLable lable={'Brand:'} filter={watchFilter} clearButton={() => runWatchFilter(name)} />
+                    <FilterLable lable={'Brand:'} filter={watchFilter} clearButton={() => setWatchFilter(null)} />
                     <WatchScrollList inportData={WatchList} bgcolor={'#A9D6E5'} sendFilter={(name: any | null) => runWatchFilter(name)} />
                 </View>
                 <View style={{ flexDirection: 'row' }}>
-                    <FilterLable lable={'Case Size:'} filter={watchCaseFilter} clearButton={() => runWatchCaseFilter(name)} />
+                    <FilterLable lable={'Case Size:'} filter={watchCaseFilter} clearButton={() => setWatchCaseFilter(null)} />
                     <WatchScrollList inportData={CaseSize} bgcolor={'#89C2D9'} sendFilter={(name: any | null) => runWatchCaseFilter(name)} />
                 </View>
                 <View style={{ flexDirection: 'row' }}>
-                    <FilterLable lable={'Mechanism:'} filter={watchMechanismFilter} clearButton={() => runWatchMechanismFilter(name)} />
+                    <FilterLable lable={'Mechanism:'} filter={watchMechanismFilter} clearButton={() => setWatchMechanismFilter(null)} />
                     <WatchScrollList inportData={Mechanism} bgcolor={'#61A5C2'} sendFilter={(name: any | null) => runWatchMechanismFilter(name)} />
                 </View>
                 <View style={{ flexDirection: 'row' }}>
-                    <FilterLable lable={'Type:'} filter={watchTypeFilter} clearButton={() => runWatchTypeFilter(name)} />
+                    <FilterLable lable={'Type:'} filter={watchTypeFilter} clearButton={() => setWatchTypeFilter(null)} />
                     <WatchScrollList inportData={Styles} bgcolor={'#468FAF'} sendFilter={(name: any | null) => runWatchTypeFilter(name)} />
                 </View>
                 <View style={{ flexDirection: 'row' }}>
@@ -417,7 +467,7 @@ const App: FC = (props) => {
 
                             {/* <Text style={{ fontSize: 20 }}> something with the Filter { }</Text> */}
                             <FlatList
-                                data={filteredPost}
+                                data={approvedPost}
                                 keyExtractor={(item, index) => item + index}
                                 initialNumToRender={8}
                                 // contentContainerStyle={{ alignSelf: 'flex-start' }}
