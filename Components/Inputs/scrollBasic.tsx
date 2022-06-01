@@ -1,15 +1,13 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useEffect } from "react";
 import {
   Text,
   View,
   StyleSheet,
   FlatList,
-  LayoutAnimation,
   UIManager,
   Platform,
   TouchableOpacity,
   Dimensions,
-  Pressable,
 } from "react-native";
 import { Card } from "react-native-paper";
 
@@ -79,13 +77,12 @@ const styles = StyleSheet.create({
     marginRight: 8,
   },
   card: {
-    marginBottom: 1,
+    marginBottom: 3,
     height: 17,
     width: 'auto',
     paddingLeft: 10,
     paddingRight: 10,
     borderRadius: 5,
-    // paddingTop: 1,
   },
   text: {
     color: "white",

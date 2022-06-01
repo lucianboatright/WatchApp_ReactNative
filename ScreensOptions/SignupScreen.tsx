@@ -1,12 +1,10 @@
 import React, { FC, useState } from 'react';
-import { View, Text, StyleSheet, Alert, Linking, Modal, Button } from 'react-native';
+import { View, Text, StyleSheet, Alert, Linking } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Input } from '../Components/Inputs';
 import firebase from "firebase/compat/app"
 import "firebase/compat/auth"
 import "firebase/compat/firestore"
-import { white } from 'react-native-paper/lib/typescript/styles/colors';
-import { getAuth, updateProfile } from 'firebase/auth';
 
 const App: FC = (props) => {
 
@@ -16,9 +14,6 @@ const App: FC = (props) => {
     const [confirm, setConfirm] = useState<string | null>(null)
     const [error, setError] = useState<string | null>(null)
     const followers: never[] = []
-
-    const [openModal, setOpenModal] = useState<boolean>(false)
-
 
     const signup = async () => {
         Alert.alert("Are your sure?",
@@ -120,29 +115,26 @@ const styles = StyleSheet.create({
         marginVertical: 20
     },
     title: {
-        fontFamily: 'Nunito',
+        fontFamily: 'NunitoSemiBold',
         padding: 10,
         fontSize: 25,
-        fontWeight: 'bold',
         textAlign: 'center',
     },
     introText: {
-        fontFamily: 'Nunito',
+        fontFamily: 'NunitoSemiBold',
         padding: 5,
         fontSize: 20,
-        fontWeight: 'bold',
         textAlign: 'center',
     },
     introTextSmall: {
-        fontFamily: 'Nunito',
+        fontFamily: 'NunitoSemiBold',
         fontSize: 14,
-        fontWeight: 'bold',
         textAlign: 'center',
+        justifyContent: 'center',
     },
     links: {
         padding: 5,
         fontSize: 15,
-        fontWeight: 'bold',
         textAlign: 'center',
         color: '#5C6B73'
     },
@@ -155,7 +147,6 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     introTextContainerBottom: {
-        // backgroundColor: 'orange',
         borderColor: '#253237',
         borderWidth: 0.5,
         borderRadius: 5,
@@ -188,7 +179,7 @@ const styles = StyleSheet.create({
         paddingLeft: 20,
     },
     Large: {
-        fontWeight: 'bold',
+        // fontWeight: 'bold',
         fontSize: 25,
         color: 'white',
     },

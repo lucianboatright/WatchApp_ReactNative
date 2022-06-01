@@ -70,7 +70,7 @@ const App: FC<Props> = (props) => {
             underlineColorAndroid="transparent"
           />
           <Text style={{ fontSize: 20 }}> : </Text>
-          <Text style={{ fontSize: 20, paddingTop: 1, fontFamily: 'NunitoBold', }}>{selectedWatch ? <Text>{selectedWatch}</Text> : <Text>{props.title}</Text>}</Text>
+          <Text style={{ fontSize: 20, paddingTop: 1, fontFamily: 'NunitoSemiBold', }}>{selectedWatch ? <Text style={styles.blueFont}>{selectedWatch}</Text> : <Text style={styles.blueFont}>{props.title}</Text>}</Text>
         </View>
       </View>
     </View>
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
   },
   container: {
     // flex: .3,
-    backgroundColor: '#E9EBEE',
+    // backgroundColor: '#E9EBEE',
     paddingVertical: 1,
   },
   titleText: {
@@ -95,9 +95,12 @@ const styles = StyleSheet.create({
     padding: 0,
     fontSize: 16,
     textAlign: 'center',
-    fontWeight: 'bold',
+    // fontWeight: 'bold',
   },
   headingText: {
     padding: 0,
+  },
+  blueFont: {
+    color: '#012A4A'
   },
 });

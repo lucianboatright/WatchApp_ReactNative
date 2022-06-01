@@ -174,8 +174,8 @@ const styles = StyleSheet.create({
   },
   container: {
     alignItems: 'center',
-    borderWidth: 1,
-    borderColor: "black",
+    borderWidth: 1.5,
+    borderColor: "#012A4A",
     borderRadius: 5,
     margin: 5
   },
@@ -183,7 +183,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: '100%'
+    width: '100%',
+    borderColor: "#012A4A",
+    backgroundColor: '#E0FBFC',
   },
   imageContainer: {
     height: 150

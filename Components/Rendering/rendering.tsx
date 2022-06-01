@@ -152,7 +152,6 @@ const App: React.FC<Props> = (props) => {
                 <View style={styles.imageBoxContainer}>
                     <TouchableOpacity onPress={() => (openClicked())}>
                         <ImageBackground source={require('../../assets/pictures/woodenBox_5.png')} style={styles.imageContainerBorderBox}>
-                            {/* <Image style={styles.imageBoxLarge} source={{ uri: props.iamge_1 }} /> */}
                             <Image style={styles.imageBoxTest} source={require('../../assets/pictures/1.jpg')} />
                         </ImageBackground>
                     </TouchableOpacity>
@@ -167,7 +166,6 @@ export default App
 const styles = StyleSheet.create({
     container: {
         width: (width - 10),
-        // paddingLeft: 5,
         alignSelf: 'center',
         marginVertical: 10,
         paddingBottom: 0,
@@ -199,7 +197,6 @@ const styles = StyleSheet.create({
     fontButton: {
         fontFamily: 'NunitoBold',
         color: 'white',
-
     },
     button: {
         marginTop: 5,
@@ -213,7 +210,6 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         borderTopLeftRadius: 10,
         borderTopRightRadius: 10,
-        // marginBottom: 5,
         backgroundColor: '#fff',
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 1 },
@@ -273,7 +269,6 @@ const styles = StyleSheet.create({
         width: '90%',
         aspectRatio: 10 / 16,
     },
-
     imageBoxContainer: {
         flex: 1,
         width: (width - 10) / 2,
@@ -286,9 +281,7 @@ const styles = StyleSheet.create({
         flex: 1,
         aspectRatio: 10 / 16,
         borderRadius: 10,
-
     },
-
     likeIcon: {
         height: 30,
         width: 30,
@@ -306,7 +299,6 @@ const styles = StyleSheet.create({
         width: 10,
         minWidth: '48%',
         flexDirection: 'row',
-        // padding: 10,
     },
     headerTitle: {
         fontWeight: 'bold',

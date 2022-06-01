@@ -18,7 +18,6 @@ const App: FC<Props> = (props) => {
 
     }, [])
 
-
     return (
         <View style={styles.filterLables}>
             <Text style={styles.labelText}>
@@ -44,7 +43,7 @@ export default App;
 
 const styles = StyleSheet.create({
     labelText: {
-        fontFamily: 'NunitoBold',
+        fontFamily: 'NunitoSemiBold',
         // flexDirection: 'row',
         marginLeft: 5,
         marginRight: 5
@@ -52,24 +51,27 @@ const styles = StyleSheet.create({
     },
     filterLables: {
         flexDirection: 'row',
-        borderRadius: 10,
+        // borderRadius: 10,
         // borderColor: 'red',
         // borderRadius: 10,
         // borderWidth: 1,
     },
     selectedFilter: {
-        fontFamily: 'NunitoBold',
+        fontFamily: 'NunitoSemiBold',
         // flexDirection: 'row',
         // marginLeft: 5,
         // minWidth: '10%',
         backgroundColor: 'red',
-        fontWeight: 'bold',
+        // borderRadius: 10,
+        borderBottomLeftRadius: 10,
+        borderTopLeftRadius: 10,
+        // fontWeight: 'bold',
         color: "white",
         // marginBottom: 1,
-        height: 17,
+        // height: 15,
         // width: 'auto',
         paddingLeft: 10,
-        paddingRight: 10,
+        paddingRight: 5,
         // borderTopRightRadius: 10,
         // borderBottomRightRadius: 10,
         // borderRadius: 5,
@@ -83,9 +85,11 @@ const styles = StyleSheet.create({
         // marginHorizontal: 5,
         // overflow: 'hidden',
         paddingLeft: 5,
-        paddingRight: 5,
+        paddingRight: 10,
         backgroundColor: 'red',
         fontWeight: 'bold',
         color: 'white',
+        borderBottomRightRadius: 10,
+        borderTopRightRadius: 10,
     },
 })

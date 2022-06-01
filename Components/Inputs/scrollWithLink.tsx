@@ -4,12 +4,10 @@ import {
     View,
     StyleSheet,
     FlatList,
-    LayoutAnimation,
     UIManager,
     Platform,
     TouchableOpacity,
     Dimensions,
-    Pressable,
 } from "react-native";
 import { Card } from "react-native-paper";
 

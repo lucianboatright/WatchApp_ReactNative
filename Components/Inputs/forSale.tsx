@@ -18,7 +18,7 @@ const App: FC<Props> = (props) => {
     return (
         <View style={styles.container}>
             <View>
-                <Text style={{ fontSize: 20, paddingTop: 2 }}>For Sale?</Text>
+                <Text style={{ color: '#012A4A', fontSize: 20, paddingTop: 2 }}>For Sale?</Text>
             </View>
             <View>
                 <Switch
@@ -30,14 +30,11 @@ const App: FC<Props> = (props) => {
                     style={{ marginHorizontal: 4 }}
                 />
             </View>
-            {/* <View>
-            <Text style={{fontSize: 25}}> : </Text>
-        </View> */}
             <View>
                 {isEnabled ?
-                    <View style={{ flexDirection: 'row' }}><Text style={{ fontSize: 20, fontFamily: 'NunitoBold', }}> :  </Text><TextInput style={styles.forSale} placeholder=" Insert Value in £" onChangeText={setCost} /></View>
+                    <View style={{ flexDirection: 'row' }}><Text style={{ color: '#012A4A', fontSize: 18, fontFamily: 'NunitoSemiBold', }}> :  </Text><TextInput style={styles.forSale} placeholder=" Insert Value in £" onChangeText={setCost} /></View>
                     :
-                    <View style={{ flexDirection: 'row' }}><Text style={{ fontSize: 20, fontFamily: 'NunitoBold', }}> : </Text><Text style={{ fontSize: 20, paddingTop: 2, fontFamily: 'NunitoBold', }}> Not For sale</Text></View>
+                    <View style={{ flexDirection: 'row' }}><Text style={{ color: '#012A4A', fontSize: 20, fontFamily: 'NunitoBold', }}> : </Text><Text style={{ color: '#012A4A', fontSize: 20, paddingTop: 2, fontFamily: 'NunitoSemiBold', }}> Not For sale</Text></View>
                 }
             </View>
         </View>
@@ -49,8 +46,8 @@ const styles = StyleSheet.create({
         // flex: 1,
         flexDirection: 'row',
         alignItems: "center",
-        // justifyContent: 'space-between',
-        marginHorizontal: 20,
+        marginHorizontal: "15%",
+        marginTop: 5,
         width: '95%'
     },
     forSale: {
@@ -59,7 +56,8 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         width: '60%',
         marginTop: 3,
-        alignSelf: 'flex-start'
+        alignSelf: 'flex-start',
+        color: '#012A4A',
     }
 });
 export default App;

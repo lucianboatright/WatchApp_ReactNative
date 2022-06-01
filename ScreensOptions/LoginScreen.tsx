@@ -35,7 +35,8 @@ const App: FC = (props) => {
     return (
         <View style={styles.container}>
             <View style={styles.introTextContainer}>
-                <Text style={styles.introText}>Login with your details below or signup</Text>
+                <Text style={styles.introText}>Welcome Back</Text>
+                <Text style={styles.introText}>Login with your Details </Text>
             </View>
             <Input placeholder='Email' onChangeText={(text) => setEmail(text)} />
             <Input placeholder='Password' secureTextEntry onChangeText={(text) => setPassword(text)} />
@@ -45,7 +46,7 @@ const App: FC = (props) => {
             <View style={styles.loginText}>
                 <Text style={styles.loginLabel}>Need to Sign Up?</Text>
                 <TouchableOpacity style={styles.loginButton} onPress={() => props.navigation.navigate('Signup')}>
-                    <Text style={{ color: 'white', fontWeight: 'bold', fontFamily: 'NunitoBold' }}>Signup Here</Text>
+                    <Text style={{ color: 'white', fontFamily: 'NunitoBold' }}>Signup Here</Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -66,10 +67,9 @@ const styles = StyleSheet.create({
         marginVertical: 25
     },
     introText: {
-        fontFamily: 'Nunito',
+        fontFamily: 'NunitoSemiBold',
         padding: 5,
         fontSize: 20,
-        fontWeight: 'bold',
         textAlign: 'center',
         marginBottom: 20,
     },
@@ -102,10 +102,10 @@ const styles = StyleSheet.create({
         textAlignVertical: 'center',
     },
     Large: {
-        fontWeight: 'bold',
+
         fontSize: 25,
         color: 'white',
-        fontFamily: 'NunitoBold'
+        fontFamily: 'NunitoSemiBold'
         // height: 5,
     }
 })

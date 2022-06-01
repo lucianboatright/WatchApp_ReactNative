@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Dimensions, TextInput, View, StyleSheet, Text, Button, TouchableOpacity } from "react-native";
+import { Dimensions, View, StyleSheet, Text } from "react-native";
 
 const { height, width } = Dimensions.get('screen')
 
@@ -9,7 +9,6 @@ interface Props {
 }
 
 const App: React.FC<Props> = (props) => {
-    // const navigate = useNavigation();
     return (
         <View style={styles.infoLine}>
             <Text style={styles.infoHeader}>{props.title}: </Text><Text>{props.info}</Text>
@@ -22,10 +21,8 @@ export default App;
 const styles = StyleSheet.create({
     infoHeader: {
         fontFamily: 'Nunito',
-        // fontWeight: 'bold'
     },
     infoLine: {
         flexDirection: 'row',
-        // width: 10
     },
 })

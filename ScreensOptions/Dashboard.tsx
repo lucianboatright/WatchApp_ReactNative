@@ -59,6 +59,16 @@ const App: FC = (props) => {
         runSaleCounter()
     }
 
+    const runFilters = async (approvedPost: { data: () => { (): any; new(): any; cost: string; }; }) => {
+        if (forSaleFilter && approvedPost.data().cost != 'Not for sale') {
+            return false
+        }
+        if (notForSaleFilter && approvedPost.data().cost === 'Not for sale') {
+            return false
+        }
+        return true
+    }
+
     const runSaleCounter = async () => {
         const forSale = await approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost != 'Not for sale')
         const notForSale = await approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost == 'Not for sale')
@@ -97,12 +107,6 @@ const App: FC = (props) => {
         setForSaleFilter(!forSaleFilter)
     }
 
-    // const changeFolowerFilter = async (name: string) => {
-    //     setStartFilter(true)
-    //     setFollowerFilter(name);
-    //     getFilteredFollowersPosts();
-    // }
-
     const getFilterNotForSale = async () => {
         setStartFilter(true)
         if (forSaleFilter) {
@@ -121,6 +125,7 @@ const App: FC = (props) => {
     }
 
     useEffect(() => {
+
         getUserDetails()
         getApprovedPosts()
         // getFilteredPosts()
@@ -165,115 +170,39 @@ const App: FC = (props) => {
                 <View style={styles.approvedPosts}>
                     {startFilter ?
                         <View >
-                            {notForSaleFilter && !forSaleFilter ? (
-                                <View>
-                                    <FlatList
-                                        data={notForSale}
-                                        // contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap" }}
-                                        renderItem={
-                                            ({ item }) => <Rendering
-                                                message={item.data().message}
-                                                name={item.data().userName}
-                                                iamge_1={item.data().iamge_1}
-                                                iamge_2={item.data().iamge_2}
-                                                iamge_3={item.data().iamge_3}
-                                                iamge_4={item.data().iamge_4}
-                                                brand={item.data().brand}
-                                                caseSize={item.data().caseSize}
-                                                caseMaterial={item.data().caseMaterial}
-                                                lugsWidth={item.data().lugsWidth}
-                                                mechanism={item.data().mechanism}
-                                                cost={item.data().cost}
-                                                timeStamp={item.data().timeStamp}
-                                                postId={item.id}
-                                                likes={item.data().likes}
-                                                year={item.data().year}
-                                                watchStyle={item.data().watchStyle}
-                                                userIdNumber={item.data().userIdNumber}
-                                                comments={item.data().comments}
-                                                approved={''}
-                                                onApprove={function (): void {
-                                                    throw new Error('Function not implemented.');
-                                                }} onReject={function (): void {
-                                                    throw new Error('Function not implemented.');
-                                                }}
-                                            />
-                                        }
+                            <FlatList
+                                data={approvedPost.filter(runFilters).length > 0 ? approvedPost.filter(runFilters) : approvedPost}
+                                // contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap" }}
+                                renderItem={
+                                    ({ item }) => <Rendering
+                                        message={item.data().message}
+                                        name={item.data().userName}
+                                        iamge_1={item.data().iamge_1}
+                                        iamge_2={item.data().iamge_2}
+                                        iamge_3={item.data().iamge_3}
+                                        iamge_4={item.data().iamge_4}
+                                        brand={item.data().brand}
+                                        caseSize={item.data().caseSize}
+                                        caseMaterial={item.data().caseMaterial}
+                                        lugsWidth={item.data().lugsWidth}
+                                        mechanism={item.data().mechanism}
+                                        cost={item.data().cost}
+                                        timeStamp={item.data().timeStamp}
+                                        year={item.data().year}
+                                        watchStyle={item.data().watchStyle}
+                                        postId={item.id}
+                                        likes={item.data().likes}
+                                        userIdNumber={item.data().userIdNumber}
+                                        comments={item.data().comments}
+                                        approved={''}
+                                        onApprove={function (): void {
+                                            throw new Error('Function not implemented.');
+                                        }} onReject={function (): void {
+                                            throw new Error('Function not implemented.');
+                                        }}
                                     />
-                                </View>
-                            ) : forSaleFilter && !notForSaleFilter ? (
-                                <View>
-                                    <FlatList
-                                        data={forSale}
-                                        // contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap" }}
-                                        renderItem={
-                                            ({ item }) => <Rendering
-                                                message={item.data().message}
-                                                name={item.data().userName}
-                                                iamge_1={item.data().iamge_1}
-                                                iamge_2={item.data().iamge_2}
-                                                iamge_3={item.data().iamge_3}
-                                                iamge_4={item.data().iamge_4}
-                                                brand={item.data().brand}
-                                                caseSize={item.data().caseSize}
-                                                caseMaterial={item.data().caseMaterial}
-                                                lugsWidth={item.data().lugsWidth}
-                                                mechanism={item.data().mechanism}
-                                                cost={item.data().cost}
-                                                timeStamp={item.data().timeStamp}
-                                                year={item.data().year}
-                                                watchStyle={item.data().watchStyle}
-                                                postId={item.id}
-                                                likes={item.data().likes}
-                                                userIdNumber={item.data().userIdNumber}
-                                                comments={item.data().comments}
-                                                approved={''}
-                                                onApprove={function (): void {
-                                                    throw new Error('Function not implemented.');
-                                                }} onReject={function (): void {
-                                                    throw new Error('Function not implemented.');
-                                                }} userDetails={undefined} />
-                                        }
-                                    />
-                                </View>
-                            )
-                                :
-                                <View>
-                                    <FlatList
-                                        data={approvedPost}
-                                        // contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap" }}
-                                        renderItem={
-                                            ({ item }) => <Rendering
-                                                message={item.data().message}
-                                                name={item.data().userName}
-                                                iamge_1={item.data().iamge_1}
-                                                iamge_2={item.data().iamge_2}
-                                                iamge_3={item.data().iamge_3}
-                                                iamge_4={item.data().iamge_4}
-                                                brand={item.data().brand}
-                                                caseSize={item.data().caseSize}
-                                                caseMaterial={item.data().caseMaterial}
-                                                lugsWidth={item.data().lugsWidth}
-                                                mechanism={item.data().mechanism}
-                                                cost={item.data().cost}
-                                                timeStamp={item.data().timeStamp}
-                                                year={item.data().year}
-                                                watchStyle={item.data().watchStyle}
-                                                postId={item.id}
-                                                likes={item.data().likes}
-                                                userIdNumber={item.data().userIdNumber}
-                                                comments={item.data().comments}
-                                                approved={''}
-                                                onApprove={function (): void {
-                                                    throw new Error('Function not implemented.');
-                                                }} onReject={function (): void {
-                                                    throw new Error('Function not implemented.');
-                                                }}
-                                            />
-                                        }
-                                    />
-                                </View>
-                            }
+                                }
+                            />
                         </View>
                         :
                         <View>

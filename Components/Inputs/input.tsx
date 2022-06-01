@@ -31,11 +31,12 @@ const styles = StyleSheet.create({
         backgroundColor: '#e3e3e3',
         borderRadius: 5,
         marginVertical: 10,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.4,
-        shadowRadius: 5,
-        elevation: 1
+        // shadowColor: '#000',
+        // shadowOffset: { width: 0, height: 2 },
+        // shadowOpacity: 0.4,
+        // shadowRadius: 5,
+        // elevation: 1
+        // shadowColor: 'black',
 
     },
     input: {

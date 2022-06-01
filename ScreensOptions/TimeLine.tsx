@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Button, TouchableOpacity, ScrollView, Pressable } from 'react-native';
+import { View, Text, StyleSheet, Button, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth"
@@ -9,7 +9,6 @@ import { Rendering } from '../Components/Rendering';
 
 import { CaseSize, Mechanism, Styles, WatchList } from '../Components/DataLists';
 import { FilterLable, WatchScrollList } from '../Components/Inputs';
-import watchNamesList from '../Components/DataLists/watchMakes';
 import { stringify } from '@firebase/util';
 
 const App: FC = (props) => {
@@ -29,9 +28,6 @@ const App: FC = (props) => {
     const [startFilter, setStartFilter] = useState<boolean>(false)
     const [forSaleFilter, setForSaleFilter] = useState<boolean>(false)
     const [notForSaleFilter, setNotForSaleFilter] = useState<boolean>(false)
-
-    const [testState, setTestState] = useState<any | null>(null)
-
 
     const getUserDetails = async () => {
         const uid = firebase.auth().currentUser.uid;
@@ -104,7 +100,7 @@ const App: FC = (props) => {
     }
 
 
-    const testFilter = (approvedPost: { data: () => { (): any; new(): any; brand: string; cost: string; caseSize: string; mechanism: string; watchStyle: string; }; }) => {
+    const runFilters = (approvedPost: { data: () => { (): any; new(): any; brand: string; cost: string; caseSize: string; mechanism: string; watchStyle: string; }; }) => {
         if (forSaleFilter && approvedPost.data().cost != 'Not for sale') {
             return false
         }
@@ -124,24 +120,6 @@ const App: FC = (props) => {
             return false
         }
         return true
-    }
-
-    // if (approvedPost != null) {
-    //     const newSomting = approvedPost.filter(testFilter)
-    //     console.log('HERE IS AN TEST AWNSER LENGTH', newSomting.length)
-    //     console.log('HERE IS AN TEST AWNSER', newSomting[0].data().watchStyle)
-    //     // console.log('HERE IS AN TEST AWNSER', newSomting[1].data().mechanism)
-    //     // setFilteredPosts(newSomting)
-    // }
-
-
-
-    const testing = () => {
-        console.log('filtered post NEW', stringify(filteredPost))
-    }
-    const testing2 = () => {
-        console.log('filtered function', testState)
-        setTestState('')
     }
 
     const clearWatchFilter = () => {
@@ -197,14 +175,12 @@ const App: FC = (props) => {
                 <TouchableOpacity style={styles.button} onPress={clearWatchFilter}>
                     <Text style={styles.text}>Clear Filter</Text>
                 </TouchableOpacity>
-                {/* <Button style={styles.button} title='TESTING' onPress={testing} /> */}
-                {/* <Button style={styles.button} title='TESTING2' onPress={testing2} /> */}
                 <View style={styles.approvedPosts}>
                     {startFilter ?
                         <View style={styles.test}>
-                            {approvedPost.filter(testFilter).length === 0 ? <Text style={{ fontSize: 20, margin: 2, fontFamily: 'NunitoBold', textAlign: 'center', color: "#2A6F97" }}> Nothing with the Filter Selected </Text> : null}
+                            {approvedPost.filter(runFilters).length === 0 ? <Text style={{ fontSize: 20, margin: 2, fontFamily: 'NunitoBold', textAlign: 'center', color: "#2A6F97" }}> Nothing with the Filter Selected </Text> : null}
                             <FlatList
-                                data={(approvedPost.filter(testFilter).length > 0 ? approvedPost.filter(testFilter) : approvedPost)}
+                                data={(approvedPost.filter(runFilters).length > 0 ? approvedPost.filter(runFilters) : approvedPost)}
                                 keyExtractor={(item, index) => item + index}
                                 initialNumToRender={8}
                                 // contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap" }}
@@ -288,7 +264,6 @@ export default App;
 
 const styles = StyleSheet.create({
     test: {
-        // flex: 1,
     },
     container: {
         flex: 1,
@@ -299,15 +274,12 @@ const styles = StyleSheet.create({
     },
     approvedPosts: {
         marginLeft: 5,
-        // flex: 1
         height: '100%',
     },
 
     grid: {
         paddingLeft: 4,
-        // marginLeft: 'auto',
-        // justifyContent: 'center',
-        // marginRight: 'auto',
+
     },
     addPost: {
         flex: 1

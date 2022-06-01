@@ -5,14 +5,12 @@ import ForSale from './forSale'
 import WatchScrollList from './scrollBasic'
 import LikesButton from './likesButton'
 import UserProfile from './buttonUserWatches'
-import FilterLines from './filterLines'
 import DeleteIcon from './deleteButton'
 import CloseWindow from './closeWindow'
 import FollowButton from './followButton'
-import Modal from './Modal'
 import ScrollWithLink from './scrollWithLink'
 import WatchInfoLines from './watchInfoLine'
 import CommentsBar from './commentsBar'
 import FilterLable from './filterLable'
 
-export { FilterLable, Button, Input, MultiLineInput, ForSale, WatchScrollList, LikesButton, UserProfile, FilterLines, DeleteIcon, CloseWindow, FollowButton, Modal, ScrollWithLink, WatchInfoLines, CommentsBar }
+export { FilterLable, Button, Input, MultiLineInput, ForSale, WatchScrollList, LikesButton, UserProfile, DeleteIcon, CloseWindow, FollowButton, ScrollWithLink, WatchInfoLines, CommentsBar }
