@@ -71,10 +71,11 @@ const styles = StyleSheet.create({
         padding: 5,
         fontSize: 20,
         textAlign: 'center',
-        marginBottom: 20,
+        marginBottom: 5,
     },
     introTextContainer: {
         borderRadius: 5,
+        marginBottom: 20,
     },
     loginLabel: {
         paddingTop: 5,
@@ -91,7 +92,7 @@ const styles = StyleSheet.create({
         textAlignVertical: 'center',
     },
     loginButtonLarge: {
-        marginTop: 20,
+        marginTop: 30,
         backgroundColor: '#89C2D9',
         color: 'white',
         padding: 5,

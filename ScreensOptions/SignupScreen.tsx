@@ -68,8 +68,6 @@ const App: FC = (props) => {
         <View style={styles.container}>
             <View style={styles.introTitleContainer}>
                 <Text style={styles.title}>Welcome to Roll and Box</Text>
-            </View>
-            <View style={styles.introTextContainer}>
                 <Text style={styles.introText}>Start Your Free Virtual Watch Box Collection Today!</Text>
             </View>
             <Input placeholder="Enter Your First Name" onChangeText={(text) => setName(text)} />

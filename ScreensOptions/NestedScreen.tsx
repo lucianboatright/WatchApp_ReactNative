@@ -1,7 +1,6 @@
-import React, { FC, useEffect, useState } from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, Button, SafeAreaView, Image } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, Image, StatusBar } from 'react-native'
 import { FollowButton } from '../Components/Inputs';
-import { WatchList } from '../Components/DataLists';
 
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth"
@@ -11,7 +10,6 @@ import { FlatList } from 'react-native-gesture-handler';
 import { getAuth, signOut } from 'firebase/auth';
 import { Rendering } from '../Components/Rendering';
 import { ScrollWithLink } from '../Components/Inputs';
-import { AutoFocus } from 'expo-camera/build/Camera.types';
 
 
 
@@ -141,7 +139,7 @@ const App: React.FC<Props> = ({ route, navigation }) => {
     }, [startFilter, watchNumber])
 
     return (
-        <SafeAreaView style={{ flex: 1 }}>
+        <SafeAreaView style={{ flex: 1, marginTop: StatusBar.currentHeight }} >
             <View style={styles.container}>
                 <View style={styles.header}>
                     <View style={styles.headerInfo}>
@@ -150,7 +148,7 @@ const App: React.FC<Props> = ({ route, navigation }) => {
                                 <Text style={styles.infoTextHighlight}>UserName :</Text>
                                 <Text style={styles.infoText}> {name}</Text>
                             </View>
-                            <View style={{ flexDirection: 'row' }}>
+                            <View style={{ flexDirection: 'row', width: '50%' }}>
                                 <Text style={styles.infoTextHighlight}>User Email : </Text>
                                 <Text numberOfLines={1} style={styles.infoText}>{userEmail}</Text>
                             </View>
@@ -167,23 +165,28 @@ const App: React.FC<Props> = ({ route, navigation }) => {
                         </View>
                         <View>
                             <View style={styles.profileImageBox}>
-                                {/* <ProfileImagePicker profilePic={userPic} userId={userId} /> */}
-                                <Image source={require('../assets/icons/profileIcon.png')} />
+                                <View >
+                                    {userPic ? <Image style={{ height: 80, width: 80, marginTop: '-5%' }} source={userPic} /> : <Image style={{ height: 80, width: 80, marginTop: '-5%' }} source={require('../assets/icons/profileIcon.png')} />}
+                                </View>
                                 <TouchableOpacity style={styles.goBackButton} onPress={() => navigation.goBack()}>
                                     <Text style={styles.goBackText}>X</Text>
                                 </TouchableOpacity>
                             </View>
-                            <View style={{ marginTop: '68%' }}>
+                            <View style={{ marginTop: '64%' }}>
                                 <FollowButton isFollowing={isFollowing} postUser={id} postUserName={name} />
                             </View>
                         </View>
                     </View>
-                    <View >
+                    <View style={styles.lowerHeader}>
                         <View style={styles.followingContainer}>
-                            <Text style={styles.infoText}>Following:  {followingLength}</Text>
-                            {followerLength == 0 ? <ScrollWithLink inportData={followingList} bgcolor={'#61A5C2'} /> : <Text style={styles.infoText}>Not Following</Text>}
-                            <Text style={styles.infoText}>Followers:  {followerLength}</Text>
-                            {followingLength == 0 ? <ScrollWithLink inportData={followersList} bgcolor={'#61A5C2'} /> : <Text style={styles.infoText}>No Followers</Text>}
+                            <View style={{ width: '50%' }}>
+                                <Text style={styles.infoText}>Following:  {followingLength}</Text>
+                                {followerLength == 0 ? <ScrollWithLink inportData={followingList} bgcolor={'#61A5C2'} /> : <Text style={styles.infoText}>Not Following</Text>}
+                            </View>
+                            <View>
+                                <Text style={styles.infoText}>Followers:  {followerLength}</Text>
+                                {followingLength == 0 ? <ScrollWithLink inportData={followersList} bgcolor={'#61A5C2'} /> : <Text style={styles.infoText}>No Followers</Text>}
+                            </View>
                         </View>
                         <View style={{ flexDirection: 'row' }}>
                             <TouchableOpacity style={forSaleFilter === true ? styles.buttonSmallHilight : styles.buttonSmall} onPress={getFilterForSale}>
@@ -203,7 +206,7 @@ const App: React.FC<Props> = ({ route, navigation }) => {
                         <View >
                             <FlatList
                                 data={approvedPost.filter(runFilters).length > 0 ? approvedPost.filter(runFilters) : approvedPost}
-                                // contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap" }}
+                                contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap" }}
                                 renderItem={
                                     ({ item }) => <Rendering
                                         message={item.data().message}
@@ -239,7 +242,7 @@ const App: React.FC<Props> = ({ route, navigation }) => {
                         <View>
                             <FlatList
                                 data={approvedPost}
-                                // contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap" }}
+                                contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap" }}
                                 renderItem={
                                     ({ item }) => <Rendering
                                         message={item.data().message}
@@ -291,23 +294,33 @@ const styles = StyleSheet.create({
         flex: 0.45,
         paddingLeft: 5,
         backgroundColor: "#C2DFE3",
-        borderColor: 'grey',
-        borderWidth: 0.5,
-        margin: 5,
+        // borderColor: 'grey',
+        // borderWidth: 0.5,
+        marginBottom: 5,
+        marginLeft: 5,
+        marginRight: 5,
         borderRadius: 5,
         padding: 5,
     },
+    lowerHeader: {
+        // paddingTop: 10,
+        flex: 1
+    },
     profileImageBox: {
         flexDirection: 'row',
-        height: 10,
+        height: 1,
     },
     headerInfo: {
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
+        // borderBottomColor: "#2A6F97",
+        // borderBottomWidth: 0.5,
+
     },
     approvedPosts: {
         marginLeft: 5,
+        marginRight: 5,
         flex: 1,
     },
     button: {
@@ -339,7 +352,6 @@ const styles = StyleSheet.create({
         marginLeft: 'auto',
         marginRight: 'auto',
         width: '48%',
-
         alignItems: 'center',
         justifyContent: 'center',
         padding: 2.5,
@@ -368,25 +380,25 @@ const styles = StyleSheet.create({
     infoText: {
         color: '#012A4A',
         marginLeft: 5,
-        fontFamily: 'NunitoBold',
+        fontFamily: 'NunitoSemiBold',
         fontSize: 15,
     },
     infoTextHighlight: {
         marginLeft: 5,
-        fontFamily: 'NunitoBold',
+        fontFamily: 'NunitoSemiBold',
         fontSize: 16,
         maxWidth: 210,
         color: "#013A63",
     },
     NoWatches: {
         fontSize: 25,
-        fontFamily: 'NunitoBold',
+        fontFamily: 'NunitoSemiBold',
         alignContent: 'center',
         justifyContent: 'center',
         marginLeft: 'auto',
         marginRight: 'auto'
     },
     followingContainer: {
-
+        flexDirection: 'row',
     },
 })

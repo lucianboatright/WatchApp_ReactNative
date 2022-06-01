@@ -111,7 +111,8 @@ const App: React.FC<Props> = (props) => {
                         <View style={styles.imageContainer}>
                             <Pressable onPress={() => setOpenModal(!openModal)}>
                                 <ImageBackground source={require('../../assets/pictures/woodenBox_5.png')} style={styles.imageContainerBorder}>
-                                    <Image style={styles.imageBoxInCard} source={require('../../assets/pictures/1.jpg')} />
+                                    {/* <Image style={styles.imageBoxInCard} source={require('../../assets/pictures/1.jpg')} /> */}
+                                    <Image style={styles.imageBoxInCard} source={{ uri: props.iamge_1 }} />
                                 </ImageBackground>
                             </Pressable>
                             <Modal visible={openModal}>
@@ -152,7 +153,7 @@ const App: React.FC<Props> = (props) => {
                 <View style={styles.imageBoxContainer}>
                     <TouchableOpacity onPress={() => (openClicked())}>
                         <ImageBackground source={require('../../assets/pictures/woodenBox_5.png')} style={styles.imageContainerBorderBox}>
-                            <Image style={styles.imageBoxTest} source={require('../../assets/pictures/1.jpg')} />
+                            <Image style={styles.imageBoxTest} source={{ uri: props.iamge_1 }} />
                         </ImageBackground>
                     </TouchableOpacity>
                 </View>
@@ -165,7 +166,9 @@ export default App
 
 const styles = StyleSheet.create({
     container: {
-        width: (width - 10),
+        width: (width - 15),
+        marginLeft: 'auto',
+        marginRight: 'auto',
         alignSelf: 'center',
         marginVertical: 10,
         paddingBottom: 0,

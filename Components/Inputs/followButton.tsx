@@ -67,12 +67,12 @@ export default App;
 
 const styles = StyleSheet.create({
     likeIconFalse: {
-        height: 23,
-        width: 23,
+        height: 22,
+        width: 22,
     },
     likeIconTrue: {
-        height: 23,
-        width: 23,
+        height: 24,
+        width: 24,
     },
     container: {
         marginTop: 5,
@@ -96,10 +96,16 @@ const styles = StyleSheet.create({
     },
     text: {
         paddingLeft: 5,
-        fontWeight: 'bold',
+        // fontWeight: 'bold',
+        fontFamily: 'NunitoSemiBold',
+
+        color: "#2C7DA0",
     },
     textNot: {
         paddingLeft: 10,
-        fontWeight: 'bold',
+        // fontWeight: 'bold',
+        fontFamily: 'NunitoSemiBold',
+
+        color: "#2C7DA0",
     }
 })

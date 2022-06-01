@@ -119,6 +119,7 @@ const App: FC = (props) => {
     }
 
     useEffect(() => {
+
         getUserDetails()
         getApprovedPosts()
     }, [userId, userEmail, watchFilter, startFilter, notForSaleFilter, forSaleFilter, userPic, followersList])
@@ -163,7 +164,7 @@ const App: FC = (props) => {
                         <View >
                             <FlatList
                                 data={approvedPost.filter(runFilters).length > 0 ? approvedPost.filter(runFilters) : approvedPost}
-                                // contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap" }}
+                                contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap" }}
                                 renderItem={
                                     ({ item }) => <Rendering
                                         message={item.data().message}
@@ -199,7 +200,7 @@ const App: FC = (props) => {
                         <View>
                             <FlatList
                                 data={approvedPost}
-                                // contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap" }}
+                                contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap" }}
                                 renderItem={
                                     ({ item }) => <Rendering
                                         message={item.data().message}
@@ -251,7 +252,10 @@ const styles = StyleSheet.create({
         flex: 0.5,
         paddingLeft: 5,
         backgroundColor: "#C2DFE3",
-        margin: 5,
+        // margin: 5,
+        marginLeft: 5,
+        marginRight: 5,
+        marginBottom: 5,
         borderRadius: 5,
         padding: 5,
     },
@@ -267,7 +271,9 @@ const styles = StyleSheet.create({
     },
     approvedPosts: {
         marginLeft: 5,
+        marginRight: 5,
         flex: 1,
+        // height: '100%',
     },
     button: {
         backgroundColor: "#2A6F97",
@@ -286,7 +292,8 @@ const styles = StyleSheet.create({
         marginRight: 'auto',
         width: '48%',
         color: 'white',
-        fontWeight: 'bold',
+        // fontWeight: 'bold',
+        fontFamily: 'NunitoSemiBold',
         alignItems: 'center',
         justifyContent: 'center',
         padding: 2.5,
@@ -307,16 +314,20 @@ const styles = StyleSheet.create({
     },
     text: {
         color: 'white',
-        fontWeight: 'bold',
+        // fontWeight: 'bold',
+        fontFamily: 'NunitoSemiBold',
     },
     infoText: {
         marginLeft: 5,
-        fontWeight: 'bold',
+        color: "#012A4A",
+        // fontWeight: 'bold',
+        fontFamily: 'NunitoSemiBold',
         fontSize: 15,
     },
     NoWatches: {
         fontSize: 25,
-        fontWeight: 'bold',
+        // fontWeight: 'bold',
+        fontFamily: 'NunitoSemiBold',
         alignContent: 'center',
         justifyContent: 'center',
         marginLeft: 'auto',

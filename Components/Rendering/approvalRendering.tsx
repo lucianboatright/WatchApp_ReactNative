@@ -13,23 +13,22 @@ interface Props {
     onReject: () => void;
 }
 
-const formatTime = (timeStamp: number) : any => {
+const formatTime = (timeStamp: number): any => {
     const caculatedTime = Date.now() - timeStamp
-    if(caculatedTime > 1000) return `${caculatedTime / 1000} s`;
-    if((caculatedTime / 1000) > 60) return `${(caculatedTime / 1000) / 60 } min`;
-    if(((caculatedTime / 1000) / 60) > 60) return `${((caculatedTime / 1000) / 60) / 60} hr`
+    if (caculatedTime > 1000) return `${caculatedTime / 1000} s`;
+    if ((caculatedTime / 1000) > 60) return `${(caculatedTime / 1000) / 60} min`;
+    if (((caculatedTime / 1000) / 60) > 60) return `${((caculatedTime / 1000) / 60) / 60} hr`
     else `${(((caculatedTime / 1000) / 60) / 60) / 24} d`
 }
 
-const App : FC <Props> = (props) => {
+const App: FC<Props> = (props) => {
     return (
         <View style={styles.container}>
-            <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                {/* <Text>Test</Text> */}
-                <Text style={{padding: 20, borderWidth: 3, borderRadius: 10 }}>{props.post}</Text>
-                <Text style={{padding: 20}}>{formatTime(props.timeStamp)}</Text>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                <Text style={{ padding: 20, borderWidth: 3, borderRadius: 10 }}>{props.post}</Text>
+                <Text style={{ padding: 20 }}>{formatTime(props.timeStamp)}</Text>
             </View>
-            <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
                 <Button title="Approve" onPress={() => props.onApprove} />
                 <Button title="Reject" onPress={() => props.onReject} />
             </View>

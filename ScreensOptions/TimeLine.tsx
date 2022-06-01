@@ -183,7 +183,7 @@ const App: FC = (props) => {
                                 data={(approvedPost.filter(runFilters).length > 0 ? approvedPost.filter(runFilters) : approvedPost)}
                                 keyExtractor={(item, index) => item + index}
                                 initialNumToRender={8}
-                                // contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap" }}
+                                contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap" }}
                                 renderItem={
                                     ({ item }) => <Rendering
                                         message={item.data().message}
@@ -221,7 +221,7 @@ const App: FC = (props) => {
                                 data={approvedPost}
                                 keyExtractor={(item, index) => item + index}
                                 initialNumToRender={8}
-                                // contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap" }}
+                                contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap" }}
                                 renderItem={
                                     ({ item }) => <Rendering
                                         message={item.data().message}
@@ -267,14 +267,15 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        marginTop: 10,
     },
     header: {
         flex: 0.1
     },
     approvedPosts: {
         marginLeft: 5,
+        marginRight: 5,
         height: '100%',
+        flex: 1,
     },
 
     grid: {
@@ -298,8 +299,8 @@ const styles = StyleSheet.create({
     },
     text: {
         color: 'white',
-        fontWeight: 'bold',
-        fontFamily: 'NunitoBold',
+        // fontWeight: 'bold',
+        fontFamily: 'NunitoSemiBold',
     },
     labelText: {
         fontFamily: 'NunitoBold',
@@ -313,7 +314,8 @@ const styles = StyleSheet.create({
     },
     NoWatches: {
         fontSize: 25,
-        fontWeight: 'bold',
+        // fontWeight: 'bold',
+        fontFamily: 'NunitoSemiBold',
         alignContent: 'center',
         justifyContent: 'center',
         marginLeft: 'auto',
