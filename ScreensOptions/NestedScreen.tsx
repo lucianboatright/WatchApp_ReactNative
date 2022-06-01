@@ -67,13 +67,19 @@ const App: React.FC<Props> = ({ route, navigation }) => {
             const documents = querySnapShot.docs;
             setApprovedPosts(documents)
             setWatchNumber(documents.length)
+        }).catch((err: string) => {
+            console.log(err)
         })
         runSaleCounter()
     }
 
     const runSaleCounter = async () => {
-        const forSaleInfo = await approvedPost.filter((item: any) => item.data().cost != 'Not for sale')
-        const notForSaleInfo = await approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost == 'Not for sale')
+        const forSaleInfo = await approvedPost.filter((item: any) => item.data().cost != 'Not for sale').catch((err: string) => {
+            console.log("Error:" + err)
+        })
+        const notForSaleInfo = await approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost == 'Not for sale').catch((err: string) => {
+            console.log('Error:' + err)
+        })
         setForSaleCount(forSaleInfo.length)
         setNotForSaleCount(notForSaleInfo.length)
         setForSale(forSaleInfo)
@@ -173,9 +179,9 @@ const App: React.FC<Props> = ({ route, navigation }) => {
                                 <Text style={styles.infoText}>in their collection</Text>
                             </View>
                             <View style={{ flexDirection: 'row' }}>
-                                <Text style={styles.infoText}>For Sale: </Text>
+                                <Text style={styles.infoText}>For Sale:</Text>
                                 <Text style={styles.infoTextHighlight}>{forSaleCount}</Text>
-                                <Text style={styles.infoText}>& Not for Sale: </Text>
+                                <Text style={styles.infoText}>& Not for Sale:</Text>
                                 <Text style={styles.infoTextHighlight}> {notForSaleCount}</Text>
                             </View>
                         </View>
@@ -184,7 +190,7 @@ const App: React.FC<Props> = ({ route, navigation }) => {
                                 {/* <ProfileImagePicker profilePic={userPic} userId={userId} /> */}
                                 <Image source={require('../assets/icons/profileIcon.png')} />
                                 <TouchableOpacity style={styles.goBackButton} onPress={() => navigation.goBack()}>
-                                    <Text style={styles.goBackText}>Back</Text>
+                                    <Text style={styles.goBackText}>X</Text>
                                 </TouchableOpacity>
                             </View>
                             <View style={{ marginTop: '60%' }}>
@@ -194,9 +200,9 @@ const App: React.FC<Props> = ({ route, navigation }) => {
                     </View>
                     <View>
                         <Text style={styles.infoText}>Following:  {followingLength}</Text>
-                        <ScrollWithLink inportData={followingList} bgcolor={'#44D0DF'} />
+                        <ScrollWithLink inportData={followingList} bgcolor={'#61A5C2'} />
                         <Text style={styles.infoText}>Followers:  {followerLength}</Text>
-                        <ScrollWithLink inportData={followersList} bgcolor={'#44D0DF'} />
+                        <ScrollWithLink inportData={followersList} bgcolor={'#61A5C2'} />
                         <View style={{ flexDirection: 'row' }}>
                             <TouchableOpacity style={forSaleFilter === true ? styles.buttonSmallHilight : styles.buttonSmall} onPress={getFilterForSale}>
                                 <Text style={styles.text}>For Sale </Text>
@@ -384,7 +390,7 @@ const styles = StyleSheet.create({
     header: {
         flex: 0.5,
         paddingLeft: 5,
-        // backgroundColor: "orange",
+        backgroundColor: "#C2DFE3",
         borderColor: 'grey',
         borderWidth: 0.5,
         margin: 5,
@@ -394,9 +400,6 @@ const styles = StyleSheet.create({
     profileImageBox: {
         flexDirection: 'row',
         height: 10,
-        // marginLeft: 20,
-        // paddingRight: 5,
-        // width: '10%',
     },
     headerInfo: {
         flex: 1,
@@ -408,7 +411,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     button: {
-        backgroundColor: "#44D0DF",
+        backgroundColor: "#2A6F97",
         marginLeft: 'auto',
         marginRight: 'auto',
         width: '98%',
@@ -419,7 +422,7 @@ const styles = StyleSheet.create({
         marginVertical: 2,
     },
     buttonSmall: {
-        backgroundColor: "#44D0DF",
+        backgroundColor: "#2A6F97",
         marginLeft: 'auto',
         marginRight: 'auto',
         width: '48%',
@@ -445,41 +448,37 @@ const styles = StyleSheet.create({
     },
     goBackButton: {
         backgroundColor: 'red',
-        // borderRadius: 10,
-        // marginRight: 10,
         borderBottomLeftRadius: 5,
         borderBottomRightRadius: 5,
+        // borderRadius: 10,
         paddingLeft: 5,
         paddingRight: 5,
-        paddingTop: 12,
+        paddingTop: 1,
         marginTop: -5,
-        height: 40,
+        height: 20,
     },
     goBackText: {
         color: 'white',
         fontWeight: 'bold',
-        // paddingTop: 3,
         fontSize: 15,
-        // height: 30,
     },
     text: {
         color: 'white',
         fontWeight: 'bold',
     },
     infoText: {
+        color: '#012A4A',
         marginLeft: 5,
         fontWeight: 'bold',
         fontSize: 15,
         maxWidth: 128,
-        // flex: 1,
     },
     infoTextHighlight: {
         marginLeft: 5,
         fontWeight: 'bold',
         fontSize: 16,
         maxWidth: 210,
-        color: "#44D0DF",
-        // flex: 1,
+        color: "#013A63",
     },
     NoWatches: {
         fontSize: 25,

@@ -37,8 +37,6 @@ interface Props {
     userIdNumber: any;
     onApprove: () => void;
     onReject: () => void;
-    // sendBoxOpening: (openBox: boolean) => void;
-    // onPress: () => void;
 }
 
 const formatTime = (timeStamp: number): any => {
@@ -64,7 +62,6 @@ type RootStackParamsList = {
 const App: React.FC<Props> = (props) => {
 
     const [openBox, setOpenBox] = useState<boolean>(false)
-    const [openBoxSend, setOpenBoxSend] = useState<boolean>(false)
     const [openModal, setOpenModal] = useState<boolean>(false)
 
     const message = props.userDetails
@@ -72,22 +69,10 @@ const App: React.FC<Props> = (props) => {
     const navigation = useNavigation<StackNavigationProp<RootStackParamsList>>();
 
     const openClicked = () => {
-        // console.log('pre',openBox)
-        // console.log('pre',openBoxSend)
-        // console.log('CLICKED')
-        // setOpenBox(!openBox)
-        // setOpenBoxSend(!openBoxSend)
-        // props.sendBoxOpening(openBox)
         setOpenBox(!openBox)
-        // props.sendBoxOpening(openBox)
-        // props.onPress
     }
-    // console.log('MOODDAALL', openModal)
-
 
     useEffect(() => {
-        // console.log('pre', props.watchStyle)
-        // console.log('pre',openBoxSend)
     }, [])
 
     return (
@@ -96,11 +81,11 @@ const App: React.FC<Props> = (props) => {
                 <View style={styles.container}>
                     <View style={styles.userHeader}>
                         <TouchableOpacity style={styles.viewBoxButton} onPress={() => navigation.navigate('NestedScreen', { id: props.userIdNumber, name: props.name })} >
-                            <Text style={styles.headerTitle}>User: {props.name}</Text>
+                            <Text numberOfLines={1} style={styles.headerTitle}>User: {props.name}</Text>
                         </TouchableOpacity>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '46%' }}>
                             <DeleteIcon postId={props.postId} postUser={props.userIdNumber} likes={props.likes} />
-                            <TouchableHighlight onPress={() => (openClicked(), props.onPress)}>
+                            <TouchableHighlight onPress={() => (openClicked())}>
                                 <Image style={styles.icon} source={require('../../assets/icons/closeWindowIcon.png')} />
                             </TouchableHighlight>
                             <LikesButton postId={props.postId} likes={props.likes} />
@@ -126,8 +111,7 @@ const App: React.FC<Props> = (props) => {
                         <View style={styles.imageContainer}>
                             <Pressable onPress={() => setOpenModal(!openModal)}>
                                 <ImageBackground source={require('../../assets/pictures/woodenBox_5.png')} style={styles.imageContainerBorder}>
-                                    <Image style={styles.imageBoxTest} source={require('../../assets/pictures/1.jpg')} />
-                                    {/* <Image style={styles.imageBox} source={{ uri: props.iamge_1 }} /> */}
+                                    <Image style={styles.imageBoxInCard} source={require('../../assets/pictures/1.jpg')} />
                                 </ImageBackground>
                             </Pressable>
                             <Modal visible={openModal}>
@@ -139,7 +123,6 @@ const App: React.FC<Props> = (props) => {
                                             <Text style={styles.fontButton}>Return</Text>
                                         </Pressable>
                                     </View>
-                                    {/* <Button title='Return' onPress={() => setOpenModal(!openModal)} /> */}
                                 </View>
                                 <View style={{ flex: 0.9 }}>
                                     <ScrollView>
@@ -167,7 +150,7 @@ const App: React.FC<Props> = (props) => {
                 </View>
                 :
                 <View style={styles.imageBoxContainer}>
-                    <TouchableOpacity onPress={() => (openClicked(), props.onPress)}>
+                    <TouchableOpacity onPress={() => (openClicked())}>
                         <ImageBackground source={require('../../assets/pictures/woodenBox_5.png')} style={styles.imageContainerBorderBox}>
                             {/* <Image style={styles.imageBoxLarge} source={{ uri: props.iamge_1 }} /> */}
                             <Image style={styles.imageBoxTest} source={require('../../assets/pictures/1.jpg')} />
@@ -221,7 +204,6 @@ const styles = StyleSheet.create({
     button: {
         marginTop: 5,
         alignItems: 'center',
-        // justifyContent: 'flex-end',
         backgroundColor: '#44D0DF',
         borderRadius: 5,
 
@@ -239,11 +221,6 @@ const styles = StyleSheet.create({
         shadowRadius: 5,
         elevation: 5
     },
-    headerTitle: {
-        fontWeight: 'bold',
-        borderColor: 'black',
-        fontSize: 20,
-    },
     icon: {
         marginTop: 2,
         height: 30,
@@ -258,60 +235,48 @@ const styles = StyleSheet.create({
         borderColor: 'grey'
     },
     imageContainer: {
-        // width: '50%'
         flex: 1,
     },
-
-    imageContainerBorder: {
-        // width: '99.5%',
-        // height: '100%',
+    imageContainerBorderBox: {
+        aspectRatio: 10.3 / 16,
         flex: 1,
-    },
-    imageBox: {
-        borderRadius: 5,
-        // height: 264,
-        width: 172,
-        aspectRatio: 10 / 16,
-        marginLeft: 12,
-        marginTop: 11,
-        marginBottom: 11,
-        marginRight: 0,
+        paddingTop: 13,
+        paddingBottom: 12,
+        paddingLeft: 10,
     },
     imageBoxTest: {
         borderRadius: 5,
-        height: 264,
-        width: 10,
+        flex: 1,
         aspectRatio: 10 / 16,
-        marginLeft: 12,
-        marginTop: 11,
-        marginBottom: 11,
-        marginRight: 0,
+    },
+    imageContainerBorder: {
+        aspectRatio: 10.3 / 16,
+        flex: 1,
+        paddingTop: 13,
+        paddingBottom: 12,
+        paddingLeft: 10,
+    },
+    imageBoxInCard: {
+        borderRadius: 5,
+        flex: 1,
+        aspectRatio: 10 / 16,
     },
     imageBoxDisplay: {
         borderRadius: 5,
         display: 'flex',
-        // height: 464,
-        margin: '4.5%',
+        marginRight: 20,
+        marginLeft: 20,
+        marginTop: 24,
+        marginBottom: 22,
         alignItems: 'center',
         justifyContent: 'center',
-        width: '91%',
+        width: '90%',
         aspectRatio: 10 / 16,
-        // padding: 15
-        // marginLeft: 18,
-        // marginTop: 15,
-        // marginBottom: 15,
-        // marginRight: 0,
     },
 
     imageBoxContainer: {
         flex: 1,
         width: (width - 10) / 2,
-        // height: 'auto',
-        // marginLeft: 2,        
-    },
-    imageContainerBorderBox: {
-        flex: 1,
-        paddingTop: 8,
     },
     imageBoxLarge: {
         marginLeft: 10,
@@ -332,14 +297,23 @@ const styles = StyleSheet.create({
         margin: 5,
     },
     viewBoxButton: {
-        backgroundColor: '#44D0DF',
+        backgroundColor: '#A9D6E5',
         borderTopLeftRadius: 10,
         borderTopRightRadius: 5,
         paddingTop: 5,
         paddingLeft: 5,
         paddingRight: 5,
-        width: 'auto',
-        minWidth: '48%'
+        width: 10,
+        minWidth: '48%',
+        flexDirection: 'row',
+        // padding: 10,
+    },
+    headerTitle: {
+        fontWeight: 'bold',
+        borderColor: 'black',
+        color: '#012A4A',
+        fontSize: 20,
+        flex: 1,
     },
     viewBoxButtonText: {
     },

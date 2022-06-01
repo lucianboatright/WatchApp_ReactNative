@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 5
     },
     loginButton: {
-        backgroundColor: '#44D0DF',
+        backgroundColor: '#9DB4C0',
         color: 'white',
         padding: 5,
         paddingRight: 20,
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     },
     loginButtonLarge: {
         marginTop: 20,
-        backgroundColor: '#44D0DF',
+        backgroundColor: '#89C2D9',
         color: 'white',
         padding: 5,
         paddingRight: 20,
