@@ -1,20 +1,16 @@
 import React, { FC, useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Button, TouchableOpacity, ScrollView, Pressable } from 'react-native';
-// import { Button } from '../Components/Inputs';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth"
 import "firebase/compat/firestore"
-import { FlatList, State } from 'react-native-gesture-handler';
+import { FlatList } from 'react-native-gesture-handler';
 import { Rendering } from '../Components/Rendering';
 
 import { CaseSize, Mechanism, Styles, WatchList } from '../Components/DataLists';
 import { FilterLable, WatchScrollList } from '../Components/Inputs';
 import watchNamesList from '../Components/DataLists/watchMakes';
 import { stringify } from '@firebase/util';
-
-// import { fullList } from '../Components/DataLists/fullList'
-// import { stringify } from '@firebase/util';
 
 const App: FC = (props) => {
 
@@ -27,20 +23,12 @@ const App: FC = (props) => {
     const [watchMechanismFilter, setWatchMechanismFilter] = useState<null>(null)
     const [watchTypeFilter, setWatchTypeFilter] = useState<null>(null)
 
-    const [keyFilter, setKeyfilter] = useState<any>(null)
-    const [condition, setCondition] = useState<any>(null)
-
     const [filterLength, setFilterLength] = useState<number>(0)
 
 
     const [startFilter, setStartFilter] = useState<boolean>(false)
     const [forSaleFilter, setForSaleFilter] = useState<boolean>(false)
     const [notForSaleFilter, setNotForSaleFilter] = useState<boolean>(false)
-    const [openBoxContainer, setOpenBoxContainer] = useState<boolean>(false)
-    const [colomns, setColomns] = useState<number>(2)
-
-    const [forSaleCount, setForSaleCount] = useState<any>(null)
-    const [notForSaleCount, setNotForSaleCount] = useState<any>(null)
 
     const [testState, setTestState] = useState<any | null>(null)
 
@@ -57,25 +45,15 @@ const App: FC = (props) => {
             const documents = querySnapShot.docs;
             setApprovedPosts(documents)
         })
-        // runSaleCounter()
     }
-
-    // const runSaleCounter = async () => {
-    //     const forSale = await approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost != 'Not for sale')
-    //     const notForSale = await approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost == 'Not for sale')
-    //     setForSaleCount(forSale)
-    //     setNotForSaleCount(notForSale)
-    // }
 
     const getFilterForSale = async () => {
         setStartFilter(true)
         if (notForSaleFilter) {
             setNotForSaleFilter(!notForSaleFilter)
             setForSaleFilter(!forSaleFilter)
-            getFilteredPostsWatch(approvedPost)
         } else {
             setForSaleFilter(!forSaleFilter)
-            getFilteredPostsWatch(approvedPost)
         }
     }
 
@@ -84,10 +62,8 @@ const App: FC = (props) => {
         if (forSaleFilter) {
             setNotForSaleFilter(!notForSaleFilter)
             setForSaleFilter(!forSaleFilter)
-            getFilteredPostsWatch(approvedPost)
         } else {
             setNotForSaleFilter(!notForSaleFilter)
-            getFilteredPostsWatch(approvedPost)
         }
     }
 
@@ -95,10 +71,8 @@ const App: FC = (props) => {
         setStartFilter(true)
         if (watchFilter != null) {
             setWatchFilter(null)
-            getFilteredPostsWatch(approvedPost)
         } else if (watchFilter === null) {
             setWatchFilter(name)
-            getFilteredPostsWatch(approvedPost)
         }
     }
 
@@ -106,10 +80,8 @@ const App: FC = (props) => {
         setStartFilter(true)
         if (watchCaseFilter != null) {
             setWatchCaseFilter(null)
-            getFilteredPostsWatch(approvedPost)
         } else if (watchCaseFilter === null) {
             setWatchCaseFilter(name)
-            getFilteredPostsWatch(approvedPost)
         }
     }
 
@@ -117,10 +89,8 @@ const App: FC = (props) => {
         setStartFilter(true)
         if (watchMechanismFilter != null) {
             setWatchMechanismFilter(null)
-            getFilteredPostsWatch(approvedPost)
         } else if (watchMechanismFilter === null) {
             setWatchMechanismFilter(name)
-            getFilteredPostsWatch(approvedPost)
         }
     }
 
@@ -128,210 +98,46 @@ const App: FC = (props) => {
         setStartFilter(true)
         if (watchTypeFilter != null) {
             setWatchTypeFilter(null)
-            getFilteredPostsWatch(approvedPost)
         } else if (watchTypeFilter === null) {
             setWatchTypeFilter(name)
-            getFilteredPostsWatch(approvedPost)
         }
     }
 
-    if (startFilter) {
-        const filterTest = approvedPost
-            .filter(((watch: { data: () => { (): any; new(): any; cost: string; }; }) => watch.data().cost != 'Not for sale'))
-            // .filter(((watch: { data: () => { (): any; new(): any; watchStyle: null; }; }) => watch.data().watchStyle === watchTypeFilter))
-            .filter(((watch: { data: () => { (): any; new(): any; caseSize: string; }; }) => watch.data().caseSize === watchCaseFilter))
-    }
 
-    // if (startFilter) {
-    //     setFilteredPosts(filterTest)
-    // }
-
-
-    // if (startFilter) {
-    //     const filterTest = approvedPost
-    //         .filter(((watch: { data: () => { (): any; new(): any; cost: string; }; }) => watch.data().cost != 'Not for sale'))
-    //         .filter(((watch: { data: () => { (): any; new(): any; watchStyle: null; }; }) => watch.data().watchStyle === watchTypeFilter))
-    //         .filter(((watch: { data: () => { (): any; new(): any; caseSize: null; }; }) => watch.data().caseSize === watchCaseFilter))
-    //         .filter(((watch: { data: () => { (): any; new(): any; brand: null; }; }) => watch.data().brand === watchFilter))
-    //     console.log('LENGTH', filterTest.length)
-    // }
-
-    // console.log('LENGTH', filterTest.length)
-    // console.log('FILKTER TEST', filterTest)
-
-    const getFilteredPostsWatch = async (watch: { data: () => { (): any; new(): any; cost: string; }; }) => {
-        console.log('start of filter post')
-
-        // if (approvedPost != null && forSaleFilter) {
-        //     console.log('inside here')
-        //     return forSaleFilter && approvedPost.data().cost != 'Not for sale'
-        // }
-        // if (watch) {
-        //     return watch.data().cost != 'Not for sale'
-        // }
-
-        // console.log('returned',)
-
-        let currentFilter: any[] = []
-
-        if (forSaleFilter) {
-            console.log('for sale')
-            if (filteredPost == null) {
-                console.log('now here')
-                const filtered = await approvedPost.filter(
-                    (item: { data: () => { (): any; new(): any; brand: string; cost: string; caseSize: string; mechanism: string; watchStyle: string; }; }) => item.data().cost != 'Not for sale')
-                console.log('exit filter data', filtered[1].data().brand)
-                console.log('exit filter data LENGTH', filtered.length)
-                filtered.forEach((item: any) => {
-                    currentFilter.push(item)
-                })
-                // currentFilter.push(filtered)
-                // setFilteredPosts(filtered)
-                setFilterLength(filtered.length)
-            }
-            else {
-                console.log('no here instead')
-                const filtered = await currentFilter.filter(
-                    (item: { data: () => { (): any; new(): any; brand: string; cost: string; caseSize: string; mechanism: string; watchStyle: string; }; }) => item.data().cost == 'Not for sale')
-                // setFilteredPosts(filtered)
-                // currentFilter.(filtered)
-                // console.log('exit filter data', filtered)
-                // setFilteredPosts(filtered)
-                setFilterLength(filtered.length)
-            }
+    const testFilter = (approvedPost: { data: () => { (): any; new(): any; brand: string; cost: string; caseSize: string; mechanism: string; watchStyle: string; }; }) => {
+        if (forSaleFilter && approvedPost.data().cost != 'Not for sale') {
+            return false
         }
-
-        console.log('im way out here', typeof (currentFilter))
-        console.log('im way out here mesuring', currentFilter.length)
-        console.log('im way out here 1111', stringify(currentFilter))
-        console.log('im way out here 2222', stringify(currentFilter[1]))
-
-        setFilteredPosts({ currentFilter })
-
-        // if (notForSaleFilter) {
-        //     if (testState.length === 0) {
-        //         console.log('Not for sale')
-        //         const filtered = await approvedPost.filter(
-        //             (item: { data: () => { (): any; new(): any; brand: string; cost: string; caseSize: string; mechanism: string; watchStyle: string; }; }) => item.data().cost != '')
-        //         // setFilteredPosts(filtered)
-        //         setTestState(testState + filtered)
-        //         setFilterLength(filtered.length)
-        //     } else {
-        //         console.log('Not for sale')
-        //         const filtered = await testState.filter(
-        //             (item: { data: () => { (): any; new(): any; brand: string; cost: string; caseSize: string; mechanism: string; watchStyle: string; }; }) => item.data().cost != '')
-        //         // setFilteredPosts(filtered)
-        //         setTestState(testState + filtered)
-        //         setFilterLength(filtered.length)
-        //     }
-        // }
-
-
-        // if (watchFilter != null) {
-        //     console.log('watch filter')
-        //     if (testState.length === 0) {
-        //         const filtered = await approvedPost.filter(
-        //             (item: { data: () => { (): any; new(): any; brand: string; cost: string; caseSize: string; mechanism: string; watchStyle: string; }; }) => item.data().brand == watchFilter)
-        //         // setFilteredPosts(filtered)
-        //         setTestState(testState + filtered)
-        //         setFilterLength(filtered.length)
-        //     } else {
-        //         const filtered = await testState.filter(
-        //             (item: { data: () => { (): any; new(): any; brand: string; cost: string; caseSize: string; mechanism: string; watchStyle: string; }; }) => item.data().brand == watchFilter)
-        //         // setFilteredPosts(filtered)
-        //         setTestState(testState + filtered)
-        //         setFilterLength(filtered.length)
-        //     }
-        // }
-
-        // if (watchCaseFilter != null) {
-        //     console.log('watch case')
-        //     if (testState.length === 0) {
-        //         const filtered = await approvedPost.filter(
-        //             (item: { data: () => { (): any; new(): any; brand: string; cost: string; caseSize: string; mechanism: string; watchStyle: string; }; }) => item.data().caseSize == watchCaseFilter)
-        //         // setFilteredPosts(filtered)
-        //         setTestState(testState + filtered)
-        //         setFilterLength(filtered.length)
-        //     } else {
-        //         const filtered = await testState.filter(
-        //             (item: { data: () => { (): any; new(): any; brand: string; cost: string; caseSize: string; mechanism: string; watchStyle: string; }; }) => item.data().caseSize == watchCaseFilter)
-        //         // setFilteredPosts(filtered)
-        //         setTestState(testState + filtered)
-        //         setFilterLength(filtered.length)
-        //     }
-        // }
-
-        // if (watchMechanismFilter != null) {
-        //     console.log('watch mech')
-        //     if (testState.length === 0) {
-        //         const filtered = await approvedPost.filter(
-        //             (item: { data: () => { (): any; new(): any; brand: string; cost: string; caseSize: string; mechanism: string; watchStyle: string; }; }) => item.data().mechanism == watchMechanismFilter)
-        //         setFilteredPosts(filtered)
-        //         setFilterLength(filtered.length)
-        //     } else {
-        //         const filtered = await testState.filter(
-        //             (item: { data: () => { (): any; new(): any; brand: string; cost: string; caseSize: string; mechanism: string; watchStyle: string; }; }) => item.data().mechanism == watchMechanismFilter)
-        //         setFilteredPosts(filtered)
-        //         setFilterLength(filtered.length)
-        //     }
-        // }
-
-        // if (watchTypeFilter != null) {
-        //     console.log('watch type')
-        //     if (testState.length === 0) {
-        //         const filtered = await approvedPost.filter(
-        //             (item: { data: () => { (): any; new(): any; brand: string; cost: string; caseSize: string; mechanism: string; watchStyle: string; }; }) => item.data().watchStyle == watchTypeFilter)
-        //         setFilteredPosts(filtered)
-        //         setFilterLength(filtered.length)
-        //     } else {
-        //         const filtered = await testState.filter(
-        //             (item: { data: () => { (): any; new(): any; brand: string; cost: string; caseSize: string; mechanism: string; watchStyle: string; }; }) => item.data().watchStyle == watchTypeFilter)
-        //         setFilteredPosts(filtered)
-        //         setFilterLength(filtered.length)
-        //     }
-        // }
-
-
-        // (watchCaseFilter != null ? item.data().caseSize == watchCaseFilter : null)
-
-        // (watchMechanismFilter != null ? item.data().mechanism == watchMechanismFilter : null)
-
-        // (watchTypeFilter != null ? item.data().watchStyle == watchTypeFilter : null)
-
-        // item.data().cost !== 'Not for sale'
-
-        // console.log('for SALE filtered posts ', testState)
+        if (watchCaseFilter && approvedPost.data().caseSize != watchCaseFilter) {
+            return false
+        }
+        if (watchFilter && approvedPost.data().brand != watchFilter) {
+            return false
+        }
+        if (watchMechanismFilter && approvedPost.data().mechanism != watchMechanismFilter) {
+            return false
+        }
+        if (watchTypeFilter && approvedPost.data().watchStyle != watchTypeFilter) {
+            return false
+        }
+        if (notForSaleFilter && approvedPost.data().cost === 'Not for sale') {
+            return false
+        }
+        return true
     }
 
-    // const newFilter = approvedPost.filter(getApprovedPosts())
+    // if (approvedPost != null) {
+    //     const newSomting = approvedPost.filter(testFilter)
+    //     console.log('HERE IS AN TEST AWNSER LENGTH', newSomting.length)
+    //     console.log('HERE IS AN TEST AWNSER', newSomting[0].data().watchStyle)
+    //     // console.log('HERE IS AN TEST AWNSER', newSomting[1].data().mechanism)
+    //     // setFilteredPosts(newSomting)
+    // }
+
 
 
     const testing = () => {
-        // console.log('filtered post LENGTH', filteredPost.length)
-        // console.log('NEW FILTER', newFilter)
-        console.log('filtered post NEW LENGTH', approvedPost.length)
-        console.log('filtered post NEW', stringify(approvedPost[0].data()))
-        console.log('filtered post NEW', stringify(approvedPost[1].data()))
-        // console.log('approved type', typeof (approvedPost))
-        // console.log('approved post', approvedPost)
-        // console.log('approved post', stringify(approvedPost))
-        // console.log('filtered function', typeof (filteredPost))
-        // console.log('START FILTER', startFilter)
-        // console.log('filtered function', testState)
-        // console.log('filtered function', testState[-1])
-        // console.log('length', testState.length)
-        // console.log('WATCH FILTER', filteredPost.length)
-        // console.log('WatchDOcs', filteredPost[0].data().watchStyle)
-        // console.log('WatchDOcs', filteredPost.length)
-        // console.log(filterLength)
-        // console.log(filteredPost)
-        //     console.log(forSaleFilter)
-        //     console.log('brand', watchFilter)
-        //     console.log('case', watchCaseFilter)
-        //     console.log('style', watchTypeFilter)
-        //     console.log('mech', watchMechanismFilter)
-        //     console.log('for sale', forSaleFilter)
-        //     console.log('NOT for sale', notForSaleFilter)
+        console.log('filtered post NEW', stringify(filteredPost))
     }
     const testing2 = () => {
         console.log('filtered function', testState)
@@ -348,29 +154,17 @@ const App: FC = (props) => {
         setForSaleFilter(false)
         setNotForSaleFilter(false)
         setStartFilter(false)
-        // setOpenBoxContainer(false)
-    }
-
-    const clearBandFilter = () => {
-        setWatchFilter(null)
-        setWatchCaseFilter(null)
-        setWatchMechanismFilter(null)
-        setWatchTypeFilter(null)
     }
 
     useEffect(() => {
         if (approvedPost == null) {
             getApprovedPosts()
             getUserDetails()
-            getFilteredPostsWatch(approvedPost)
-            // runSaleCounter()
         } else {
             getUserDetails()
-            getFilteredPostsWatch(approvedPost)
-            // runSaleCounter()
         }
 
-    }, [notForSaleFilter, forSaleFilter, watchCaseFilter, watchFilter, watchMechanismFilter, watchTypeFilter])
+    }, [startFilter])
 
 
     return (
@@ -403,34 +197,19 @@ const App: FC = (props) => {
                 <TouchableOpacity style={styles.button} onPress={clearWatchFilter}>
                     <Text style={styles.text}>Clear Filter</Text>
                 </TouchableOpacity>
-                <Button style={styles.button} title='TESTING' onPress={testing} />
+                {/* <Button style={styles.button} title='TESTING' onPress={testing} /> */}
                 {/* <Button style={styles.button} title='TESTING2' onPress={testing2} /> */}
                 <View style={styles.approvedPosts}>
-                    {/* {startFilter ?
-                        <View> */}
-                    {filterLength == 0 ?
+                    {startFilter ?
                         <View style={styles.test}>
-                            <Text>HERE 1</Text>
-
-                            {/* {startFilter ? <Text style={{ fontSize: 20, margin: 2, fontFamily: 'NunitoBold', textAlign: 'center', color: "#2A6F97" }}> Nothing with the Filter Selected </Text> : null} */}
-                            {/* <Text style={{ fontSize: 20, margin: 2, fontFamily: 'NunitoBold', textAlign: 'center', color: "#44D0DF" }}> Nothing with the Filter Selected </Text> */}
+                            {approvedPost.filter(testFilter).length === 0 ? <Text style={{ fontSize: 20, margin: 2, fontFamily: 'NunitoBold', textAlign: 'center', color: "#2A6F97" }}> Nothing with the Filter Selected </Text> : null}
                             <FlatList
-                                data={approvedPost}
+                                data={(approvedPost.filter(testFilter).length > 0 ? approvedPost.filter(testFilter) : approvedPost)}
                                 keyExtractor={(item, index) => item + index}
                                 initialNumToRender={8}
-                                // contentContainerStyle={{ alignSelf: 'flex-start' }}
-                                // numColumns={Math.ceil(2)}
-                                // showsVerticalScrollIndicator={false}
-                                // showsHorizontalScrollIndicator={false}
-                                // numColumns={1}
-                                // key={1}
-                                // numColumns={openBoxContainer ? 1 : 2}
-                                // key={openBoxContainer ? 1 : 2}
-                                // style={styles.grid}
                                 // contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap" }}
                                 renderItem={
                                     ({ item }) => <Rendering
-                                        // sendBoxOpening={(openBox: boolean) => changeBoxView(openBox)}
                                         message={item.data().message}
                                         name={item.data().userName}
                                         iamge_1={item.data().iamge_1}
@@ -449,7 +228,6 @@ const App: FC = (props) => {
                                         watchStyle={item.data().watchStyle}
                                         likes={item.data().likes}
                                         userIdNumber={item.data().userIdNumber}
-                                        // userDetails={item.data().uid}
                                         comments={item.data().comments}
                                         approved={''}
                                         onApprove={function (): void {
@@ -463,26 +241,13 @@ const App: FC = (props) => {
                         </View>
                         :
                         <View style={styles.test}>
-                            {/* <Text>HERE 2</Text> */}
-
-                            {/* <Text style={{ fontSize: 20 }}> something with the Filter { }</Text> */}
                             <FlatList
                                 data={approvedPost}
                                 keyExtractor={(item, index) => item + index}
                                 initialNumToRender={8}
-                                // contentContainerStyle={{ alignSelf: 'flex-start' }}
-                                // numColumns={Math.ceil(2)}
-                                // showsVerticalScrollIndicator={false}
-                                // showsHorizontalScrollIndicator={false}
-                                // numColumns={1}
-                                // key={1}
-                                // numColumns={openBoxContainer ? 1 : 2}
-                                // key={openBoxContainer ? 1 : 2}
-                                // style={styles.grid}
                                 // contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap" }}
                                 renderItem={
                                     ({ item }) => <Rendering
-                                        // sendBoxOpening={(openBox: boolean) => changeBoxView(openBox)}
                                         message={item.data().message}
                                         name={item.data().userName}
                                         iamge_1={item.data().iamge_1}
@@ -501,7 +266,6 @@ const App: FC = (props) => {
                                         watchStyle={item.data().watchStyle}
                                         likes={item.data().likes}
                                         userIdNumber={item.data().userIdNumber}
-                                        // userDetails={item.data().uid}
                                         comments={item.data().comments}
                                         approved={''}
                                         onApprove={function (): void {
@@ -514,65 +278,9 @@ const App: FC = (props) => {
                             />
                         </View>
                     }
-                    {/* </View>
-                        :
-                        <View style={styles.test}>
-                            <FlatList
-                                data={approvedPost}
-                                // contentContainerStyle={{ alignSelf: 'flex-start' }}
-                                // numColumns={Math.ceil(2)}
-                                // showsVerticalScrollIndicator={false}
-                                // showsHorizontalScrollIndicator={false}
-                                // numColumns={1}
-                                // key={1}
-                                // numColumns={openBoxContainer ? 1 : 2}
-                                // key={openBoxContainer ? 1 : 2}
-                                // style={styles.grid}
-                                // numColumns={2}
-                                // contentContainerStyle={{ flexDirection: "row" }}
-                                keyExtractor={(item, index) => item + index}
-                                // horizontal={false}
-                                // numColumns={2}
-                                // contentContainerStyle={{ flexDirection: 'row', flexWrap: "wrap" }}
-                                renderItem={
-                                    ({ item }) => <Rendering
-                                        // sendBoxOpening={(openBox: boolean) => changeBoxView(openBox)}
-                                        message={item.data().message}
-                                        name={item.data().userName}
-                                        iamge_1={item.data().iamge_1}
-                                        iamge_2={item.data().iamge_2}
-                                        iamge_3={item.data().iamge_3}
-                                        iamge_4={item.data().iamge_4}
-                                        brand={item.data().brand}
-                                        caseSize={item.data().caseSize}
-                                        caseMaterial={item.data().caseMaterial}
-                                        lugsWidth={item.data().lugsWidth}
-                                        mechanism={item.data().mechanism}
-                                        cost={item.data().cost}
-                                        timeStamp={item.data().timeStamp}
-                                        postId={item.id}
-                                        year={item.data().year}
-                                        watchStyle={item.data().watchStyle}
-                                        likes={item.data().likes}
-                                        userIdNumber={item.data().userIdNumber}
-                                        // userDetails={item.data().uid}
-                                        comments={item.data().comments}
-                                        approved={''}
-                                        onApprove={function (): void {
-                                            throw new Error('Function not implemented.');
-                                        }} onReject={function (): void {
-                                            throw new Error('Function not implemented.');
-                                        }} userDetails={undefined}
-                                    />
-                                }
-                            />
-                        </View>
-
-                    } */}
                 </View>
             </View>
         </SafeAreaView>
-
     )
 }
 
@@ -605,9 +313,7 @@ const styles = StyleSheet.create({
         flex: 1
     },
     button: {
-        // backgroundColor: 'red',
         backgroundColor: "#2A6F97",
-        // minWidth: 100,
         marginLeft: 'auto',
         marginRight: 'auto',
         width: '98%',
@@ -625,17 +331,13 @@ const styles = StyleSheet.create({
     },
     labelText: {
         fontFamily: 'NunitoBold',
-        // flexDirection: 'row',
         marginLeft: 5,
         marginRight: 5
-        // minWidth: '19%',
     },
     filterLables: {
         flexDirection: 'row',
         borderRadius: 10,
-        // borderColor: 'red',
-        // borderRadius: 10,
-        // borderWidth: 1,
+
     },
     NoWatches: {
         fontSize: 25,
@@ -647,7 +349,6 @@ const styles = StyleSheet.create({
     },
     buttonSmall: {
         backgroundColor: "#2C7DA0",
-        // minWidth: 100,
         marginLeft: 'auto',
         marginRight: 'auto',
         width: '48%',
@@ -660,7 +361,6 @@ const styles = StyleSheet.create({
     },
     buttonSmallHilight: {
         backgroundColor: "#A9D6E5",
-        // minWidth: 100,
         marginLeft: 'auto',
         marginRight: 'auto',
         width: '48%',
