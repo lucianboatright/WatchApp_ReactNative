@@ -65,7 +65,6 @@ const App: FC<Props> = (props) => {
 
   return (
     <View style={styles.container}>
-      {/* <Button title="testing" onPress={testing}/> */}
       <View style={styles.addComment}>
         <TouchableOpacity style={styles.submitButtonContainer} onPress={uploadComment}>
           <Text style={styles.submitButton}>Submit Comment</Text>
@@ -99,27 +98,15 @@ export default App;
 
 const styles = StyleSheet.create({
   container: {
-    // justifyContent: "center",
-    // backgroundColor: "#ecf0f1",
     height: 'auto',
   },
   listItem: {
     backgroundColor: "white",
-    // borderWidth: 1,
-    // borderLeftWidth: 0.5,
     borderRightWidth: 0.5,
-    // borderColor: "#333",
     padding: 5,
     width: 200,
-    // shadowColor: '#000',
-    // shadowOffset: { width: 0, height: 1 },
-    // shadowOpacity: 0.4,
-    // shadowRadius: 5,  
-    // elevation: 5
   },
   flatList: {
-    // paddingHorizontal: 16,
-    // paddingVertical: 16,
   },
   commentTitle: {
     borderBottomWidth: 1,
@@ -131,7 +118,6 @@ const styles = StyleSheet.create({
   },
   submitButtonContainer: {
     backgroundColor: "#A9D6E5",
-    // borderRadius: 5,
     borderTopLeftRadius: 5,
     borderTopRightRadius: 5,
     width: '40%'

@@ -6,7 +6,7 @@ import { Imagepicker } from '../Components/ExpoImage';
 import { WatchList, CaseSize, Mechanism, Material, Lugs, Styles, Straps, Years } from '../Components/DataLists';
 
 import { DropDown } from '../Components/DropDowns';
-import { getAuth, signOut } from 'firebase/auth'
+import { getAuth } from 'firebase/auth'
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth"
 import "firebase/compat/firestore"
@@ -21,7 +21,6 @@ const { height, width } = Dimensions.get('screen')
 const App: FC = (props) => {
 
     const [post, setPost] = useState<string | null>(null)
-    const [userDetails, setUserDetails] = useState<any>(null)
     const [userId, setUserId] = useState<string>('')
     const [userName, setUserName] = useState<string>('null')
 
@@ -45,7 +44,6 @@ const App: FC = (props) => {
         if (message === null) {
             Alert.alert('Please enter somthing before submitting')
         } else {
-            // alert('Post Button')
             const data = {
                 message,
                 iamge_1: url_1,
@@ -66,7 +64,6 @@ const App: FC = (props) => {
                 timeStamp: Date.now(),
                 likes: [],
                 comments: [],
-                // approved: true
             }
             console.log('POST', data)
             try {
@@ -114,7 +111,6 @@ const App: FC = (props) => {
                 <View>
                     <View>
                         <MultiLineInput sendMessage={(value: string) => setMessage(value)} setBorder={{ borderBottomWidth: 1 }} setHeight={{ padding: 10, height: 60 }} />
-                        {/* <DropDown title='Type' inputData={WatchList} placeHolder='Type' sendSelected={(selected: any) => setSelectedWatch(selected)} /> */}
                         <View style={styles.dropDownBox}>
                             <DropDown title='Select Brand' inputData={WatchList} placeHolder='Select Watch' sendSelected={(selected: any) => setSelectedWatch(selected)} />
                             <DropDown title='Case Size' inputData={CaseSize} placeHolder="Select Case Size" sendSelected={(selected: any) => setSelectedCase(selected)} />

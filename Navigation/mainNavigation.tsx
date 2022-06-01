@@ -5,18 +5,16 @@ import "firebase/compat/auth"
 import "firebase/compat/firestore"
 import AppStack from "./AppStack";
 import AuthStack from "./AuthStack";
-// import { OtherUserWatches } from "../ScreensOptions";
-
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const Stack = createNativeStackNavigator();
 
-const MainNav :  React.FC = () => {
+const MainNav: React.FC = () => {
     const [user, setUser] = useState<any>(null)
 
     const bootstrap = async () => {
         firebase.auth().onAuthStateChanged((_user: any) => {
-            if(_user){
+            if (_user) {
                 setUser(_user)
             }
         })

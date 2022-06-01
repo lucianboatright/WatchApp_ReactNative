@@ -1,5 +1,4 @@
 import * as Font from 'expo-font';
-// import { useFonts } from 'expo-font';
 
 export default useFonts = async () =>
     await Font.loadAsync({
@@ -8,4 +7,3 @@ export default useFonts = async () =>
         'NunitoSemiBold': require('../assets/Fonts/Nunito/static/Nunito-SemiBold.ttf'),
     });
 
-// export default useFonts

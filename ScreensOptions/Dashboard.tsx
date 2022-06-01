@@ -31,7 +31,6 @@ const App: FC = (props) => {
     const [userPic, setUserPic] = useState<any | null>(null)
 
     const [watchFilter, setWatchFilter] = useState<any>(null)
-    const [followerFilter, setFollowerFilter] = useState<any>(null)
     const [startFilter, setStartFilter] = useState<boolean>(false)
     const [forSaleFilter, setForSaleFilter] = useState<boolean>(false)
     const [notForSaleFilter, setNotForSaleFilter] = useState<boolean>(false)
@@ -91,11 +90,6 @@ const App: FC = (props) => {
         await setFollowerLength(user.data().followers.length)
         await setFollowingLength(user.data().followers.length)
     }
-    const testing = () => {
-        // console.log('DOCS LENGTH', approvedPost.length)
-        console.log('forsale', forSale)
-        console.log('Notforsale', notForSale)
-    }
 
     const getFilterForSale = async () => {
         setStartFilter(true)
@@ -125,10 +119,8 @@ const App: FC = (props) => {
     }
 
     useEffect(() => {
-
         getUserDetails()
         getApprovedPosts()
-        // getFilteredPosts()
     }, [userId, userEmail, watchFilter, startFilter, notForSaleFilter, forSaleFilter, userPic, followersList])
 
     return (
@@ -166,7 +158,6 @@ const App: FC = (props) => {
                         </TouchableOpacity>
                     </View>
                 </View>
-                {/* <Button onPress={testing} title="testing" /> */}
                 <View style={styles.approvedPosts}>
                     {startFilter ?
                         <View >

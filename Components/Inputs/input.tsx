@@ -26,18 +26,10 @@ export default Input
 const styles = StyleSheet.create({
     container: {
         width: '95%',
-        // maxWidth: 500,
         alignSelf: 'center',
         backgroundColor: '#e3e3e3',
         borderRadius: 5,
         marginVertical: 10,
-        // shadowColor: '#000',
-        // shadowOffset: { width: 0, height: 2 },
-        // shadowOpacity: 0.4,
-        // shadowRadius: 5,
-        // elevation: 1
-        // shadowColor: 'black',
-
     },
     input: {
         padding: 15

@@ -179,7 +179,6 @@ const styles = StyleSheet.create({
         paddingLeft: 20,
     },
     Large: {
-        // fontWeight: 'bold',
         fontSize: 25,
         color: 'white',
     },

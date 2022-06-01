@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useEffect } from "react";
 import { Dimensions, View, StyleSheet, Text, TouchableHighlight } from "react-native";
 
 
@@ -44,46 +44,22 @@ export default App;
 const styles = StyleSheet.create({
     labelText: {
         fontFamily: 'NunitoSemiBold',
-        // flexDirection: 'row',
         marginLeft: 5,
         marginRight: 5
-        // minWidth: '19%',
     },
     filterLables: {
         flexDirection: 'row',
-        // borderRadius: 10,
-        // borderColor: 'red',
-        // borderRadius: 10,
-        // borderWidth: 1,
     },
     selectedFilter: {
         fontFamily: 'NunitoSemiBold',
-        // flexDirection: 'row',
-        // marginLeft: 5,
-        // minWidth: '10%',
         backgroundColor: 'red',
-        // borderRadius: 10,
         borderBottomLeftRadius: 10,
         borderTopLeftRadius: 10,
-        // fontWeight: 'bold',
         color: "white",
-        // marginBottom: 1,
-        // height: 15,
-        // width: 'auto',
         paddingLeft: 10,
         paddingRight: 5,
-        // borderTopRightRadius: 10,
-        // borderBottomRightRadius: 10,
-        // borderRadius: 5,
-        // paddingLeft: 5,
-        // paddingRight: 5,
-        // marginBottom: 2,
-        // marginRight: 4,
-        // fontSize: 12,
     },
     clearFilterButton: {
-        // marginHorizontal: 5,
-        // overflow: 'hidden',
         paddingLeft: 5,
         paddingRight: 10,
         backgroundColor: 'red',

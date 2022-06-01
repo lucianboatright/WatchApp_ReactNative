@@ -1,20 +1,13 @@
 import React, { useState, useEffect, FC } from 'react';
-import { Image, View, Platform, Text, StyleSheet, Alert, TouchableHighlight, Dimensions, Button } from 'react-native';
-// import { Button } from '../Inputs';
+import { Image, View, Platform, Text, StyleSheet, Alert, TouchableHighlight, Dimensions } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import { ImageEditor } from "expo-image-editor";
-import { Camera } from 'expo-camera';
-// import { Button } from '../Inputs';
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage'
 import uuid from 'react-native-uuid';
-import { useLinkProps } from '@react-navigation/native';
 import firebase from "firebase/compat/app";
-import { getAuth, signOut } from 'firebase/auth'
 import "firebase/compat/auth"
 import "firebase/compat/firestore"
 
 import ProfileImage from '../../assets/icons/profileIcon.png'
-import { black } from 'react-native-paper/lib/typescript/styles/colors';
 
 const { height, width } = Dimensions.get('screen')
 
@@ -29,23 +22,13 @@ const App: FC<Props> = (props) => {
 
   const [uploading, setUploading] = useState<boolean>(false)
 
-  const [update, setUpdate] = useState<any>(null)
-
   const [start, setStart] = useState<boolean>(false)
 
   const [urlPic, setPicUrl] = useState<any | null>(null)
 
-  const [marginHeight, setMarginHeight] = useState<any | null>(null)
-
   const [profilePicture, setProfilePicture] = useState<any | null>(null)
 
-  const [changeProfileImage, setChangeProfileImage] = useState<boolean>(false)
-
   const [resetPic, setResetPic] = useState<boolean>(false)
-
-  const [editorVisible, setEditorVisible] = useState<boolean>(false);
-
-  // const setMargin = props.margintop
 
   const pickImage = async () => {
     const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -60,7 +43,6 @@ const App: FC<Props> = (props) => {
       });
       if (!pickerResult.cancelled) {
         setImage(pickerResult.uri)
-        // UpdateImage()
       }
     } else {
       Alert.alert(
@@ -97,7 +79,6 @@ const App: FC<Props> = (props) => {
         resolve(xhr.response);
       };
       xhr.onerror = function (e) {
-        // console.log(e)
         reject(new TypeError("Network request failed"));
       };
       xhr.responseType = "blob";
@@ -110,23 +91,18 @@ const App: FC<Props> = (props) => {
     const storage = getStorage();
     const storageRef = ref(storage, String(uuid.v4()));
     let blob: Blob
-    // try {
     setUploading(true);
     blob = await getPictureBlob(image);
     uploadBytes(storageRef, blob).then((snapshot) => {
-      // console.log('UPLOAD MIGHT BE SUCCSESFULLLLLLLLL')
       getDownloadURL(storageRef)
         .then((url) => {
           console.log(url)
           setPicUrl(url)
-
-          //   setUpdate(true)
         })
         .catch((error) => {
           console.log(error)
         })
     }).catch((err) => {
-      // console.log(Object.keys(err));
       console.log('ERRORRRRR', err.name)
     })
   };
@@ -220,38 +196,23 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "black",
     borderRadius: 5,
-    // width: '50%',
     height: 140,
-    // width: 200,
-    // margin: 5
   },
   buttonContainer: {
-    // backgroundColor: 'red',
     borderWidth: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '100%'
   },
   imageContainer: {
-    // height: 'auto'
   },
   holdingImage: {
-    // alignContent: 'center',
-    // justifyContent: 'center',
     marginTop: 'auto',
     marginBottom: 'auto',
-    // height: 100,
-    // width: 100,
-    // marginTop: 0,
-    // borderWidth: 2,
-    // borderRadius: 10,
-    margin: 5
   },
   loadingIcon: {
     width: 40,
     height: 40,
-    // marginLeft: 10,
-    // marginRight: 10,
   },
   tickBox: {
     width: 39,
@@ -276,13 +237,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff"
   },
   profileImage: {
-    // justifyContent: 'center',
-    // alignContent: 'flex-start',
-    // borderColor: 'grey',
-    // borderWidth: 1,
-    // borderRadius: 10,
-    // width: '100%',
-
   },
   refresh: {
     borderColor: 'grey',

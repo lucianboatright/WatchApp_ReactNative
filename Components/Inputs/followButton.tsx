@@ -1,9 +1,9 @@
 import React, { FC, useEffect, useState } from "react";
-import { Dimensions, TextInput, View, StyleSheet, Image, Text, Alert, Button } from "react-native";
+import { Dimensions, View, StyleSheet, Image, Text } from "react-native";
 import { TouchableHighlight } from "react-native-gesture-handler";
 
 import firebase from "firebase/compat/app";
-import { getAuth, signOut } from 'firebase/auth'
+import { getAuth } from 'firebase/auth'
 import "firebase/compat/auth"
 import "firebase/compat/firestore"
 
@@ -37,7 +37,6 @@ const App: FC<Props> = (props) => {
 
     useEffect(() => {
         setIsFollowing(props.isFollowing)
-        // console.log('mmmm here', props.isFollowing)
     }, [props.isFollowing])
 
 
@@ -60,7 +59,6 @@ const App: FC<Props> = (props) => {
                     }
                 </TouchableHighlight>
             }
-            {/* <Button onPress={testing} title="testing" /> */}
         </View>
     )
 }

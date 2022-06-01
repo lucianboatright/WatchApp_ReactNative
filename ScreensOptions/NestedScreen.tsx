@@ -350,7 +350,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'red',
         borderBottomLeftRadius: 5,
         borderBottomRightRadius: 5,
-        // borderRadius: 10,
         paddingLeft: 5,
         paddingRight: 5,
         paddingTop: 1,
@@ -371,12 +370,10 @@ const styles = StyleSheet.create({
         marginLeft: 5,
         fontFamily: 'NunitoBold',
         fontSize: 15,
-        // maxWidth: 128,
     },
     infoTextHighlight: {
         marginLeft: 5,
         fontFamily: 'NunitoBold',
-        // fontWeight: 'bold',
         fontSize: 16,
         maxWidth: 210,
         color: "#013A63",
@@ -384,14 +381,12 @@ const styles = StyleSheet.create({
     NoWatches: {
         fontSize: 25,
         fontFamily: 'NunitoBold',
-        // fontWeight: 'bold',
         alignContent: 'center',
         justifyContent: 'center',
         marginLeft: 'auto',
         marginRight: 'auto'
     },
     followingContainer: {
-        // flex: 1,
-        // width: 1000,
+
     },
 })

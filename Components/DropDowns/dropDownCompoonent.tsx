@@ -1,5 +1,5 @@
 import React, { useState, useEffect, FC } from 'react';
-import { SafeAreaView, StyleSheet, Text, View, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, Dimensions } from 'react-native';
 import SearchableDropdown from 'react-native-searchable-dropdown';
 
 const { height, width } = Dimensions.get('screen')
@@ -13,8 +13,6 @@ interface Props {
 }
 
 const App: FC<Props> = (props) => {
-  // Data Source for the SearchableDropdown
-  //   const [serverData, setServerData] = useState([]);
   const [selectedWatch, setSelectedWatch] = useState<any>(null)
   const [placeholder, setPlaceHolder] = useState<string>(props.placeHolder)
 
@@ -27,9 +25,6 @@ const App: FC<Props> = (props) => {
   return (
     <View style={styles.outerContainer}>
       <View style={styles.container}>
-        {/* <Text style={styles.titleText}>
-            Select Case Size
-        </Text> */}
         <View style={{ flexDirection: 'row' }}>
           <SearchableDropdown
             onTextChange={(text) => console.log(text)}
@@ -51,11 +46,9 @@ const App: FC<Props> = (props) => {
               borderRadius: 5,
               marginTop: 2,
               marginRight: 10,
-              // width: 10,
               backgroundColor: '#FAF9F8',
               borderColor: '#bbb',
               borderWidth: 1,
-              // fontFamily: 'NunitoBold',
             }}
             itemTextStyle={{
               color: '#222',
@@ -64,7 +57,6 @@ const App: FC<Props> = (props) => {
               maxHeight: '60%',
             }}
             items={props.inputData}
-            // defaultIndex={2}
             placeholder={placeholder}
             resPtValue={false}
             underlineColorAndroid="transparent"
@@ -86,8 +78,6 @@ const styles = StyleSheet.create({
     width: '95%'
   },
   container: {
-    // flex: .3,
-    // backgroundColor: '#E9EBEE',
     paddingVertical: 1,
   },
   titleText: {
@@ -95,7 +85,6 @@ const styles = StyleSheet.create({
     padding: 0,
     fontSize: 16,
     textAlign: 'center',
-    // fontWeight: 'bold',
   },
   headingText: {
     padding: 0,

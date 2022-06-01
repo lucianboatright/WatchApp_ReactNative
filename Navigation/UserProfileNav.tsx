@@ -3,10 +3,6 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { FC } from "react";
 import { TimeLine, Home, NestedScreen } from "../ScreensOptions";
 
-import { StackNavigationProp } from '@react-navigation/stack';
-import { useNavigation } from '@react-navigation/core';
-
-
 type RootStackParamsList = {
     Home: any;
     Timeline: any;

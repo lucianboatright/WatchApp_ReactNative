@@ -106,6 +106,5 @@ const styles = StyleSheet.create({
         fontSize: 25,
         color: 'white',
         fontFamily: 'NunitoSemiBold'
-        // height: 5,
     }
 })
