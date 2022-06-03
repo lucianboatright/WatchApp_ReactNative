@@ -117,13 +117,13 @@ const App: React.FC<Props> = (props) => {
                             </Pressable>
                             <Modal visible={openModal}>
                                 <View style={{ marginTop: 45, padding: 5 }}>
-                                    <Text style={{ fontFamily: 'Nunito' }}>Name: {props.brand}</Text>
-                                    <Text style={{ fontFamily: 'Nunito' }}>Message: {props.message}</Text>
                                     <View>
-                                        <Pressable style={styles.button} onPress={() => setOpenModal(!openModal)} >
-                                            <Text style={styles.fontButton}>Return</Text>
-                                        </Pressable>
+                                        <TouchableOpacity style={styles.goBackButton} onPress={() => setOpenModal(!openModal)}>
+                                            <Text style={styles.goBackText}>X</Text>
+                                        </TouchableOpacity>
                                     </View>
+                                    <Text style={{ fontFamily: 'NunitoSemiBold', color: "#2C7DA0" }}>Name: {props.brand}</Text>
+                                    <Text style={{ fontFamily: 'NunitoSemiBold', color: "#2C7DA0" }}>Message: {props.message}</Text>
                                 </View>
                                 <View style={{ flex: 0.9 }}>
                                     <ScrollView>
@@ -188,14 +188,35 @@ const styles = StyleSheet.create({
         width: '48%',
         paddingLeft: 0,
     },
+    goBackButton: {
+        backgroundColor: 'red',
+        borderBottomLeftRadius: 5,
+        borderBottomRightRadius: 5,
+        paddingLeft: 5,
+        paddingRight: 5,
+        paddingTop: 1,
+        marginTop: -5,
+        height: 20,
+        width: 20,
+        // display: 'flex',
+        // justifyContent: 'flex-end',
+        alignSelf: 'flex-end',
+
+    },
+    goBackText: {
+        color: 'white',
+        fontWeight: 'bold',
+        fontSize: 15,
+    },
     infoBox: {
-        borderWidth: 1,
+        borderWidth: 0.5,
         borderBottomLeftRadius: 10,
         borderColor: 'grey',
         paddingLeft: 5,
     },
     font: {
-        fontFamily: 'Nunito',
+        fontFamily: 'NunitoBold',
+        color: '#012A4A',
     },
     fontButton: {
         fontFamily: 'NunitoBold',
@@ -226,7 +247,7 @@ const styles = StyleSheet.create({
         width: 30
     },
     message: {
-        borderWidth: 1,
+        borderWidth: 0.5,
         padding: 4,
         paddingLeft: 5,
         flex: 1,
@@ -264,8 +285,8 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         display: 'flex',
         marginRight: 20,
-        marginLeft: 20,
-        marginTop: 24,
+        marginLeft: 15,
+        marginTop: 20,
         marginBottom: 22,
         alignItems: 'center',
         justifyContent: 'center',

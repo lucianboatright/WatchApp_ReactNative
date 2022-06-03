@@ -164,7 +164,9 @@ const App: FC = (props) => {
                         <View >
                             <FlatList
                                 data={approvedPost.filter(runFilters).length > 0 ? approvedPost.filter(runFilters) : approvedPost}
-                                contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap" }}
+                                // contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap" }}
+                                numColumns={2}
+                                columnWrapperStyle={{ flexWrap: 'wrap', flex: 1 }}
                                 renderItem={
                                     ({ item }) => <Rendering
                                         message={item.data().message}
@@ -200,7 +202,9 @@ const App: FC = (props) => {
                         <View>
                             <FlatList
                                 data={approvedPost}
-                                contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap" }}
+                                // contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap" }}
+                                numColumns={2}
+                                columnWrapperStyle={{ flexWrap: 'wrap', flex: 1 }}
                                 renderItem={
                                     ({ item }) => <Rendering
                                         message={item.data().message}
@@ -261,8 +265,9 @@ const styles = StyleSheet.create({
     },
     profileImageBox: {
         height: 10,
-        marginLeft: 20,
-        paddingRight: 5,
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        paddingRight: 10,
         width: '55%',
     },
     headerInfo: {

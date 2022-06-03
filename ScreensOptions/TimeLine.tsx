@@ -11,16 +11,31 @@ import { CaseSize, Mechanism, Styles, WatchList } from '../Components/DataLists'
 import { FilterLable, WatchScrollList } from '../Components/Inputs';
 import { stringify } from '@firebase/util';
 
+
+interface Watch {
+    data: () => WatchData;
+
+}
+
+interface WatchData {
+    brand: string;
+    cost: string;
+    caseSize: string;
+    mechanism: string;
+    watchStyle: string;
+
+}
+
 const App: FC = (props) => {
 
     const [approvedPost, setApprovedPosts] = useState<any | null>(null)
-    const [filteredPost, setFilteredPosts] = useState<any | null>(null)
+    // const [filteredPost, setFilteredPosts] = useState<object | null>(null)
     const [userDetails, setUserDetails] = useState<any>(null)
     const [userId, setUserId] = useState<any>(null)
-    const [watchFilter, setWatchFilter] = useState<null>(null)
-    const [watchCaseFilter, setWatchCaseFilter] = useState<null>(null)
-    const [watchMechanismFilter, setWatchMechanismFilter] = useState<null>(null)
-    const [watchTypeFilter, setWatchTypeFilter] = useState<null>(null)
+    const [watchFilter, setWatchFilter] = useState<string | null>(null)
+    const [watchCaseFilter, setWatchCaseFilter] = useState<string | null>(null)
+    const [watchMechanismFilter, setWatchMechanismFilter] = useState<string | null>(null)
+    const [watchTypeFilter, setWatchTypeFilter] = useState<string | null>(null)
 
     const [filterLength, setFilterLength] = useState<number>(0)
 
@@ -63,7 +78,7 @@ const App: FC = (props) => {
         }
     }
 
-    const runWatchFilter = (name: any) => {
+    const runWatchFilter = (name: string | null) => {
         setStartFilter(true)
         if (watchFilter != null) {
             setWatchFilter(null)
@@ -72,7 +87,7 @@ const App: FC = (props) => {
         }
     }
 
-    const runWatchCaseFilter = (name: any) => {
+    const runWatchCaseFilter = (name: string | null) => {
         setStartFilter(true)
         if (watchCaseFilter != null) {
             setWatchCaseFilter(null)
@@ -81,7 +96,7 @@ const App: FC = (props) => {
         }
     }
 
-    const runWatchMechanismFilter = (name: any) => {
+    const runWatchMechanismFilter = (name: string | null) => {
         setStartFilter(true)
         if (watchMechanismFilter != null) {
             setWatchMechanismFilter(null)
@@ -90,7 +105,7 @@ const App: FC = (props) => {
         }
     }
 
-    const runWatchTypeFilter = (name: any) => {
+    const runWatchTypeFilter = (name: string | null) => {
         setStartFilter(true)
         if (watchTypeFilter != null) {
             setWatchTypeFilter(null)
@@ -99,8 +114,8 @@ const App: FC = (props) => {
         }
     }
 
-
-    const runFilters = (approvedPost: { data: () => { (): any; new(): any; brand: string; cost: string; caseSize: string; mechanism: string; watchStyle: string; }; }) => {
+    // { data: () => { brand: string; cost: string; caseSize: string; mechanism: string; watchStyle: string; }; }
+    const runFilters = (approvedPost: Watch) => {
         if (forSaleFilter && approvedPost.data().cost != 'Not for sale') {
             return false
         }
@@ -125,7 +140,7 @@ const App: FC = (props) => {
     const clearWatchFilter = () => {
         setFilterLength(0)
         setWatchFilter(null)
-        setFilteredPosts(null)
+        // setFilteredPosts(null)
         setWatchCaseFilter(null)
         setWatchMechanismFilter(null)
         setWatchTypeFilter(null)
@@ -165,95 +180,46 @@ const App: FC = (props) => {
                     <WatchScrollList inportData={Styles} bgcolor={'#468FAF'} sendFilter={(name: any | null) => runWatchTypeFilter(name)} />
                 </View>
                 <View style={{ flexDirection: 'row' }}>
-                    <TouchableOpacity style={forSaleFilter === true ? styles.buttonSmallHilight : styles.buttonSmall} onPress={getFilterForSale}>
-                        <Text style={styles.text}>For Sale </Text>
+                    <TouchableOpacity style={forSaleFilter ? styles.buttonSmallHilight : styles.buttonSmall} onPress={getFilterForSale}>
+                        <Text style={forSaleFilter ? styles.textHilight : styles.text}>For Sale </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={notForSaleFilter === true ? styles.buttonSmallHilight : styles.buttonSmall} onPress={getFilterNotForSale}>
-                        <Text style={styles.text}>Not for Sale</Text>
+                    <TouchableOpacity style={notForSaleFilter ? styles.buttonSmallHilight : styles.buttonSmall} onPress={getFilterNotForSale}>
+                        <Text style={notForSaleFilter ? styles.textHilight : styles.text}>Not for Sale</Text>
                     </TouchableOpacity>
                 </View>
                 <TouchableOpacity style={styles.button} onPress={clearWatchFilter}>
                     <Text style={styles.text}>Clear Filter</Text>
                 </TouchableOpacity>
                 <View style={styles.approvedPosts}>
-                    {startFilter ?
-                        <View style={styles.test}>
-                            {approvedPost.filter(runFilters).length === 0 ? <Text style={{ fontSize: 20, margin: 2, fontFamily: 'NunitoBold', textAlign: 'center', color: "#2A6F97" }}> Nothing with the Filter Selected </Text> : null}
-                            <FlatList
-                                data={(approvedPost.filter(runFilters).length > 0 ? approvedPost.filter(runFilters) : approvedPost)}
-                                keyExtractor={(item, index) => item + index}
-                                initialNumToRender={8}
-                                contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap" }}
-                                renderItem={
-                                    ({ item }) => <Rendering
-                                        message={item.data().message}
-                                        name={item.data().userName}
-                                        iamge_1={item.data().iamge_1}
-                                        iamge_2={item.data().iamge_2}
-                                        iamge_3={item.data().iamge_3}
-                                        iamge_4={item.data().iamge_4}
-                                        brand={item.data().brand}
-                                        caseSize={item.data().caseSize}
-                                        caseMaterial={item.data().caseMaterial}
-                                        lugsWidth={item.data().lugsWidth}
-                                        mechanism={item.data().mechanism}
-                                        cost={item.data().cost}
-                                        timeStamp={item.data().timeStamp}
-                                        postId={item.data().id}
-                                        year={item.data().year}
-                                        watchStyle={item.data().watchStyle}
-                                        likes={item.data().likes}
-                                        userIdNumber={item.data().userIdNumber}
-                                        comments={item.data().comments}
-                                        approved={''}
-                                        onApprove={function (): void {
-                                            throw new Error('Function not implemented.');
-                                        }} onReject={function (): void {
-                                            throw new Error('Function not implemented.');
-                                        }} userDetails={undefined}
-                                    />
-                                }
-                            />
-                        </View>
-                        :
-                        <View style={styles.test}>
-                            <FlatList
-                                data={approvedPost}
-                                keyExtractor={(item, index) => item + index}
-                                initialNumToRender={8}
-                                contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap" }}
-                                renderItem={
-                                    ({ item }) => <Rendering
-                                        message={item.data().message}
-                                        name={item.data().userName}
-                                        iamge_1={item.data().iamge_1}
-                                        iamge_2={item.data().iamge_2}
-                                        iamge_3={item.data().iamge_3}
-                                        iamge_4={item.data().iamge_4}
-                                        brand={item.data().brand}
-                                        caseSize={item.data().caseSize}
-                                        caseMaterial={item.data().caseMaterial}
-                                        lugsWidth={item.data().lugsWidth}
-                                        mechanism={item.data().mechanism}
-                                        cost={item.data().cost}
-                                        timeStamp={item.data().timeStamp}
-                                        postId={item.id}
-                                        year={item.data().year}
-                                        watchStyle={item.data().watchStyle}
-                                        likes={item.data().likes}
-                                        userIdNumber={item.data().userIdNumber}
-                                        comments={item.data().comments}
-                                        approved={''}
-                                        onApprove={function (): void {
-                                            throw new Error('Function not implemented.');
-                                        }} onReject={function (): void {
-                                            throw new Error('Function not implemented.');
-                                        }} userDetails={undefined}
-                                    />
-                                }
-                            />
-                        </View>
-                    }
+
+                    <View>
+                        {approvedPost ?
+                            <View>
+                                {approvedPost.filter(runFilters).length === 0 ? <Text style={{ fontSize: 20, margin: 2, fontFamily: 'NunitoBold', textAlign: 'center', color: "#2A6F97" }}> Nothing with the Filter Selected </Text> : null}
+                                <FlatList
+                                    data={(approvedPost.filter(runFilters).length > 0 ? approvedPost.filter(runFilters) : approvedPost)}
+                                    keyExtractor={(item, index) => item + index}
+                                    initialNumToRender={8}
+                                    numColumns={2}
+                                    columnWrapperStyle={{ flexWrap: 'wrap', flex: 1 }}
+                                    renderItem={
+                                        ({ item }) => <Rendering
+                                            {...item.data()}
+                                            approved={''}
+                                            onApprove={function (): void {
+                                                throw new Error('Function not implemented.');
+                                            }} onReject={function (): void {
+                                                throw new Error('Function not implemented.');
+                                            }} userDetails={undefined}
+                                        />
+                                    }
+                                />
+                            </View>
+                            :
+                            <Text>Loading   </Text>
+                        }
+                    </View>
+
                 </View>
             </View>
         </SafeAreaView>
@@ -263,10 +229,10 @@ const App: FC = (props) => {
 export default App;
 
 const styles = StyleSheet.create({
-    test: {
-    },
     container: {
         flex: 1,
+        backgroundColor: '#DAD7CD',
+
     },
     header: {
         flex: 0.1
@@ -300,7 +266,12 @@ const styles = StyleSheet.create({
     text: {
         color: 'white',
         // fontWeight: 'bold',
-        fontFamily: 'NunitoSemiBold',
+        fontFamily: 'NunitoBold',
+    },
+    textHilight: {
+        color: '#2C7DA0',
+        // fontWeight: 'bold',
+        fontFamily: 'NunitoBold',
     },
     labelText: {
         fontFamily: 'NunitoBold',
@@ -329,16 +300,17 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         padding: 0,
-        color: '#5C6B73',
         borderRadius: 5,
         marginVertical: 2,
+        fontFamily: 'NunitoSemiBold',
+
     },
     buttonSmallHilight: {
+        fontFamily: 'NunitoSemiBold',
         backgroundColor: "#A9D6E5",
         marginLeft: 'auto',
         marginRight: 'auto',
         width: '48%',
-        color: '#5C6B73',
         alignItems: 'center',
         justifyContent: 'center',
         padding: 0,

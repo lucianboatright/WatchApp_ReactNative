@@ -37,7 +37,6 @@ const App: FC = (props) => {
                                         return current?.updateProfile({
                                             displayName: name
                                         })
-
                                     }
                                 } catch (error) {
                                     if (error.code.includes('auth/weak-password')) {
@@ -106,7 +105,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        backgroundColor: '#DAD7CD',
     },
     loginText: {
         flexDirection: 'row',
@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 5
     },
     loginButton: {
-        backgroundColor: '#89C2D9',
+        backgroundColor: '#3B6064',
         color: 'white',
         padding: 5,
         borderRadius: 5,
@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
         paddingLeft: 20,
     },
     loginButtonSmall: {
-        backgroundColor: '#9DB4C0',
+        backgroundColor: '#87BBA2',
         color: 'white',
         padding: 5,
         borderRadius: 5,

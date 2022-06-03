@@ -54,7 +54,6 @@ const App: FC<Props> = (props) => {
     }
 
     useEffect(() => {
-        // console.log(data)
         settingData()
     }, [props.inportData])
 
@@ -73,7 +72,6 @@ const App: FC<Props> = (props) => {
                             onPress={() => navigation.navigate('NestedScreen', { name: item.name, id: item.followerId })}
                         >
                             <Card style={[styles.card, { backgroundColor: props.bgcolor }]}>
-                                {/* onPress={() => navigation.navigate('NestedScreen', { id: props.userIdNumber, name: props.name })} */}
                                 <Text style={styles.text}>{item.name}</Text>
                             </Card>
                         </TouchableOpacity>

@@ -11,7 +11,7 @@ interface Props {
 const App: React.FC<Props> = (props) => {
     return (
         <View style={styles.infoLine}>
-            <Text style={styles.infoHeader}>{props.title}: </Text><Text>{props.info}</Text>
+            <Text style={styles.infoHeader}>{props.title}: </Text><Text style={styles.infoHeader}>{props.info}</Text>
         </View>
     )
 }
@@ -20,7 +20,8 @@ export default App;
 
 const styles = StyleSheet.create({
     infoHeader: {
-        fontFamily: 'Nunito',
+        fontFamily: 'NunitoBold',
+        color: "#012A4A"
     },
     infoLine: {
         flexDirection: 'row',

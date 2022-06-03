@@ -40,7 +40,6 @@ const App: FC = (props) => {
     const [cost, setCost] = useState<string | null>('Not For Sale')
 
     const submitPost = async () => {
-        console.log('clicked')
         if (message === null) {
             Alert.alert('Please enter somthing before submitting')
         } else {

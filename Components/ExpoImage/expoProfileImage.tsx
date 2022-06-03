@@ -123,19 +123,13 @@ const App: FC<Props> = (props) => {
     setResetPic(!resetPic)
   };
 
-  const launchEditor = (uri: string) => {
-    setImage(uri);;
-  }
-
   const changeProfile = async () => {
-    console.log('HEHEHEH')
     console.log(resetPic);
     setResetPic(!resetPic)
   }
 
   const reset = () => {
     setImage(null)
-    setUrl(null)
     setStart(false)
   }
 

@@ -9,20 +9,18 @@ interface Props {
   sendUrl: (url: any | null) => void;
 }
 
-const App : FC <Props> = (props) => {
-const [image, setImage] = useState<any | null>(null);
+const App: FC<Props> = (props) => {
+  const [image, setImage] = useState<any | null>(null);
 
-const [uploading, setUploading] = useState<boolean>(false)
+  const [uploading, setUploading] = useState<boolean>(false)
 
-const [update, setUpdate] = useState<any>(null)
+  const [update, setUpdate] = useState<any>(null)
 
-const [start, setStart] = useState<boolean>(false)
+  const [start, setStart] = useState<boolean>(false)
 
-const [url, setUrl] = useState<any | null>(null)
+  const [url, setUrl] = useState<any | null>(null)
 
-  // This function is triggered when the "Select an image" button pressed
   const showImagePicker = async () => {
-    // Ask the user for the permission to access the media library 
     const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
     if (permissionResult.granted === false) {
@@ -32,18 +30,12 @@ const [url, setUrl] = useState<any | null>(null)
 
     const result = await ImagePicker.launchImageLibraryAsync();
 
-    // Explore the result
-    console.log(result);
-
     if (!result.cancelled) {
       setImage(result.uri);
-      console.log(result.uri);
     }
   }
 
-  // This function is triggered when the "Open camera" button pressed
   const openCamera = async () => {
-    // Ask the user for the permission to access the camera
     const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
 
     if (permissionResult.granted === false) {
@@ -53,16 +45,13 @@ const [url, setUrl] = useState<any | null>(null)
 
     const result = await ImagePicker.launchCameraAsync();
 
-    // Explore the result
-    console.log(result);
 
     if (!result.cancelled) {
       setImage(result.uri);
-      console.log(result.uri);
     }
   }
 
-  const getPictureBlob = async (uri: String) =>  {
+  const getPictureBlob = async (uri: String) => {
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
       xhr.onload = function () {
@@ -83,13 +72,10 @@ const [url, setUrl] = useState<any | null>(null)
     const storageRef = ref(storage, String(uuid.v4()));
     let blob: Blob
     // try {
-      setUploading(true);
-      console.log('HEERE')
-      blob = await getPictureBlob(image);
-      console.log("BLLLOOOBB", blob)
-      uploadBytes(storageRef, blob).then((snapshot) => {
-        console.log('UPLOAD MIGHT BE SUCCSESFULLLLLLLLL')
-        getDownloadURL(storageRef)
+    setUploading(true);
+    blob = await getPictureBlob(image);
+    uploadBytes(storageRef, blob).then((snapshot) => {
+      getDownloadURL(storageRef)
         .then((url) => {
           console.log(url)
           setUrl(url)
@@ -100,16 +86,15 @@ const [url, setUrl] = useState<any | null>(null)
         .catch((error) => {
           console.log(error)
         })
-      }).catch((err) => {
-        console.log(Object.keys(err));
-        console.log('ERRORRRRR', err.name)
-      })
+    }).catch((err) => {
+      console.log(Object.keys(err));
+      console.log('ERRORRRRR', err.name)
+    })
   };
 
   const UpdateImage = async () => {
     setStart(true)
     let imgUrl = await uploadImageToBucket();
-    console.log('SHOWING IMG', imgUrl)
   };
 
 
@@ -128,9 +113,9 @@ const [url, setUrl] = useState<any | null>(null)
           />
         }
       </View>
-      <View style={{flexDirection: 'row'}}>
+      <View style={{ flexDirection: 'row' }}>
         <Button title='Upload Image' onPress={UpdateImage} />
-        {start ?  <View>{uploading ? <Image style={styles.loadingIcon} source={require('../../assets/icons/loading.gif')} /> : <Image style={{width: 50, height: 50}} source={require('../../assets/icons/complete.png')} />}</View> : null}
+        {start ? <View>{uploading ? <Image style={styles.loadingIcon} source={require('../../assets/icons/loading.gif')} /> : <Image style={{ width: 50, height: 50 }} source={require('../../assets/icons/complete.png')} />}</View> : null}
       </View>
     </View>
   );
@@ -138,8 +123,6 @@ const [url, setUrl] = useState<any | null>(null)
 
 export default App;
 
-// Kindacode.com
-// Just some styles
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
@@ -159,7 +142,7 @@ const styles = StyleSheet.create({
     height: 300,
     resizeMode: 'cover'
   },
-    loadingIcon: {
+  loadingIcon: {
     width: 50,
     height: 50
   }

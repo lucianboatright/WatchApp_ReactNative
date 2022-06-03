@@ -30,11 +30,6 @@ const App: FC<Props> = (props) => {
         await firebase.firestore().collection('users').doc(user).update({ following: isFollowing ? firebase.firestore.FieldValue.arrayRemove({ name: props.postUserName, followerId: props.postUser }) : firebase.firestore.FieldValue.arrayUnion({ name: props.postUserName, followerId: props.postUser }) })
     }
 
-    const testing = () => {
-        console.log('insfollwing inside buitton', isFollowing)
-        console.log('insfollwing inside props', props.isFollowing)
-    }
-
     useEffect(() => {
         setIsFollowing(props.isFollowing)
     }, [props.isFollowing])

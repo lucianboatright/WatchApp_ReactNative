@@ -101,7 +101,6 @@ const App: React.FC<Props> = ({ route, navigation }) => {
         await setFollowingLength(userDeta.data().following.length)
         if ((userDeta.data().followers).filter((item: { followerId: string | undefined; }) => item.followerId === authUser)) {
             await setIsFollowing(true)
-            console.log('YESS HE IS FOLLOWING')
         }
     }
 
@@ -206,7 +205,9 @@ const App: React.FC<Props> = ({ route, navigation }) => {
                         <View >
                             <FlatList
                                 data={approvedPost.filter(runFilters).length > 0 ? approvedPost.filter(runFilters) : approvedPost}
-                                contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap" }}
+                                // contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap" }}
+                                numColumns={2}
+                                columnWrapperStyle={{ flexWrap: 'wrap', flex: 1, marginTop: 5 }}
                                 renderItem={
                                     ({ item }) => <Rendering
                                         message={item.data().message}
@@ -242,7 +243,9 @@ const App: React.FC<Props> = ({ route, navigation }) => {
                         <View>
                             <FlatList
                                 data={approvedPost}
-                                contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap" }}
+                                // contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap" }}
+                                numColumns={2}
+                                columnWrapperStyle={{ flexWrap: 'wrap', flex: 1, marginTop: 5 }}
                                 renderItem={
                                     ({ item }) => <Rendering
                                         message={item.data().message}
@@ -291,21 +294,18 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     header: {
-        flex: 0.45,
+        flex: 0.4,
         paddingLeft: 5,
         backgroundColor: "#C2DFE3",
-        // borderColor: 'grey',
-        // borderWidth: 0.5,
-        marginBottom: 5,
+        // marginBottom: 5,
         marginLeft: 5,
         marginRight: 5,
         borderRadius: 5,
         padding: 5,
     },
-    lowerHeader: {
-        // paddingTop: 10,
-        flex: 1
-    },
+    // lowerHeader: {
+    //     flex: 1
+    // },
     profileImageBox: {
         flexDirection: 'row',
         height: 1,
@@ -314,8 +314,6 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
-        // borderBottomColor: "#2A6F97",
-        // borderBottomWidth: 0.5,
 
     },
     approvedPosts: {
@@ -348,7 +346,7 @@ const styles = StyleSheet.create({
         marginVertical: 2,
     },
     buttonSmallHilight: {
-        backgroundColor: "orange",
+        backgroundColor: "#61A5C2",
         marginLeft: 'auto',
         marginRight: 'auto',
         width: '48%',
@@ -386,7 +384,7 @@ const styles = StyleSheet.create({
     infoTextHighlight: {
         marginLeft: 5,
         fontFamily: 'NunitoSemiBold',
-        fontSize: 16,
+        fontSize: 15,
         maxWidth: 210,
         color: "#013A63",
     },

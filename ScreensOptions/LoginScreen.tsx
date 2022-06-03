@@ -22,13 +22,13 @@ const App: FC = (props) => {
             } catch (error) {
                 if (error.code.includes('auth/user-not-found')) {
                     Alert.alert('User does not exist')
+                } else if (error.code.includes('auth/wrong-password')) {
+                    Alert.alert('Incorrect password')
                 }
+
             }
 
         }
-    }
-    const testing = () => {
-        console.log('EMAIL AND PWORD', email, password)
     }
 
 
@@ -60,7 +60,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        backgroundColor: '#DAD7CD',
     },
     loginText: {
         flexDirection: 'row',
@@ -82,7 +83,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 5
     },
     loginButton: {
-        backgroundColor: '#9DB4C0',
+        backgroundColor: '#87BBA2',
         color: 'white',
         padding: 5,
         paddingRight: 20,
@@ -93,7 +94,7 @@ const styles = StyleSheet.create({
     },
     loginButtonLarge: {
         marginTop: 30,
-        backgroundColor: '#89C2D9',
+        backgroundColor: '#3B6064',
         color: 'white',
         padding: 5,
         paddingRight: 20,
