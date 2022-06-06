@@ -14,7 +14,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 const { width, height } = Dimensions.get('screen')
 
 interface Props {
-    name: string;
+    userName: string;
     message: string;
     iamge_1: string;
     iamge_2: string;
@@ -54,7 +54,7 @@ type RootStackParamsList = {
     Profile: any;
     NestedScreen: {
         id: string,
-        name: string,
+        userName: string,
     };
 }
 
@@ -80,8 +80,8 @@ const App: React.FC<Props> = (props) => {
             {openBox ?
                 <View style={styles.container}>
                     <View style={styles.userHeader}>
-                        <TouchableOpacity style={styles.viewBoxButton} onPress={() => navigation.navigate('NestedScreen', { id: props.userIdNumber, name: props.name })} >
-                            <Text numberOfLines={1} style={styles.headerTitle}>User: {props.name}</Text>
+                        <TouchableOpacity style={styles.viewBoxButton} onPress={() => navigation.navigate('NestedScreen', { id: props.userIdNumber, userName: props.userName })} >
+                            <Text numberOfLines={1} style={styles.headerTitle}>User: {props.userName}</Text>
                         </TouchableOpacity>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '46%' }}>
                             <DeleteIcon postId={props.postId} postUser={props.userIdNumber} likes={props.likes} />
@@ -204,7 +204,7 @@ const styles = StyleSheet.create({
 
     },
     goBackText: {
-        color: 'white',
+        color: '#DAD7CD',
         fontWeight: 'bold',
         fontSize: 15,
     },
@@ -216,7 +216,7 @@ const styles = StyleSheet.create({
     },
     font: {
         fontFamily: 'NunitoBold',
-        color: '#012A4A',
+        color: 'black',
     },
     fontButton: {
         fontFamily: 'NunitoBold',
@@ -314,7 +314,7 @@ const styles = StyleSheet.create({
         margin: 5,
     },
     viewBoxButton: {
-        backgroundColor: '#A9D6E5',
+        backgroundColor: '#143642',
         borderTopLeftRadius: 10,
         borderTopRightRadius: 5,
         paddingTop: 5,
@@ -327,7 +327,7 @@ const styles = StyleSheet.create({
     headerTitle: {
         fontWeight: 'bold',
         borderColor: 'black',
-        color: '#012A4A',
+        color: '#DAD7CD',
         fontSize: 20,
         flex: 1,
     },

@@ -35,8 +35,8 @@ const App: FC = (props) => {
     return (
         <View style={styles.container}>
             <View style={styles.introTextContainer}>
-                <Text style={styles.introText}>Welcome Back</Text>
-                <Text style={styles.introText}>Login with your Details </Text>
+                <Text style={styles.introText}>Welcome Back to Roll and Box!</Text>
+                <Text style={styles.introTextSmall}>Login with your Details </Text>
             </View>
             <Input placeholder='Email' onChangeText={(text) => setEmail(text)} />
             <Input placeholder='Password' secureTextEntry onChangeText={(text) => setPassword(text)} />
@@ -46,7 +46,7 @@ const App: FC = (props) => {
             <View style={styles.loginText}>
                 <Text style={styles.loginLabel}>Need to Sign Up?</Text>
                 <TouchableOpacity style={styles.loginButton} onPress={() => props.navigation.navigate('Signup')}>
-                    <Text style={{ color: 'white', fontFamily: 'NunitoBold' }}>Signup Here</Text>
+                    <Text style={{ color: '#DAD7CD', fontFamily: 'NunitoBold' }}>Signup Here</Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -68,10 +68,19 @@ const styles = StyleSheet.create({
         marginVertical: 25
     },
     introText: {
+        fontFamily: 'NunitoBold',
+        padding: 5,
+        fontSize: 20,
+        textAlign: 'center',
+        color: '#3B6064',
+        marginBottom: 5,
+    },
+    introTextSmall: {
         fontFamily: 'NunitoSemiBold',
         padding: 5,
         fontSize: 20,
         textAlign: 'center',
+        color: '#3B6064',
         marginBottom: 5,
     },
     introTextContainer: {
@@ -83,8 +92,8 @@ const styles = StyleSheet.create({
         marginHorizontal: 5
     },
     loginButton: {
-        backgroundColor: '#87BBA2',
-        color: 'white',
+        backgroundColor: '#55828B',
+        color: '#DAD7CD',
         padding: 5,
         paddingRight: 20,
         paddingLeft: 20,
@@ -95,7 +104,7 @@ const styles = StyleSheet.create({
     loginButtonLarge: {
         marginTop: 30,
         backgroundColor: '#3B6064',
-        color: 'white',
+        color: '#DAD7CD',
         padding: 5,
         paddingRight: 20,
         paddingLeft: 20,
@@ -106,7 +115,7 @@ const styles = StyleSheet.create({
     Large: {
 
         fontSize: 25,
-        color: 'white',
+        color: '#DAD7CD',
         fontFamily: 'NunitoSemiBold'
     }
 })

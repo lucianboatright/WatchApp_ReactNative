@@ -18,6 +18,15 @@ interface Props {
     name: any;
 }
 
+interface Watch {
+    data: () => WatchData;
+
+}
+
+interface WatchData {
+    cost: string;
+}
+
 const App: React.FC<Props> = ({ route, navigation }) => {
 
     const { id } = route.params
@@ -28,62 +37,24 @@ const App: React.FC<Props> = ({ route, navigation }) => {
     const displayName = auth.currentUser?.displayName
 
     const [userDetails, setUserDetails] = useState<any>(null)
-    const [userEmail, setUserEmail] = useState<any>(null)
+    const [userEmail, setUserEmail] = useState<string>('')
     const [userName, setUserName] = useState<any>(null)
-    const [approvedPost, setApprovedPosts] = useState<any>(null)
-    const [filteredPost, setFilteredPosts] = useState<any>(null)
-    const [watchNumber, setWatchNumber] = useState<any>(null)
+    const [approvedPost, setApprovedPosts] = useState<any | null>(null)
+    const [watchNumber, setWatchNumber] = useState<number>(0)
     const [forSaleCount, setForSaleCount] = useState<number>(0)
     const [notForSaleCount, setNotForSaleCount] = useState<number>(0)
 
     const [userPic, setUserPic] = useState<any | null>(null)
 
-    const [watchFilter, setWatchFilter] = useState<any>(null)
+    const [watchFilter, setWatchFilter] = useState<string>('')
     const [startFilter, setStartFilter] = useState<boolean>(false)
     const [forSaleFilter, setForSaleFilter] = useState<boolean>(false)
     const [notForSaleFilter, setNotForSaleFilter] = useState<boolean>(false)
-    const [followersList, setFollowersList] = useState<any>(null)
-    const [followingList, setFollowingList] = useState<any>(null)
+    const [followersList, setFollowersList] = useState<any | null>(null)
+    const [followingList, setFollowingList] = useState<any | null>(null)
     const [followerLength, setFollowerLength] = useState<number>(0)
     const [followingLength, setFollowingLength] = useState<number>(0)
     const [isFollowing, setIsFollowing] = useState<any>(null)
-
-
-    const signOutUser = async () => {
-        const auth = getAuth()
-        signOut(auth).then(() => {
-            alert('Clicked signout')
-            navigation.navigate('Login')
-
-        })
-    }
-
-    const getApprovedPosts = async () => {
-        firebase.firestore().collection('posts').where('userIdNumber', '==', id).onSnapshot(querySnapShot => {
-            const documents = querySnapShot.docs;
-            setApprovedPosts(documents)
-            setWatchNumber(documents.length)
-        })
-        runSaleCounter()
-    }
-
-    const runFilters = async (approvedPost: { data: () => { (): any; new(): any; cost: string; }; }) => {
-        if (forSaleFilter && approvedPost.data().cost != 'Not for sale') {
-            return false
-        }
-        if (notForSaleFilter && approvedPost.data().cost === 'Not for sale') {
-            return false
-        }
-        return true
-    }
-
-    const runSaleCounter = async () => {
-        const forSaleInfo = await approvedPost.filter((item: any) => item.data().cost != 'Not for sale')
-        const notForSaleInfo = await approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost == 'Not for sale')
-        setForSaleCount(forSaleInfo.length)
-        setNotForSaleCount(notForSaleInfo.length)
-    }
-
 
     const getUserDetails = async () => {
         const userDeta = await firebase.firestore().collection('users').doc(id).get()
@@ -104,14 +75,30 @@ const App: React.FC<Props> = ({ route, navigation }) => {
         }
     }
 
+    const getApprovedPosts = async () => {
+        firebase.firestore().collection('posts').where('userIdNumber', '==', id).onSnapshot(querySnapShot => {
+            const documents = querySnapShot.docs;
+            setApprovedPosts(documents)
+            setWatchNumber(documents.length)
+
+            const forSaleInfo = documents.filter((item: WatchData) => item.data().cost != 'Not for sale')
+            const notForSaleInfo = documents.filter((item: WatchData) => item.data().cost == 'Not for sale')
+            setForSaleCount(forSaleInfo.length)
+            setNotForSaleCount(notForSaleInfo.length)
+        })
+        // runSaleCounter()
+    }
+
     const getFilterForSale = async () => {
+        console.log('111111')
         setStartFilter(true)
         if (notForSaleFilter) {
             setNotForSaleFilter(!notForSaleFilter)
             setForSaleFilter(!forSaleFilter)
 
+        } else {
+            setForSaleFilter(!forSaleFilter)
         }
-        setForSaleFilter(!forSaleFilter)
     }
 
 
@@ -120,32 +107,59 @@ const App: React.FC<Props> = ({ route, navigation }) => {
         if (forSaleFilter) {
             setNotForSaleFilter(!notForSaleFilter)
             setForSaleFilter(!forSaleFilter)
+        } else {
+            setNotForSaleFilter(!notForSaleFilter)
         }
-        setNotForSaleFilter(!notForSaleFilter)
     }
 
     const clearWatchFilter = () => {
-        setWatchFilter(null)
-        setFilteredPosts(null)
         setForSaleFilter(false)
         setNotForSaleFilter(false)
         setStartFilter(false)
     }
 
+    const runFilters = (approvedPost: Watch) => {
+        if (forSaleFilter && approvedPost.data().cost != 'Not for sale') {
+            // console.log('3333')
+            return false
+        }
+        if (notForSaleFilter && approvedPost.data().cost === 'Not for sale') {
+            return false
+        }
+        return true
+    }
+
+    // const runSaleCounter = async () => {
+    //     console.log('made it here V!')
+
+    //     // if () {
+    //     console.log('made it here')
+    //     const forSaleInfo = await approvedPost.filter((item: any) => item.data().cost != 'Not for sale')
+    //     const notForSaleInfo = await approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost == 'Not for sale')
+    //     setForSaleCount(forSaleInfo.length)
+    //     setNotForSaleCount(notForSaleInfo.length)
+    //     // }
+    // }
+
     useEffect(() => {
-        getUserDetails()
-        getApprovedPosts()
-    }, [startFilter, watchNumber])
+        // console.log('RRRR')
+        if (approvedPost == null) {
+            getApprovedPosts()
+            getUserDetails()
+        } else {
+            getUserDetails()
+        }
+    }, [startFilter, forSaleCount])
 
     return (
-        <SafeAreaView style={{ flex: 1, marginTop: StatusBar.currentHeight }} >
+        <SafeAreaView style={{ flex: 1 }} >
             <View style={styles.container}>
                 <View style={styles.header}>
                     <View style={styles.headerInfo}>
                         <View>
                             <View style={{ flexDirection: 'row' }}>
                                 <Text style={styles.infoTextHighlight}>UserName :</Text>
-                                <Text style={styles.infoText}> {name}</Text>
+                                <Text style={styles.infoText}> {userName}</Text>
                             </View>
                             <View style={{ flexDirection: 'row', width: '50%' }}>
                                 <Text style={styles.infoTextHighlight}>User Email : </Text>
@@ -176,15 +190,15 @@ const App: React.FC<Props> = ({ route, navigation }) => {
                             </View>
                         </View>
                     </View>
-                    <View style={styles.lowerHeader}>
+                    <View>
                         <View style={styles.followingContainer}>
                             <View style={{ width: '50%' }}>
                                 <Text style={styles.infoText}>Following:  {followingLength}</Text>
-                                {followerLength == 0 ? <ScrollWithLink inportData={followingList} bgcolor={'#61A5C2'} /> : <Text style={styles.infoText}>Not Following</Text>}
+                                {followingLength != 0 ? <ScrollWithLink inportData={followingList} bgcolor={'#61A5C2'} /> : <Text style={styles.infoText}>Not Following</Text>}
                             </View>
                             <View>
                                 <Text style={styles.infoText}>Followers:  {followerLength}</Text>
-                                {followingLength == 0 ? <ScrollWithLink inportData={followersList} bgcolor={'#61A5C2'} /> : <Text style={styles.infoText}>No Followers</Text>}
+                                {followerLength != 0 ? <ScrollWithLink inportData={followersList} bgcolor={'#61A5C2'} /> : <Text style={styles.infoText}>No Followers</Text>}
                             </View>
                         </View>
                         <View style={{ flexDirection: 'row' }}>
@@ -201,35 +215,15 @@ const App: React.FC<Props> = ({ route, navigation }) => {
                     </View>
                 </View>
                 <View style={styles.approvedPosts}>
-                    {startFilter ?
+                    {approvedPost ?
                         <View >
                             <FlatList
                                 data={approvedPost.filter(runFilters).length > 0 ? approvedPost.filter(runFilters) : approvedPost}
-                                // contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap" }}
                                 numColumns={2}
                                 columnWrapperStyle={{ flexWrap: 'wrap', flex: 1, marginTop: 5 }}
                                 renderItem={
                                     ({ item }) => <Rendering
-                                        message={item.data().message}
-                                        name={item.data().userName}
-                                        iamge_1={item.data().iamge_1}
-                                        iamge_2={item.data().iamge_2}
-                                        iamge_3={item.data().iamge_3}
-                                        iamge_4={item.data().iamge_4}
-                                        brand={item.data().brand}
-                                        caseSize={item.data().caseSize}
-                                        caseMaterial={item.data().caseMaterial}
-                                        lugsWidth={item.data().lugsWidth}
-                                        mechanism={item.data().mechanism}
-                                        cost={item.data().cost}
-                                        timeStamp={item.data().timeStamp}
-                                        year={item.data().year}
-                                        watchStyle={item.data().watchStyle}
-                                        postId={item.id}
-                                        likes={item.data().likes}
-                                        userIdNumber={item.data().userIdNumber}
-                                        comments={item.data().comments}
-                                        approved={''}
+                                        {...item.data()}
                                         onApprove={function (): void {
                                             throw new Error('Function not implemented.');
                                         }} onReject={function (): void {
@@ -241,41 +235,7 @@ const App: React.FC<Props> = ({ route, navigation }) => {
                         </View>
                         :
                         <View>
-                            <FlatList
-                                data={approvedPost}
-                                // contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap" }}
-                                numColumns={2}
-                                columnWrapperStyle={{ flexWrap: 'wrap', flex: 1, marginTop: 5 }}
-                                renderItem={
-                                    ({ item }) => <Rendering
-                                        message={item.data().message}
-                                        name={item.data().userName}
-                                        iamge_1={item.data().iamge_1}
-                                        iamge_2={item.data().iamge_2}
-                                        iamge_3={item.data().iamge_3}
-                                        iamge_4={item.data().iamge_4}
-                                        brand={item.data().brand}
-                                        caseSize={item.data().caseSize}
-                                        caseMaterial={item.data().caseMaterial}
-                                        lugsWidth={item.data().lugsWidth}
-                                        mechanism={item.data().mechanism}
-                                        cost={item.data().cost}
-                                        timeStamp={item.data().timeStamp}
-                                        year={item.data().year}
-                                        watchStyle={item.data().watchStyle}
-                                        postId={item.id}
-                                        likes={item.data().likes}
-                                        userIdNumber={item.data().userIdNumber}
-                                        comments={item.data().comments}
-                                        approved={''}
-                                        onApprove={function (): void {
-                                            throw new Error('Function not implemented.');
-                                        }} onReject={function (): void {
-                                            throw new Error('Function not implemented.');
-                                        }}
-                                    />
-                                }
-                            />
+                            <Text>Loading</Text>
                         </View>
 
                     }
@@ -302,6 +262,8 @@ const styles = StyleSheet.create({
         marginRight: 5,
         borderRadius: 5,
         padding: 5,
+        borderColor: '#2A6F97',
+        borderWidth: 0.5,
     },
     // lowerHeader: {
     //     flex: 1

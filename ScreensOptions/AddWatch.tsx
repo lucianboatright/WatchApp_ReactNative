@@ -95,7 +95,7 @@ const App: FC = (props) => {
     }, [])
 
     return (
-        <SafeAreaView style={{ flex: 1 }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: '#DAD7CD' }}>
             <View style={styles.container}>
                 <ScrollView>
                     <View style={styles.ImageSelectors}>

@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
 
   },
   submitButtonContainer: {
-    backgroundColor: "#A9D6E5",
+    backgroundColor: "#C0BBAA",
     borderTopLeftRadius: 5,
     borderTopRightRadius: 5,
     width: '40%'

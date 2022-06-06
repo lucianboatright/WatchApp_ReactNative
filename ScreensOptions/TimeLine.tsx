@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Button, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, StatusBar, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth"
@@ -114,7 +114,6 @@ const App: FC = (props) => {
         }
     }
 
-    // { data: () => { brand: string; cost: string; caseSize: string; mechanism: string; watchStyle: string; }; }
     const runFilters = (approvedPost: Watch) => {
         if (forSaleFilter && approvedPost.data().cost != 'Not for sale') {
             return false
@@ -161,23 +160,23 @@ const App: FC = (props) => {
 
 
     return (
-        <SafeAreaView style={{ flex: 1 }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: '#DAD7CD', }}>
             <View style={styles.container}>
                 <View style={{ flexDirection: 'row' }}>
                     <FilterLable lable={'Brand:'} filter={watchFilter} clearButton={() => setWatchFilter(null)} />
-                    <WatchScrollList inportData={WatchList} bgcolor={'#A9D6E5'} sendFilter={(name: any | null) => runWatchFilter(name)} />
+                    <WatchScrollList inportData={WatchList} bgcolor={'#A56336'} sendFilter={(name: any | null) => runWatchFilter(name)} />
                 </View>
                 <View style={{ flexDirection: 'row' }}>
                     <FilterLable lable={'Case Size:'} filter={watchCaseFilter} clearButton={() => setWatchCaseFilter(null)} />
-                    <WatchScrollList inportData={CaseSize} bgcolor={'#89C2D9'} sendFilter={(name: any | null) => runWatchCaseFilter(name)} />
+                    <WatchScrollList inportData={CaseSize} bgcolor={'#815839'} sendFilter={(name: any | null) => runWatchCaseFilter(name)} />
                 </View>
                 <View style={{ flexDirection: 'row' }}>
                     <FilterLable lable={'Mechanism:'} filter={watchMechanismFilter} clearButton={() => setWatchMechanismFilter(null)} />
-                    <WatchScrollList inportData={Mechanism} bgcolor={'#61A5C2'} sendFilter={(name: any | null) => runWatchMechanismFilter(name)} />
+                    <WatchScrollList inportData={Mechanism} bgcolor={'#6F523B'} sendFilter={(name: any | null) => runWatchMechanismFilter(name)} />
                 </View>
                 <View style={{ flexDirection: 'row' }}>
                     <FilterLable lable={'Type:'} filter={watchTypeFilter} clearButton={() => setWatchTypeFilter(null)} />
-                    <WatchScrollList inportData={Styles} bgcolor={'#468FAF'} sendFilter={(name: any | null) => runWatchTypeFilter(name)} />
+                    <WatchScrollList inportData={Styles} bgcolor={'#4A473E'} sendFilter={(name: any | null) => runWatchTypeFilter(name)} />
                 </View>
                 <View style={{ flexDirection: 'row' }}>
                     <TouchableOpacity style={forSaleFilter ? styles.buttonSmallHilight : styles.buttonSmall} onPress={getFilterForSale}>
@@ -231,6 +230,7 @@ export default App;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        // backgroundColor: '#DAD7CD',
 
     },
     header: {
@@ -251,7 +251,7 @@ const styles = StyleSheet.create({
         flex: 1
     },
     button: {
-        backgroundColor: "#2A6F97",
+        backgroundColor: "#143642",
         marginLeft: 'auto',
         marginRight: 'auto',
         width: '98%',
@@ -263,12 +263,12 @@ const styles = StyleSheet.create({
         marginVertical: 2,
     },
     text: {
-        color: 'white',
+        color: '#EAE8E3',
         // fontWeight: 'bold',
         fontFamily: 'NunitoBold',
     },
     textHilight: {
-        color: '#2C7DA0',
+        color: '#EAE8E3',
         // fontWeight: 'bold',
         fontFamily: 'NunitoBold',
     },
@@ -292,7 +292,7 @@ const styles = StyleSheet.create({
         marginRight: 'auto'
     },
     buttonSmall: {
-        backgroundColor: "#2C7DA0",
+        backgroundColor: "#263C41",
         marginLeft: 'auto',
         marginRight: 'auto',
         width: '48%',
@@ -306,7 +306,7 @@ const styles = StyleSheet.create({
     },
     buttonSmallHilight: {
         fontFamily: 'NunitoSemiBold',
-        backgroundColor: "#A9D6E5",
+        backgroundColor: "#2C7DA0",
         marginLeft: 'auto',
         marginRight: 'auto',
         width: '48%',

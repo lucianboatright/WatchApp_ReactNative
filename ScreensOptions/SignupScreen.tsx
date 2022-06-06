@@ -66,7 +66,7 @@ const App: FC = (props) => {
     return (
         <View style={styles.container}>
             <View style={styles.introTitleContainer}>
-                <Text style={styles.title}>Welcome to Roll and Box</Text>
+                <Text style={styles.title}>Welcome to Roll and Box!</Text>
                 <Text style={styles.introText}>Start Your Free Virtual Watch Box Collection Today!</Text>
             </View>
             <Input placeholder="Enter Your First Name" onChangeText={(text) => setName(text)} />
@@ -91,7 +91,7 @@ const App: FC = (props) => {
             <View style={styles.loginText}>
                 <Text style={styles.loginLabel}>Already Have an Account?</Text>
                 <TouchableOpacity style={styles.loginButtonSmall} onPress={() => props.navigation.navigate('Login')}>
-                    <Text style={{ fontFamily: 'NunitoBold', color: 'white' }}>Login Here</Text>
+                    <Text style={{ fontFamily: 'NunitoBold', color: '#DAD7CD' }}>Login Here</Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -113,13 +113,15 @@ const styles = StyleSheet.create({
         marginVertical: 20
     },
     title: {
-        fontFamily: 'NunitoSemiBold',
+        fontFamily: 'NunitoBold',
         padding: 10,
         fontSize: 25,
         textAlign: 'center',
+        color: '#325255',
     },
     introText: {
         fontFamily: 'NunitoSemiBold',
+        color: '#325255',
         padding: 5,
         fontSize: 20,
         textAlign: 'center',
@@ -157,8 +159,8 @@ const styles = StyleSheet.create({
         marginHorizontal: 5
     },
     loginButton: {
-        backgroundColor: '#3B6064',
-        color: 'white',
+        backgroundColor: '#55828B',
+        // backgroundColor: '#3B6064',
         padding: 5,
         borderRadius: 5,
         textAlign: 'center',
@@ -167,8 +169,7 @@ const styles = StyleSheet.create({
         paddingLeft: 20,
     },
     loginButtonSmall: {
-        backgroundColor: '#87BBA2',
-        color: 'white',
+        backgroundColor: '#3B6064',
         padding: 5,
         borderRadius: 5,
         textAlign: 'center',
@@ -178,7 +179,7 @@ const styles = StyleSheet.create({
     },
     Large: {
         fontSize: 25,
-        color: 'white',
+        color: '#DAD7CD',
     },
     modal: {
         marginBottom: 40,

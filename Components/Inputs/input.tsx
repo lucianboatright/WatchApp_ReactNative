@@ -30,6 +30,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#e3e3e3',
         borderRadius: 5,
         marginVertical: 10,
+        borderColor: "#C0BBAA",
+        borderWidth: 0.5
     },
     input: {
         padding: 15

@@ -18,7 +18,22 @@ const { Navigator, Screen } = createStackNavigator();
 
 const AppStack: React.FC = () => {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator
+      screenOptions={{
+        tabBarActiveTintColor: "red",
+        tabBarInactiveTintColor: "blue",
+        tabBarStyle: {
+          height: 85,
+          backgroundColor: '#EAE8E3',
+          borderTopColor: '#CDC9BC',
+          borderTopWidth: 0.5,
+        },
+        tabBarLabelStyle: {
+          fontSize: 12,
+          margin: 0,
+        },
+      }}
+    >
       <Tab.Screen
         name="Timeline"
         component={TimeLineStackNavigator}
@@ -26,18 +41,24 @@ const AppStack: React.FC = () => {
           headerShown: false,
           tabBarLabel: 'Timeline',
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="table-network" color={'green'} size={size} />
+            <MaterialCommunityIcons name="search-web" color={'#01497C'} size={40} />
           ),
         }}
       />
       <Tab.Screen
         name="Add"
         component={AddWatch}
+
         options={{
           headerShown: false,
-          tabBarLabel: 'Add',
+          tabBarShowLabel: false,
+          // tabBarBackground: 'DAD7CD',
+          // tabBarOptions={{
+          //   showLabel : false
+          //   }},
+          // tabBarLabel: '',
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="plus-outline" color={'red'} size={45} />
+            <MaterialCommunityIcons name="plus-outline" color={'#01497C'} size={48} />
           ),
         }}
       />
@@ -46,9 +67,9 @@ const AppStack: React.FC = () => {
         component={Dashboard}
         options={{
           headerShown: false,
-          tabBarLabel: 'Home',
+          tabBarLabel: 'Profile',
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="account-settings" color={'blue'} size={size} />
+            <MaterialCommunityIcons name="account-settings" color={'#01497C'} size={40} />
           ),
         }}
 
