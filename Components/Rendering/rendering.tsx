@@ -1,11 +1,7 @@
 import React, { FC, useEffect, useState } from "react";
-import { View, Text, StyleSheet, Dimensions, Image, TouchableHighlight, TouchableOpacity, ImageBackground, Pressable, Modal, ScrollView } from "react-native";
+import { View, Text, StyleSheet, Dimensions, Image, TouchableHighlight, TouchableOpacity, ImageBackground, Pressable, Modal, ScrollView, StatusBar } from "react-native";
 import { LikesButton, DeleteIcon, CommentsBar, WatchInfoLines } from "../Inputs";
-// import InsetShadow from 'react-native-inset-shadow'
 
-
-
-import { NestedScreen } from "../../ScreensOptions";
 
 import { useNavigation } from '@react-navigation/native';
 
@@ -52,6 +48,7 @@ type RootStackParamsList = {
     Timeline: any;
     Add: any;
     Profile: any;
+    SettingsScreen: any;
     NestedScreen: {
         id: string,
         userName: string,
@@ -77,87 +74,93 @@ const App: React.FC<Props> = (props) => {
 
     return (
         <View>
-            {openBox ?
-                <View style={styles.container}>
-                    <View style={styles.userHeader}>
-                        <TouchableOpacity style={styles.viewBoxButton} onPress={() => navigation.navigate('NestedScreen', { id: props.userIdNumber, userName: props.userName })} >
-                            <Text numberOfLines={1} style={styles.headerTitle}>User: {props.userName}</Text>
-                        </TouchableOpacity>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '46%' }}>
-                            <DeleteIcon postId={props.postId} postUser={props.userIdNumber} likes={props.likes} />
-                            <TouchableHighlight onPress={() => (openClicked())}>
-                                <Image style={styles.icon} source={require('../../assets/icons/closeWindowIcon.png')} />
-                            </TouchableHighlight>
-                            <LikesButton postId={props.postId} likes={props.likes} />
-                        </View>
-                    </View>
-                    <View style={styles.postContainer}>
-                        <View style={styles.infoBoxContainer} >
-                            <View style={styles.message}>
-                                <Text style={styles.font}>Massage: </Text>
-                                <Text style={styles.font}>{props.message}</Text>
-                            </View>
-                            <View style={styles.infoBox}>
-                                <WatchInfoLines title="Brand" info={props.brand} />
-                                <WatchInfoLines title="Case Size" info={props.caseSize} />
-                                <WatchInfoLines title="Material" info={props.caseMaterial} />
-                                <WatchInfoLines title="lug Width" info={props.lugsWidth} />
-                                <WatchInfoLines title="Mechanism" info={props.mechanism} />
-                                <WatchInfoLines title="Year" info={props.year} />
-                                <WatchInfoLines title="Type" info={props.watchStyle} />
-                                <WatchInfoLines title="Cost" info={props.cost} />
+            <View style={{ backgroundColor: '#EAE8E3' }}>
+                {openBox ?
+                    <View style={styles.container}>
+                        <View style={styles.userHeader}>
+                            <TouchableOpacity style={styles.viewBoxButton} onPress={() => navigation.navigate('NestedScreen', { id: props.userIdNumber, userName: props.userName })} >
+                                <Text numberOfLines={1} style={styles.headerTitle}>User: {props.userName}</Text>
+                            </TouchableOpacity>
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '46%' }}>
+                                <DeleteIcon postId={props.postId} postUser={props.userIdNumber} likes={props.likes} />
+                                <TouchableHighlight onPress={() => (openClicked())}>
+                                    <Image style={styles.icon} source={require('../../assets/icons/closeWindowIcon.png')} />
+                                </TouchableHighlight>
+                                <LikesButton postId={props.postId} likes={props.likes} />
                             </View>
                         </View>
-                        <View style={styles.imageContainer}>
-                            <Pressable onPress={() => setOpenModal(!openModal)}>
-                                <ImageBackground source={require('../../assets/pictures/woodenBox_5.png')} style={styles.imageContainerBorder}>
-                                    {/* <Image style={styles.imageBoxInCard} source={require('../../assets/pictures/1.jpg')} /> */}
-                                    <Image style={styles.imageBoxInCard} source={{ uri: props.iamge_1 }} />
-                                </ImageBackground>
-                            </Pressable>
-                            <Modal visible={openModal}>
-                                <View style={{ marginTop: 45, padding: 5 }}>
-                                    <View>
-                                        <TouchableOpacity style={styles.goBackButton} onPress={() => setOpenModal(!openModal)}>
-                                            <Text style={styles.goBackText}>X</Text>
-                                        </TouchableOpacity>
-                                    </View>
-                                    <Text style={{ fontFamily: 'NunitoSemiBold', color: "#2C7DA0" }}>Name: {props.brand}</Text>
-                                    <Text style={{ fontFamily: 'NunitoSemiBold', color: "#2C7DA0" }}>Message: {props.message}</Text>
+                        <View style={styles.postContainer}>
+                            <View style={styles.infoBoxContainer} >
+                                <View style={styles.message}>
+                                    <Text style={styles.font}>Massage: </Text>
+                                    <Text style={styles.font}>{props.message}</Text>
                                 </View>
-                                <View style={{ flex: 0.9 }}>
-                                    <ScrollView>
-                                        <ImageBackground source={require('../../assets/pictures/woodenBox_5.png')} style={styles.imageContainerBorder}>
-                                            <Image style={styles.imageBoxDisplay} source={{ uri: props.iamge_1 }} />
-                                        </ImageBackground>
-                                        <ImageBackground source={require('../../assets/pictures/woodenBox_5.png')} style={styles.imageContainerBorder}>
-                                            <Image style={styles.imageBoxDisplay} source={{ uri: props.iamge_2 }} />
-                                        </ImageBackground>
-                                        <ImageBackground source={require('../../assets/pictures/woodenBox_5.png')} style={styles.imageContainerBorder}>
-                                            <Image style={styles.imageBoxDisplay} source={{ uri: props.iamge_3 }} />
-                                        </ImageBackground>
-                                        <ImageBackground source={require('../../assets/pictures/woodenBox_5.png')} style={styles.imageContainerBorder}>
-                                            <Image style={styles.imageBoxDisplay} source={{ uri: props.iamge_4 }} />
-                                        </ImageBackground>
-                                    </ScrollView>
+                                <View style={styles.infoBox}>
+                                    <WatchInfoLines title="Brand" info={props.brand} />
+                                    <WatchInfoLines title="Case Size" info={props.caseSize} />
+                                    <WatchInfoLines title="Material" info={props.caseMaterial} />
+                                    <WatchInfoLines title="lug Width" info={props.lugsWidth} />
+                                    <WatchInfoLines title="Mechanism" info={props.mechanism} />
+                                    <WatchInfoLines title="Year" info={props.year} />
+                                    <WatchInfoLines title="Type" info={props.watchStyle} />
+                                    <WatchInfoLines title="Cost" info={props.cost} />
                                 </View>
-                            </Modal>
+                            </View>
+                            <View style={styles.imageContainer}>
+                                <Pressable onPress={() => setOpenModal(!openModal)}>
+                                    <ImageBackground source={require('../../assets/pictures/woodenBox_5.png')} style={styles.imageContainerBorder}>
+                                        <Image style={styles.imageBoxInCard} source={{ uri: props.iamge_1 }} />
+                                    </ImageBackground>
+                                </Pressable>
 
+                                <Modal visible={openModal} >
+                                    <View style={{ backgroundColor: '#EAE8E3' }}>
+                                        {/* style={{ height: (StatusBar.currentHeight), backgroundColor: '#CDC9BC' }} */}
+                                        <View style={{ marginTop: 45, padding: 5, borderBottomColor: '#CDC9BC', borderBottomWidth: 0.5, backgroundColor: '#EAE8E3', }}>
+                                            <View>
+                                                <TouchableOpacity style={styles.goBackButton} onPress={() => setOpenModal(!openModal)}>
+                                                    <Text style={styles.goBackText}>X</Text>
+                                                </TouchableOpacity>
+                                            </View>
+                                            <Text style={{ fontFamily: 'NunitoBold', color: "#143642" }}>Name: {props.brand}</Text>
+                                            <Text style={{ fontFamily: 'NunitoBold', color: "#143642" }}>Message: {props.message}</Text>
+                                        </View>
+                                        <View >
+                                            <ScrollView>
+                                                <ImageBackground source={require('../../assets/pictures/woodenBox_5.png')} style={styles.imageContainerBorder}>
+                                                    <Image style={styles.imageBoxDisplay} source={{ uri: props.iamge_1 }} />
+                                                </ImageBackground>
+                                                <ImageBackground source={require('../../assets/pictures/woodenBox_5.png')} style={styles.imageContainerBorder}>
+                                                    <Image style={styles.imageBoxDisplay} source={{ uri: props.iamge_2 }} />
+                                                </ImageBackground>
+                                                <ImageBackground source={require('../../assets/pictures/woodenBox_5.png')} style={styles.imageContainerBorder}>
+                                                    <Image style={styles.imageBoxDisplay} source={{ uri: props.iamge_3 }} />
+                                                </ImageBackground>
+                                                <ImageBackground source={require('../../assets/pictures/woodenBox_5.png')} style={styles.imageContainerBorder}>
+                                                    <Image style={styles.imageBoxDisplay} source={{ uri: props.iamge_4 }} />
+                                                </ImageBackground>
+                                            </ScrollView>
+                                        </View>
+                                    </View>
+
+                                </Modal>
+
+                            </View>
+                        </View>
+                        <View style={styles.commentsBox}>
+                            <CommentsBar postId={props.postId} comments={props.comments} />
                         </View>
                     </View>
-                    <View style={styles.commentsBox}>
-                        <CommentsBar postId={props.postId} comments={props.comments} />
+                    :
+                    <View style={styles.imageBoxContainer}>
+                        <TouchableOpacity onPress={() => (openClicked())}>
+                            <ImageBackground source={require('../../assets/pictures/woodenBox_5.png')} style={styles.imageContainerBorderBox}>
+                                <Image style={styles.imageBoxTest} source={{ uri: props.iamge_1 }} />
+                            </ImageBackground>
+                        </TouchableOpacity>
                     </View>
-                </View>
-                :
-                <View style={styles.imageBoxContainer}>
-                    <TouchableOpacity onPress={() => (openClicked())}>
-                        <ImageBackground source={require('../../assets/pictures/woodenBox_5.png')} style={styles.imageContainerBorderBox}>
-                            <Image style={styles.imageBoxTest} source={{ uri: props.iamge_1 }} />
-                        </ImageBackground>
-                    </TouchableOpacity>
-                </View>
-            }
+                }
+            </View>
         </View>
     )
 }
@@ -189,7 +192,7 @@ const styles = StyleSheet.create({
         paddingLeft: 0,
     },
     goBackButton: {
-        backgroundColor: 'red',
+        backgroundColor: '#B76935',
         borderBottomLeftRadius: 5,
         borderBottomRightRadius: 5,
         paddingLeft: 5,
@@ -211,12 +214,12 @@ const styles = StyleSheet.create({
     infoBox: {
         borderWidth: 0.5,
         borderBottomLeftRadius: 10,
-        borderColor: 'grey',
+        borderColor: '#B76935',
         paddingLeft: 5,
     },
     font: {
         fontFamily: 'NunitoBold',
-        color: 'black',
+        color: '#143642',
     },
     fontButton: {
         fontFamily: 'NunitoBold',
@@ -247,12 +250,13 @@ const styles = StyleSheet.create({
         width: 30
     },
     message: {
-        borderWidth: 0.5,
+        borderLeftWidth: 0.5,
+        borderBottomWidth: 0.5,
         padding: 4,
         paddingLeft: 5,
         flex: 1,
         marginBottom: 0,
-        borderColor: 'grey'
+        borderColor: '#B76935'
     },
     imageContainer: {
         flex: 1,
@@ -314,7 +318,7 @@ const styles = StyleSheet.create({
         margin: 5,
     },
     viewBoxButton: {
-        backgroundColor: '#143642',
+        backgroundColor: '#DAD7CD',
         borderTopLeftRadius: 10,
         borderTopRightRadius: 5,
         paddingTop: 5,
@@ -327,7 +331,7 @@ const styles = StyleSheet.create({
     headerTitle: {
         fontWeight: 'bold',
         borderColor: 'black',
-        color: '#DAD7CD',
+        color: '#143642',
         fontSize: 20,
         flex: 1,
     },

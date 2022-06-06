@@ -21,7 +21,7 @@ export default App;
 const styles = StyleSheet.create({
     infoHeader: {
         fontFamily: 'NunitoBold',
-        color: "#012A4A"
+        color: "#143642"
     },
     infoLine: {
         flexDirection: 'row',

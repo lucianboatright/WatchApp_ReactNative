@@ -160,7 +160,7 @@ const App: FC = (props) => {
 
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: '#DAD7CD', }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: '#F4F4F1', }}>
             <View style={styles.container}>
                 <View style={{ flexDirection: 'row' }}>
                     <FilterLable lable={'Brand:'} filter={watchFilter} clearButton={() => setWatchFilter(null)} />

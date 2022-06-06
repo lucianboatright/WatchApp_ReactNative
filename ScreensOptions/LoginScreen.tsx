@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#DAD7CD',
+        backgroundColor: '#EAE8E3',
     },
     loginText: {
         flexDirection: 'row',

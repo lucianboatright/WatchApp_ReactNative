@@ -34,9 +34,9 @@ const App: FC<Props> = (props) => {
     <View
       style={{
         backgroundColor: value,
-        borderBottomColor: 'grey',
-        borderTopColor: '#000000',
-        borderTopWidth: 1,
+        borderBottomColor: '#B76935',
+        borderTopColor: '#B76935',
+        borderTopWidth: 0.5,
 
       }}>
       <UselessTextInput

@@ -69,7 +69,7 @@ const App: FC<Props> = (props) => {
         <TouchableOpacity style={styles.submitButtonContainer} onPress={uploadComment}>
           <Text style={styles.submitButton}>Submit Comment</Text>
         </TouchableOpacity>
-        <MultiLineInput sendMessage={(text) => setMessage(text)} setBorder={{ borderBottomWidth: 0.5, borderColor: 'grey' }} setHeight={{ padding: 10, height: 50 }} />
+        <MultiLineInput sendMessage={(text) => setMessage(text)} setBorder={{ borderBottomWidth: 0.5, borderColor: '#B76935' }} setHeight={{ padding: 10, height: 50 }} />
       </View>
       <View>
         <View>
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
   flatList: {
   },
   commentTitle: {
-    borderBottomWidth: 1,
+    borderBottomWidth: 0.5,
     borderBottomColor: 'grey',
     fontWeight: 'bold'
   },
@@ -117,17 +117,19 @@ const styles = StyleSheet.create({
 
   },
   submitButtonContainer: {
-    backgroundColor: "#C0BBAA",
+    backgroundColor: "#DAD7CD",
     borderTopLeftRadius: 5,
     borderTopRightRadius: 5,
-    width: '40%'
+    width: '40%',
   },
   submitButton: {
-    color: '#012A4A',
+    color: '#143642',
     padding: 2,
     paddingLeft: 13,
     fontWeight: 'bold',
+  },
+  text: { color: "white", fontWeight: 'bold' },
+  addComment: {
 
   },
-  text: { color: "white", fontWeight: 'bold' }
 });

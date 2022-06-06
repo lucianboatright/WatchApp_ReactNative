@@ -95,7 +95,7 @@ const App: FC = (props) => {
     }, [])
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: '#DAD7CD' }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: '#F4F4F1' }}>
             <View style={styles.container}>
                 <ScrollView>
                     <View style={styles.ImageSelectors}>
@@ -109,7 +109,7 @@ const App: FC = (props) => {
                 </ScrollView>
                 <View>
                     <View>
-                        <MultiLineInput sendMessage={(value: string) => setMessage(value)} setBorder={{ borderBottomWidth: 1 }} setHeight={{ padding: 10, height: 60 }} />
+                        <MultiLineInput sendMessage={(value: string) => setMessage(value)} setBorder={{ borderBottomWidth: 0.5 }} setHeight={{ padding: 10, height: 60 }} />
                         <View style={styles.dropDownBox}>
                             <DropDown title='Select Brand' inputData={WatchList} placeHolder='Select Watch' sendSelected={(selected: any) => setSelectedWatch(selected)} />
                             <DropDown title='Case Size' inputData={CaseSize} placeHolder="Select Case Size" sendSelected={(selected: any) => setSelectedCase(selected)} />
@@ -136,14 +136,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
-    loginButton: {
-        backgroundColor: '#44D0DF',
-        color: 'white',
-        padding: 5,
-        borderRadius: 5,
-        textAlign: 'center',
-        textAlignVertical: 'center',
-    },
     ImageSelectors: {
         flexDirection: 'row',
         marginLeft: 'auto',
@@ -163,7 +155,7 @@ const styles = StyleSheet.create({
         marginVertical: 10
     },
     buttonSmall: {
-        backgroundColor: '#012A4A',
+        backgroundColor: '#263C41',
         marginLeft: 'auto',
         marginRight: 'auto',
         width: '48%',
@@ -177,7 +169,7 @@ const styles = StyleSheet.create({
     text: {
         fontFamily: 'NunitoBold',
         color: 'white',
-        fontWeight: 'bold',
+        // fontWeight: 'bold',
         fontSize: 18,
     },
     dropDownBox: {

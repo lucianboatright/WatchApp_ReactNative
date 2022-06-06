@@ -6,5 +6,6 @@ import AuthDashboard from './AuthDashboard'
 import AddWatch from './AddWatch'
 import TimeLine from './TimeLine'
 import NestedScreen from './NestedScreen'
+import SettingsScreen from './SettingsScreen'
 
-export {Signup, Login, Dashboard, Home, AuthDashboard, AddWatch, TimeLine, NestedScreen}
+export { SettingsScreen, Signup, Login, Dashboard, Home, AuthDashboard, AddWatch, TimeLine, NestedScreen }

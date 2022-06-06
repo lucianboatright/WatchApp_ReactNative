@@ -158,11 +158,11 @@ const App: React.FC<Props> = ({ route, navigation }) => {
                     <View style={styles.headerInfo}>
                         <View>
                             <View style={{ flexDirection: 'row' }}>
-                                <Text style={styles.infoTextHighlight}>UserName :</Text>
-                                <Text style={styles.infoText}> {userName}</Text>
+                                <Text style={styles.infoTextHighlight}>User Name :</Text>
+                                <Text style={styles.infoText}>{userName}</Text>
                             </View>
                             <View style={{ flexDirection: 'row', width: '50%' }}>
-                                <Text style={styles.infoTextHighlight}>User Email : </Text>
+                                <Text style={styles.infoTextHighlight}>User Email :</Text>
                                 <Text numberOfLines={1} style={styles.infoText}>{userEmail}</Text>
                             </View>
                             <View style={{ flexDirection: 'row' }}>
@@ -179,7 +179,7 @@ const App: React.FC<Props> = ({ route, navigation }) => {
                         <View>
                             <View style={styles.profileImageBox}>
                                 <View >
-                                    {userPic ? <Image style={{ height: 80, width: 80, marginTop: '-5%' }} source={userPic} /> : <Image style={{ height: 80, width: 80, marginTop: '-5%' }} source={require('../assets/icons/profileIcon.png')} />}
+                                    {userPic ? <Image style={{ height: 100, width: 100, marginTop: '-5%' }} source={userPic} /> : <Image style={{ height: 100, width: 100, marginTop: '-5%' }} source={require('../assets/icons/profileIcon.png')} />}
                                 </View>
                                 <TouchableOpacity style={styles.goBackButton} onPress={() => navigation.goBack()}>
                                     <Text style={styles.goBackText}>X</Text>
@@ -194,11 +194,10 @@ const App: React.FC<Props> = ({ route, navigation }) => {
                         <View style={styles.followingContainer}>
                             <View style={{ width: '50%' }}>
                                 <Text style={styles.infoText}>Following:  {followingLength}</Text>
-                                {followingLength != 0 ? <ScrollWithLink inportData={followingList} bgcolor={'#61A5C2'} /> : <Text style={styles.infoText}>Not Following</Text>}
-                            </View>
-                            <View>
+                                {followingLength != 0 ? <ScrollWithLink inportData={followingList} bgcolor={'#815839'} /> : <Text style={styles.infoText}>Not Following</Text>}
+
                                 <Text style={styles.infoText}>Followers:  {followerLength}</Text>
-                                {followerLength != 0 ? <ScrollWithLink inportData={followersList} bgcolor={'#61A5C2'} /> : <Text style={styles.infoText}>No Followers</Text>}
+                                {followerLength != 0 ? <ScrollWithLink inportData={followersList} bgcolor={'#815839'} /> : <Text style={styles.infoText}>No Followers</Text>}
                             </View>
                         </View>
                         <View style={{ flexDirection: 'row' }}>
@@ -254,26 +253,21 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     header: {
-        flex: 0.4,
+        flex: 0.45,
         paddingLeft: 5,
-        backgroundColor: "#C2DFE3",
-        // marginBottom: 5,
+        backgroundColor: "#EAE8E3",
         marginLeft: 5,
         marginRight: 5,
         borderRadius: 5,
         padding: 5,
-        borderColor: '#2A6F97',
+        borderColor: '#CDC9BC',
         borderWidth: 0.5,
     },
-    // lowerHeader: {
-    //     flex: 1
-    // },
     profileImageBox: {
         flexDirection: 'row',
         height: 1,
     },
     headerInfo: {
-        flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
 
@@ -284,7 +278,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     button: {
-        backgroundColor: "#2A6F97",
+        backgroundColor: "#143642",
         marginLeft: 'auto',
         marginRight: 'auto',
         width: '98%',
@@ -295,7 +289,7 @@ const styles = StyleSheet.create({
         marginVertical: 2,
     },
     buttonSmall: {
-        backgroundColor: "#2A6F97",
+        backgroundColor: "#4A473E",
         marginLeft: 'auto',
         marginRight: 'auto',
         width: '48%',
@@ -308,7 +302,7 @@ const styles = StyleSheet.create({
         marginVertical: 2,
     },
     buttonSmallHilight: {
-        backgroundColor: "#61A5C2",
+        backgroundColor: "#2A6F97",
         marginLeft: 'auto',
         marginRight: 'auto',
         width: '48%',
@@ -319,7 +313,7 @@ const styles = StyleSheet.create({
         marginVertical: 2,
     },
     goBackButton: {
-        backgroundColor: 'red',
+        backgroundColor: '#B76935',
         borderBottomLeftRadius: 5,
         borderBottomRightRadius: 5,
         paddingLeft: 5,
@@ -335,20 +329,19 @@ const styles = StyleSheet.create({
     },
     text: {
         color: 'white',
-        fontWeight: 'bold',
+        fontFamily: 'NunitoBold',
     },
     infoText: {
-        color: '#012A4A',
+        color: '#143642',
         marginLeft: 5,
-        fontFamily: 'NunitoSemiBold',
+        fontFamily: 'NunitoBold',
         fontSize: 15,
     },
     infoTextHighlight: {
         marginLeft: 5,
-        fontFamily: 'NunitoSemiBold',
+        fontFamily: 'NunitoBold',
         fontSize: 15,
-        maxWidth: 210,
-        color: "#013A63",
+        color: "#143642",
     },
     NoWatches: {
         fontSize: 25,
@@ -360,5 +353,7 @@ const styles = StyleSheet.create({
     },
     followingContainer: {
         flexDirection: 'row',
+    },
+    divider: {
     },
 })

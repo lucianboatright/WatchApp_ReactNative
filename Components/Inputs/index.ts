@@ -10,5 +10,6 @@ import ScrollWithLink from './scrollWithLink'
 import WatchInfoLines from './watchInfoLine'
 import CommentsBar from './commentsBar'
 import FilterLable from './filterLable'
+import SettingButton from './settingButton'
 
-export { FilterLable, Button, Input, MultiLineInput, ForSale, WatchScrollList, LikesButton, DeleteIcon, FollowButton, ScrollWithLink, WatchInfoLines, CommentsBar }
+export { SettingButton, FilterLable, Button, Input, MultiLineInput, ForSale, WatchScrollList, LikesButton, DeleteIcon, FollowButton, ScrollWithLink, WatchInfoLines, CommentsBar }

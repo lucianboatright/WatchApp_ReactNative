@@ -20,10 +20,10 @@ const AppStack: React.FC = () => {
   return (
     <Tab.Navigator
       screenOptions={{
-        tabBarActiveTintColor: "red",
-        tabBarInactiveTintColor: "blue",
+        tabBarActiveTintColor: "#B76935",
+        tabBarInactiveTintColor: "#263C41",
         tabBarStyle: {
-          height: 85,
+          minHeight: 65,
           backgroundColor: '#EAE8E3',
           borderTopColor: '#CDC9BC',
           borderTopWidth: 0.5,
@@ -41,7 +41,7 @@ const AppStack: React.FC = () => {
           headerShown: false,
           tabBarLabel: 'Timeline',
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="search-web" color={'#01497C'} size={40} />
+            <MaterialCommunityIcons name="search-web" color={'#263C41'} size={40} />
           ),
         }}
       />
@@ -51,14 +51,9 @@ const AppStack: React.FC = () => {
 
         options={{
           headerShown: false,
-          tabBarShowLabel: false,
-          // tabBarBackground: 'DAD7CD',
-          // tabBarOptions={{
-          //   showLabel : false
-          //   }},
-          // tabBarLabel: '',
+          // tabBarShowLabel: false,
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="plus-outline" color={'#01497C'} size={48} />
+            <MaterialCommunityIcons name="plus-outline" color={'#263C41'} size={48} />
           ),
         }}
       />
@@ -69,7 +64,7 @@ const AppStack: React.FC = () => {
           headerShown: false,
           tabBarLabel: 'Profile',
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="account-settings" color={'#01497C'} size={40} />
+            <MaterialCommunityIcons name="account-settings" color={'#263C41'} size={40} />
           ),
         }}
 

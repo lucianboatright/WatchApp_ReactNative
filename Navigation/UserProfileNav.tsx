@@ -1,7 +1,7 @@
 import React from 'react'
 import { createStackNavigator } from "@react-navigation/stack";
 import { FC } from "react";
-import { TimeLine, Home, NestedScreen } from "../ScreensOptions";
+import { TimeLine, Home, NestedScreen, Dashboard, SettingsScreen } from "../ScreensOptions";
 
 
 
@@ -19,7 +19,6 @@ const Stack = createStackNavigator<RootStackParamsList>()
 
 const HomeStackNavigator: React.FC = (props) => {
 
-    const msg = 'hello this is a message'
     return (
         <Stack.Navigator
             screenOptions={{
@@ -30,13 +29,34 @@ const HomeStackNavigator: React.FC = (props) => {
             <Stack.Screen
                 name="Home"
                 component={Home}
-                initialParams={{ id: msg }}
             />
 
             <Stack.Screen
                 name="NestedScreen"
                 component={NestedScreen}
-                initialParams={{ id: msg }}
+            />
+        </Stack.Navigator>
+    )
+}
+const ProfileStackNavigator: React.FC = (props) => {
+
+    return (
+        <Stack.Navigator
+            screenOptions={{
+                headerShown: false,
+                headerBackTitleVisible: false
+            }}
+        >
+            <Stack.Screen
+                name="Profile"
+                component={Dashboard}
+            // initialParams={{ id: msg }}
+            />
+
+            <Stack.Screen
+                name="SettingsScreen"
+                component={SettingsScreen}
+            // initialParams={{ id: msg }}
             />
         </Stack.Navigator>
     )
@@ -66,4 +86,4 @@ const TimeLineStackNavigator: FC = () => {
     )
 }
 
-export { HomeStackNavigator, TimeLineStackNavigator }
+export { HomeStackNavigator, TimeLineStackNavigator, ProfileStackNavigator }

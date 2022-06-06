@@ -104,5 +104,5 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         paddingTop: 1,
     },
-    text: { color: "white", fontWeight: 'bold', fontFamily: 'NunitoBold' }
+    text: { color: "#EAE8E3", fontWeight: 'bold', fontFamily: 'NunitoBold' }
 });

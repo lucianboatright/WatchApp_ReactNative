@@ -176,7 +176,8 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     borderColor: "#012A4A",
     borderRadius: 5,
-    margin: 5
+    margin: 5,
+    backgroundColor: "#EAE8E3"
   },
   buttonContainer: {
     borderWidth: 1,
@@ -184,7 +185,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     width: '100%',
     borderColor: "#012A4A",
-    backgroundColor: '#E0FBFC',
+    backgroundColor: '#DAD7CD',
   },
   imageContainer: {
     height: 150
@@ -218,6 +219,6 @@ const styles = StyleSheet.create({
     height: 275,
     width: 175,
     borderWidth: 2,
-    backgroundColor: "#fff"
+
   }
 })
