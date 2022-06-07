@@ -5,15 +5,18 @@ import { Input } from '../Components/Inputs';
 import firebase from "firebase/compat/app"
 import "firebase/compat/auth"
 import "firebase/compat/firestore"
+import { getAuth } from 'firebase/auth';
 
 const App: FC = (props) => {
 
+    const auth = getAuth();
     const [name, setName] = useState<string | null>(null)
     const [email, setEmail] = useState<string | null>(null)
     const [password, setPassword] = useState<string | null>(null)
     const [confirm, setConfirm] = useState<string | null>(null)
     const [error, setError] = useState<string | null>(null)
     const followers: never[] = []
+    const following: never[] = []
 
     const signup = async () => {
         Alert.alert("Are your sure?",
@@ -29,15 +32,22 @@ const App: FC = (props) => {
 
                             if (name !== null && email !== null && password !== null && confirm !== null) {
                                 try {
-                                    const { user } = await firebase.auth().createUserWithEmailAndPassword(email, password)
+                                    firebase.auth().createUserWithEmailAndPassword(email, password).then((userCredentials) => {
+                                        const user = userCredentials.user
+                                        if (user) {
+                                            firebase.firestore().collection('users').doc(user.uid).set({ name, email, password, followers, following })
+                                            const current = firebase.auth().currentUser;
+                                            return current?.updateProfile({
+                                                displayName: name
+                                            })
+                                        }
+                                    }).catch((error) => {
+                                        const errorCode = error.code;
+                                        const errorMessage = error.message;
+                                        console.log(errorCode, errorMessage)
 
-                                    if (user) {
-                                        await firebase.firestore().collection('users').doc(user.uid).set({ name, email, password, followers })
-                                        const current = firebase.auth().currentUser;
-                                        return current?.updateProfile({
-                                            displayName: name
-                                        })
-                                    }
+                                    })
+
                                 } catch (error) {
                                     if (error.code.includes('auth/weak-password')) {
                                         Alert.alert('Please enter a stronger password');
