@@ -1,11 +1,9 @@
 import React, { useState, useEffect, FC } from 'react';
-import { StyleSheet, Text, View, Dimensions } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import SearchableDropdown from 'react-native-searchable-dropdown';
 
-const { height, width } = Dimensions.get('screen')
-
 interface Props {
-  sendSelected: (selected: any | null) => void;
+  sendSelected: (selected: string | null) => void;
   placeHolder: string;
   inputData: any;
   title: string;
@@ -27,8 +25,8 @@ const App: FC<Props> = (props) => {
       <View style={styles.container}>
         <View style={{ flexDirection: 'row' }}>
           <SearchableDropdown
-            onTextChange={(text) => console.log(text)}
-            onItemSelect={(item) => (setSelectedWatch(item.name), setPlaceHolder(item.name))}
+            onTextChange={(text: any) => console.log(text)}
+            onItemSelect={(item: any) => (setSelectedWatch(item.name), setPlaceHolder(item.name))}
             containerStyle={{ padding: 0 }}
             textInputStyle={{
               padding: 3,

@@ -12,6 +12,7 @@ import { FilterLable, WatchScrollList } from '../Components/Inputs';
 import { stringify } from '@firebase/util';
 
 
+
 interface Watch {
     data: () => WatchData;
 
@@ -148,13 +149,32 @@ const App: FC = (props) => {
         setStartFilter(false)
     }
 
+    const forYear = async () => {
+        const finList: { id: number; name: string; }[] = []
+        let count = 1900
+        let setyear = 1900
+        if (count < 2023)
+            WatchList.forEach((item: any) => {
+                finList.push({
+                    id: count,
+                    name: String(setyear)
+                })
+                count += 1
+                setyear += 1
+            })
+        console.log(JSON.stringify(finList))
+
+    }
+
     useEffect(() => {
+        forYear()
         if (approvedPost == null) {
             getApprovedPosts()
             getUserDetails()
         } else {
             getUserDetails()
         }
+
 
     }, [startFilter])
 

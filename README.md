@@ -54,7 +54,23 @@ lines 155, 164, 173 uncomment lines to add persistance.
             watchNamesList.forEach((item: any) => {
                 finList.push({
                     id: count,
-                    year: setyear
+                    name: String(setyear)
+                })
+                count += 1
+                setyear += 1
+            })
+        console.log(JSON.stringify(finList))
+
+    }
+        const forYear = async () => {
+        const finList: { id: number; name: string; }[] = []
+        let count = 1900
+        let setyear = 1900
+        if (count < 2023)
+            WatchList.forEach((item: any) => {
+                finList.push({
+                    id: count,
+                    name: String(setyear)
                 })
                 count += 1
                 setyear += 1

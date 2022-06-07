@@ -33,10 +33,10 @@ const App: FC = (props) => {
     const [selectedMaterial, setSelectedMaterial] = useState<string | null>(null)
     const [selectedLug, setSelectedLug] = useState<string | null>(null)
     const [selectedMech, setSelectedMech] = useState<string | null>(null)
-    const [selectedYear, setSelectedYear] = useState<string>('')
-    const [selectedStyle, setSelectedStyle] = useState<string>('')
-    const [selectedType, setSelectedType] = useState<string>('')
-    const [message, setMessage] = useState<string>('')
+    const [selectedYear, setSelectedYear] = useState<string | null>(null)
+    const [selectedStyle, setSelectedStyle] = useState<string | null>(null)
+    const [selectedType, setSelectedType] = useState<string | null>(null)
+    const [message, setMessage] = useState<string | null>(null)
     const [cost, setCost] = useState<string | null>('Not For Sale')
 
     const submitPost = async () => {

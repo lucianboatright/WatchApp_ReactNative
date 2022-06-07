@@ -48,7 +48,7 @@ const App: FC<Props> = (props) => {
 
     return (
         <TouchableHighlight onPress={() => deletePost()}>
-            <Image style={styles.likeIconFalse} source={require('../../assets/icons/deleteIcon.png')} />
+            <Image style={styles.likeIconFalse} source={require('../../assets/icons/delete.png')} />
         </TouchableHighlight>
     )
 }
@@ -57,11 +57,13 @@ export default App;
 
 const styles = StyleSheet.create({
     likeIconFalse: {
-        height: 35,
-        width: 35,
+        marginTop: 2,
+        height: 30,
+        width: 30,
     },
     likeIconTrue: {
-        height: 35,
-        width: 35,
+        marginTop: 2,
+        height: 30,
+        width: 30,
     },
 })
