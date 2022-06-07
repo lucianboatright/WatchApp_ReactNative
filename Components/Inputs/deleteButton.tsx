@@ -1,9 +1,8 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useEffect } from "react";
 import { Dimensions, StyleSheet, Image, Alert } from "react-native";
 import { TouchableHighlight } from "react-native-gesture-handler";
 
 import firebase from "firebase/compat/app";
-import { getAuth } from 'firebase/auth'
 import "firebase/compat/auth"
 import "firebase/compat/firestore"
 
@@ -19,8 +18,6 @@ interface Props {
 
 const App: FC<Props> = (props) => {
 
-    const auth = getAuth()
-    const user = auth.currentUser?.uid
 
     const runDelete = async () => {
         firebase.firestore().collection('posts').doc(props.postId).delete()
@@ -51,11 +48,7 @@ const App: FC<Props> = (props) => {
 
     return (
         <TouchableHighlight onPress={() => deletePost()}>
-            {user === props.postUser ?
-                <Image style={styles.likeIconFalse} source={require('../../assets/icons/deleteIcon.png')} />
-                :
-                null
-            }
+            <Image style={styles.likeIconFalse} source={require('../../assets/icons/deleteIcon.png')} />
         </TouchableHighlight>
     )
 }

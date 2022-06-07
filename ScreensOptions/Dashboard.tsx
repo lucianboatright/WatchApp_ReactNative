@@ -119,12 +119,12 @@ const App: FC = (props) => {
 
 
     useEffect(() => {
-        // if (approvedPost == null) {
-        getApprovedPosts()
-        getUserDetails()
-        // } else {
-        //     getUserDetails()
-        // }
+        if (approvedPost == null) {
+            getApprovedPosts()
+            getUserDetails()
+        } else {
+            getUserDetails()
+        }
 
     }, [])
 
@@ -138,7 +138,7 @@ const App: FC = (props) => {
                                 <SettingButton postUser={userId} userName={userName} userEmail={userEmail} />
                                 <Text style={styles.infoText}>User Name : {userName}</Text>
                             </View>
-                            <Text style={styles.infoText}>User Email : {userEmail}</Text>
+                            <Text numberOfLines={1} style={styles.infoText}>User Email : {userEmail}</Text>
                             <Text style={styles.infoText}>You have {watchNumber} in you collection</Text>
                             <Text style={styles.infoText}>For Sale: {forSaleCount} Not for Sale: {notForSaleCount}</Text>
                         </View>
@@ -188,22 +188,7 @@ const App: FC = (props) => {
                         </View>
                         :
                         <View>
-                            <FlatList
-                                data={approvedPost}
-                                numColumns={2}
-                                columnWrapperStyle={{ flexWrap: 'wrap', flex: 1 }}
-                                renderItem={
-                                    ({ item }) => <Rendering
-                                        {...item.data()}
-                                        approved={''}
-                                        onApprove={function (): void {
-                                            throw new Error('Function not implemented.');
-                                        }} onReject={function (): void {
-                                            throw new Error('Function not implemented.');
-                                        }}
-                                    />
-                                }
-                            />
+                            <Text>Loading...</Text>
                         </View>
 
                     }
@@ -294,6 +279,9 @@ const styles = StyleSheet.create({
         color: "#012A4A",
         fontFamily: 'NunitoBold',
         fontSize: 15,
+        maxWidth: 205,
+        // flex: 1,
+
     },
     NoWatches: {
         fontSize: 25,

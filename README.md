@@ -26,6 +26,10 @@ Building this project was fairly tough as it took a littel time to figure out wh
 ![wireframe](./assets/pictures/readme_4.png), [wireframe](./assets/pictures/readme_5.png), [wireframe](./assets/pictures/readme_6.png)
 ![wireframe](./assets/pictures/readme_7.png) -->
 
+## setting Persistance so user dow not have to sign in each time
+node_modules/@firebase/auth/dist/rn/index.js
+lines 155, 164, 173 uncomment lines to add persistance.
+
 
 #### Equations for sorting the data
     const forWatches = async () => {

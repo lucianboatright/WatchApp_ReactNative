@@ -6,6 +6,7 @@ import { LikesButton, DeleteIcon, CommentsBar, WatchInfoLines } from "../Inputs"
 import { useNavigation } from '@react-navigation/native';
 
 import { StackNavigationProp } from '@react-navigation/stack';
+import { getAuth } from 'firebase/auth';
 
 const { width, height } = Dimensions.get('screen')
 
@@ -58,6 +59,9 @@ type RootStackParamsList = {
 
 const App: React.FC<Props> = (props) => {
 
+    const auth = getAuth()
+    const user = auth.currentUser?.uid
+
     const [openBox, setOpenBox] = useState<boolean>(false)
     const [openModal, setOpenModal] = useState<boolean>(false)
 
@@ -81,13 +85,22 @@ const App: React.FC<Props> = (props) => {
                             <TouchableOpacity style={styles.viewBoxButton} onPress={() => navigation.navigate('NestedScreen', { id: props.userIdNumber, userName: props.userName })} >
                                 <Text numberOfLines={1} style={styles.headerTitle}>User: {props.userName}</Text>
                             </TouchableOpacity>
-                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '46%' }}>
-                                <DeleteIcon postId={props.postId} postUser={props.userIdNumber} likes={props.likes} />
-                                <TouchableHighlight onPress={() => (openClicked())}>
-                                    <Image style={styles.icon} source={require('../../assets/icons/closeWindowIcon.png')} />
-                                </TouchableHighlight>
-                                <LikesButton postId={props.postId} likes={props.likes} />
-                            </View>
+                            {props.userIdNumber === user ?
+                                <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '50%' }}>
+                                    <DeleteIcon postId={props.postId} postUser={props.userIdNumber} likes={props.likes} />
+                                    <TouchableHighlight onPress={() => (openClicked())}>
+                                        <Image style={styles.icon} source={require('../../assets/icons/CollapseIcon.png')} />
+                                    </TouchableHighlight>
+                                    <LikesButton postId={props.postId} likes={props.likes} />
+                                </View>
+                                :
+                                <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '50%' }}>
+                                    <TouchableHighlight onPress={() => (openClicked())}>
+                                        <Image style={styles.icon} source={require('../../assets/icons/CollapseIcon.png')} />
+                                    </TouchableHighlight>
+                                    <LikesButton postId={props.postId} likes={props.likes} />
+                                </View>
+                            }
                         </View>
                         <View style={styles.postContainer}>
                             <View style={styles.infoBoxContainer} >
@@ -201,8 +214,6 @@ const styles = StyleSheet.create({
         marginTop: -5,
         height: 20,
         width: 20,
-        // display: 'flex',
-        // justifyContent: 'flex-end',
         alignSelf: 'flex-end',
 
     },
@@ -245,9 +256,9 @@ const styles = StyleSheet.create({
         elevation: 5
     },
     icon: {
-        marginTop: 2,
-        height: 30,
-        width: 30
+        marginTop: 5,
+        height: 25,
+        width: 25
     },
     message: {
         borderLeftWidth: 0.5,
@@ -318,7 +329,7 @@ const styles = StyleSheet.create({
         margin: 5,
     },
     viewBoxButton: {
-        backgroundColor: '#DAD7CD',
+        backgroundColor: '#E2E0D8',
         borderTopLeftRadius: 10,
         borderTopRightRadius: 5,
         paddingTop: 5,
@@ -329,7 +340,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     headerTitle: {
-        fontWeight: 'bold',
+        // fontWeight: 'bold',
+        fontFamily: 'NunitoBold',
         borderColor: 'black',
         color: '#143642',
         fontSize: 20,

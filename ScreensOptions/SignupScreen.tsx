@@ -34,8 +34,9 @@ const App: FC = (props) => {
                                 try {
                                     firebase.auth().createUserWithEmailAndPassword(email, password).then((userCredentials) => {
                                         const user = userCredentials.user
+                                        const uid = userCredentials.user?.uid
                                         if (user) {
-                                            firebase.firestore().collection('users').doc(user.uid).set({ name, email, password, followers, following })
+                                            firebase.firestore().collection('users').doc(user.uid).set({ name, email, password, followers, following, uid })
                                             const current = firebase.auth().currentUser;
                                             return current?.updateProfile({
                                                 displayName: name

@@ -90,7 +90,6 @@ const App: React.FC<Props> = ({ route, navigation }) => {
     }
 
     const getFilterForSale = async () => {
-        console.log('111111')
         setStartFilter(true)
         if (notForSaleFilter) {
             setNotForSaleFilter(!notForSaleFilter)
@@ -120,7 +119,6 @@ const App: React.FC<Props> = ({ route, navigation }) => {
 
     const runFilters = (approvedPost: Watch) => {
         if (forSaleFilter && approvedPost.data().cost != 'Not for sale') {
-            // console.log('3333')
             return false
         }
         if (notForSaleFilter && approvedPost.data().cost === 'Not for sale') {
@@ -129,20 +127,7 @@ const App: React.FC<Props> = ({ route, navigation }) => {
         return true
     }
 
-    // const runSaleCounter = async () => {
-    //     console.log('made it here V!')
-
-    //     // if () {
-    //     console.log('made it here')
-    //     const forSaleInfo = await approvedPost.filter((item: any) => item.data().cost != 'Not for sale')
-    //     const notForSaleInfo = await approvedPost.filter((item: { data: () => { (): any; new(): any; brand: string; cost: string; }; }) => item.data().cost == 'Not for sale')
-    //     setForSaleCount(forSaleInfo.length)
-    //     setNotForSaleCount(notForSaleInfo.length)
-    //     // }
-    // }
-
     useEffect(() => {
-        // console.log('RRRR')
         if (approvedPost == null) {
             getApprovedPosts()
             getUserDetails()
@@ -294,7 +279,7 @@ const styles = StyleSheet.create({
         marginRight: 'auto',
         width: '48%',
         color: 'white',
-        fontWeight: 'bold',
+        // fontWeight: 'bold',
         alignItems: 'center',
         justifyContent: 'center',
         padding: 2.5,
