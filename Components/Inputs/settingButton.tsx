@@ -80,7 +80,7 @@ const App: FC<Props> = (props) => {
 
 
     useEffect(() => {
-        console.log(auth.currentUser)
+        // console.log(auth.currentUser)
     }, [])
 
 

@@ -148,7 +148,7 @@ const App: React.FC<Props> = ({ route, navigation }) => {
                             </View>
                             <View style={{ flexDirection: 'row', width: '50%' }}>
                                 <Text style={styles.infoTextHighlight}>User Email :</Text>
-                                <Text numberOfLines={1} style={styles.infoText}>{userEmail}</Text>
+                                <Text numberOfLines={1} style={styles.infoText}>Private</Text>
                             </View>
                             <View style={{ flexDirection: 'row' }}>
                                 {/* <Text style={styles.infoText}>{watchNumber}:</Text> */}

@@ -74,6 +74,7 @@ const App: FC = (props) => {
 
     }
 
+
     return (
         <View style={styles.container}>
             <View style={styles.introTitleContainer}>

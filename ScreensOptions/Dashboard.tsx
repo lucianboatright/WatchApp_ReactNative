@@ -119,13 +119,12 @@ const App: FC = (props) => {
 
 
     useEffect(() => {
-        if (approvedPost == null) {
-            getApprovedPosts()
-            getUserDetails()
-        } else {
-            getUserDetails()
-        }
-
+        // if (approvedPost == null) {
+        getApprovedPosts()
+        getUserDetails()
+        // } else {
+        // getUserDetails()
+        // }
     }, [])
 
     return (
@@ -138,7 +137,7 @@ const App: FC = (props) => {
                                 <SettingButton postUser={userId} userName={userName} userEmail={userEmail} />
                                 <Text style={styles.infoText}>User Name : {userName}</Text>
                             </View>
-                            <Text numberOfLines={1} style={styles.infoText}>User Email : {userEmail}</Text>
+                            <Text numberOfLines={1} style={styles.infoText}>User Email : Private </Text>
                             <Text style={styles.infoText}>You have {watchNumber} in you collection</Text>
                             <Text style={styles.infoText}>For Sale: {forSaleCount} Not for Sale: {notForSaleCount}</Text>
                         </View>
@@ -170,7 +169,7 @@ const App: FC = (props) => {
                             <FlatList
                                 data={(approvedPost.filter(runFilters).length > 0 ? approvedPost.filter(runFilters) : approvedPost)}
                                 keyExtractor={(item, index) => item + index}
-                                initialNumToRender={8}
+                                initialNumToRender={6}
                                 numColumns={2}
                                 columnWrapperStyle={{ flexWrap: 'wrap', flex: 1 }}
                                 renderItem={
