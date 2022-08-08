@@ -168,19 +168,19 @@ const App: FC = (props) => {
             <View style={styles.container}>
                 <View style={{ flexDirection: 'row' }}>
                     <FilterLable lable={'Brand:'} filter={watchFilter} clearButton={() => setWatchFilter(null)} />
-                    <WatchScrollList inportData={WatchList} bgcolor={'#A56336'} sendFilter={(name: any | null) => runWatchFilter(name)} />
+                    <WatchScrollList inportData={WatchList} bgcolor={'#F1B100'} sendFilter={(name: any | null) => runWatchFilter(name)} />
                 </View>
                 <View style={{ flexDirection: 'row' }}>
                     <FilterLable lable={'Case Size:'} filter={watchCaseFilter} clearButton={() => setWatchCaseFilter(null)} />
-                    <WatchScrollList inportData={CaseSize} bgcolor={'#815839'} sendFilter={(name: any | null) => runWatchCaseFilter(name)} />
+                    <WatchScrollList inportData={CaseSize} bgcolor={'#E2A10B'} sendFilter={(name: any | null) => runWatchCaseFilter(name)} />
                 </View>
                 <View style={{ flexDirection: 'row' }}>
                     <FilterLable lable={'Mechanism:'} filter={watchMechanismFilter} clearButton={() => setWatchMechanismFilter(null)} />
-                    <WatchScrollList inportData={Mechanism} bgcolor={'#6F523B'} sendFilter={(name: any | null) => runWatchMechanismFilter(name)} />
+                    <WatchScrollList inportData={Mechanism} bgcolor={'#D39216'} sendFilter={(name: any | null) => runWatchMechanismFilter(name)} />
                 </View>
                 <View style={{ flexDirection: 'row' }}>
                     <FilterLable lable={'Type:'} filter={watchTypeFilter} clearButton={() => setWatchTypeFilter(null)} />
-                    <WatchScrollList inportData={Styles} bgcolor={'#4A473E'} sendFilter={(name: any | null) => runWatchTypeFilter(name)} />
+                    <WatchScrollList inportData={Styles} bgcolor={'#C38220'} sendFilter={(name: any | null) => runWatchTypeFilter(name)} />
                 </View>
                 <View style={{ flexDirection: 'row' }}>
                     <TouchableOpacity style={forSaleFilter ? styles.buttonSmallHilight : styles.buttonSmall} onPress={getFilterForSale}>
@@ -255,7 +255,7 @@ const styles = StyleSheet.create({
         flex: 1
     },
     button: {
-        backgroundColor: "#143642",
+        backgroundColor: "#A56336",
         marginLeft: 'auto',
         marginRight: 'auto',
         width: '98%',
@@ -296,7 +296,7 @@ const styles = StyleSheet.create({
         marginRight: 'auto'
     },
     buttonSmall: {
-        backgroundColor: "#263C41",
+        backgroundColor: "#B4732B",
         marginLeft: 'auto',
         marginRight: 'auto',
         width: '48%',
@@ -310,7 +310,7 @@ const styles = StyleSheet.create({
     },
     buttonSmallHilight: {
         fontFamily: 'NunitoSemiBold',
-        backgroundColor: "#2C7DA0",
+        backgroundColor: "#F1B100",
         marginLeft: 'auto',
         marginRight: 'auto',
         width: '48%',
