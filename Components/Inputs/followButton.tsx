@@ -44,12 +44,10 @@ const App: FC<Props> = (props) => {
                     {isFollowing ?
                         <View style={styles.container}>
                             <Image style={styles.likeIconTrue} source={require('../../assets/icons/followingIcon.png')} />
-                            <Text style={styles.text}>Following</Text>
                         </View>
                         :
                         <View style={styles.containerNot}>
                             <Image style={styles.likeIconFalse} source={require('../../assets/icons/nofollowing.png')} />
-                            <Text style={styles.textNot}>Follow?</Text>
                         </View>
                     }
                 </TouchableHighlight>
@@ -71,36 +69,22 @@ const styles = StyleSheet.create({
     },
     container: {
         marginTop: 5,
-        paddingLeft: 5,
-        paddingRight: 5,
-        borderColor: "#2C7DA0",
+        // paddingLeft: 5,
+        // paddingRight: 5,
+        borderColor: "#4A473E",
         borderWidth: 1,
         borderRadius: 25,
-        flexDirection: 'row',
-        alignItems: 'center',
+        // flexDirection: 'row',
+        // alignItems: 'center',
     },
     containerNot: {
         marginTop: 5,
-        paddingLeft: 7,
-        paddingRight: 10,
+        // paddingLeft: 7,
+        // paddingRight: 10,
         borderColor: 'tomato',
         borderWidth: 2,
         borderRadius: 25,
-        flexDirection: 'row',
-        alignItems: 'center',
+        // flexDirection: 'row',
+        // alignItems: 'center',
     },
-    text: {
-        paddingLeft: 5,
-        // fontWeight: 'bold',
-        fontFamily: 'NunitoSemiBold',
-
-        color: "#2C7DA0",
-    },
-    textNot: {
-        paddingLeft: 10,
-        // fontWeight: 'bold',
-        fontFamily: 'NunitoSemiBold',
-
-        color: "#2C7DA0",
-    }
 })

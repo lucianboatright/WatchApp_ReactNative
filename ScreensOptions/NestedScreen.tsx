@@ -164,25 +164,28 @@ const App: React.FC<Props> = ({ route, navigation }) => {
                         <View>
                             <View style={styles.profileImageBox}>
                                 <View >
-                                    {userPic ? <Image style={{ height: 100, width: 100, marginTop: '-5%' }} source={userPic} /> : <Image style={{ height: 100, width: 100, marginTop: '-5%' }} source={require('../assets/icons/profileIcon.png')} />}
+                                    {userPic ? <Image style={{ height: 75, width: 75, marginTop: '-5%' }} source={userPic} /> : <Image style={{ height: 75, width: 75, marginTop: '-5%' }} source={require('../assets/icons/profileIcon.png')} />}
                                 </View>
                                 <TouchableOpacity style={styles.goBackButton} onPress={() => navigation.goBack()}>
                                     <Text style={styles.goBackText}>X</Text>
                                 </TouchableOpacity>
                             </View>
-                            <View style={{ marginTop: '64%' }}>
+                            <View style={{ marginTop: '45%' }}>
                                 <FollowButton isFollowing={isFollowing} postUser={id} postUserName={name} />
                             </View>
                         </View>
                     </View>
                     <View>
                         <View style={styles.followingContainer}>
-                            <View style={{ width: '50%' }}>
-                                <Text style={styles.infoText}>Following:  {followingLength}</Text>
-                                {followingLength != 0 ? <ScrollWithLink inportData={followingList} bgcolor={'#815839'} /> : <Text style={styles.infoText}>Not Following</Text>}
-
-                                <Text style={styles.infoText}>Followers:  {followerLength}</Text>
-                                {followerLength != 0 ? <ScrollWithLink inportData={followersList} bgcolor={'#815839'} /> : <Text style={styles.infoText}>No Followers</Text>}
+                            <View style={{ width: '49%', flexDirection: 'row' }}>
+                                <View>
+                                    <Text style={styles.infoText}>Following:  {followingLength}</Text>
+                                    {followingLength != 0 ? <ScrollWithLink inportData={followingList} bgcolor={'#815839'} /> : <Text style={styles.infoText}>Not Following</Text>}
+                                </View>
+                                <View>
+                                    <Text style={styles.infoText}>Followers:  {followerLength}</Text>
+                                    {followerLength != 0 ? <ScrollWithLink inportData={followersList} bgcolor={'#815839'} /> : <Text style={styles.infoText}>No Followers</Text>}
+                                </View>
                             </View>
                         </View>
                         <View style={{ flexDirection: 'row' }}>
@@ -238,7 +241,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     header: {
-        flex: 0.45,
+        // flex: 0.45,
         paddingLeft: 5,
         backgroundColor: "#EAE8E3",
         marginLeft: 5,
@@ -337,7 +340,9 @@ const styles = StyleSheet.create({
         marginRight: 'auto'
     },
     followingContainer: {
+        display: 'flex',
         flexDirection: 'row',
+        marginBottom: 4,
     },
     divider: {
     },

@@ -89,14 +89,14 @@ const App: React.FC<Props> = (props) => {
                                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '50%' }}>
                                     <DeleteIcon postId={props.postId} postUser={props.userIdNumber} likes={props.likes} />
                                     <TouchableHighlight onPress={() => (openClicked())}>
-                                        <Image style={styles.icon} source={require('../../assets/icons/CollapseIcon.png')} />
+                                        <Image style={styles.icon} source={require('../../assets/icons/IconClose.png')} />
                                     </TouchableHighlight>
                                     <LikesButton postId={props.postId} likes={props.likes} />
                                 </View>
                                 :
                                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '50%' }}>
                                     <TouchableHighlight onPress={() => (openClicked())}>
-                                        <Image style={styles.icon} source={require('../../assets/icons/CollapseIcon.png')} />
+                                        <Image style={styles.icon} source={require('../../assets/icons/IconClose.png')} />
                                     </TouchableHighlight>
                                     <LikesButton postId={props.postId} likes={props.likes} />
                                 </View>
